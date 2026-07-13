@@ -1590,7 +1590,7 @@
     .Analog-HubOuter {
       fill: #ccc;
       stroke: #fff;
-      stroke-width: .3;
+      stroke-width: .1;
       filter: drop-shadow(1px 1px 1px #666);
     }
     .Analog-Bigclock.dark .Analog-HubOuter {
@@ -1598,8 +1598,8 @@
     .Analog-HubInner {
       fill: #b50000;
       stroke: maroon;
-      stroke-width: .3;
-      filter: drop-shadow(0px 0px 1px #fff);
+      stroke-width: .2;
+      filter: drop-shadow(1px 1px 2px #fff);
     }
     .Analog-Bigclock.dark .Analog-HubInner {
     }
