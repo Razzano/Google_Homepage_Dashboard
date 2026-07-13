@@ -770,7 +770,8 @@
       fill: 'none',
       stroke: 'url(#bezelOuterGradient)',
       'stroke-width': 7.5
-    });
+      }
+    );
     const bezelInner = $el('circle', {
       className: 'Analog-BezelInner',
       cx: 50,
@@ -794,12 +795,24 @@
       r: 48.1,
       fill: 'none'
     });
+    const bezelMachining1 = $el('circle', {
+      cx: 50,
+      cy: 50,
+      r: 47,
+      fill: 'none',
+      stroke: 'rgba(0, 0, 0, .3)',
+      'stroke-width': .3
+    });
     const svg = $el('svg', {
       className: 'Analog',
       viewBox: '0 0 100 100'
       },
       defs,
       bezelOuter,
+      bezelMachining1,
+      bezelInner,
+      bezelShadow,
+      bezelHighlight,
       $el('circle', {
         className: 'Analog-Face',
         cx: 50,
@@ -807,9 +820,6 @@
         r: 47,
         fill: 'url(#faceGradient)'
       }),
-      bezelInner,
-      bezelShadow,
-      bezelHighlight,
       ...ticks,
       ...hourNumbers,
       dateTimeGroup,
@@ -1520,7 +1530,7 @@
     .Analog-Hour-Hand {
       fill: #000;
       stroke: #000;
-      stroke-width: .35;
+      stroke-width: .5;
       stroke-linejoin: round;
       transform: rotate(var(--hourDeg));
     }
@@ -1634,6 +1644,9 @@
       stroke-width: .18;
     }
     .Analog-Bigclock.dark .Analog-BezelHighlight {
+    }
+    .Analog-Bezel-Machining {
+      filter: drop-shadow(1px 1px 2px #000);
     }
   `);
 
