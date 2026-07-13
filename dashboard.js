@@ -635,28 +635,28 @@
         y1: '0%',
         x2: '0%',
         y2: '100%'
-      },
-        $el('stop', { offset:'0%', 'stop-color':'#ffffff'}),
-        $el('stop', { offset:'8%', 'stop-color':'#f3f3f3'}),
-        $el('stop', { offset:'18%', 'stop-color':'#c9c9c9'}),
-        $el('stop', { offset:'32%', 'stop-color':'#7a7a7a'}),
-        $el('stop', { offset:'50%', 'stop-color':'#4f4f4f'}),
-        $el('stop', { offset:'68%', 'stop-color':'#8d8d8d'}),
-        $el('stop', { offset:'84%', 'stop-color':'#d9d9d9'}),
-        $el('stop', { offset:'94%', 'stop-color':'#f5f5f5'}),
-        $el('stop', { offset:'100%', 'stop-color':'#7a7a7a'})
+        },
+        $el('stop', { offset: '0%', 'stop-color': '#ffffff' }),
+        $el('stop', { offset: '8%', 'stop-color': '#f3f3f3' }),
+        $el('stop', { offset: '18%', 'stop-color': '#c9c9c9' }),
+        $el('stop', { offset: '32%', 'stop-color': '#7a7a7a' }),
+        $el('stop', { offset: '50%', 'stop-color': '#4f4f4f' }),
+        $el('stop', { offset: '68%', 'stop-color': '#8d8d8d' }),
+        $el('stop', { offset: '84%', 'stop-color': '#d9d9d9' }),
+        $el('stop', { offset: '94%', 'stop-color': '#f5f5f5' }),
+        $el('stop', { offset: '100%', 'stop-color': '#7a7a7a' })
       ),
       $el('linearGradient', {
-        id:'bezelInnerGradient',
-        x1:'0%',
-        y1:'0%',
-        x2:'0%',
-        y2:'100%'
-      },
-        $el('stop',{offset:'0%','stop-color':'#ffffff'}),
-        $el('stop',{offset:'20%','stop-color':'#d8d8d8'}),
-        $el('stop',{offset:'55%','stop-color':'#8c8c8c'}),
-        $el('stop',{offset:'100%','stop-color':'#4e4e4e'})
+        id: 'bezelInnerGradient',
+        x1: '0%',
+        y1: '0%',
+        x2: '0%',
+        y2: '100%'
+        },
+        $el('stop', { offset: '0%', 'stop-color': '#ffffff' }),
+        $el('stop', { offset: '20%', 'stop-color': '#d8d8d8' }),
+        $el('stop', { offset: '55%', 'stop-color': '#8c8c8c' }),
+        $el('stop', { offset: '100%', 'stop-color': '#4e4e4e' })
       ),
       $el('radialGradient', {
         id: 'faceGradient',
@@ -666,16 +666,16 @@
         gradientUnits: 'objectBoundingBox'
         },
         $el('stop', {
-          offset:'0%',
-          'stop-color':'var(--face-inner)'
+          offset: '0%',
+          'stop-color': 'var(--face-inner)'
         }),
         $el('stop', {
-          offset:'70%',
-          'stop-color':'#f7f7f7'
+          offset: '70%',
+          'stop-color': '#f7f7f7'
         }),
         $el('stop', {
-          offset:'100%',
-          'stop-color':'var(--face-outer)'
+          offset: '100%',
+          'stop-color': 'var(--face-outer)'
         })
       ),
       $el('linearGradient', {
@@ -756,7 +756,7 @@
     const dayBannerGroup = $el('g', {
       id: 'dayBanner',
       className: 'DayBanner'
-    }, [
+      }, [
       dayBannerBg,
       dayBannerBorder,
       dayBannerHighlight,
@@ -887,7 +887,7 @@
         className: 'Analog-HubPin',
         cx: 50,
         cy: 50,
-        r: 0.42
+        r: 0.58
       }),
       $el('circle', {
         className: 'Analog-HubHighlight',
@@ -1009,14 +1009,10 @@
     );
     const savedPercent = Settings.get('clockSizePercent', 100);
     setClockPercentage(savedPercent);
-    const controlsRow = $el('div', {
-      className: 'ControlsRow' },
-      scalerControls
-    );
     const container = $el('div', {
       id: 'analogClockContainer', className: 'ClockContainer' },
       Clock,
-      controlsRow,
+      scalerControls,
       clockInfo
     );
     makeDraggable(container, 'analogClockContainer', '.Analog-Bigclock');
@@ -1058,13 +1054,6 @@
       const ampm = now.getHours() < 12 ? Strings.amText : Strings.pmText;
       ampmText.textContent = ampm;
       calendarText.textContent = `${monthFull} ${ordinal}, ${yr} 🕑 ${h12}:${min} ${ampm}`;
-      //const secView = Settings.get('secondsView', false);
-      //const digitalClock = $id('dateTime');
-      //if (digitalClock) {
-        //digitalClock.textContent = secView
-          //? `${dayFull} ⇒ ${monthFull} ${ordinal}, ${yr}🕑${h12}:${min}:${sec} ${ampm}`
-          //: `${dayFull} ⇒ ${monthFull} ${ordinal}, ${yr}🕑${h12}:${min} ${ampm}`;
-      //}
       dayBannerText.textContent = DAY_BANNER[day].text.toUpperCase();
       dayBannerText.setAttribute('x', DAY_BANNER[day].x);
     };
@@ -1601,19 +1590,23 @@
     .Analog-HubOuter {
       fill: #ccc;
       stroke: #fff;
-      stroke-width: .22;
+      stroke-width: .3;
+      filter: drop-shadow(1px 1px 1px #666);
     }
     .Analog-Bigclock.dark .Analog-HubOuter {
     }
     .Analog-HubInner {
-      fill: maroon;
-      stroke: 000;
-      stroke-width: .5;
+      fill: #b50000;
+      stroke: maroon;
+      stroke-width: .3;
+      filter: drop-shadow(0px 0px 1px #fff);
     }
     .Analog-Bigclock.dark .Analog-HubInner {
     }
     .Analog-HubPin {
-      fill: #fafafa;
+      fill: #fff;
+      stroke: #000;
+      stroke-width: .1;
     }
     .Analog-Bigclock.dark .Analog-HubPin {
     }
@@ -1641,6 +1634,90 @@
       stroke-width: .18;
     }
     .Analog-Bigclock.dark .Analog-BezelHighlight {
+    }
+  `);
+
+  // SCALER CONTROLS
+  GM_addStyle(`
+    .scaler-controls {
+      align-items: center;
+      background: #2A3A4B;
+      border: none;
+      border-radius: 8px;
+      cursor: default;
+      display: flex;
+      gap: 13px;
+      height: 32px;
+      justify-content: center;
+      margin-top: 20px;
+      padding: 0px 0px 1px 0px;
+      width: 332px;
+    }
+    .ClockThemeToggle,
+    .ClockSecondToggle,
+    .scaler-info,
+    .am-pm {
+      border: none;
+      cursor: pointer;
+      margin: 0px;
+      padding: 0px;
+      position: relative;
+      top: 3px;
+      width: 32px;
+    }
+    .ClockThemeToggle {
+    }
+    .scaler-info {
+    }
+    #spacer3 {
+      color: #666;
+      margin: 0px 6px 0px 0px;
+      opacity: 1;
+      pointer-events: none;
+      text-align: center;
+    }
+    .scaler-reset {
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 14px;
+      margin: 0px;
+      padding: 0;
+      position: relative;
+      top: 1px;
+    }
+    .scaler-btn {
+      background: none;
+      border: none;
+      color: #ffffff;
+      cursor: pointer;
+      font-size: 18px;
+      line-height: 1;
+      opacity: .7;
+      padding: 0px 4px;
+    }
+    .scaler-btn:hover {
+      opacity: 1;
+    }
+    .scaler-text {
+      background: rgba(255,255,255,.1);
+      border: 1px solid #666;
+      border-radius: 14px;
+      color: #5294e2;
+      font-size: 14px;
+      font-weight: 500;
+      text-align: center;
+      margin-top: 0px;
+      min-width: 32px;
+      padding: 2px 2px 0px 0px;
+    }
+    .scaler-controls > button {
+      color: #ffffff;
+      opacity: .7;
+    }
+    .scaler-controls > button:hover {
+      cursor: pointer;
+      opacity: 1;
     }
   `);
 
@@ -1812,93 +1889,6 @@
     #inputLogo:focus-within {
       border-color: #999;
       filter: brightness(2);
-      opacity: 1;
-    }
-  `);
-
-  // CONTROLS ROW
-  GM_addStyle(`
-    .ControlsRow * {
-      text-shadow: 1px 1px 2px #000;
-    }
-    .scaler-controls {
-      align-items: center;
-      background: #2A3A4B;
-      border: none;
-      border-radius: 8px;
-      cursor: default;
-      display: flex;
-      gap: 13px;
-      height: 32px;
-      justify-content: center;
-      margin-top: 20px;
-      padding: 0px 0px 1px 0px;
-      width: 332px;
-    }
-    .ClockThemeToggle,
-    .ClockSecondToggle,
-    .scaler-info,
-    .am-pm {
-      border: none;
-      cursor: pointer;
-      margin: 0px;
-      padding: 0px;
-      position: relative;
-      top: 3px;
-      width: 32px;
-    }
-    .ClockThemeToggle {
-    }
-    .scaler-info {
-    }
-    #spacer3 {
-      color: #666;
-      margin: 0px 6px 0px 0px;
-      opacity: 1;
-      pointer-events: none;
-      text-align: center;
-    }
-    .scaler-reset {
-      background: none;
-      border: none;
-      cursor: pointer;
-      font-size: 14px;
-      margin: 0px;
-      padding: 0;
-      position: relative;
-      top: 1px;
-    }
-    .scaler-btn {
-      background: none;
-      border: none;
-      color: #ffffff;
-      cursor: pointer;
-      font-size: 18px;
-      line-height: 1;
-      opacity: .7;
-      padding: 0px 4px;
-    }
-    .scaler-btn:hover {
-      opacity: 1;
-    }
-    .scaler-text {
-      background: rgba(255,255,255,.1);
-      border: 1px solid #666;
-      border-radius: 14px;
-      color: #5294e2;
-      font-size: 14px;
-      font-weight: 500;
-      text-align: center;
-      margin-top: 0px;
-      min-width: 32px;
-      padding: 2px 2px 0px 0px;
-    }
-    .scaler-controls > button {
-      color: #ffffff;
-      opacity: .7;
-    }
-    .scaler-controls > button:hover {
-      cursor: pointer;
       opacity: 1;
     }
   `);
