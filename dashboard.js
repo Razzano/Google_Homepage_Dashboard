@@ -82,7 +82,7 @@
 
   const SVG_NS = 'http://www.w3.org/2000/svg';
   const SVG_TAGS = new Set([
-    'circle','defs','feDropShadow','feGaussianBlur','filter','foreignObject','g','image','line','linearGradient',
+    'circle','defs','feDropShadow','feGaussianBlur','feMerge','feOffset','filter','foreignObject','g','image','line','linearGradient',
     'marker','path','polyline','polygon','radialGradient','rect','script','stop','style','svg','text','textPath','use'
   ]);
 
@@ -588,47 +588,18 @@
 
   const applyAnalogClock = () => {
     if (!Settings.get('analogClock', true)) return;
-    const date = new Date();
     let currentDay = -1;
     let displayedSecondDeg = 0;
+    const date = new Date();
     const smoothSecondHand = Settings.get('smoothSecondHand', true);
     const ticks = [];
     const hourNumbers = [];
     const spacer3 = $el('span', {id: 'spacer3', class: 'spacerX', textContent: Strings.spacerXText});
-    for (let i = 0; i < 60; i++) {
-      const angleDeg = i * 6 - 90;
-      const rad = angleDeg * Math.PI / 180;
-      const isHourMark = (i % 5 === 0);
-      const innerRadius = isHourMark ? 42 : 44.5;
-      const outerRadius = 47;
-      ticks.push(
-        $el('line', {
-          className: 'Analog-Ticks',
-          x1: 50 + innerRadius * Math.cos(rad),
-          y1: 50 + innerRadius * Math.sin(rad),
-          x2: 50 + outerRadius * Math.cos(rad),
-          y2: 50 + outerRadius * Math.sin(rad),
-          stroke: isHourMark ? 'var(--tick-hourmark)' : 'var(--tick-secondmark)',
-          strokeWidth: isHourMark ? '1.5' : '0.75',
-          strokeLinecap: 'round'
-        })
-      );
-    }
-    for (let i = 0; i < 12; i++) {
-      const hour = i === 0 ? 12 : i;
-      const angleDeg = i * 30 - 90;
-      const rad = angleDeg * Math.PI / 180;
-      const radius = 38;
-      hourNumbers.push($el('text', {
-        className: 'Analog-Number',
-        x: 50 + radius * Math.cos(rad),
-        y: 50.5 + radius * Math.sin(rad),
-        textContent: hour,
-        'text-anchor': 'middle',
-        'dominant-baseline': 'middle'
-      }));
-    }
-    const defs = $el('defs', {},
+    // =======================
+    // GRAPHICAL OBJECTS
+    // =======================
+    const defs = $el('defs', {
+      },
       $el('linearGradient', {
         id: 'bezelOuterGradient',
         x1: '0%',
@@ -686,39 +657,152 @@
         $el('stop', { offset: '100%', 'stop-color': 'var(--banner-bottom)' })
       )
     );
-    const calendarText = $el('div', {
-      className: 'Analog-CalendarText'
+    // =======================
+    // CREATE ELEMENTS
+    // =======================
+    const bezel = $el('g', {
+      className: 'Analog-Bezel'
+      },
+      $el('circle', {
+        className: 'Analog-BezelOuter',
+        cx: 50,
+        cy: 50,
+        r: 48.8,
+        fill: 'none',
+        stroke: 'url(#bezelOuterGradient)',
+        'stroke-width': 7.5
+      }),
+      $el('circle', {
+        className: 'Analog-BezelInner',
+        cx: 50,
+        cy: 50,
+        r: 48.8,
+        fill: 'none',
+        stroke: 'url(#bezelInnerGradient)',
+        'stroke-width': 1.0
+      }),
+      $el('circle', {
+        className: 'Analog-BezelShadow',
+        cx: 50,
+        cy: 50,
+        r: 49,
+        fill: 'none'
+      }),
+      $el('circle', {
+        className: 'Analog-BezelHighlight',
+        cx: 50,
+        cy: 50,
+        r: 48.1,
+        fill: 'none'
+      }),
+      $el('circle', {
+        className: 'Analog-BezelFinish',
+        cx: 50,
+        cy: 50,
+        r: 47,
+        fill: 'none',
+        stroke: 'rgba(0, 0, 0, .3)',
+        'stroke-width': .5
+      })
+    );
+    const clockFace = $el('circle', {
+      className: 'Analog-Face',
+      cx: 50,
+      cy: 50,
+      r: 47,
+      fill: 'url(#faceGradient)'
     });
-    const dateText = $el('text', {
-      id: 'dateText',
-      className: 'Analog-MonthDateText',
-      x: 41,
-      y: 31,
-      textAnchor: 'start',
-      dominantBaseline: 'middle'
+    for (let i = 0; i < 60; i++) {
+      const angleDeg = i * 6 - 90;
+      const rad = angleDeg * Math.PI / 180;
+      const isHourMark = (i % 5 === 0);
+      const innerRadius = isHourMark ? 42 : 44.5;
+      const outerRadius = 47;
+      ticks.push(
+        $el('line', {
+          className: 'Analog-Ticks',
+          x1: 50 + innerRadius * Math.cos(rad),
+          y1: 50 + innerRadius * Math.sin(rad),
+          x2: 50 + outerRadius * Math.cos(rad),
+          y2: 50 + outerRadius * Math.sin(rad),
+          stroke: isHourMark ? 'var(--tick-hourmark)' : 'var(--tick-secondmark)',
+          strokeWidth: isHourMark ? '1.5' : '0.75',
+          strokeLinecap: 'round'
+        })
+      );
+    }
+    for (let i = 0; i < 12; i++) {
+      const hour = i === 0 ? 12 : i;
+      const angleDeg = i * 30 - 90;
+      const rad = angleDeg * Math.PI / 180;
+      const radius = 38;
+      hourNumbers.push($el('text', {
+        className: 'Analog-Number',
+        x: 50 + radius * Math.cos(rad),
+        y: 50.5 + radius * Math.sin(rad),
+        textContent: hour,
+        'text-anchor': 'middle',
+        'dominant-baseline': 'middle'
+      }));
+    }
+    const hourHand = $el('path', {
+      className: 'Analog-Hour-Hand',
+      d: `M 50 50 L 49.0 48 L 48.8 30 L 50 26 L 51.2 30 L 51.0 48 Z`
     });
-    const timeText = $el('text', {
-      id: 'timeText',
-      className: 'Analog-timeText',
-      y: 79,
-      textAnchor: 'end',
-      dominantBaseline: 'middle',
-      'xml:space': 'preserve'
+    const minuteHand = $el('path', {
+      className: 'Analog-Minute-Hand',
+      d: `M 50 50 L 49.4 48 L 49.15 30 L 49.0 24 L 50 18 L 51.0 24 L 50.85 30 L 50.6 48 Z`
     });
-    const ampmText = $el('text', {
-      className: 'Analog-AMPMText',
-      x: 47,
-      y: 84,
-      textAnchor: 'middle',
-      dominantBaseline: 'middle'
+    const hubOuter = $el('circle', {
+      className: 'Analog-HubOuter',
+      cx: 50,
+      cy: 50,
+      r: 2.6
     });
-    const dateTimeGroup = $el('g', {
-      id: 'dateTimeGroup'
-    }, [
-      dateText,
-      timeText,
-      ampmText
-    ]);
+    const secondHand = $el('g', {
+      className: 'Analog-Second-Hand'
+      },
+      $el('path', {
+        className: 'Analog-Second-Needle',
+        d: `M 49.8 55 L 50.2 55 L 50.2 17 L 50 14 L 49.8 17 Z`
+      }),
+      $el('polygon', {
+        className: 'Analog-Second-Counter',
+        points: `
+          50,61
+          49.2,60.4
+          49.2,56.8
+          50,56
+          50.8,56.8
+          50.8,60.4
+        `
+      }),
+      $el('line', {
+        className: 'Analog-Second-Tail',
+        x1: 50,
+        y1: 55,
+        x2: 50,
+        y2: 56
+      })
+    );
+    const hubInner = $el('circle', {
+      className: 'Analog-HubInner',
+      cx: 50,
+      cy: 50,
+      r: 1.55
+    });
+    const hubPin = $el('circle', {
+      className: 'Analog-HubPin',
+      cx: 50,
+      cy: 50,
+      r: 0.58
+    });
+    const hubHighlight = $el('circle', {
+      className: 'Analog-HubHighlight',
+      cx: 49.2,
+      cy: 49.1,
+      r: 0.32
+    });
     const dayBannerBg = $el('rect', {
       id: 'dayBannerBg',
       x: 36,
@@ -762,151 +846,61 @@
       dayBannerHighlight,
       dayBannerText
     ]);
-    const bezelOuter = $el('circle', {
-      className: 'Analog-BezelOuter',
-      cx: 50,
-      cy: 50,
-      r: 48.8,
-      fill: 'none',
-      stroke: 'url(#bezelOuterGradient)',
-      'stroke-width': 7.5
-      }
-    );
-    const bezelInner = $el('circle', {
-      className: 'Analog-BezelInner',
-      cx: 50,
-      cy: 50,
-      r: 48.8,
-      fill: 'none',
-      stroke: 'url(#bezelInnerGradient)',
-      'stroke-width': 1.0
+    const dateText = $el('text', {
+      id: 'dateText',
+      className: 'Analog-MonthDateText',
+      x: 41,
+      y: 31,
+      textAnchor: 'start',
+      dominantBaseline: 'middle'
     });
-    const bezelShadow = $el('circle', {
-      className: 'Analog-BezelShadow',
-      cx: 50,
-      cy: 50,
-      r: 49,
-      fill: 'none'
+    const timeText = $el('text', {
+      id: 'timeText',
+      className: 'Analog-timeText',
+      y: 79,
+      textAnchor: 'end',
+      dominantBaseline: 'middle',
+      'xml:space': 'preserve'
     });
-    const bezelHighlight = $el('circle', {
-      className: 'Analog-BezelHighlight',
-      cx: 50,
-      cy: 50,
-      r: 48.1,
-      fill: 'none'
+    const ampmText = $el('text', {
+      className: 'Analog-AMPMText',
+      x: 47,
+      y: 84,
+      textAnchor: 'middle',
+      dominantBaseline: 'middle'
     });
-    const bezelMachining1 = $el('circle', {
-      cx: 50,
-      cy: 50,
-      r: 47,
-      fill: 'none',
-      stroke: 'rgba(0, 0, 0, .3)',
-      'stroke-width': .3
-    });
+    const dateTimeGroup = $el('g', {
+      id: 'dateTimeGroup'
+    }, [
+      dateText,
+      timeText,
+      ampmText
+    ]);
+    // =======================
+    // ATTACH TO SVG
+    // =======================
     const svg = $el('svg', {
       className: 'Analog',
       viewBox: '0 0 100 100'
       },
       defs,
-      bezelOuter,
-      bezelMachining1,
-      bezelInner,
-      bezelShadow,
-      bezelHighlight,
-      $el('circle', {
-        className: 'Analog-Face',
-        cx: 50,
-        cy: 50,
-        r: 47,
-        fill: 'url(#faceGradient)'
-      }),
+      bezel,
+      clockFace,
       ...ticks,
       ...hourNumbers,
-      dateTimeGroup,
-      $el('path', {
-        className: 'Analog-Hour-Hand',
-        d: `
-          M 50 50
-          L 49.0 48
-          L 48.8 30
-          L 50 26
-          L 51.2 30
-          L 51.0 48
-          Z
-        `
-      }),
-      $el('path', {
-        className: 'Analog-Minute-Hand',
-        d: `
-          M 50 50
-          L 49.4 48
-          L 49.15 30
-          L 49.0 24
-          L 50 18
-          L 51.0 24
-          L 50.85 30
-          L 50.6 48
-          Z
-        `
-      }),
-      $el('circle', {
-        className: 'Analog-HubOuter',
-        cx: 50,
-        cy: 50,
-        r: 2.6
-      }),
-      $el('g', {
-        className: 'Analog-Second-Hand'
-      },
-      $el('path', {
-        className: 'Analog-Second-Needle',
-        d: `
-          M 49.8 55
-          L 50.2 55
-          L 50.2 17
-          L 50 14
-          L 49.8 17
-          Z
-        `
-      }),
-      $el('polygon', {
-        className: 'Analog-Second-Counter',
-        points: `
-          50,61
-          49.2,60.4
-          49.2,56.8
-          50,56
-          50.8,56.8
-          50.8,60.4
-        `
-      }),
-      $el('line', {
-        className: 'Analog-Second-Tail',
-        x1: 50,
-        y1: 55,
-        x2: 50,
-        y2: 56
-      })),
-      $el('circle', {
-        className: 'Analog-HubInner',
-        cx: 50,
-        cy: 50,
-        r: 1.55
-      }),
-      $el('circle', {
-        className: 'Analog-HubPin',
-        cx: 50,
-        cy: 50,
-        r: 0.58
-      }),
-      $el('circle', {
-        className: 'Analog-HubHighlight',
-        cx: 49.2,
-        cy: 49.1,
-        r: 0.32
-      }),
-      dayBannerGroup
+      hourHand,
+      minuteHand,
+      hubOuter,
+      secondHand,
+      hubInner,
+      hubPin,
+      hubHighlight,
+      dayBannerGroup,
+      dateTimeGroup
     );
+    // =======================
+    // NON SVG
+    // =======================
     const Clock = $el('div', { className: 'Analog-Bigclock' }, svg);
     const ampmView = Settings.get('ampmView', true);
     ampmText.style.display = ampmView ? '' : 'none';
@@ -970,6 +964,9 @@
     const calendarImg = $el('img', {
       id: 'calendarImg',
       src: Icons.calendar22
+    });
+    const calendarText = $el('div', {
+      className: 'Analog-CalendarText'
     });
     const clockInfo = $el('div', {
       id: 'clockInfo',
@@ -1223,7 +1220,7 @@
       id: 'wallpaperToggler',
       onclick: wallpaperToggleHandler
     }, toggleImg);
-    const buttonThemer = $el('button', {
+      const buttonThemer = $el('button', {
       id: 'buttonThemer',
       textContent: Strings.buttonThemerText,
       title: Titles.buttonThemerTitle,
@@ -1473,6 +1470,8 @@
     }
     .Analog-Number {
       fill: #2c3e50;
+      /*--numeral-top: red;
+      --numeral-bottom: gold;*/
       font-family: 'sans-serif';
       font-size: 8px;
       font-weight: 700;
@@ -1645,8 +1644,7 @@
     }
     .Analog-Bigclock.dark .Analog-BezelHighlight {
     }
-    .Analog-Bezel-Machining {
-      filter: drop-shadow(1px 1px 2px #000);
+    .Analog-BezelFinish {
     }
   `);
 
