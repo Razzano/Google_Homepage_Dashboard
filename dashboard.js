@@ -1561,7 +1561,7 @@
     #dayBannerBg {
       stroke: #996600;
       stroke-width: .1;
-      filter: drop-shadow(1px 1px 1px #666);
+      filter: drop-shadow(1px 1px 4px #000);
     }
     .Analog-Bigclock.dark #dayBannerBg {
     }
