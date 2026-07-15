@@ -650,6 +650,13 @@
         })
       ),
       $el('linearGradient', {
+        id: 'numeralGradient',
+        gradientTransform: 'rotate(90)'
+        },
+        $el('stop', { offset: '0%', 'stop-color': 'var(--numeral-top)' }),
+        $el('stop', { offset: '100%', 'stop-color': 'var(--numeral-bottom)' })
+      ),
+      $el('linearGradient', {
         id: 'bannerGradient',
         gradientTransform: 'rotate(90)'
         },
@@ -660,7 +667,7 @@
     // =======================
     // CREATE ELEMENTS
     // =======================
-    const bezel = $el('g', {
+    const bezelGroup = $el('g', {
       className: 'Analog-Bezel'
       },
       $el('circle', {
@@ -741,6 +748,7 @@
         x: 50 + radius * Math.cos(rad),
         y: 50.5 + radius * Math.sin(rad),
         textContent: hour,
+        fill: 'url(#numeralGradient)',
         'text-anchor': 'middle',
         'dominant-baseline': 'middle'
       }));
@@ -884,7 +892,7 @@
       viewBox: '0 0 100 100'
       },
       defs,
-      bezel,
+      bezelGroup,
       clockFace,
       ...ticks,
       ...hourNumbers,
@@ -1461,17 +1469,10 @@
       width: 100%;
     }
     .Analog-Ticks {
-      --tick-hourmark: #000;
-      --tick-secondmark: #999;
     }
     .Analog-Bigclock.dark  .Analog-Ticks {
-      --tick-hourmark: #fff;
-      --tick-secondmark: #666;
     }
     .Analog-Number {
-      fill: #2c3e50;
-      /*--numeral-top: red;
-      --numeral-bottom: gold;*/
       font-family: 'sans-serif';
       font-size: 8px;
       font-weight: 700;
@@ -1540,10 +1541,18 @@
     :root {
       --banner-top: rgba(255, 250, 210, .75);
       --banner-bottom: rgba(120, 90, 0, .75);
+      --numeral-top: rgba(0, 0, 0, 1);
+      --numeral-bottom: rgba(0, 0, 0, 1);
+      --tick-hourmark: rgba(0, 0, 0, .7);
+      --tick-secondmark: rgba(0, 0, 0, .3);
     }
     .dark-theme {
       --banner-top: rgba(90, 90 ,90, .45);
       --banner-bottom: rgba(15, 15, 15, .45);
+      --numeral-top: rgba(0, 0, 0, 1);
+      --numeral-bottom: rgba(0, 0, 0, 1);
+      --tick-hourmark: rgba(0, 0, 0, .7);
+      --tick-secondmark: rgba(0, 0, 0, .3);
     }
     #dayBannerBg {
       stroke: #996600;
