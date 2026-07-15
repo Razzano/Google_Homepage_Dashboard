@@ -1469,6 +1469,7 @@
       width: 100%;
     }
     .Analog-Ticks {
+      filter: drop-shadow(1px 1px 1px #666);
     }
     .Analog-Bigclock.dark  .Analog-Ticks {
     }
@@ -1478,6 +1479,7 @@
       font-weight: 700;
       paint-order: stroke fill;
       stroke: none;
+      filter: drop-shadow(1px 1px 1px #666);
     }
     .Analog-Bigclock.dark .Analog-Number {
       fill: #fff;
@@ -1517,11 +1519,12 @@
     .Analog-Bigclock.dark .Analog-Second-Counter {
     }
     .Analog-Minute-Hand {
-      fill: #222;
-      stroke: #222;
+      fill: #000;
+      stroke: #000;
       stroke-width: .30;
       stroke-linejoin: round;
       transform: rotate(var(--minuteDeg));
+      filter: drop-shadow(1px 1px 1px #666);
     }
     .Analog-Bigclock.dark .Analog-Minute-Hand {
       fill: #f3f6f8;
@@ -1533,14 +1536,15 @@
       stroke-width: .5;
       stroke-linejoin: round;
       transform: rotate(var(--hourDeg));
+      filter: drop-shadow(1px 1px 1px #666);
     }
     .Analog-Bigclock.dark .Analog-Hour-Hand {
       fill: #eef2f5;
       stroke: #aeb7c0;
     }
     :root {
-      --banner-top: rgba(255, 250, 210, .75);
-      --banner-bottom: rgba(120, 90, 0, .75);
+      --banner-top: rgba(255, 250, 210, .6);
+      --banner-bottom: rgba(120, 90, 0, .6);
       --numeral-top: rgba(0, 0, 0, 1);
       --numeral-bottom: rgba(0, 0, 0, 1);
       --tick-hourmark: rgba(0, 0, 0, .7);
@@ -1557,6 +1561,7 @@
     #dayBannerBg {
       stroke: #996600;
       stroke-width: .1;
+      filter: drop-shadow(1px 1px 1px #666);
     }
     .Analog-Bigclock.dark #dayBannerBg {
     }
@@ -1570,8 +1575,7 @@
     }
     #dayBannerText {
       fill: #000;
-      font: 500 5px Consolas;
-      text-shadow: none;
+      font: 600 5px Consolas;
     }
     .Analog-Bigclock.dark #dayBannerText {
       fill: #fff;
@@ -1582,6 +1586,7 @@
       color: #000;
       fill: #000;
       font: 400 6px Consolas;
+      filter: drop-shadow(1px 1px 1px #666);
     }
     .Analog-Bigclock.dark .Analog-MonthDateText {
       color: #FFF;
@@ -1591,15 +1596,18 @@
       color: #000;
       fill: #000;
       font: 400 7px Consolas;
+      filter: drop-shadow(1px 1px 1px #666);
     }
     .Analog-Bigclock.dark .Analog-timeText {
       color: #FFF;
       fill: #FFF;
+      filter: drop-shadow(1px 1px 1px #666);
     }
     .Analog-AMPMText {
       color: #000;
       fill: #000;
       font: 400 5px Consolas;
+      filter: drop-shadow(1px 1px 1px #666);
     }
     .Analog-Bigclock.dark .Analog-AMPMText {
       color: #FFF;
@@ -1609,7 +1617,7 @@
       fill: #ccc;
       stroke: #fff;
       stroke-width: .1;
-      filter: drop-shadow(1px 1px 1px #666);
+      filter: drop-shadow(1px 1px 2px #666);
     }
     .Analog-Bigclock.dark .Analog-HubOuter {
     }
@@ -1669,7 +1677,7 @@
       gap: 13px;
       height: 32px;
       justify-content: center;
-      margin-top: 20px;
+      margin-top: 18px;
       padding: 0px 0px 1px 0px;
       width: 332px;
     }
@@ -1751,7 +1759,7 @@
       display: inline-flex;
       justify-content: center;
       margin-top: -6px;
-      padding: 6px 0px 2px 0px;
+      padding: 6px 0px;
 	     text-align: center;
       width: 332px;
     }
