@@ -56,7 +56,7 @@
   // GLOBAL CONSTANTS
   // ===========================================================================
 
-  const BASE_SIZE = 314;
+  const BASE_SIZE = 334; // 314
   const DAY_ABBR = ['Sun.','Mon.','Tue.','Wed.','Thu.','Fri.','Sat.'];
   const DAY_FULL = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
   const MONTH_ABBR = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
@@ -278,6 +278,7 @@
     clock22: _aURL + 'clock22.png',
     clock22L: _aURL + 'clock22L.png',
     clock26: _aURL + 'clock26.png',
+    controls: _aURL + 'panel24.png',
     hand22: _aURL + 'hand22.png',
     hourglass22: _aURL + 'hourglass22.png',
     moon16: _aURL + 'moon16.png',
@@ -328,6 +329,7 @@
     analogClockBtnTitle: 'Analog Clock',
     buttonLogoTitle: 'Left-click To Change Logos',
     buttonThemerTitle: 'Left-click To Change Wallpaper',
+    controlsBtnTitle: 'Show/Hide Controls Panel',
     dateTimeElTitle: 'Left-click → Show/Hide Seconds',
     digCalBtnTitle: 'Left-click → Show/Hide Calendar & Digital Time',
     downLogoTitle: 'Left-click To Change Logos',
@@ -822,7 +824,7 @@
       fill: 'url(#bannerGradient)'
     });
     const dayBannerBorder = $el('rect', {
-      //id: 'dayBannerBorder',
+      id: 'dayBannerBorder',
       //x: 36,
       //y: 16,
       //width: 29,
@@ -831,7 +833,7 @@
       //ry: 2
     });
     const dayBannerHighlight = $el('rect', {
-      //id: 'dayBannerHighlight',
+      id: 'dayBannerHighlight',
       //x: 36,
       //y: 16,
       //width: 29,
@@ -1022,13 +1024,35 @@
         onclick: () => setClockPercentage(currentPercent + 5)
       })
     );
+    const toggleControls = () => {
+      const hidden = controlsPanel.classList.toggle('hidden');
+      Settings.set('controlsPanel', !hidden);
+    };
+    const controlsImg = $el('img', {
+      id: 'controlsImg',
+      src: Icons.controls
+    });
+    const controlsBtn = $el('button', {
+      id: 'controlsBtn',
+      className: '',
+      title: Titles.controlsBtnTitle,
+      onclick: () => toggleControls()
+    }, controlsImg);
+    const controlsPanel = $el('div', {
+      id: 'controlsPanel'
+      },
+      scalerControls,
+      clockInfo
+    );
+    const showControlsPref = Settings.get('controlsPanel', true);
+    controlsPanel.classList.toggle('hidden', !showControlsPref);
     const savedPercent = Settings.get('clockSizePercent', 100);
     setClockPercentage(savedPercent);
     const container = $el('div', {
       id: 'analogClockContainer', className: 'ClockContainer' },
+      controlsBtn,
       Clock,
-      scalerControls,
-      clockInfo
+      controlsPanel
     );
     makeDraggable(container, 'analogClockContainer', '.Analog-Bigclock');
     restorePosition(container, 'analogClockContainer');
@@ -1076,8 +1100,7 @@
     if (!showCalendarPref) {
       clockInfo.classList.add('hidden');
     }
-    const hidden = showCalendarPref
-    dateTimeGroup.classList.toggle('hidden', hidden);
+    dateTimeGroup.classList.toggle('hidden', showCalendarPref);
     const startAnalogClock = () => {
       stopAnalogClock();
       State.analog.running = true;
@@ -1437,6 +1460,11 @@
 
   // ANALOG CLOCK
   GM_addStyle(`
+    #controlsBtn {
+      position: absolute;
+      left: 0;
+      top: 0;
+    }
     .ClockContainer {
       align-items: center;
       display: flex;
