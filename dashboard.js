@@ -278,11 +278,11 @@
     clock22: _aURL + 'clock22.png',
     clock22L: _aURL + 'clock22L.png',
     clock26: _aURL + 'clock26.png',
-    controls33: _aURL + 'panel33.png',
     hand22: _aURL + 'hand22.png',
     hourglass22: _aURL + 'hourglass22.png',
     moon16: _aURL + 'moon16.png',
     moon22: _aURL + 'moon22.png',
+    panel33: _aURL + 'panel33.png',
     sun16: _aURL + 'sun16.png',
     sun22: _aURL + 'sun22.png',
   };
@@ -669,6 +669,16 @@
     // =======================
     // CREATE SVG ELEMENTS
     // =======================
+    const panelImage = $el('image', {
+      id: 'panelImage',
+      href: Icons.panel33,
+      width: 12,
+      height: 12,
+      x: 0,
+      y: 0,
+      style: 'cursor: pointer;',
+      onclick: () => toggleControls()
+    });
     const bezelGroup = $el('g', {
       className: 'Analog-Bezel'
       },
@@ -894,6 +904,7 @@
       viewBox: '0 0 100 100'
       },
       defs,
+      panelImage,
       bezelGroup,
       clockFace,
       ...ticks,
@@ -908,9 +919,11 @@
       dayBannerGroup,
       dateTimeGroup
     );
+
     // =======================
     // NON SVG
     // =======================
+
     const Clock = $el('div', { className: 'Analog-Bigclock' }, svg);
     const ampmView = Settings.get('ampmView', true);
     ampmText.style.display = ampmView ? '' : 'none';
@@ -1024,33 +1037,22 @@
         onclick: () => setClockPercentage(currentPercent + 5)
       })
     );
-    const toggleControls = () => {
-      const hidden = controlsPanel.classList.toggle('hidden');
-      Settings.set('controlsPanel', !hidden);
-    };
-    const controlsImg = $el('img', {
-      id: 'controlsImg',
-      src: Icons.controls33
-    });
-    const controlsBtn = $el('button', {
-      id: 'controlsBtn',
-      className: '',
-      title: Titles.controlsBtnTitle,
-      onclick: () => toggleControls()
-    }, controlsImg);
     const controlsPanel = $el('div', {
       id: 'controlsPanel'
       },
       scalerControls,
       clockInfo
     );
+    const toggleControls = () => {
+      const hidden = controlsPanel.classList.toggle('hidden');
+      Settings.set('controlsPanel', !hidden);
+    };
     const showControlsPref = Settings.get('controlsPanel', true);
     controlsPanel.classList.toggle('hidden', !showControlsPref);
     const savedPercent = Settings.get('clockSizePercent', 100);
     setClockPercentage(savedPercent);
     const container = $el('div', {
       id: 'analogClockContainer', className: 'ClockContainer' },
-      controlsBtn,
       Clock,
       controlsPanel
     );
@@ -1460,10 +1462,10 @@
 
   // ANALOG CLOCK
   GM_addStyle(`
-    #analogClockContainer:hover > #controlsBtn {
+    #analogClockContainer:hover #panelImage {
       display: block;
     }
-    #controlsBtn {
+    #panelImage {
       display: none;
       position: absolute;
       left: -9px;
