@@ -278,7 +278,7 @@
     clock22: _aURL + 'clock22.png',
     clock22L: _aURL + 'clock22L.png',
     clock26: _aURL + 'clock26.png',
-    controls: _aURL + 'panel24.png',
+    controls33: _aURL + 'panel33.png',
     hand22: _aURL + 'hand22.png',
     hourglass22: _aURL + 'hourglass22.png',
     moon16: _aURL + 'moon16.png',
@@ -667,7 +667,7 @@
       )
     );
     // =======================
-    // CREATE ELEMENTS
+    // CREATE SVG ELEMENTS
     // =======================
     const bezelGroup = $el('g', {
       className: 'Analog-Bezel'
@@ -763,18 +763,19 @@
       className: 'Analog-Minute-Hand',
       d: `M 50 50 L 49.4 48 L 49.15 30 L 49.0 24 L 50 18 L 51.0 24 L 50.85 30 L 50.6 48 Z`
     });
-    const hubOuter = $el('circle', {
-      className: 'Analog-HubOuter',
-      cx: 50,
-      cy: 50,
-      r: 2.6
-    });
     const secondHand = $el('g', {
       className: 'Analog-Second-Hand'
       },
       $el('path', {
         className: 'Analog-Second-Needle',
         d: `M 49.8 55 L 50.2 55 L 50.2 17 L 50 14 L 49.8 17 Z`
+      }),
+      $el('line', {
+        className: 'Analog-Second-Tail',
+        x1: 50,
+        y1: 55,
+        x2: 50,
+        y2: 56
       }),
       $el('polygon', {
         className: 'Analog-Second-Counter',
@@ -786,15 +787,14 @@
           50.8,56.8
           50.8,60.4
         `
-      }),
-      $el('line', {
-        className: 'Analog-Second-Tail',
-        x1: 50,
-        y1: 55,
-        x2: 50,
-        y2: 56
       })
     );
+    const hubOuter = $el('circle', {
+      className: 'Analog-HubOuter',
+      cx: 50,
+      cy: 50,
+      r: 2.6
+    });
     const hubInner = $el('circle', {
       className: 'Analog-HubInner',
       cx: 50,
@@ -1030,7 +1030,7 @@
     };
     const controlsImg = $el('img', {
       id: 'controlsImg',
-      src: Icons.controls
+      src: Icons.controls33
     });
     const controlsBtn = $el('button', {
       id: 'controlsBtn',
@@ -1460,10 +1460,14 @@
 
   // ANALOG CLOCK
   GM_addStyle(`
+    #analogClockContainer:hover > #controlsBtn {
+      display: block;
+    }
     #controlsBtn {
+      display: none;
       position: absolute;
-      left: 0;
-      top: 0;
+      left: -9px;
+      top: -9px;
     }
     .ClockContainer {
       align-items: center;
@@ -1499,8 +1503,6 @@
     .Analog-Ticks {
       filter: drop-shadow(1px 1px 1px #666);
     }
-    .Analog-Bigclock.dark  .Analog-Ticks {
-    }
     .Analog-Number {
       font-family: 'sans-serif';
       font-size: 8px;
@@ -1523,28 +1525,20 @@
       stroke-width: .25;
       transform: rotate(var(--secondDeg));
     }
-    .Analog-Bigclock.dark .Analog-Second-Hand {
-    }
     .Analog-Second-Needle {
       fill: #b50000;
       stroke-width: .20;
       stroke-linejoin: round;
-    }
-    .Analog-Bigclock.dark .Analog-Second-Needle {
     }
     .Analog-Second-Tail {
       stroke: #b50000;
       stroke-width: .35;
       stroke-linecap: round;
     }
-    .Analog-Bigclock.dark .Analog-Second-Tail {
-    }
     .Analog-Second-Counter {
       fill: #b50000;
       stroke: #b50000;
       stroke-width: .35;
-    }
-    .Analog-Bigclock.dark .Analog-Second-Counter {
     }
     .Analog-Minute-Hand {
       fill: #000;
@@ -1590,16 +1584,6 @@
       stroke: #996600;
       stroke-width: .1;
       filter: drop-shadow(1px 1px 4px #000);
-    }
-    .Analog-Bigclock.dark #dayBannerBg {
-    }
-    #dayBannerBorder {
-    }
-    .Analog-Bigclock.dark #dayBannerBorder {
-    }
-    #dayBannerHighlight {
-    }
-    .Analog-Bigclock.dark #dayBannerHighlight {
     }
     #dayBannerText {
       fill: #000;
@@ -1647,49 +1631,29 @@
       stroke-width: .1;
       filter: drop-shadow(1px 1px 2px #666);
     }
-    .Analog-Bigclock.dark .Analog-HubOuter {
-    }
     .Analog-HubInner {
       fill: #b50000;
       stroke: maroon;
       stroke-width: .2;
-      filter: drop-shadow(1px 1px 2px #fff);
-    }
-    .Analog-Bigclock.dark .Analog-HubInner {
     }
     .Analog-HubPin {
       fill: #fff;
       stroke: #000;
       stroke-width: .1;
     }
-    .Analog-Bigclock.dark .Analog-HubPin {
-    }
     .Analog-HubHighlight {
       fill: rgba(255, 255, 255, .75);
     }
-    .Analog-Bigclock.dark .Analog-HubHighlight {
-    }
-    .Analog-BezelOuter {
-    }
-    .Analog-Bigclock.dark .Analog-BezelOuter {
-    }
     .Analog-BezelInner {
-    }
-    .Analog-Bigclock.dark .Analog-BezelInner {
+      filter: drop-shadow(1px 1px 3px #000);
     }
     .Analog-BezelShadow {
       stroke: rgba(0, 0, 0, .14);
       stroke-width: .9;
     }
-    .Analog-Bigclock.dark .Analog-BezelShadow {
-    }
     .Analog-BezelHighlight {
       stroke: rgba(255, 255, 255, .85);
       stroke-width: .18;
-    }
-    .Analog-Bigclock.dark .Analog-BezelHighlight {
-    }
-    .Analog-BezelFinish {
     }
   `);
 
@@ -1720,10 +1684,6 @@
       position: relative;
       top: 3px;
       width: 32px;
-    }
-    .ClockThemeToggle {
-    }
-    .scaler-info {
     }
     #spacer3 {
       color: #666;
@@ -1837,8 +1797,6 @@
     #wallpaperToggler {
       height: 22px;
       width: 22px;
-    }
-    #wallpaperToggler:hover {
     }
     #toggleImg {
       height: 22px;
@@ -1980,8 +1938,6 @@
     #imageCalendar {
       border-radius: 8px;
     }
-    #imageCalendar:hover + #dateTime {
-    }
     #dateTime {
       background: #34495e;
       border: 1px solid transparent;
@@ -2003,8 +1959,6 @@
       display: none;
       padding: 0px;
       width: 0px;
-    }
-    #dateTime:hover {
     }
   `);
 
