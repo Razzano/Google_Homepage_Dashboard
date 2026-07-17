@@ -1542,7 +1542,7 @@
     }
     .Analog-Minute-Hand {
       fill: #000;
-      filter: drop-shadow(1px 1px 1px #666);
+      filter: drop-shadow(1px 1px 2px #666);
       stroke: #000;
       stroke-linejoin: round;
       stroke-width: .30;
@@ -1554,7 +1554,7 @@
     }
     .Analog-Hour-Hand {
       fill: #000;
-      filter: drop-shadow(1px 1px 1px #666);
+      filter: drop-shadow(1px 1px 2px #666);
       stroke: #000;
       stroke-linejoin: round;
       stroke-width: .5;
@@ -1661,17 +1661,18 @@
   GM_addStyle(`
     #controlsPanel {
       background-image: linear-gradient(to bottom, #ffffff, #4f4f4f);
+      border: 1px solid #333;
       border-radius: 8px;
-      margin-top: 18px;
+      box-shadow: 0 0 0 2px #aaa, 0 0 0 3px #888, 0 0 0 4px #666, 0 0 0 5px #000;
+      margin-top: 22px;
       width: 332px;
     }
     #scalerControls {
       align-items: center;
-      border-radius: 8px;
       color: #000;
       cursor: default;
       display: flex;
-      gap: 13px;
+      gap: 10px;
       height: 32px;
       justify-content: center;
       width: 332px;
@@ -1688,18 +1689,32 @@
     }
     #spacer3 {
       color: #000;
-      margin: 0px 6px 0px 0px;
+      margin: 0px;
       opacity: 1;
       pointer-events: none;
       text-align: center;
     }
     .scaler-reset {
       background: none;
-      border: none;
+      border: 1px solid transparent;;
       cursor: pointer;
       font-size: 14px;
+      height: 22px;
+      justify-content: center;;
       margin: 0px;
-      padding: 0;
+      padding: 0px;
+      text-align: center;
+      width: 54px;
+    }
+    .scaler-reset:hover {
+      background: rgba(255,255,255,.9);
+      border-color: #000;
+      border-radius: 11px;
+      cursor: pointer;
+      filter: drop-shadow(1px 1px 3px #000);
+      font-size: 14px;
+      margin: 0px;
+      padding: 0px;
     }
     .scaler-btn {
       background: rgba(255,255,255,.1);;
