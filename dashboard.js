@@ -56,7 +56,7 @@
   // GLOBAL CONSTANTS
   // ===========================================================================
 
-  const BASE_SIZE = 334; // 314
+  const BASE_SIZE = 338; // 314
   const DAY_ABBR = ['Sun.','Mon.','Tue.','Wed.','Thu.','Fri.','Sat.'];
   const DAY_FULL = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
   const MONTH_ABBR = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
@@ -674,8 +674,8 @@
       href: Icons.panel33,
       width: 12,
       height: 12,
-      x: -2,
-      y: -2,
+      x: 0,
+      y: 0,
       style: 'cursor: pointer;',
       onclick: () => toggleControls()
     });
