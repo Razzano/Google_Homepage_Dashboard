@@ -56,7 +56,7 @@
   // GLOBAL CONSTANTS
   // ===========================================================================
 
-  const BASE_SIZE = 338; // 314
+  const BASE_SIZE = 338;
   const DAY_ABBR = ['Sun.','Mon.','Tue.','Wed.','Thu.','Fri.','Sat.'];
   const DAY_FULL = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
   const MONTH_ABBR = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
