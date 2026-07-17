@@ -1702,14 +1702,19 @@
       padding: 0;
     }
     .scaler-btn {
-      background: none;
-      border: none;
+      background: rgba(255,255,255,.1);;
+      border: 1px solid #000;
+      border-radius: 11px;
       cursor: pointer;
+      filter: drop-shadow(1px 1px 3px #000);
       font-size: 18px;
+      height: 22px;
       line-height: 1;
       opacity: .7;
+      width: 22px;
     }
     .scaler-btn:hover {
+      background: rgba(255,255,255,.9);
       opacity: 1;
     }
     .scaler-text {
@@ -1717,6 +1722,7 @@
       border: 1px solid #666;
       border-radius: 14px;
       color: #000;
+      filter: drop-shadow(1px 1px 3px #000);
       font-size: 14px;
       font-weight: 500;
       margin-top: 0px;
@@ -1752,8 +1758,9 @@
     }
     .Analog-CalendarText {
       display: inline-block;
-      color: #000;
+      color: #fff;
       font: 600 16px Consolas;
+      text-shadow: 1px 1px 2px #000;
       white-space: nowrap;
     }
   `);
