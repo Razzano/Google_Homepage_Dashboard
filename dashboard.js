@@ -853,7 +853,7 @@
     });
     const dayBannerText = $el('text', {
       id: 'dayBannerText',
-      y: 23.5,
+      y: 23.8,
       textAnchor: 'middle',
       dominantBaseline: 'middle'
     });
@@ -1660,10 +1660,10 @@
   // CONTROLS PANEL
   GM_addStyle(`
     #controlsPanel {
-      background-image: linear-gradient(to bottom, #ffffff, #4f4f4f);
-      border: 1px solid #333;
+      background-image: linear-gradient(to bottom, #fff, #333);
+      border: 2px solid #666;
+      box-shadow: 0 0 0 2px #999, 0 0 0 3px #333, 0 0 0 4px #000;
       border-radius: 8px;
-      box-shadow: 0 0 0 2px #aaa, 0 0 0 3px #888, 0 0 0 4px #666, 0 0 0 5px #000;
       margin-top: 22px;
       width: 332px;
     }
