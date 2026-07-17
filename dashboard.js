@@ -674,8 +674,8 @@
       href: Icons.panel33,
       width: 12,
       height: 12,
-      x: 0,
-      y: 0,
+      x: -2,
+      y: -2,
       style: 'cursor: pointer;',
       onclick: () => toggleControls()
     });
@@ -1012,6 +1012,7 @@
       src: Icons.AMPM1
     });
     const scalerControls = $el('div', {
+      id: 'scalerControls',
       className: 'scaler-controls' },
       themeBtn,
       secondHandBtn,
@@ -1467,9 +1468,6 @@
     }
     #panelImage {
       display: none;
-      position: absolute;
-      left: -9px;
-      top: -9px;
     }
     .ClockContainer {
       align-items: center;
@@ -1529,13 +1527,13 @@
     }
     .Analog-Second-Needle {
       fill: #b50000;
-      stroke-width: .20;
       stroke-linejoin: round;
+      stroke-width: .20;
     }
     .Analog-Second-Tail {
       stroke: #b50000;
-      stroke-width: .35;
       stroke-linecap: round;
+      stroke-width: .35;
     }
     .Analog-Second-Counter {
       fill: #b50000;
@@ -1544,11 +1542,11 @@
     }
     .Analog-Minute-Hand {
       fill: #000;
-      stroke: #000;
-      stroke-width: .30;
-      stroke-linejoin: round;
-      transform: rotate(var(--minuteDeg));
       filter: drop-shadow(1px 1px 1px #666);
+      stroke: #000;
+      stroke-linejoin: round;
+      stroke-width: .30;
+      transform: rotate(var(--minuteDeg));
     }
     .Analog-Bigclock.dark .Analog-Minute-Hand {
       fill: #f3f6f8;
@@ -1556,11 +1554,11 @@
     }
     .Analog-Hour-Hand {
       fill: #000;
-      stroke: #000;
-      stroke-width: .5;
-      stroke-linejoin: round;
-      transform: rotate(var(--hourDeg));
       filter: drop-shadow(1px 1px 1px #666);
+      stroke: #000;
+      stroke-linejoin: round;
+      stroke-width: .5;
+      transform: rotate(var(--hourDeg));
     }
     .Analog-Bigclock.dark .Analog-Hour-Hand {
       fill: #eef2f5;
@@ -1583,9 +1581,9 @@
       --tick-secondmark: rgba(0, 0, 0, .3);
     }
     #dayBannerBg {
+      filter: drop-shadow(1px 1px 4px #000);
       stroke: #996600;
       stroke-width: .1;
-      filter: drop-shadow(1px 1px 4px #000);
     }
     #dayBannerText {
       fill: #000;
@@ -1599,8 +1597,8 @@
     .Analog-MonthDateText {
       color: #000;
       fill: #000;
-      font: 400 6px Consolas;
       filter: drop-shadow(1px 1px 1px #666);
+      font: 400 6px Consolas;
     }
     .Analog-Bigclock.dark .Analog-MonthDateText {
       color: #FFF;
@@ -1609,8 +1607,8 @@
     .Analog-timeText {
       color: #000;
       fill: #000;
-      font: 400 7px Consolas;
       filter: drop-shadow(1px 1px 1px #666);
+      font: 400 7px Consolas;
     }
     .Analog-Bigclock.dark .Analog-timeText {
       color: #FFF;
@@ -1620,8 +1618,8 @@
     .Analog-AMPMText {
       color: #000;
       fill: #000;
-      font: 400 5px Consolas;
       filter: drop-shadow(1px 1px 1px #666);
+      font: 400 5px Consolas;
     }
     .Analog-Bigclock.dark .Analog-AMPMText {
       color: #FFF;
@@ -1629,9 +1627,9 @@
     }
     .Analog-HubOuter {
       fill: #ccc;
+      filter: drop-shadow(1px 1px 2px #666);
       stroke: #fff;
       stroke-width: .1;
-      filter: drop-shadow(1px 1px 2px #666);
     }
     .Analog-HubInner {
       fill: #b50000;
@@ -1659,20 +1657,23 @@
     }
   `);
 
-  // SCALER CONTROLS
+  // CONTROLS PANEL
   GM_addStyle(`
-    .scaler-controls {
-      align-items: center;
-      background: #2A3A4B;
-      border: none;
+    #controlsPanel {
+      background-image: linear-gradient(to bottom, #ffffff, #4f4f4f);
       border-radius: 8px;
+      margin-top: 18px;
+      width: 332px;
+    }
+    #scalerControls {
+      align-items: center;
+      border-radius: 8px;
+      color: #000;
       cursor: default;
       display: flex;
       gap: 13px;
       height: 32px;
       justify-content: center;
-      margin-top: 18px;
-      padding: 0px 0px 1px 0px;
       width: 332px;
     }
     .ClockThemeToggle,
@@ -1683,12 +1684,10 @@
       cursor: pointer;
       margin: 0px;
       padding: 0px;
-      position: relative;
-      top: 3px;
       width: 32px;
     }
     #spacer3 {
-      color: #666;
+      color: #000;
       margin: 0px 6px 0px 0px;
       opacity: 1;
       pointer-events: none;
@@ -1701,18 +1700,14 @@
       font-size: 14px;
       margin: 0px;
       padding: 0;
-      position: relative;
-      top: 1px;
     }
     .scaler-btn {
       background: none;
       border: none;
-      color: #ffffff;
       cursor: pointer;
       font-size: 18px;
       line-height: 1;
       opacity: .7;
-      padding: 0px 4px;
     }
     .scaler-btn:hover {
       opacity: 1;
@@ -1721,16 +1716,20 @@
       background: rgba(255,255,255,.1);
       border: 1px solid #666;
       border-radius: 14px;
-      color: #5294e2;
+      color: #000;
       font-size: 14px;
       font-weight: 500;
-      text-align: center;
       margin-top: 0px;
       min-width: 32px;
       padding: 2px 2px 0px 0px;
+      text-align: center;
+    }
+    .scaler-text:hover,
+    .scaler-text:focus-within {
+      background: rgba(255,255,255,.9);
     }
     .scaler-controls > button {
-      color: #ffffff;
+      color: #000;
       opacity: .7;
     }
     .scaler-controls > button:hover {
@@ -1739,38 +1738,23 @@
     }
   `);
 
-  // CLOCK/CALENDAR INFO
+  // CLOCK INFO
   GM_addStyle(`
-    .Analog-Info {
+    #clockInfo {
       align-items: center;
-      background: #2A3A4B;
-      border-radius: 0px 0px 8px 8px;
+      color: #000;
       cursor: default;
       display: inline-flex;
       justify-content: center;
-      margin-top: -6px;
-      padding: 6px 0px;
+      padding-bottom: 4px;
 	     text-align: center;
       width: 332px;
     }
-    .Analog-Info * {
-      text-shadow: 1px 1px 2px #000;
-    }
     .Analog-CalendarText {
       display: inline-block;
-      color: #fff;
-      font: 400 16px Consolas;
+      color: #000;
+      font: 600 16px Consolas;
       white-space: nowrap;
-    }
-    .ClockThemeToggle:hover,
-    .scaler-reset:hover,
-    .scaler-info:hover {
-      color: #ffffff;
-    }
-    .scaler-text:hover,
-    .scaler-text:focus-within {
-      border-color: #fff;
-      color: #fff;
     }
   `);
 
