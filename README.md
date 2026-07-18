@@ -4,3 +4,5 @@
 (2) Options to change wallpaper manually or auto change hourly, daily, weekly, monthly.
 
 (3) Display custom logos, default Google logo or leave blank.
+
+
