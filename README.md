@@ -5,5 +5,9 @@
 
 (3) Display custom logos, default Google logo or leave blank.
 
+(4) Light and Dark themes.
+
+(5) Optional second hand movement between ticking or smoothe sweeping.
+
 <img src="https://github.com/Razzano/MY_Images/raw/main/GoogleDashboard.png"/>
 
