@@ -5,5 +5,5 @@
 
 (3) Display custom logos, default Google logo or leave blank.
 
-<img src="https://github.com/Razzano/MY_Images/raw/main/CurrentClock.png"/>
+<img src="https://github.com/Razzano/MY_Images/raw/main/GoogleDashboard.png"/>
 
