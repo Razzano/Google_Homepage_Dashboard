@@ -9,6 +9,6 @@
 
 (5) Second hand movement options between ticking or smoothe sweeping.
 
-Light theme clock face, Eagle logo, Stars and Stripes wallpaper
+Light theme analog clock face, Eagle logo, Stars and Stripes wallpaper, digital clock
 <img src="https://github.com/Razzano/MY_Images/raw/main/GoogleDashboard.png"/>
 
