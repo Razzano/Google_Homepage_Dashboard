@@ -1670,8 +1670,10 @@
   GM_addStyle(`
     #controlsPanel {
       background-image: linear-gradient(to bottom, #fff, #4f4f4f);
-      border: 1px solid #4f4f4f;
-      box-shadow: 0 0 0 2px #666666, 0 0 0 3px #999999, 0 0 0 4px #4f4f4f;
+      border: 2px solid #4f4f4f;
+      box-shadow: 0 0 0 2px #999,
+                  0 0 0 2px #ccc,
+                  0 0 0 2px #4f4f4f;
       border-radius: 8px;
       margin-top: 22px;
       width: 332px;
