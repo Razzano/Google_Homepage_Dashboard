@@ -56,7 +56,7 @@
   // GLOBAL CONSTANTS
   // ===========================================================================
 
-  const BASE_SIZE = 338;
+  const BASE_SIZE = 340;
   const DAY_ABBR = ['Sun.','Mon.','Tue.','Wed.','Thu.','Fri.','Sat.'];
   const DAY_FULL = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
   const MONTH_ABBR = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
@@ -82,8 +82,9 @@
 
   const SVG_NS = 'http://www.w3.org/2000/svg';
   const SVG_TAGS = new Set([
-    'circle','defs','feDropShadow','feGaussianBlur','feMerge','feOffset','filter','foreignObject','g','image','line','linearGradient',
-    'marker','path','polyline','polygon','radialGradient','rect','script','stop','style','svg','text','textPath','use'
+    'circle','clipPath','defs','desc','feDropShadow','feGaussianBlur','feMerge','feOffset','filter','foreignObject',
+    'g','image','line','linearGradient','marker','mask','path','pattern','polyline','polygon','radialGradient',
+    'rect','script','stop','style','svg','symbol','text','textPath','title','tspan','use'
   ]);
 
   const $el = (tag, props = {}, ...children) => {
@@ -117,7 +118,8 @@
         el[key] = value;
       } else {
         el.setAttribute(key, value);
-    } }
+      }
+    }
     children.flat(Infinity).forEach(child => {
       if (child != null) el.append(child);
     });
@@ -127,21 +129,6 @@
   const $id = (id) => document.getElementById(id);
   const $q = (sel, ctx = document) => ctx?.querySelector(sel) ?? null;
   const $qa = (sel, ctx = document) => Array.from(ctx?.querySelectorAll(sel) ?? []);
-
-  const getCurrentWallpaperNumber = () => {
-    switch (Settings.get('wallpaperMode', WALLPAPER_MANUAL)) {
-      case WALLPAPER_HOURLY:
-        return getHourlyWallpaper();
-      case WALLPAPER_DAILY:
-        return getDailyWallpaper();
-      case WALLPAPER_WEEKLY:
-        return getWeeklyWallpaper();
-      case WALLPAPER_MONTHLY:
-        return getMonthlyWallpaper();
-      default:
-        return Settings.get('wallpaperImage', 0);
-    }
-  };
 
   const insertAfter = (newEl, refEl) => {
     if (!refEl || !refEl.parentNode) {
@@ -159,7 +146,7 @@
       if (dragSelector) {
         if (!e.target.closest(dragSelector)) return;
       } else {
-        if (e.target.closest('button,input,select,textarea,img,span')) return;
+        if (e.target.closest('button,input,select,textarea,image,img,span')) return;
         if (e.target !== elmnt) return;
       }
       e.preventDefault();
@@ -218,14 +205,6 @@
     }
   };
 
-  const setThemerState = enabled => {
-    ['buttonThemer', 'inputThemer', 'downThemer'].forEach(id => {
-      const el = $id(id);
-      if (!el) return;
-      el.classList.toggle('disabled', !enabled);
-    });
-  };
-
   const Settings = {
     get(key, fallback) {
       return GM_getValue(key, fallback);
@@ -282,7 +261,7 @@
     hourglass22: _aURL + 'hourglass22.png',
     moon16: _aURL + 'moon16.png',
     moon22: _aURL + 'moon22.png',
-    panel33: _aURL + 'panel33.png',
+    panel34: _aURL + 'panel34.png',
     sun16: _aURL + 'sun16.png',
     sun22: _aURL + 'sun22.png',
   };
@@ -433,6 +412,21 @@
     { src: Icons.calendarM, title: 'Monthly Change Wallpaper' }
   ];
 
+  const getCurrentWallpaperNumber = () => {
+    switch (Settings.get('wallpaperMode', WALLPAPER_MANUAL)) {
+      case WALLPAPER_HOURLY:
+        return getHourlyWallpaper();
+      case WALLPAPER_DAILY:
+        return getDailyWallpaper();
+      case WALLPAPER_WEEKLY:
+        return getWeeklyWallpaper();
+      case WALLPAPER_MONTHLY:
+        return getMonthlyWallpaper();
+      default:
+        return Settings.get('wallpaperImage', 0);
+    }
+  };
+
   const applyWallpaper = (num) => {
     if (State.wallpaper.style) {
       State.wallpaper.style.remove();
@@ -545,6 +539,14 @@
     Settings.set('wallpaperImage', val);
     applyCurrentWallpaper();
     scheduleWallpaperUpdate();
+  };
+
+  const setThemerState = enabled => {
+    ['buttonThemer', 'inputThemer', 'downThemer'].forEach(id => {
+      const el = $id(id);
+      if (!el) return;
+      el.classList.toggle('disabled', !enabled);
+    });
   };
 
   const wallpaperToggleHandler = () => {
@@ -666,19 +668,23 @@
         $el('stop', { offset: '100%', 'stop-color': 'var(--banner-bottom)' })
       )
     );
+
     // =======================
     // CREATE SVG ELEMENTS
     // =======================
+
     const panelImage = $el('image', {
       id: 'panelImage',
-      href: Icons.panel33,
+      href: Icons.panel34,
       width: 12,
       height: 12,
       x: 0,
       y: 0,
       style: 'cursor: pointer;',
       onclick: () => toggleControls()
-    });
+    }, [
+      $el('title', {}, [Titles.controlsBtnTitle])
+    ]);
     const bezelGroup = $el('g', {
       className: 'Analog-Bezel'
       },
@@ -942,7 +948,8 @@
         const num = parseInt(val, 10);
         if (!isNaN(num)) {
           setClockPercentage(num);
-      } }
+        }
+      }
     });
     const setClockPercentage = (percent) => {
       currentPercent = Math.max(30, Math.min(200, percent));
@@ -1090,11 +1097,11 @@
       const month = String(now.getMonth() + 1).padStart(2, '0');
       const monthday = String(now.getDate()).padStart(2, '0');
       const monthAbb = MONTH_ABBR[now.getMonth()];
+      const ampm = now.getHours() < 12 ? Strings.amText : Strings.pmText;
       dateText.textContent = `${monthAbb} ${monthday}`;
+      ampmText.textContent = ampm;
       timeText.textContent = `${h12}:${min}`;
       timeText.setAttribute('x', h12 < 10 ? 42 : 41);
-      const ampm = now.getHours() < 12 ? Strings.amText : Strings.pmText;
-      ampmText.textContent = ampm;
       calendarText.textContent = `${monthFull} ${ordinal}, ${yr} 🕑 ${h12}:${min} ${ampm}`;
       dayBannerText.textContent = DAY_BANNER[day].text.toUpperCase();
       dayBannerText.setAttribute('x', DAY_BANNER[day].x);
@@ -1227,7 +1234,8 @@
         State.digital.interval = null;
       } else {
         startDigitalClock();
-    } }
+      }
+    }
   };
 
   const dateTimeToggleSeconds = (e) => {
@@ -1369,7 +1377,8 @@
     if (!document.hidden && Settings.get('analogClock', true)) {
       if (!$id('analogClockContainer')) {
         applyAnalogClock();
-    } }
+      }
+    }
   });
 
   window.addEventListener('pageshow', () => {
@@ -1660,9 +1669,9 @@
   // CONTROLS PANEL
   GM_addStyle(`
     #controlsPanel {
-      background-image: linear-gradient(to bottom, #fff, #333);
-      border: 2px solid #666;
-      box-shadow: 0 0 0 2px #999, 0 0 0 3px #333, 0 0 0 4px #000;
+      background-image: linear-gradient(to bottom, #fff, #4f4f4f);
+      border: 1px solid #4f4f4f;
+      box-shadow: 0 0 0 2px #666666, 0 0 0 3px #999999, 0 0 0 4px #4f4f4f;
       border-radius: 8px;
       margin-top: 22px;
       width: 332px;
