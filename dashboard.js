@@ -73,10 +73,6 @@
   const _SECOND = 1000;
   const _SECONDS = 5000;
   const _aURL = 'https://raw.githubusercontent.com/Razzano/My_Images/master/';
-  const WALLPAPER_HOSTS = {
-    github: 'https://raw.githubusercontent.com/Razzano/My_Wallpaper_Images/master/image',
-    ibb:    'https://i.ibb.co/'
-  };
   const body = document.body;
 
   // ===========================================================================
@@ -247,6 +243,12 @@
     { text: 'Saturday', x: 40 }
   ];
 
+  const HostTitles = {
+    ibb: 'This is the ImgBB host site\nToggles to the GitHub host site',
+    github: 'This is the GitHub host site\nToggles to the Postimages host site',
+    postimages: 'This is the Postimages host site\nToggles to the ImgBB host site'
+  };
+
   const Icons = {
     AMPM1: _aURL + 'AMPM1.png',
     AMPM2: _aURL + 'AMPM2.png',
@@ -267,6 +269,7 @@
     moon16: _aURL + 'moon16.png',
     moon22: _aURL + 'moon22.png',
     panel34: _aURL + 'panel34.png',
+    postimages: _aURL + 'postimages.png',
     sun16: _aURL + 'sun16.png',
     sun22: _aURL + 'sun22.png',
   };
@@ -331,6 +334,7 @@
   const Wallpapers = {
     github: 'https://raw.githubusercontent.com/Razzano/My_Wallpaper_Images/master/image',
     ibb: 'https://i.ibb.co/',
+    postimages: 'https://i.postimg.cc/',
     images: {
       1: 'ccpzdVPW/image1.jpg',
       2: 'tMPSxh3g/image2.jpg',
@@ -383,14 +387,67 @@
       49: 'bRC5r95C/image49.jpg',
       50: 'dyVJD2w/image50.jpg',
       51: 'PZx7gVyd/image51.jpg',
-      52: 'CKKvMsDf/image52.jpg'
+      52: 'CKKvMsDf/image52.jpg',
+      101: 'Gp0dwbHF/image1.jpg',
+      102: '5tcbdf6q/image2.jpg',
+      103: 'q7f4Vpzc/image3.jpg',
+      104: 'HLGdDTVt/image4.jpg',
+      105: 'MGyxzgQf/image5.jpg',
+      106: 'jjVt0RLX/image6.jpg',
+      107: 'BvxsJRKD/image7.jpg',
+      108: 'MGyxzgQB/image8.jpg',
+      109: 'vmWMGCVf/image9.jpg',
+      110: 'JhbmRSkj/image10.jpg',
+      111: '254mCgZd/image11.jpg',
+      112: 'hG9gKNdb/image12.jpg',
+      113: 'wBhH9nmQ/image13.jpg',
+      114: 'YS1ktTWx/image14.jpg',
+      115: '5tw1fDC3/image15.jpg',
+      116: 'pdDxP3Fk/image16.jpg',
+      117: '3wg73zvn/image17.jpg',
+      118: 'k5x97Lbs/image18.jpg',
+      119: '6QdwBFvb/image19.jpg',
+      120: '5tw1fDC7/image20.jpg',
+      121: '254mCgZX/image21.jpg',
+      122: 'tghy98xc/image22.jpg',
+      123: 'HLQHTFyh/image23.jpg',
+      124: 'FKjmhwLw/image24.jpg',
+      125: 'TPrGTBDZ/image25.jpg',
+      126: 'NMBtFb6C/image26.jpg',
+      127: 'tghy986G/image27.jpg',
+      128: 'wvgzMFXf/image28.jpg',
+      129: 'wvgzMFXG/image29.jpg',
+      130: 'Hxdmn3wN/image30.jpg',
+      131: 'mDB4kVYv/image31.jpg',
+      132: '3RYhN9jT/image32.jpg',
+      133: '0QPvjZGv/image33.jpg',
+      134: 'Ssk4RVLq/image34.jpg',
+      135: '26rYyTdr/image35.jpg',
+      136: '85NGcwd5/image36.jpg',
+      137: 'DZnh05Q8/image37.jpg',
+      138: 'gJmpj4yx/image38.jpg',
+      139: 'vBbyTX7g/image39.jpg',
+      140: 'RFdBHfG0/image40.jpg',
+      141: 'Kzf2MLQK/image41.jpg',
+      142: 'bJghtbLn/image42.jpg',
+      143: 'SsdhM8Vs/image43.jpg',
+      144: 'LXDp1fvf/image44.jpg',
+      145: 'nz2JD7Tv/image45.jpg',
+      146: 'sXmrhSK5/image46.jpg',
+      147: 'SsdhM8VV/image47.jpg',
+      148: 'fLCN9X5v/image48.jpg',
+      149: '26GDZvTw/image49.jpg',
+      150: 'DZ6TXs5B/image50.jpg',
+      151: 'Hxzgy536/image51.jpg',
+      152: 'g09mFGnH/image52.jpg'
     },
     url(num) {
       const host = Settings.get('wallpaperHost', 'ibb');
       if (host === 'github') {
         return `${this.github}${num}.jpg`;
       }
-      return this.ibb + this.images[num];
+      if (host === 'postimages') num += 100;
+      return this[host] + this.images[num];
     }
   };
 
@@ -482,6 +539,30 @@
     { src: Icons.calendarW, title: 'Weekly Change Wallpaper' },
     { src: Icons.calendarM, title: 'Monthly Change Wallpaper' }
   ];
+
+  const WALLPAPER_HOSTS = {
+    ibb:    'https://i.ibb.co/',
+    github: 'https://raw.githubusercontent.com/Razzano/My_Wallpaper_Images/master/image',
+    postimages: 'https://i.postimg.cc/'
+  };
+
+  const WALLPAPER_SITES = [
+  {
+    host: 'ibb',
+    src: Icons.ibb,
+    title: 'This is the ImgBB host site\nToggles to the GitHub host site'
+  },
+  {
+    host: 'github',
+    src: Icons.github,
+    title: 'This is the GitHub host site\nToggles to the Postimages host site'
+  },
+  {
+    host: 'postimages',
+    src: Icons.postimages,
+    title: 'This is the Postimages host site\nToggles to the ImgBB host site'
+  }
+];
 
   const getCurrentWallpaperNumber = () => {
     switch (Settings.get('wallpaperMode', WALLPAPER_MANUAL)) {
@@ -635,15 +716,13 @@
 
   const toggleWallpaperHost = () => {
     const current = Settings.get('wallpaperHost', 'ibb');
-    const next = current === 'ibb' ? 'github' : 'ibb';
-    const img = document.getElementById('hostImg');
-    Settings.set('wallpaperHost', next);
-    img.src = Icons[next];
-    if (next === 'ibb') {
-      img.title = 'This is the ibb (ImgBB) host site\nToggles to the github host site';
-    } else {
-      img.title = 'This is the github (Github) host site\nToggles to the ibb host site';
-    }
+    let index = WALLPAPER_SITES.findIndex(site => site.host === current);
+    index = (index + 1) % WALLPAPER_SITES.length;
+    const next = WALLPAPER_SITES[index];
+    Settings.set('wallpaperHost', next.host);
+    const img = $id('hostImg');
+    img.src = next.src;
+    img.title = next.title;
     applyCurrentWallpaper();
   };
 
@@ -1466,12 +1545,7 @@
       Settings.get('analogClock', true) ? Strings.hideText : Strings.showText
     );
     const img = document.getElementById('hostImg');
-    const pref = Settings.get('wallpaperHost', 'ibb');
-    if (pref === 'ibb') {
-      img.title = 'This is the ibb (ImgBB) host site\nToggles to the github host site';
-    } else {
-      img.title = 'This is the github (Github) host site\nToggles to the ibb host site';
-    }
+    img.title = HostTitles[Settings.get('wallpaperHost', 'ibb')];
   };
 
   // ===========================================================================
