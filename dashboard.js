@@ -244,7 +244,6 @@
   ];
 
   const ICONS = {
-    AMPM: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABYAAAAWCAYAAADEtGw7AAABdUlEQVR4AaSU25WDMAxESb5oaQtJ+sgWkkJIgfDHjrSeYWycwNnl2EiWxteyeVyH5lq369akhi2VXpXPyHZ7VmDEXfzVgi+4LDaZX7mQfVdgZF38wPhjYyG0Lm7BA1a7uODA566ioLtrBe6t2ouVyYQ8qEFBr5JLIzBGvionRgypujWQrsbBMXtCBSucrhjxd42FKJ9gwPJtQCVqVDDHsVnBMKk6htAkGM6nCrs5g2kBcNSuqCi2ngH4WTltBnHjGDa1tIBHy2oZgzw+pOc1MtZThPEL3RvjigXAuxK/zu4Dce2//Dzj2Eavt+RGk8dGjefmeV4TjKQeQOyE4yJ2gHTQdB8q4sM4jneCY6wOeJ6pAm8cLJyL0lIW87tgCk7Y43+FQ7yCWN1zxeeR6F9R4jK7igGNdzXPD9Azf7rUilicHThg7EVzxnAH0u7Ayhw7gqGQ3cP+M9hgWoC14DhvBOucEIwzpqa11KUFPBqrzVhMWJZl+gEAAP//XADJ5gAAAAZJREFUAwDFI97pC5c/rgAAAABJRU5ErkJggg==',
     calendar: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABYAAAAWCAYAAADEtGw7AAAA30lEQVR4AcySPQ7CMAyFTSYWGDgGAwsLA0POwzk4WAYGFhg4CANd2IqfK0VxZUXKTyVQXuR8KB8uriP+hBBGhEu1wBAF+QCGcKkWGAIoYhSS63OkNAJ5SxlqRrJQpxE4bU5EU91v5x+Tjv1tS8jcDIbUcBfOHxou+66BUzqed9Tj/D/ix+tOm91aPZTFijv23hO/q0rsDVYsHt5fOh5OSmyxYrEyZg7Li60BtLDYsTWAFhbF1gBaWBRn5lD11fLilkFZd2PHLYOy7kZxy6Csu1FcNaHMJcePscJ/1DNw/gAAAP//0v4bEwAAAAZJREFUAwD80vEZnRNbEwAAAABJRU5ErkJggg==',
     calendar32: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAhCAYAAAC4JqlRAAABFklEQVR4AeyTMQrCQBBFh9xGCxs7K1sJiHgAe+3TeACb9Np7ABFBbPcCNjYeR5llB8JOdkwxEyFswP3m/zD7XPOL8az8xB/nHPPoGe2sgOg6HirvkPqbsJBHGmwv5JF6MyzkkQbbCwPwbo9LBmg9gd2+Tv4J2lkrQHJ3g4AB0C8kbe5JHqlGxgCaQ/v4ngGGcwKrZQnnUw2o8buDXipTO4H1Yg7TyQhQIbrQS2VqAJeHg+frDajR/t5LZWoA19sdNtsKUGMA9FKZGkC8adf7DMBOQKqMRcYApMpYZAwAa5SqjEXGAKTKWGQMoGt9tJ7LAOwELKomzWQAFlWTZjIAi6pJMxmARdWkmQxAq15d55gD/AL5O8AXAAD///IWSOwAAAAGSURBVAMAC9MOEoOWO8AAAAAASUVORK5CYII=',
     calendarD: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABYAAAAWCAYAAADEtGw7AAABJElEQVR4AbSUPRIBQRCFe+YQikgu2IwjOIBAqMTIpII9gBCJRAkFAscg20DkAFMOIB3ztmraGD87+6c80/1af1v7amsleZ+7UtqzuM0zewPbRXsy0RTfPGOnXzuzJ0x5WyzmSRTpmEjD2DSbpPp9gmflzqxnT3dm98CRj9NpiaJK4aJvUQA+UYqOSYLyQ3lmDB5EURoBbge1S0UPH0IdMpN6u6U6JFvtNtUhjsK9vSrqIHDDPIKuQi4cBAZIa00Qamg0jul8uaJM5ffB4HTb+ZlNh7RaH9jx+2CwEIKEEAzqdTu038U/+yCweQeQK6b9KRjsZ1S2Z7CfUdmewVmZ5Z0z+E9chUYMLpupv8/gspn6+wzOm2HW/6V5B7ye+kJpfi6B+QQAAP//ZMuhpAAAAAZJREFUAwApJROw/1D9zwAAAABJRU5ErkJggg==',
@@ -256,31 +255,42 @@
     github: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABYAAAAWCAYAAADEtGw7AAAB0UlEQVR4AaSUTU4CQRCFq9uEBTvlBm5NTAwujIl6Cr2AyQzxAm7degMh8QJ6CmOiG9DExI0LT+DPShdGp62vmWFKmBEChEdXV7330QwDXmofwUl6tytp/1aS/ocq5PqIPWainpp8NTjpK2SQSciuJMiWZpuq4tmMPWaJepLBWTGw61/w4c2KnurFGqbXIY0ZssZcghksNV511lLJfnuZ5V8ZT0vIwsgTJXip8ZT3IvQiWY2r7RlQnI17FD5iDMFcU5F4UkAEihUYooeoEXXhYc3V0ssSqBVc/81iAICoETWirldwXtL7nXrDnBNl6omzUxvnY9r9LPVkJjv1ek+u2/D0j2ndw3oiE2RdTyz25h86F39tAl4cU0EA/FnRX7T16cXJg6W4dGC3M9UTGWV6EX88np4wjhvMvtrrj710N66NL/5U2RNA1FVihqpmMPXETn+CrouB+5Fbh5X9fILlgoI13mt39FUuB+9y0HuWAj7XG+SsIRjqz1f8E7Jw3oDRzMoZ+Evw+fab5IMCzukxzSSyMHJzCabBoLfpRFwXOHKd+73vTEYPanqjhnqFDNmyKX/BxYDr1Gt7cX6vs9u6Wjt5lMbRXRQ1PWaCB2+RM+svAAAA//8Mg253AAAABklEQVQDAAIjsE3KyMjJAAAAAElFTkSuQmCC',
     hand: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABYAAAAWCAYAAADEtGw7AAACMElEQVR4AYxU224TMRQcJyjqC2o25YUiQQkRfBE8wPfBQ/kqHioEEl1FbWmyF5uZE2zZyS5L1fHlXMbj47OZYeLv1+fF+9sviyBoPRGe3JPEzuG6erOGoHXKnFgMEkuZFArH+dGn+diX7weJpWy5fo3l23d5rK3lqzZX0GyGkSERS4EUCop1zsH1rZYFqs0GCCmt8OWbFEGeaymp1q9y/+l6nlJOfZnl/6KyBDRdvhtdTxC708SJjJhQhvkQ7aNz6KdjlFwQhzCd5M7myiugBxfUANFREDvfm32eKjBwUOstJg4irF6ssLw8L1qwIIZvgL7D06uXzCOB8/bFcWP/+vpAG8JBgJFeXpgv9Iy31WGYHaa/o5z9Hi4wqGthwSLJYDYergwpDWAsb7r9cQdW8oPsQkkc2EpGugM8DxDBEVSu+tuNcg2B/vr71kgvPjVfzcihIPYkViD0xXkq6XkAb4AMkbR6fo7A0kWlOSl5URDP1EqsYeCdwOvZrBuoDQWtmWUlYIxTPPfHpDSVxKF7hNv/hmv5G9FqTcW7R4A2ob65RfVswf09XLdD/fMB5E91FWFEodhJER8w+B0CyxH6BmB5APXuHNXqjNsewXw8nCxDamkuFYOdAJIFznokp27wfND+gW1I6EHZBfIpRgRjSIpXHxtX3/OajJyZchFSMQ+xA9O85yEdtndPMFYGUpSKI3k8QAGgwhzyCSIdK4PykmJtBJFrVvIQRKiYf5Eq/w8AAAD//2AAN3UAAAAGSURBVAMAEA1aWMtHw7oAAAAASUVORK5CYII=',
     hourglass: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABYAAAAWCAYAAADEtGw7AAABHklEQVR4AbyTMY7CQAxFPSttt2eAvcEeZA/BISigAAEduQgFR+EMFCBKoECCCqTB3xokGNsMiRBRfjK2v984ifJF2XGcd2NdZQgJFViyb7go8P5/SnVlzaHAlqlJ7oPgSP1aEzp+NXH757six6w2ZJ/4VYFIgeGBubUb9lvbAbladsbwwW/JBMMY2tOKQjBfS/itQvibTeDz5ILRYMIPmzFqJT0Fo/kBztDSpOiBimCYBM6LV6FstT8eCvdan87y+Lf7fc1bFydOsFECjFKcQv/2FMyQyK03KC/lBBx5CbyLC2aoPL7XWKqb4NSUT5rvgcndzU0wE0pQtsjp+hQ4rnrR+o2BsfLwo5ZLgXND01iBT4sL1ZW1uQJbpia5KwAAAP//ZeibPAAAAAZJREFUAwBJyMT9o1gnygAAAABJRU5ErkJggg==',
-    ibb: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABYAAAAWCAYAAADEtGw7AAABfUlEQVR4AexTPUsDQRBdjzQpFGwNahENCGKh2FqKWNiJYJlOS7G2yA8QC/E3qCAoiKCd2tjYpIlICuPHNYIBg9Ei5Nw3ezNubmKqpEu4N/P2zczL7uYSZA+fol4gMD369I3lYtVVlNfGzcPqmDQw2ZgaYqpyJq1sjFbsWCoYsNE9+CIgn9PG0IHrlVHX7MW2xl5d6PzZq/AkaUZRUtI7njiqGEB1dhByx8+q2rJjHAtYHElTo1+EzqCiF1hHZtmfZc1chd/EH+0PScQGnOKn0bRMP6gBfqWtsd8AvnTxhmSmT14oI/i7w5pRmBsmKsabHV6ncq1BzYVZN0SLOOwWP2Lm0s59lYgYb83oIerwwvqkfuUOSjXqyA6mKHMQYxb4rv47avjlds/9nC+XM0wpK2MYAjdhnRoQsAbAF87dfYMD0AFw3hS4GG/fvWNN2CtWTf72b02iDf6gXbY8yZoYn1bq9MdAw37pk4bAfZAYB18Hj2VJYixKl0jfWC7yFwAA//9pYZLVAAAABklEQVQDAEgprMk/VO8iAAAAAElFTkSuQmCC',
+    ibb: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABYAAAAWCAYAAADEtGw7AAAA5klEQVR4AdSQsQ3CQBAEX06pgJiEBuiEfhDdENAJDRCSUYFjW2NpX6vz/8uBPzDS6O5371bmhsvrN/VgSJ1+Bw0ev5/k6Dqu0UtXRXOkU/Mp/o97AkQHDVzzHg9co8/BPPakf/D5+U7Q+mrdszbjfv5i7gRaYkg9FQ/o8YBe4AFvvByMENEguv6Na95HvxlMIGhJFc2Rroq3KZjB0/VGqRL9YjA3igklzWeiXwz22/lyTdeM+6tgN31But+x5a+CNVyqCo331Kz7ORjRYdjf9Ggeiua4vwQzvBWWoTaPB0swzd4cL3gGAAD//6vZcxQAAAAGSURBVAMAImLHyZEJKAgAAAAASUVORK5CYII=',
     moon: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABYAAAAWCAYAAADEtGw7AAADFUlEQVR4AazUX0gUQRwH8O/sn1vvTu9SL0+TzIOIqx4LAstIsCgyK8SMyHoJygJ7CHqxSKWojMoH8SWhCCTNKDWC6s3QTJQyCiz/lPmH8s/ppd15tns7/fYuROsh0hv2tzszt/OZ380MKyACpet+Ef+TiQhsCmjQhqoW4BGBA9PTEJmOia6KOTwisKhoANcRazeh+MzeEB4R2BRDKxwYJRy4cDaXGkCEYAbdN4Hvb18A2gxuFh/kEYFtsSIEUYY9JQmeV89ReHz30jO+cXI7j7YIQHRKaAmsScmEBilCzcXfcnekgjEaP91Nt5+IciYAuro0OHvzWu5MFmGciLnQNZpAXxp851waZIkczgnnmPUFqKFTXV883F99hMcm0NrS+cVvWIl1QfOMEIzFwe8q83iCKwajQ16MDU8SZGTJ6ahNQYpLhOrX/h8evZfP16e7oWhTiF+mwGaRMfx5LIxrPoBJGOgZgZCzxUVT4Z+l5VI29z85zJevolfprzORgQkMkiTAbJIJpn6BnnSeV2ddZML1fRvAH2VztW4/by/L5Kf3rOMFO928unArf30ti09V5/FAfR5P22SG2UI7HqQ8pCg6YgIFIw2E09NYa9GMkU8/Qn1CYW0nvOMiJPo6bXRZUX50DSqPuXFomwPulSZ4JmegyEFaPwINNEh11Qvd7ATXqY8ui8MByBaomoLEzFIGKkJjey/r7NXg8woAjQkHvR3UIVri4VzhQF+PkSltUAjmYJODEFQPmN0B0WaFJKjgYjROnW8kMnyRBmRcfcze9OrwekRA40CQJiVLsNshWq2wxJkBIzuaDEYY9YAPzE+bpqlQdRtKylpwq6GDBs6DjWr6lQZW9mwAX/pNmPXT75S99K0PJt9XJEXP0mQ0oQHOD6ZgdNCC9PwalNxtokGGFI5QxuEqcLmxg6UW1bHW9xwfuxVMTzIEZyh1jZaB3FDWBGuqhP4uM+pqxuHMqWBtH4YWoIa3ADY6jMgor2fu0lpmO/GQPX2po7lVRluzgpYmGVUPpiDvqmaugtvsQHnDX6Ax3ohfAAAA///Q4S43AAAABklEQVQDAFx5QpKw11dEAAAAAElFTkSuQmCC',
     panel: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACIAAAAhCAYAAAC803lsAAACx0lEQVR4AcyXP4oiQRSHH15hBgyNBE8gKAaCmaCJ9qSeYddz6OIJxNSONBMMDAQjUyMPYGCsiMJufY3PeVXj7qL0yg7z8f5WvV9XtaAZuf6VSqXIMW40Gj9fAbMc0XW8JEJcot/tdseOqNPpyCtglmPMbMRknBO5xDeCxWIRO+RFxMxkNho4keR43PC43+9HDnkRETMR44gy7+/viRCCy+UiSqvVuvmaU5tWjZkOQQMngp9wPp9FIaF+aNOqsY/iCTkej6LQoH5o06qxj+IJ4cmz2azAdDpNLD55C4ttbP1HavQqnhDeAS1YS95CzcbWf6RGr+IJ4cm0YC15CzUbW/+RGr3KFyGbzUag2WwmFt8Owmcx1pLP5wW4UizYOn64jljxhDx7xKzTDa0lb6EWxuTAE4JqhaL6ob1XIxfyt3W23xNiP6Y02dj692rL5VKAK8WCXYMfriNWPCH2CWiwMX6lUhHgPcACecu9dVoPa8SKJyS8Pxvj6yJryVuo2dj6YY1Y8YSociwNWAu5EFvHp469R1gjVjwhf1JPjSsB3gMskLewsY3x6/W6AP1YIE+v4gmxT0GDja3/aI3+EPazuf9TCB8xBbXqh/bR2nA4FOBKscCe7KN4J8K9KTSoH9q0auyjeEK4N4UG9UObVo19lN8KqdVqt29roZC0aioC6wkJr+BfxwhQPCHhkxPTWC6Xpd1uC5aYfBqwl+IJOZ1OElIsFsX97pBcLpdY4rDn2VhFYL8IWa/XYnl7e6PvBrGtP+sj/rapczwhvBOFQkEsu93OtX3+E9v6sz6zPncVyez3+/iaiO/d+2w2k/l8LtvtNrHE9/oez50Zm8xGAyeSBNVqNXIqY4f3C+9wOMhkMpHBYJBY4rDnyThmJmoccWa1WsW9Xu+HC4SCA/sKkp+6zEYDJyLO+e4SH454NBrJK2CW44PZHMIvAAAA///1QiXsAAAABklEQVQDAL7YF8EhtUD/AAAAAElFTkSuQmCC',
-    postimages: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABYAAAAWCAYAAADEtGw7AAAAz0lEQVR4AdySsRHCMAxFdWnSpWMJ2AAqmAG2gQMOtoEZoGIEGAI6ulSQX/ycz5GQKdw4l3+2/KUXRUk13T0/OVRJpqtA8G07EkvzcW0O8ucoADQrO+O4auSwbLrd8DbBMXS2fwkVYhaTWrTOVbAGDWF4QBij8zDGXgXDoGKId07fBTPx37VAcPwhORLrnH7SKGJIHK9Pb/L6NQmMbMAoxNTl3sr10TLsVxesdcNqeJvzsFv4Lhjd4F/WBA8QTS5YK0o5KwQczjPltbWcbKP4AgAA///KsRhhAAAABklEQVQDAEj/gi/0PujBAAAAAElFTkSuQmCC',
+    postimages: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABYAAAAWCAYAAADEtGw7AAABNElEQVR4AbyST0pCURTGL06aNWsLQQXNmkQjW0JE7aBNFAS1iXZQREvIUbNmggouQWfOHCm/h5/cd+7RexBU+Lzn3/d7x+ftXL9OFvtQJ+3psxE8HvVTVN5uLhggw093V+nr5SZNP28LUafPnOaJpQKsIYzv98epe3Gk2dZJnT5zNOQjRgWYIptgJJZOHn+TpBonc8wT53LB3fP2lgAxnZ5dcjQPaILVl52n7IOzn2+hHpytgeVywfkAsWDEyObUrEJga4rkIbD9x23uPagK5g5jFEyn6vR6gzlHS1Uw04J4UPq94Y5gzMAlcoltP37+la7P6sZct+fv2dqgACD1h7e/pmRvShWMi414QC6A1OlbKLUQGOM2AbIKga0pkh8WnL/LyHbeTLGx9y49Y61WgGuGaH8JAAD//+ycaQIAAAAGSURBVAMAErvEL4E+ypgAAAAASUVORK5CYII=',
     sun: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABYAAAAWCAYAAADEtGw7AAADw0lEQVR4AYxVS28cRRD+umd2dzZj1mtjYrCMojwwSBgcsHgkkAM5IA4cOHDlwim/ACFhiUQiUkhQhEQOBsIhFwS/AIGQOCKIeEZGQglYAhwSybKzfmx2t7urqOpZr3cdibh3vq7q6qqvaqp7tBa7HO0zUxzmn+RdumNXxI3Tj3IgcbUWfOkoP//Q8F0TiPdgDSvvHWa6+Cy7+Wd4/fws3zz5GAdv4APgmw6h5fDFiQNYfmeaN09PsT97kP25gzzIgsGKP3ttP+dpAnIEI57UdqjMlFB+YQil4yMwR3Ngtozs6SpsSTKJD8PAVHOsfTDYJit7vef4vmFsrAY0Orextj+An6ogGSnBiJfCWgObGKS1BCMvjWHPy+OgR+qwe4ZwTy1H/5CQ7aUPBL+XQIfK20bRjCA+ohgjU1wUU3lfVfwB6RdeP3IvF1YUrbgxN81/vTnNnBB4MhEvebouLFIRA1SPyuBkhxO4tIX5V0YRLsyIlxCvnJpiLcIiBQ6nUBKWSZ6o6xTXVCRjinHYOcozQ0BSAtKy3JxjbIm0whSJ/AoCVi4ogUJ5WEhJlH7sJNY11YU0yNk4D/v7jRTkMrhDDhQYMbhfeirsYgtyWyI6BC8Ishc8I0L27OM5XKOJzkoD9rkPrxhmA59St0pEchaimEQrVb2LSCJ6lEJKkZwiOcnhK1f2xm/G6isojDrpK0tQj1R0EgQJCFFyrD70yKgglFjdV19TKikd7PcnZovTaJoYFPu6o0oN0MpICSIpR8LgVCo5gbp2WykjXDzCdrJW3NnKUi7O4iS9ihVpUA8EL3bt6zYCVHfS6y2Ey5twTQ+36WBbkolBIJbTlIpiX1XG1ycElboWxIR3SInt2vyaRbtFaN1qwx44/53Z6Hiw8cgXUwR16usnyVoRurYghQSxhZ5kiSHQQhtBPvkgHa6/faU4vIff/8E8+O7PRopDflNuhZAUfWUEJZF1iEQkvWQBFXa1SYtoWQrbSPHiJ39i76lfjXAXn7QqCitfn1nPUVsyUGKtkiSbkmrVCtWDJlNSkXbJIVvOoCX+8s96JIWM3nUTHZd+vCWZ5LrcHkbtWh31aymStRAPqf+gaNWjvABkC+PINiZgTRUhKSlFDwPEc18vmj9WW73NQDmy66OSpIba1Qz1xQyjf+fSrnH8u3I/2s0xNBuj6LQyPPDWZYO+MUCs9mMf/2Qmzn47AED+kmwF1XqGilzP+05+Y5648JWZPPepmTjzuRmb+9JobD/uIO7f3NI10fV1L5888OpHV7fM/yv/AwAA//+yOWhCAAAABklEQVQDAEqT4fvQlDynAAAAAElFTkSuQmCC',
   };
 
   const IMAGES = {
-    logo1: _aURL + 'logoGoogle.png',
-    logo2: _aURL + 'imageGoogle.png',
+    logo1: _aURL + 'google1.png',
+    logo2: _aURL + 'google2.png',
     logo3: _aURL + 'world.png',
-    logo4: _aURL + 'search8.png',
-    logo5: _aURL + 'silverG.png',
-    logo6: _aURL + 'googleLogo12.png',
+    logo4: _aURL + 'search2.png',
+    logo5: _aURL + 'google3.png',
+    logo6: _aURL + 'google4.png',
     logo7: _aURL + 'bulb.png',
-    logo8: _aURL + 'search3.png',
-    logo9: _aURL + 'googleLogo15.png',
-    logo10: _aURL + 'googleLogo17.png',
+    logo8: _aURL + 'search1.png',
+    logo9: _aURL + 'google5.png',
+    logo10: _aURL + 'google6.png',
     logo11: _aURL + 'flag.png',
-    logo12: _aURL + 'face2.png',
-    logo13: _aURL + 'eagle6.png',
-    logo14: _aURL + 'monkey1.png',
-    logo15: _aURL + 'globe2.png',
-    logo16: _aURL + 'eyes7.png',
+    logo12: _aURL + 'face.png',
+    logo13: _aURL + 'eagle.png',
+    logo14: _aURL + 'monkey.png',
+    logo15: _aURL + 'globe.png',
+    logo16: _aURL + 'eyes.png',
     logo17: '',
+  };
+
+  const LOGO_CONFIG = {
+    3: { marginTop: '15px', transform: 'translateX(-50%)' },
+    4: { marginTop: '64px', transform: 'translateX(-50%)' },
+    5: { marginTop: '5px', transform: 'translateX(-50%)' },
+    7: { marginTop: '25px', transform: 'translateX(-50%)' },
+    8: { marginTop: '60px', transform: 'translateX(-180%)' },
+    12: { marginTop: '5px', transform: 'translateX(-50%)' },
+    13: { marginTop: '15px', transform: 'translateX(-50%)' },
+    15: { marginTop: '25px', transform: 'translateX(-50%)' },
   };
 
   const STRINGS = {
@@ -490,17 +500,7 @@
     if (isNaN(num) || num < 0 || num > (IMAGE_COUNT + 1)) {
       num = 0;
     }
-    const logoConfig = {
-      3: { marginTop: '15px', transform: 'translateX(-50%)' },
-      4: { marginTop: '64px', transform: 'translateX(-50%)' },
-      5: { marginTop: '5px', transform: 'translateX(-50%)' },
-      7: { marginTop: '25px', transform: 'translateX(-50%)' },
-      8: { marginTop: '60px', transform: 'translateX(-180%)' },
-      12: { marginTop: '5px', transform: 'translateX(-50%)' },
-      13: { marginTop: '15px', transform: 'translateX(-50%)' },
-      15: { marginTop: '25px', transform: 'translateX(-50%)' },
-    };
-    const config = logoConfig[num] || { marginTop: '40px', transform: 'translateX(-50%)' };
+    const config = LOGO_CONFIG[num] || { marginTop: '40px', transform: 'translateX(-50%)' };
     GM_addStyle(`
       img[alt='Google'], #hplogo, #logo, .k1zIA img, .k1zIA svg, #${STRINGS.bodyIdText} #LS8OJ img, #${STRINGS.bodyIdText} #LS8OJ .k1zIA {
         display: ${num === 0 ? 'block' : 'none'} !important;
@@ -1170,10 +1170,6 @@
       title: TITLES.anaCalBtnTitle,
       onclick: () => toggleCalendarInfo()
     }, calendarImg);
-    const ampmImg = $el('img', {
-      id: 'ampmImg',
-      src: ICONS.AMPM
-    });
     const scalerControls = $el('div', {
       id: 'scalerControls',
       className: 'scaler-controls' },
@@ -1383,22 +1379,21 @@
   };
 
   const dateTimeToggle = (e) => {
-    if (e.button !== 0) return;
-    if (!e.shiftKey && !e.ctrlKey && !e.altKey) {
-      const dtEl = $id('dateTime');
-      dtEl.hidden = !dtEl.hidden;
-      Settings.set('dateTimeView', !dtEl.hidden);
-      if (dtEl.hidden) {
-        clearInterval(State.digital.interval);
-        State.digital.interval = null;
-      } else {
-        startDigitalClock();
-      }
+    if (e.button !== 0 || e.shiftKey || e.ctrlKey || e.altKey) return;
+    e.preventDefault();
+    const dtEl = $id('dateTime');
+    dtEl.hidden = !dtEl.hidden;
+    Settings.set('dateTimeView', !dtEl.hidden);
+    if (dtEl.hidden) {
+      clearInterval(State.digital.interval);
+      State.digital.interval = null;
+    } else {
+      startDigitalClock();
     }
   };
 
   const dateTimeToggleSeconds = (e) => {
-    if (e.button !== 0) return;
+    if (e.button !== 0 || e.shiftKey || e.ctrlKey || e.altKey) return;
     e.preventDefault();
     const enabled = !Settings.get('secondsView', false);
     Settings.set('secondsView', enabled);
@@ -1652,12 +1647,6 @@
 
   // ANALOG CLOCK
   GM_addStyle(`
-    #analogClockContainer:hover #panelImage {
-      display: block;
-    }
-    #panelImage {
-      display: none;
-    }
     .ClockContainer {
       align-items: center;
       display: flex;
@@ -1843,6 +1832,12 @@
     .Analog-BezelHighlight {
       stroke: rgba(255, 255, 255, .85);
       stroke-width: .18;
+    }
+    .Analog > #panelImage {
+      display: none;
+    }
+    .Analog:hover > #panelImage {
+      display: block;
     }
   `);
 
