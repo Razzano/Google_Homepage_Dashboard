@@ -233,7 +233,7 @@
   // OBJECT GROUPS
   // ===========================================================================
 
-  const Day_Banner = [
+  const DAY_BANNER = [
     { text: 'Sunday', x: 42 },
     { text: 'Monday', x: 42 },
     { text: 'Tuesday', x: 40 },
@@ -243,40 +243,27 @@
     { text: 'Saturday', x: 40 }
   ];
 
-  const Host_Titles = {
-    ibb: 'This is the ImgBB host site\nToggles to the GitHub host site',
-    github: 'This is the GitHub host site\nToggles to the Postimages host site',
-    postimages: 'This is the Postimages host site\nToggles to the ImgBB host site'
+  const ICONS = {
+    AMPM: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABYAAAAWCAYAAADEtGw7AAABdUlEQVR4AaSU25WDMAxESb5oaQtJ+sgWkkJIgfDHjrSeYWycwNnl2EiWxteyeVyH5lq369akhi2VXpXPyHZ7VmDEXfzVgi+4LDaZX7mQfVdgZF38wPhjYyG0Lm7BA1a7uODA566ioLtrBe6t2ouVyYQ8qEFBr5JLIzBGvionRgypujWQrsbBMXtCBSucrhjxd42FKJ9gwPJtQCVqVDDHsVnBMKk6htAkGM6nCrs5g2kBcNSuqCi2ngH4WTltBnHjGDa1tIBHy2oZgzw+pOc1MtZThPEL3RvjigXAuxK/zu4Dce2//Dzj2Eavt+RGk8dGjefmeV4TjKQeQOyE4yJ2gHTQdB8q4sM4jneCY6wOeJ6pAm8cLJyL0lIW87tgCk7Y43+FQ7yCWN1zxeeR6F9R4jK7igGNdzXPD9Azf7rUilicHThg7EVzxnAH0u7Ayhw7gqGQ3cP+M9hgWoC14DhvBOucEIwzpqa11KUFPBqrzVhMWJZl+gEAAP//XADJ5gAAAAZJREFUAwDFI97pC5c/rgAAAABJRU5ErkJggg==',
+    calendar: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABYAAAAWCAYAAADEtGw7AAAA30lEQVR4AcySPQ7CMAyFTSYWGDgGAwsLA0POwzk4WAYGFhg4CANd2IqfK0VxZUXKTyVQXuR8KB8uriP+hBBGhEu1wBAF+QCGcKkWGAIoYhSS63OkNAJ5SxlqRrJQpxE4bU5EU91v5x+Tjv1tS8jcDIbUcBfOHxou+66BUzqed9Tj/D/ix+tOm91aPZTFijv23hO/q0rsDVYsHt5fOh5OSmyxYrEyZg7Li60BtLDYsTWAFhbF1gBaWBRn5lD11fLilkFZd2PHLYOy7kZxy6Csu1FcNaHMJcePscJ/1DNw/gAAAP//0v4bEwAAAAZJREFUAwD80vEZnRNbEwAAAABJRU5ErkJggg==',
+    calendar32: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAhCAYAAAC4JqlRAAABFklEQVR4AeyTMQrCQBBFh9xGCxs7K1sJiHgAe+3TeACb9Np7ABFBbPcCNjYeR5llB8JOdkwxEyFswP3m/zD7XPOL8az8xB/nHPPoGe2sgOg6HirvkPqbsJBHGmwv5JF6MyzkkQbbCwPwbo9LBmg9gd2+Tv4J2lkrQHJ3g4AB0C8kbe5JHqlGxgCaQ/v4ngGGcwKrZQnnUw2o8buDXipTO4H1Yg7TyQhQIbrQS2VqAJeHg+frDajR/t5LZWoA19sdNtsKUGMA9FKZGkC8adf7DMBOQKqMRcYApMpYZAwAa5SqjEXGAKTKWGQMoGt9tJ7LAOwELKomzWQAFlWTZjIAi6pJMxmARdWkmQxAq15d55gD/AL5O8AXAAD///IWSOwAAAAGSURBVAMAC9MOEoOWO8AAAAAASUVORK5CYII=',
+    calendarD: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABYAAAAWCAYAAADEtGw7AAABJElEQVR4AbSUPRIBQRCFe+YQikgu2IwjOIBAqMTIpII9gBCJRAkFAscg20DkAFMOIB3ztmraGD87+6c80/1af1v7amsleZ+7UtqzuM0zewPbRXsy0RTfPGOnXzuzJ0x5WyzmSRTpmEjD2DSbpPp9gmflzqxnT3dm98CRj9NpiaJK4aJvUQA+UYqOSYLyQ3lmDB5EURoBbge1S0UPH0IdMpN6u6U6JFvtNtUhjsK9vSrqIHDDPIKuQi4cBAZIa00Qamg0jul8uaJM5ffB4HTb+ZlNh7RaH9jx+2CwEIKEEAzqdTu038U/+yCweQeQK6b9KRjsZ1S2Z7CfUdmewVmZ5Z0z+E9chUYMLpupv8/gspn6+wzOm2HW/6V5B7ye+kJpfi6B+QQAAP//ZMuhpAAAAAZJREFUAwApJROw/1D9zwAAAABJRU5ErkJggg==',
+    calendarM: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABYAAAAWCAYAAADEtGw7AAABA0lEQVR4AbSVsQ2DMBBF73uIiFRswBgMkDHSpqXIAKnTsEMKRqHOAFYGSOv4I90JSIIMMoiv+3eHH/YJCSez6+V9mJUsXdObgHWhRiNG86sWy8OtPY0sumfTXPqqCleRwMK9KMTXtbCmGve0pnHc03XkuHfX3Whyii+djILws/fy6HvaL63pGfhUVcMIeBz6MZU56xR9Ss+FtpU95I5lKXvIRjE+Xg7vDvHz2kPJOw4hCKWnoaf+5clgBaTGZDAAAWBcAIt5MtiIicbAnBel6+iprbmBFZArGhhYnhmwrm/gXDtVjoE5T0ob9NTW3MAKyBUNDKybIbD8PMGI/yrJqXhqfAAAAP//CetdbQAAAAZJREFUAwANXx+wJdNnLAAAAABJRU5ErkJggg==',
+    calendarW: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABYAAAAWCAYAAADEtGw7AAABFUlEQVR4AcRUMQ6CQBDcvUcYrewt6PQJPsDC0lirnS0FD7BUGxpjaWHBM7SjsPIBFx9ge94SdgNoclyASJjs7kwY9o49FFSul9amQknpo5WM+UGO4miTX5yls5s1jkSqZxhu0yAwEYAh4tjvg55OgThGUWOOY1Hj58hHvZNkR0mboJeWtoLMV1rDNU0p/YKPJsazIMi2gJZDedGVauIJlNfRlIlj6AJqMBxCF5CtKC6vjfz/xotlBLf7Qxbjqmt3vFnPYX+4iLGrrm08GY/gfLLnLLd21apnj3AXkI6NMUDIG8ryJrUYs2FbUYwRERBRfBGxUa3sPxS6gHTsmktfXYxdc+mri7FrLn11mmOUL9ZSYs8FfgAAAP//+POvEAAAAAZJREFUAwB8Az2wNEQxIQAAAABJRU5ErkJggg==',
+    clock: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABYAAAAWCAYAAADEtGw7AAAC/0lEQVR4AaSUS0hVURSGl9ZMUgdmkJklWZaZImkOBOmShFY06GUR0sNsUJQmQqUiotZATIskstsDKbXXIColrFuCA3sgifhIwzLTgTpQw1lh69vce/VgVzBlrXPWXuv/v733Ea63ePibmpparBmneV6zVvONM6npMVvswS7/BCsgRQ2vBn4OvX/e0Hi5vLIqtaCk1EZS02OGxqnV0hoWsIp8NMvV9FIBtoJLpfKlt09CgldKYkKCSWp6zNCgxaPpMxPtBjsH9uaWD5k5+UXiu8RXivNz5dC+PRIfu1nC14aZpKbHDA1aPAq1OxlaiuVTFKsg9U51rWQcSZPkpG1GMNcDDVo8eFVbrGnCnFh3StErZV6/eVcOH9hvTmamczyWBgQIyU3w4IUBC5u3Fvxns588eyFJWxMtUIwkwplJz37rtmzaGOGG44WhumyYnDhGd7K1d3RZro8ZIwDqRYOD6hEDonft6hU5c/ac6fHgs8CApesYwLbP7R2yITxc19bACADQstjoWdD0E8dlZHTUbYIBSxs2wFFf+75J6KoQXU8HBowu+I1Ku7ABG9FjhmbaIYYBS3tRgAPHxsbF389P19bACAAQQJKaHjOrWgwDlvYDAevbcwAA5FJQ03OtPb0BD/v7+8nY+LgnjfmOXT2d8u5Bjak9CWHA0vkw4LY1oaul73u/rhcWMGAppQ2wIzoyQjq7u3W9sIABSykOwK3BK5Y7IiPWS0Pja+39X+CFAUsJrd5eXl6/tSjbu3unNL5tku6eXl3OL/DghaHOMpicWLSo150qTp88KvcfPpoXHCgevDBgKdzy65aXEB9XdyztoFTdq571WYaGRuRPUBAed3J9tHjw6iBP04Q5MZXuNKnvdBVUlBbly8SvCckrKpGax0+l5eMncwtOR02PGRq0ePA6GVpaf4/5JJM6zNIr7cg6leEovJgj68JCpX/ghzQ1N5ukpscMDVo8mhzMQHm4T8zClSqq13q7mrbsSk66oIC6wtwcB0lNjxkap1ZLa/wFAAD//3R0xwUAAAAGSURBVAMA37ilSkZhjSsAAAAASUVORK5CYII=',
+    clockHide: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABYAAAAWCAYAAADEtGw7AAAC/ElEQVR4AYSUXUgUURTHz94Zl0VXZ8YPWrMXJRCKsI9HMYIgKBAknyspqOgp6KEoosACewiCIiwwrHfBfCgIgkikp+ohCITQgtIN05nVURed2en8rzvjjN6tZc7uuef8z+/ePffOFVThExBpC43WE6feWHUMI0gYx5CDpkI5KcF2vfm+YBhekNXPO8d3ZPKXWyl/pWzsI4YcNNCq4AmwbZomi4NSXVUXYHNnW6jYXs1rj5VqJGPIQQMt/xvPranJxVSbKwZUBIGNpG6vUTrXRs09d6n95mdpYzWn6ORISfqIIQcNJnAPmZpXVTUbh0crFmUowLCGa2+pbt8JuEpDrvXiCNXuOUbuEYvcgwZ5uv4zFEsw+uRZ6TAW/S6a5qbvLkV+3NnZey+C+1ZaAwt5gZ1N+UHX3JkWmh84iljCQvjqymoi7o2ORmPA001tBAZYYAq70XrMM8kNaug8R3WOExWEDuAzM7PhkABd6euTv2EQtcQbCxaYQpRKp5c6LZlH3+Co4INjL5GSMECrh4dJ7+mRMXyFtWCBKcinTHE3HylkY6aCf/j+g1TQWBlJFjPl5uEvxJOhr4Ij13H7Fu3d3yEN44RxOzDeAMOrYCo4Vt7d3U2wCmXlF8SvlCbZU1X2+sNHNNB/Z3uqzBLchmLm28p2AUfC3cdGqVaO08KyxCNZGhVFSYgXtRPyTabFL68iURwa7v6/4GEtWGAK6499SeO7gU8HzU8MSbAKKhP8VQkua7kNYIEpUkR+oKXGm57/orW5KZoZufrfI6WC424BAyww5amwFpzDPJOffWfT0tc35A5dSBx+Xui2RwXHrQgWxBIMR/e8XdlPBQrh04O9iZ5DEzf0dOvdUkqlNl5hFkbg7PJyXl9fb85+dPymZ9yW/BTNjt6gyf4DSkNujTXhrQio5TgOM+UTgTEC3CwUdLG4Pp57ME2YIDPJR5E3BXlp7COGHDTQGoVCKg6FLgFGAIY+sVhPud5T8/XvIgC5+9MkjSdEDDlooEXNVvsLAAD//xH3ir0AAAAGSURBVAMAfdKC3CfqlkcAAAAASUVORK5CYII=',
+    clockShow: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABYAAAAWCAYAAADEtGw7AAACmElEQVR4AYxUP2gTURj/3aXtULHUSgVFBwUxKP03u3VwkAaCdbRQcNDZRaRpDPmDdnFx0UEo1E0DwcFBsJs4NklRTgs6KCm0WEsqKaRNzu/3Xl688y5pHve99933+5P3vruLjS6j/GjshJOeyjjpyVdOeuq9DpVniHWRItR4IzV+1hHDgYPIDuAmxOCmrNM6wDxBjBxyBQ9cAWMnPXGrYds/xISGAYG/4CbIpcZfh3/HTnrSBawVyBgYvYDT8RwuLa6puJFv4s2xOZWzRowcocplrWitpK2rvWPvrx6/fA3n7+YxNHa9RQsuxMgh16BeD2Ws+6R3SuKZ2SXD9a3VP3u+e96QSw1zyGm1V6sVDTtyBzJ4NBIlDb32a/uhdWqoJWi8bP3aqCePk1dvE+sYlcpmR+yf1k3Q0x446Ltn2OybycPWUrmIw0IB1eHhAOzV0lN67EYDrA6F6VoNtfl5DC4vd2CYshsVY2vE3HZar0xOgKa5rW0snBrFROohWGOEa6wROxzwV72mq4ODCozFYpiZmVF52CTGrny2YZCusadmpzT9VCyB8TiTxVI2p0mB2d0RY8sJ1D0F09OnXzeUoQfqklqOXe8/fGIY1fW3Jm0//aHdXfTF4+16p8Srpac9/mD9N2BlIePXhxcyQ5manapCD5PRQrzoKa0AIs3Gc8iob39DJX9fMqhXqpedkkwNtcyNlzK+mCr/lL/JOQJ7n99hq/Gxp+OTT1NqmNNDewHKmMVosvSSK4PE789m4e0b694gRg65pu71aBsTjCaLFn+VOY+2WVjAl8xUaBAjh1xqtFbfcfYZsxCVnUeazXOQh4Ajh5Ull5r/qQFjEtinaHJtsd7fkM9dvTGvAWtVB5hniZFDLkLGXwAAAP//cw1IbAAAAAZJREFUAwCc1SaA5NDCrQAAAABJRU5ErkJggg==',
+    github: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABYAAAAWCAYAAADEtGw7AAAB0UlEQVR4AaSUTU4CQRCFq9uEBTvlBm5NTAwujIl6Cr2AyQzxAm7degMh8QJ6CmOiG9DExI0LT+DPShdGp62vmWFKmBEChEdXV7330QwDXmofwUl6tytp/1aS/ocq5PqIPWainpp8NTjpK2SQSciuJMiWZpuq4tmMPWaJepLBWTGw61/w4c2KnurFGqbXIY0ZssZcghksNV511lLJfnuZ5V8ZT0vIwsgTJXip8ZT3IvQiWY2r7RlQnI17FD5iDMFcU5F4UkAEihUYooeoEXXhYc3V0ssSqBVc/81iAICoETWirldwXtL7nXrDnBNl6omzUxvnY9r9LPVkJjv1ek+u2/D0j2ndw3oiE2RdTyz25h86F39tAl4cU0EA/FnRX7T16cXJg6W4dGC3M9UTGWV6EX88np4wjhvMvtrrj710N66NL/5U2RNA1FVihqpmMPXETn+CrouB+5Fbh5X9fILlgoI13mt39FUuB+9y0HuWAj7XG+SsIRjqz1f8E7Jw3oDRzMoZ+Evw+fab5IMCzukxzSSyMHJzCabBoLfpRFwXOHKd+73vTEYPanqjhnqFDNmyKX/BxYDr1Gt7cX6vs9u6Wjt5lMbRXRQ1PWaCB2+RM+svAAAA//8Mg253AAAABklEQVQDAAIjsE3KyMjJAAAAAElFTkSuQmCC',
+    hand: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABYAAAAWCAYAAADEtGw7AAACMElEQVR4AYxU224TMRQcJyjqC2o25YUiQQkRfBE8wPfBQ/kqHioEEl1FbWmyF5uZE2zZyS5L1fHlXMbj47OZYeLv1+fF+9sviyBoPRGe3JPEzuG6erOGoHXKnFgMEkuZFArH+dGn+diX7weJpWy5fo3l23d5rK3lqzZX0GyGkSERS4EUCop1zsH1rZYFqs0GCCmt8OWbFEGeaymp1q9y/+l6nlJOfZnl/6KyBDRdvhtdTxC708SJjJhQhvkQ7aNz6KdjlFwQhzCd5M7myiugBxfUANFREDvfm32eKjBwUOstJg4irF6ssLw8L1qwIIZvgL7D06uXzCOB8/bFcWP/+vpAG8JBgJFeXpgv9Iy31WGYHaa/o5z9Hi4wqGthwSLJYDYergwpDWAsb7r9cQdW8oPsQkkc2EpGugM8DxDBEVSu+tuNcg2B/vr71kgvPjVfzcihIPYkViD0xXkq6XkAb4AMkbR6fo7A0kWlOSl5URDP1EqsYeCdwOvZrBuoDQWtmWUlYIxTPPfHpDSVxKF7hNv/hmv5G9FqTcW7R4A2ob65RfVswf09XLdD/fMB5E91FWFEodhJER8w+B0CyxH6BmB5APXuHNXqjNsewXw8nCxDamkuFYOdAJIFznokp27wfND+gW1I6EHZBfIpRgRjSIpXHxtX3/OajJyZchFSMQ+xA9O85yEdtndPMFYGUpSKI3k8QAGgwhzyCSIdK4PykmJtBJFrVvIQRKiYf5Eq/w8AAAD//2AAN3UAAAAGSURBVAMAEA1aWMtHw7oAAAAASUVORK5CYII=',
+    hourglass: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABYAAAAWCAYAAADEtGw7AAABHklEQVR4AbyTMY7CQAxFPSttt2eAvcEeZA/BISigAAEduQgFR+EMFCBKoECCCqTB3xokGNsMiRBRfjK2v984ifJF2XGcd2NdZQgJFViyb7go8P5/SnVlzaHAlqlJ7oPgSP1aEzp+NXH757six6w2ZJ/4VYFIgeGBubUb9lvbAbladsbwwW/JBMMY2tOKQjBfS/itQvibTeDz5ILRYMIPmzFqJT0Fo/kBztDSpOiBimCYBM6LV6FstT8eCvdan87y+Lf7fc1bFydOsFECjFKcQv/2FMyQyK03KC/lBBx5CbyLC2aoPL7XWKqb4NSUT5rvgcndzU0wE0pQtsjp+hQ4rnrR+o2BsfLwo5ZLgXND01iBT4sL1ZW1uQJbpia5KwAAAP//ZeibPAAAAAZJREFUAwBJyMT9o1gnygAAAABJRU5ErkJggg==',
+    ibb: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABYAAAAWCAYAAADEtGw7AAABfUlEQVR4AexTPUsDQRBdjzQpFGwNahENCGKh2FqKWNiJYJlOS7G2yA8QC/E3qCAoiKCd2tjYpIlICuPHNYIBg9Ei5Nw3ezNubmKqpEu4N/P2zczL7uYSZA+fol4gMD369I3lYtVVlNfGzcPqmDQw2ZgaYqpyJq1sjFbsWCoYsNE9+CIgn9PG0IHrlVHX7MW2xl5d6PzZq/AkaUZRUtI7njiqGEB1dhByx8+q2rJjHAtYHElTo1+EzqCiF1hHZtmfZc1chd/EH+0PScQGnOKn0bRMP6gBfqWtsd8AvnTxhmSmT14oI/i7w5pRmBsmKsabHV6ncq1BzYVZN0SLOOwWP2Lm0s59lYgYb83oIerwwvqkfuUOSjXqyA6mKHMQYxb4rv47avjlds/9nC+XM0wpK2MYAjdhnRoQsAbAF87dfYMD0AFw3hS4GG/fvWNN2CtWTf72b02iDf6gXbY8yZoYn1bq9MdAw37pk4bAfZAYB18Hj2VJYixKl0jfWC7yFwAA//9pYZLVAAAABklEQVQDAEgprMk/VO8iAAAAAElFTkSuQmCC',
+    moon: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABYAAAAWCAYAAADEtGw7AAADFUlEQVR4AazUX0gUQRwH8O/sn1vvTu9SL0+TzIOIqx4LAstIsCgyK8SMyHoJygJ7CHqxSKWojMoH8SWhCCTNKDWC6s3QTJQyCiz/lPmH8s/ppd15tns7/fYuROsh0hv2tzszt/OZ380MKyACpet+Ef+TiQhsCmjQhqoW4BGBA9PTEJmOia6KOTwisKhoANcRazeh+MzeEB4R2BRDKxwYJRy4cDaXGkCEYAbdN4Hvb18A2gxuFh/kEYFtsSIEUYY9JQmeV89ReHz30jO+cXI7j7YIQHRKaAmsScmEBilCzcXfcnekgjEaP91Nt5+IciYAuro0OHvzWu5MFmGciLnQNZpAXxp851waZIkczgnnmPUFqKFTXV883F99hMcm0NrS+cVvWIl1QfOMEIzFwe8q83iCKwajQ16MDU8SZGTJ6ahNQYpLhOrX/h8evZfP16e7oWhTiF+mwGaRMfx5LIxrPoBJGOgZgZCzxUVT4Z+l5VI29z85zJevolfprzORgQkMkiTAbJIJpn6BnnSeV2ddZML1fRvAH2VztW4/by/L5Kf3rOMFO928unArf30ti09V5/FAfR5P22SG2UI7HqQ8pCg6YgIFIw2E09NYa9GMkU8/Qn1CYW0nvOMiJPo6bXRZUX50DSqPuXFomwPulSZ4JmegyEFaPwINNEh11Qvd7ATXqY8ui8MByBaomoLEzFIGKkJjey/r7NXg8woAjQkHvR3UIVri4VzhQF+PkSltUAjmYJODEFQPmN0B0WaFJKjgYjROnW8kMnyRBmRcfcze9OrwekRA40CQJiVLsNshWq2wxJkBIzuaDEYY9YAPzE+bpqlQdRtKylpwq6GDBs6DjWr6lQZW9mwAX/pNmPXT75S99K0PJt9XJEXP0mQ0oQHOD6ZgdNCC9PwalNxtokGGFI5QxuEqcLmxg6UW1bHW9xwfuxVMTzIEZyh1jZaB3FDWBGuqhP4uM+pqxuHMqWBtH4YWoIa3ADY6jMgor2fu0lpmO/GQPX2po7lVRluzgpYmGVUPpiDvqmaugtvsQHnDX6Ax3ohfAAAA///Q4S43AAAABklEQVQDAFx5QpKw11dEAAAAAElFTkSuQmCC',
+    panel: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACIAAAAhCAYAAAC803lsAAACx0lEQVR4AcyXP4oiQRSHH15hBgyNBE8gKAaCmaCJ9qSeYddz6OIJxNSONBMMDAQjUyMPYGCsiMJufY3PeVXj7qL0yg7z8f5WvV9XtaAZuf6VSqXIMW40Gj9fAbMc0XW8JEJcot/tdseOqNPpyCtglmPMbMRknBO5xDeCxWIRO+RFxMxkNho4keR43PC43+9HDnkRETMR44gy7+/viRCCy+UiSqvVuvmaU5tWjZkOQQMngp9wPp9FIaF+aNOqsY/iCTkej6LQoH5o06qxj+IJ4cmz2azAdDpNLD55C4ttbP1HavQqnhDeAS1YS95CzcbWf6RGr+IJ4cm0YC15CzUbW/+RGr3KFyGbzUag2WwmFt8Owmcx1pLP5wW4UizYOn64jljxhDx7xKzTDa0lb6EWxuTAE4JqhaL6ob1XIxfyt3W23xNiP6Y02dj692rL5VKAK8WCXYMfriNWPCH2CWiwMX6lUhHgPcACecu9dVoPa8SKJyS8Pxvj6yJryVuo2dj6YY1Y8YSociwNWAu5EFvHp469R1gjVjwhf1JPjSsB3gMskLewsY3x6/W6AP1YIE+v4gmxT0GDja3/aI3+EPazuf9TCB8xBbXqh/bR2nA4FOBKscCe7KN4J8K9KTSoH9q0auyjeEK4N4UG9UObVo19lN8KqdVqt29roZC0aioC6wkJr+BfxwhQPCHhkxPTWC6Xpd1uC5aYfBqwl+IJOZ1OElIsFsX97pBcLpdY4rDn2VhFYL8IWa/XYnl7e6PvBrGtP+sj/rapczwhvBOFQkEsu93OtX3+E9v6sz6zPncVyez3+/iaiO/d+2w2k/l8LtvtNrHE9/oez50Zm8xGAyeSBNVqNXIqY4f3C+9wOMhkMpHBYJBY4rDnyThmJmoccWa1WsW9Xu+HC4SCA/sKkp+6zEYDJyLO+e4SH454NBrJK2CW44PZHMIvAAAA///1QiXsAAAABklEQVQDAL7YF8EhtUD/AAAAAElFTkSuQmCC',
+    postimages: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABYAAAAWCAYAAADEtGw7AAAAz0lEQVR4AdySsRHCMAxFdWnSpWMJ2AAqmAG2gQMOtoEZoGIEGAI6ulSQX/ycz5GQKdw4l3+2/KUXRUk13T0/OVRJpqtA8G07EkvzcW0O8ucoADQrO+O4auSwbLrd8DbBMXS2fwkVYhaTWrTOVbAGDWF4QBij8zDGXgXDoGKId07fBTPx37VAcPwhORLrnH7SKGJIHK9Pb/L6NQmMbMAoxNTl3sr10TLsVxesdcNqeJvzsFv4Lhjd4F/WBA8QTS5YK0o5KwQczjPltbWcbKP4AgAA///KsRhhAAAABklEQVQDAEj/gi/0PujBAAAAAElFTkSuQmCC',
+    sun: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABYAAAAWCAYAAADEtGw7AAADw0lEQVR4AYxVS28cRRD+umd2dzZj1mtjYrCMojwwSBgcsHgkkAM5IA4cOHDlwim/ACFhiUQiUkhQhEQOBsIhFwS/AIGQOCKIeEZGQglYAhwSybKzfmx2t7urqOpZr3cdibh3vq7q6qqvaqp7tBa7HO0zUxzmn+RdumNXxI3Tj3IgcbUWfOkoP//Q8F0TiPdgDSvvHWa6+Cy7+Wd4/fws3zz5GAdv4APgmw6h5fDFiQNYfmeaN09PsT97kP25gzzIgsGKP3ttP+dpAnIEI57UdqjMlFB+YQil4yMwR3Ngtozs6SpsSTKJD8PAVHOsfTDYJit7vef4vmFsrAY0Orextj+An6ogGSnBiJfCWgObGKS1BCMvjWHPy+OgR+qwe4ZwTy1H/5CQ7aUPBL+XQIfK20bRjCA+ohgjU1wUU3lfVfwB6RdeP3IvF1YUrbgxN81/vTnNnBB4MhEvebouLFIRA1SPyuBkhxO4tIX5V0YRLsyIlxCvnJpiLcIiBQ6nUBKWSZ6o6xTXVCRjinHYOcozQ0BSAtKy3JxjbIm0whSJ/AoCVi4ogUJ5WEhJlH7sJNY11YU0yNk4D/v7jRTkMrhDDhQYMbhfeirsYgtyWyI6BC8Ishc8I0L27OM5XKOJzkoD9rkPrxhmA59St0pEchaimEQrVb2LSCJ6lEJKkZwiOcnhK1f2xm/G6isojDrpK0tQj1R0EgQJCFFyrD70yKgglFjdV19TKikd7PcnZovTaJoYFPu6o0oN0MpICSIpR8LgVCo5gbp2WykjXDzCdrJW3NnKUi7O4iS9ihVpUA8EL3bt6zYCVHfS6y2Ey5twTQ+36WBbkolBIJbTlIpiX1XG1ycElboWxIR3SInt2vyaRbtFaN1qwx44/53Z6Hiw8cgXUwR16usnyVoRurYghQSxhZ5kiSHQQhtBPvkgHa6/faU4vIff/8E8+O7PRopDflNuhZAUfWUEJZF1iEQkvWQBFXa1SYtoWQrbSPHiJ39i76lfjXAXn7QqCitfn1nPUVsyUGKtkiSbkmrVCtWDJlNSkXbJIVvOoCX+8s96JIWM3nUTHZd+vCWZ5LrcHkbtWh31aymStRAPqf+gaNWjvABkC+PINiZgTRUhKSlFDwPEc18vmj9WW73NQDmy66OSpIba1Qz1xQyjf+fSrnH8u3I/2s0xNBuj6LQyPPDWZYO+MUCs9mMf/2Qmzn47AED+kmwF1XqGilzP+05+Y5648JWZPPepmTjzuRmb+9JobD/uIO7f3NI10fV1L5888OpHV7fM/yv/AwAA//+yOWhCAAAABklEQVQDAEqT4fvQlDynAAAAAElFTkSuQmCC',
   };
 
-  const Icons = {
-    AMPM1: _aURL + 'AMPM1.png',
-    AMPM2: _aURL + 'AMPM2.png',
-    calendar16: _aURL + 'calendar16.png',
-    calendar22: _aURL + 'calendar22.png',
-    calendarD: _aURL + 'calendarD.png',
-    calendar32D: _aURL + 'calendar32D.png',
-    calendarM: _aURL + 'calendarM.png',
-    calendarW: _aURL + 'calendarW.png',
-    clock16: _aURL + 'clock16.png',
-    clock22: _aURL + 'clock22.png',
-    clock22L: _aURL + 'clock22L.png',
-    clockHide22: _aURL + 'clockHide22.png',
-    clockShow22: _aURL + 'clockShow22.png',
-    clock26: _aURL + 'clock26.png',
-    github: _aURL + 'github.png',
-    hand22: _aURL + 'hand22.png',
-    hourglass22: _aURL + 'hourglass22.png',
-    ibb: _aURL + 'ibb.png',
-    moon16: _aURL + 'moon16.png',
-    moon22: _aURL + 'moon22.png',
-    panel34: _aURL + 'panel34.png',
-    postimages: _aURL + 'postimages.png',
-    sun16: _aURL + 'sun16.png',
-    sun22: _aURL + 'sun22.png',
-  };
-
-  const Images = {
+  const IMAGES = {
     logo1: _aURL + 'logoGoogle.png',
     logo2: _aURL + 'imageGoogle.png',
     logo3: _aURL + 'world.png',
@@ -296,7 +283,7 @@
     logo17: '',
   };
 
-  const Strings = {
+  const STRINGS = {
     amText: 'AM',
     bodyIdText: 'googleDashboard',
     buttonLogoText: 'Logo 🠉',
@@ -313,7 +300,7 @@
     spacerXText: '|',
   };
 
-  const Titles = {
+  const TITLES = {
     anaCalBtnTitle: 'Show/Hide Calendar Info',
     analogClockBtnHideTitle: 'Hide Analog Clock',
     analogClockBtnShowTitle: 'Show Analog Clock',
@@ -334,7 +321,7 @@
     themeBtnTitle: 'Toggle Between Dark/Light Theme',
   };
 
-  const Wallpapers = {
+  const WALLPAPERS = {
     github: 'https://raw.githubusercontent.com/Razzano/My_Wallpaper_Images/master/image',
     ibb: 'https://i.ibb.co/',
     postimages: 'https://i.postimg.cc/',
@@ -454,6 +441,38 @@
     }
   };
 
+  const WALLPAPER_MODES = [
+    { src: ICONS.hand, title: 'Manually Change Wallpaper' },
+    { src: ICONS.hourglass, title: 'Hourly Change Wallpaper' },
+    { src: ICONS.calendarD, title: 'Daily Change Wallpaper' },
+    { src: ICONS.calendarW, title: 'Weekly Change Wallpaper' },
+    { src: ICONS.calendarM, title: 'Monthly Change Wallpaper' }
+  ];
+
+  const WALLPAPER_HOSTS = {
+    ibb:    'https://i.ibb.co/',
+    github: 'https://raw.githubusercontent.com/Razzano/My_Wallpaper_Images/master/image',
+    postimages: 'https://i.postimg.cc/'
+  };
+
+  const WALLPAPER_SITES = [
+    {
+      host: 'ibb',
+      src: ICONS.ibb,
+      title: 'This is the ImgBB host site\nToggles to the GitHub host site'
+    },
+    {
+      host: 'github',
+      src: ICONS.github,
+      title: 'This is the GitHub host site\nToggles to the Postimages host site'
+    },
+    {
+      host: 'postimages',
+      src: ICONS.postimages,
+      title: 'This is the Postimages host site\nToggles to the ImgBB host site'
+    }
+  ];
+
   // ===========================================================================
   // LOGO MANAGER (Section 1)
   // ===========================================================================
@@ -461,7 +480,7 @@
   const Logo = [null];
 
   for (let i = 1; i <= 16; i++) {
-    Logo.push($el('img', {id: 'logoGoogle', class: 'logo', src: Images[`logo${i}`]}));
+    Logo.push($el('img', {id: 'logoGoogle', class: 'logo', src: IMAGES[`logo${i}`]}));
   }
 
   const applyLogo = (num) => {
@@ -483,14 +502,14 @@
     };
     const config = logoConfig[num] || { marginTop: '40px', transform: 'translateX(-50%)' };
     GM_addStyle(`
-      img[alt='Google'], #hplogo, #logo, .k1zIA img, .k1zIA svg, #${Strings.bodyIdText} #LS8OJ img, #${Strings.bodyIdText} #LS8OJ .k1zIA {
+      img[alt='Google'], #hplogo, #logo, .k1zIA img, .k1zIA svg, #${STRINGS.bodyIdText} #LS8OJ img, #${STRINGS.bodyIdText} #LS8OJ .k1zIA {
         display: ${num === 0 ? 'block' : 'none'} !important;
         visibility: ${num === 0 ? 'visible' : 'hidden'} !important;
       }
       div:has(> img[alt='Google']) {
         display: ${num === 0 ? 'block' : 'none'} !important;
       }
-      #${Strings.bodyIdText} #logoGoogle {
+      #${STRINGS.bodyIdText} #logoGoogle {
         margin-top: ${config.marginTop} !important;
       }
     `);
@@ -535,38 +554,6 @@
   // WALLPAPER MANAGER (Section 2)
   // ===========================================================================
 
-  const WALLPAPER_MODES = [
-    { src: Icons.hand22, title: 'Manually Change Wallpaper' },
-    { src: Icons.hourglass22, title: 'Hourly Change Wallpaper' },
-    { src: Icons.calendarD, title: 'Daily Change Wallpaper' },
-    { src: Icons.calendarW, title: 'Weekly Change Wallpaper' },
-    { src: Icons.calendarM, title: 'Monthly Change Wallpaper' }
-  ];
-
-  const WALLPAPER_HOSTS = {
-    ibb:    'https://i.ibb.co/',
-    github: 'https://raw.githubusercontent.com/Razzano/My_Wallpaper_Images/master/image',
-    postimages: 'https://i.postimg.cc/'
-  };
-
-  const WALLPAPER_SITES = [
-  {
-    host: 'ibb',
-    src: Icons.ibb,
-    title: 'This is the ImgBB host site\nToggles to the GitHub host site'
-  },
-  {
-    host: 'github',
-    src: Icons.github,
-    title: 'This is the GitHub host site\nToggles to the Postimages host site'
-  },
-  {
-    host: 'postimages',
-    src: Icons.postimages,
-    title: 'This is the Postimages host site\nToggles to the ImgBB host site'
-  }
-];
-
   const getCurrentWallpaperNumber = () => {
     switch (Settings.get('wallpaperMode', WALLPAPER_MANUAL)) {
       case WALLPAPER_HOURLY:
@@ -589,7 +576,7 @@
     }
     num = parseInt(num, 10) || 0;
     if (num === 0) return;
-    const image = Wallpapers.url(num);
+    const image = WALLPAPERS.url(num);
     if (!image) return;
     const css = `
       body {
@@ -767,7 +754,7 @@
     const smoothSecondHand = Settings.get('smoothSecondHand', true);
     const ticks = [];
     const hourNumbers = [];
-    const spacer3 = $el('span', {id: 'spacer3', class: 'spacerX', textContent: Strings.spacerXText});
+    const spacer3 = $el('span', {id: 'spacer3', class: 'spacerX', textContent: STRINGS.spacerXText});
     // =======================
     // GRAPHICAL OBJECTS
     // =======================
@@ -844,7 +831,7 @@
 
     const panelImage = $el('image', {
       id: 'panelImage',
-      href: Icons.panel34,
+      href: ICONS.panel,
       width: 12,
       height: 12,
       x: 0,
@@ -852,7 +839,7 @@
       style: 'cursor: pointer;',
       onclick: () => toggleControls()
     }, [
-      $el('title', {}, [Titles.controlsBtnTitle])
+      $el('title', {}, [TITLES.controlsBtnTitle])
     ]);
     const bezelGroup = $el('g', {
       className: 'Analog-Bezel'
@@ -1110,7 +1097,7 @@
       min: '30',
       max: '200',
       step: '1',
-      title: Titles.percentageDisplayTitle,
+      title: TITLES.percentageDisplayTitle,
       oninput(e) {
         const val = e.target.value;
         if (val === '') return;
@@ -1129,15 +1116,15 @@
     };
     const sunImg = $el('img', {
       id: 'sunImg',
-      src: Icons.sun22
+      src: ICONS.sun
     });
     const themeBtn = $el('button', {
       className: 'ClockThemeToggle',
-      title: Titles.themeBtnTitle
+      title: TITLES.themeBtnTitle
     }, sunImg);
     const setTheme = (dark) => {
       Clock.classList.toggle('dark', dark);
-      sunImg.src = dark ? Icons.moon22 : Icons.sun22;
+      sunImg.src = dark ? ICONS.moon : ICONS.sun;
       Settings.set('clockDarkTheme', dark);
     };
     setTheme(Settings.get('clockDarkTheme', true));
@@ -1146,11 +1133,11 @@
     };
     const clockImg = $el('img', {
       id: 'clockImg',
-      src: Icons.clock22L
+      src: ICONS.clock
     });
     const secondHandBtn = $el('button', {
       className: 'ClockSecondToggle',
-      title: Titles.secondHandBtnTitle
+      title: TITLES.secondHandBtnTitle
     }, clockImg);
     const setSecondMode = (smooth) => {
       Settings.set('smoothSecondHand', smooth);
@@ -1162,7 +1149,7 @@
     };
     const calendarImg = $el('img', {
       id: 'calendarImg',
-      src: Icons.calendar22
+      src: ICONS.calendar
     });
     const calendarText = $el('div', {
       className: 'Analog-CalendarText'
@@ -1180,12 +1167,12 @@
     const anaCalBtn = $el('button', {
       id: 'anaCalBtn',
       className: 'scaler-info',
-      title: Titles.anaCalBtnTitle,
+      title: TITLES.anaCalBtnTitle,
       onclick: () => toggleCalendarInfo()
     }, calendarImg);
     const ampmImg = $el('img', {
       id: 'ampmImg',
-      src: Icons.AMPM1
+      src: ICONS.AMPM
     });
     const scalerControls = $el('div', {
       id: 'scalerControls',
@@ -1196,21 +1183,21 @@
       spacer3,
       $el('button', {
         className: 'scaler-reset',
-        textContent: Strings.scalerBtnResetText,
-        title: Titles.scalerResetTitle,
+        textContent: STRINGS.scalerBtnResetText,
+        title: TITLES.scalerResetTitle,
         onclick: () => setClockPercentage(100)
       }),
       $el('button', {
         className: 'scaler-btn',
-        textContent: Strings.scalerBtnMinusText,
-        title: Titles.scalerBtnDownTitle,
+        textContent: STRINGS.scalerBtnMinusText,
+        title: TITLES.scalerBtnDownTitle,
         onclick: () => setClockPercentage(currentPercent - 5)
       }),
       percentageDisplay,
       $el('button', {
         className: 'scaler-btn',
-        textContent: Strings.scalerBtnPlusText,
-        title: Titles.scalerBtnUpTitle,
+        textContent: STRINGS.scalerBtnPlusText,
+        title: TITLES.scalerBtnUpTitle,
         onclick: () => setClockPercentage(currentPercent + 5)
       })
     );
@@ -1266,14 +1253,14 @@
       const month = String(now.getMonth() + 1).padStart(2, '0');
       const monthday = String(now.getDate()).padStart(2, '0');
       const monthAbb = MONTH_ABBR[now.getMonth()];
-      const ampm = now.getHours() < 12 ? Strings.amText : Strings.pmText;
+      const ampm = now.getHours() < 12 ? STRINGS.amText : STRINGS.pmText;
       dateText.textContent = `${monthAbb} ${monthday}`;
       ampmText.textContent = ampm;
       timeText.textContent = `${h12}:${min}`;
       timeText.setAttribute('x', h12 < 10 ? 42 : 41);
       calendarText.textContent = `${monthFull} ${ordinal}, ${yr} 🕑 ${h12}:${min} ${ampm}`;
-      dayBannerText.textContent = Day_Banner[day].text.toUpperCase();
-      dayBannerText.setAttribute('x', Day_Banner[day].x);
+      dayBannerText.textContent = DAY_BANNER[day].text.toUpperCase();
+      dayBannerText.setAttribute('x', DAY_BANNER[day].x);
     };
     const showCalendarPref = Settings.get('calendarInfo', false);
     if (!showCalendarPref) {
@@ -1313,8 +1300,8 @@
     }
     const btn = $id('analogClockBtn');
     const bool = Settings.get('analogClock', true);
-    const pref = bool ? Icons.clockHide22 : Icons.clockShow22;
-    const tip = bool ? Titles.analogClockBtnHideTitle : Titles.analogClockBtnShowTitle;
+    const pref = bool ? ICONS.clockHide : ICONS.clockShow;
+    const tip = bool ? TITLES.analogClockBtnHideTitle : TITLES.analogClockBtnShowTitle;
     btn.replaceChildren(
       $el('img', {
         src: pref,
@@ -1334,17 +1321,17 @@
     });
     const imageCalendar = $el('img', {
       id: 'imageCalendar',
-      src: Icons.calendar32D
+      src: ICONS.calendar32
     });
     const digCalBtn = $el('button', {
       id: 'digCalBtn',
-      title: Titles.digCalBtnTitle,
+      title: TITLES.digCalBtnTitle,
       onclick: dateTimeToggle},
       imageCalendar
     );
     const dateTimeEl = $el('span', {
       id: 'dateTime',
-      title: Titles.dateTimeElTitle,
+      title: TITLES.dateTimeElTitle,
       onclick: dateTimeToggleSeconds
     });
     dtContainer.append(digCalBtn, dateTimeEl);
@@ -1374,7 +1361,7 @@
     const h12 = String(now.getHours() % 12 || 12);
     const min = String(now.getMinutes()).padStart(2, '0');
     const sec = String(now.getSeconds()).padStart(2, '0');
-    const ampm = now.getHours() < 12 ? Strings.amText : Strings.pmText;
+    const ampm = now.getHours() < 12 ? STRINGS.amText : STRINGS.pmText;
     const secView = Settings.get('secondsView', false);
     digitalClock.textContent = secView
       ? `${dayFull} ⇒ ${monthFull} ${dt}${suffix}, ${yr} 🕑 ${h12}:${min}:${sec} ${ampm}`
@@ -1429,7 +1416,7 @@
     const host = Settings.get('wallpaperHost', 'ibb');
     const hostImg = $el('img', {
       id: 'hostImg',
-      src: Icons[host],
+      src: ICONS[host],
     });
     const hostToggler = $el('button', {
       id: 'hostToggler',
@@ -1438,7 +1425,7 @@
     );
     const toggleImg = $el('img', {
       id: 'toggleImg',
-      src: Icons.hand22
+      src: ICONS.hand
     });
     const wallpaperToggler = $el('button', {
       id: 'wallpaperToggler',
@@ -1446,55 +1433,55 @@
     }, toggleImg);
     const buttonThemer = $el('button', {
       id: 'buttonThemer',
-      textContent: Strings.buttonThemerText,
-      title: Titles.buttonThemerTitle,
+      textContent: STRINGS.buttonThemerText,
+      title: TITLES.buttonThemerTitle,
       onclick: wallpaperButtonChanger
     });
     const inputThemer = $el('input', {
       id: 'inputThemer',
       type: 'number',
       value: Settings.get('wallpaperImage', 0),
-      title: Titles.inputThemerTitle,
+      title: TITLES.inputThemerTitle,
       oninput: wallpaperInputChanger
     });
     const downThemer = $el('button', {
       id: 'downThemer',
-      textContent: Strings.downThemerText,
-      title: Titles.downThemerTitle,
+      textContent: STRINGS.downThemerText,
+      title: TITLES.downThemerTitle,
       onclick: wallpaperButtonChanger
     });
     const spacer1 = $el('span', {
       id: 'spacer1',
       class: 'spacerX',
-      textContent: Strings.spacerXText
+      textContent: STRINGS.spacerXText
     });
     const buttonLogo = $el('button', {
       id: 'buttonLogo',
-      textContent: Strings.buttonLogoText,
-      title: Titles.buttonLogoTitle,
+      textContent: STRINGS.buttonLogoText,
+      title: TITLES.buttonLogoTitle,
       onclick: e => logoClick(e.target.id)
     });
     const inputLogo = $el('input', {
       id: 'inputLogo',
       type: 'number',
       value: Settings.get('logoImageNum', 1),
-      title: Titles.inputLogoTitle,
+      title: TITLES.inputLogoTitle,
       oninput: handleLogoInput
     });
     const downLogo = $el('button', {
       id: 'downLogo',
-      textContent: Strings.downLogoText,
-      title: Titles.downLogoTitle,
+      textContent: STRINGS.downLogoText,
+      title: TITLES.downLogoTitle,
       onclick: e => logoClick(e.target.id)
     });
     const spacer2 = $el('span', {
       id: 'spacer2',
       class: 'spacerX',
-      textContent: Strings.spacerXText
+      textContent: STRINGS.spacerXText
     });
     const bool = Settings.get('analogClock', true);
-    const pref = bool ? Icons.clockHide22 : Icons.clockShow22;
-    const tip = bool ? Titles.analogClockBtnHideTitle : Titles.analogClockBtnShowTitle
+    const pref = bool ? ICONS.clockHide : ICONS.clockShow;
+    const tip = bool ? TITLES.analogClockBtnHideTitle : TITLES.analogClockBtnShowTitle
     const analogClockBtn = $el('button', {
       id: 'analogClockBtn',
       title: tip,
@@ -1532,9 +1519,9 @@
 
   const init = () => {
     if (!body) return;
-    body.id = Strings.bodyIdText;
+    body.id = STRINGS.bodyIdText;
     const textArea = $id('APjFqb');
-    if (textArea) textArea.placeholder = Strings.placeholderText;
+    if (textArea) textArea.placeholder = STRINGS.placeholderText;
     applyCurrentWallpaper();
     scheduleWallpaperUpdate();
     applyLogo(Settings.get('logoImageNum', 1));
@@ -1551,11 +1538,15 @@
     }
     const btn = $id('analogClockBtn');
     const bool = Settings.get('analogClock', true);
-    const pref = bool ? Icons.clockHide22 : Icons.clockShow22;
-    const tip = bool ? Titles.analogClockBtnHideTitle : Titles.analogClockBtnShowTitle;
+    const pref = bool ? ICONS.clockHide : ICONS.clockShow;
+    const tip = bool ? TITLES.analogClockBtnHideTitle : TITLES.analogClockBtnShowTitle;
     btn.replaceChildren($el('img', { title: tip, src: pref }));
-    const img = document.getElementById('hostImg');
-    img.title = Host_Titles[Settings.get('wallpaperHost', 'ibb')];
+    const img = $id('hostImg');
+    const current = Settings.get('wallpaperHost', 'ibb');
+    let index = WALLPAPER_SITES.findIndex(site => site.host === current);
+    index = index % WALLPAPER_SITES.length;
+    img.src = WALLPAPER_SITES[index].src;
+    img.title = WALLPAPER_SITES[index].title;
   };
 
   // ===========================================================================
@@ -1588,73 +1579,73 @@
 
   // GLOBAL
   GM_addStyle(`
-    #${Strings.bodyIdText} .disabled {
+    #${STRINGS.bodyIdText} .disabled {
       cursor: default;
       opacity: 0.3;
       pointer-events: none;
     }
-    #${Strings.bodyIdText} .hidden {
+    #${STRINGS.bodyIdText} .hidden {
       display: none;
     }
-    #${Strings.bodyIdText} ::-webkit-inner-spin-button,
-    #${Strings.bodyIdText} ::-webkit-outer-spin-button {
+    #${STRINGS.bodyIdText} ::-webkit-inner-spin-button,
+    #${STRINGS.bodyIdText} ::-webkit-outer-spin-button {
       display: none;
     }
   `);
 
   // GOOGLE PAGE
   GM_addStyle(`
-    #${Strings.bodyIdText} div.o3j99.n1xJcf.CoM3Df > a.w5hRs,
-    #${Strings.bodyIdText} #gb > div.gb_Q.gb_6.gb_Vf.gb_3f > div:nth-child(2) > a,
-    #${Strings.bodyIdText} #gb > div.gb_Ad.gb_6.gb_L,
-    #${Strings.bodyIdText} div.KxwPGc.SSwjIe > div.KxwPGc.AghGtd,
-    #${Strings.bodyIdText} div.KxwPGc.SSwjIe > div.KxwPGc.ssOUyb,
-    #${Strings.bodyIdText} div.KxwPGc.SSwjIe > div.KxwPGc.iTjxkf > a,
-    #${Strings.bodyIdText} div.RNNXgb div.fzj3ad,
-    #${Strings.bodyIdText} div.o3j99.qarstb > div:nth-child(3),
-    #${Strings.bodyIdText} #EUjKDc,
-    #${Strings.bodyIdText} #gbqfbb,
-    #${Strings.bodyIdText} div.k1zIA.kKvsb > div.IzOpfd,
-    #${Strings.bodyIdText} div.o3j99.qarstb > div:nth-child(2){
+    #${STRINGS.bodyIdText} div.o3j99.n1xJcf.CoM3Df > a.w5hRs,
+    #${STRINGS.bodyIdText} #gb > div.gb_Q.gb_6.gb_Vf.gb_3f > div:nth-child(2) > a,
+    #${STRINGS.bodyIdText} #gb > div.gb_Ad.gb_6.gb_L,
+    #${STRINGS.bodyIdText} div.KxwPGc.SSwjIe > div.KxwPGc.AghGtd,
+    #${STRINGS.bodyIdText} div.KxwPGc.SSwjIe > div.KxwPGc.ssOUyb,
+    #${STRINGS.bodyIdText} div.KxwPGc.SSwjIe > div.KxwPGc.iTjxkf > a,
+    #${STRINGS.bodyIdText} div.RNNXgb div.fzj3ad,
+    #${STRINGS.bodyIdText} div.o3j99.qarstb > div:nth-child(3),
+    #${STRINGS.bodyIdText} #EUjKDc,
+    #${STRINGS.bodyIdText} #gbqfbb,
+    #${STRINGS.bodyIdText} div.k1zIA.kKvsb > div.IzOpfd,
+    #${STRINGS.bodyIdText} div.o3j99.qarstb > div:nth-child(2){
       display: none !important;
     }
-    #${Strings.bodyIdText} #gb > div.gb_Q.gb_6.gb_Vf.gb_3f {
+    #${STRINGS.bodyIdText} #gb > div.gb_Q.gb_6.gb_Vf.gb_3f {
       padding-right: 0px !important;
     }
-    #${Strings.bodyIdText} header a {
+    #${STRINGS.bodyIdText} header a {
       color: #FFF !important;
       text-decoration: none !important;
     }
-    #${Strings.bodyIdText} header a > svg {
+    #${STRINGS.bodyIdText} header a > svg {
       fill: #FFF !important;
     }
-    #${Strings.bodyIdText} > div.L3eUgb > div:nth-child(13) > div {
+    #${STRINGS.bodyIdText} > div.L3eUgb > div:nth-child(13) > div {
       background: transparent !important;
     }
-    #${Strings.bodyIdText} div.KxwPGc.SSwjIe {
+    #${STRINGS.bodyIdText} div.KxwPGc.SSwjIe {
       background: transparent !important;
       float: right !important;
     }
-    #${Strings.bodyIdText} g-popup > div.CcNe6e > div {
+    #${STRINGS.bodyIdText} g-popup > div.CcNe6e > div {
       background: #2A3A4B !important;
       border-radius: 6px !important;
       padding: 8px 16px !important;
     }
-    #${Strings.bodyIdText} #LS8OJ > div.k1zIA.rSk4se > svg {
+    #${STRINGS.bodyIdText} #LS8OJ > div.k1zIA.rSk4se > svg {
       fill: #FFF !important;
     }
-    #${Strings.bodyIdText} > div.L3eUgb div.RNNXgb,
-    #${Strings.bodyIdText} > div.L3eUgb input.gNO89b {
+    #${STRINGS.bodyIdText} > div.L3eUgb div.RNNXgb,
+    #${STRINGS.bodyIdText} > div.L3eUgb input.gNO89b {
       background: rgba(0,0,0,.2) !important;
     }
-    #${Strings.bodyIdText} #APjFqb {
+    #${STRINGS.bodyIdText} #APjFqb {
       filter: brightness(2) !important;
       text-shadow: 1px 1px 2px #000 !important;
     }
-    #${Strings.bodyIdText} div.fM33ce.dRYYxd > div.ywK6Rd {
+    #${STRINGS.bodyIdText} div.fM33ce.dRYYxd > div.ywK6Rd {
       background: none !important;
     }
-    #${Strings.bodyIdText} #gb > div.gb_z > div:nth-child(2) {
+    #${STRINGS.bodyIdText} #gb > div.gb_z > div:nth-child(2) {
       height: calc(-70px + 100vh) !important;
     }
   `);
