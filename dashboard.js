@@ -261,6 +261,8 @@
     clock16: _aURL + 'clock16.png',
     clock22: _aURL + 'clock22.png',
     clock22L: _aURL + 'clock22L.png',
+    clockHide22: _aURL + 'clockHide22.png',
+    clockShow22: _aURL + 'clockShow22.png',
     clock26: _aURL + 'clock26.png',
     github: _aURL + 'github.png',
     hand22: _aURL + 'hand22.png',
@@ -299,8 +301,8 @@
     bodyIdText: 'googleDashboard',
     buttonLogoText: 'Logo 🠉',
     buttonThemerText: 'Wallpaper 🠉',
-    downLogoText: '🠋 Logo',
-    downThemerText: '🠋 Wallpaper',
+    downLogoText: '🠋',
+    downThemerText: '🠋',
     hideText: ' Hide',
     placeholderText: 'Search Look-up',
     pmText: 'PM',
@@ -313,7 +315,8 @@
 
   const Titles = {
     anaCalBtnTitle: 'Show/Hide Calendar Info',
-    analogClockBtnTitle: 'Analog Clock',
+    analogClockBtnHideTitle: 'Hide Analog Clock',
+    analogClockBtnShowTitle: 'Show Analog Clock',
     buttonLogoTitle: 'Left-click To Change Logos',
     buttonThemerTitle: 'Left-click To Change Wallpaper',
     controlsBtnTitle: 'Show/Hide Controls Panel',
@@ -1309,12 +1312,15 @@
       applyAnalogClock();
     }
     const btn = $id('analogClockBtn');
+    const bool = Settings.get('analogClock', true);
+    const pref = bool ? Icons.clockHide22 : Icons.clockShow22;
+    const tip = bool ? Titles.analogClockBtnHideTitle : Titles.analogClockBtnShowTitle;
     btn.replaceChildren(
       $el('img', {
-        src: Icons.clock26,
+        src: pref,
+        title: tip,
         alt: 'Clock'
-      }),
-      Settings.get('analogClock', true) ? Strings.hideText : Strings.showText
+      })
     );
   };
 
@@ -1486,14 +1492,17 @@
       class: 'spacerX',
       textContent: Strings.spacerXText
     });
+    const bool = Settings.get('analogClock', true);
+    const pref = bool ? Icons.clockHide22 : Icons.clockShow22;
+    const tip = bool ? Titles.analogClockBtnHideTitle : Titles.analogClockBtnShowTitle
     const analogClockBtn = $el('button', {
       id: 'analogClockBtn',
-      title: Titles.analogClockBtnTitle,
+      title: tip,
       onclick: toggleAnalogClock},
       $el('img', {
-        src: Icons.clock26,
+        src: pref,
         alt: 'Clock'
-      }), ' Show'
+      })
     );
     controlContainer.append(
       hostToggler,
@@ -1541,9 +1550,10 @@
       clock?.remove();
     }
     const btn = $id('analogClockBtn');
-    btn.replaceChildren($el('img', {src: Icons.clock26, alt: 'Clock'}),
-      Settings.get('analogClock', true) ? Strings.hideText : Strings.showText
-    );
+    const bool = Settings.get('analogClock', true);
+    const pref = bool ? Icons.clockHide22 : Icons.clockShow22;
+    const tip = bool ? Titles.analogClockBtnHideTitle : Titles.analogClockBtnShowTitle;
+    btn.replaceChildren($el('img', { title: tip, src: pref }));
     const img = document.getElementById('hostImg');
     img.title = Host_Titles[Settings.get('wallpaperHost', 'ibb')];
   };
@@ -2038,6 +2048,7 @@
       cursor: pointer;
       opacity: .7;
       text-shadow: 1px 1px 2px #000;
+      width: 22px;
     }
     #spacer1,
     #spacer2 {
@@ -2046,7 +2057,9 @@
       margin: 9px 16px 0px 16px;
       opacity: 1;
       pointer-events: none;
+      position: relative;
       text-align: center;
+      top: -2px;
     }
     .spacerX {
       text-shadow: 1px 1px 2px #000;
@@ -2078,6 +2091,7 @@
       cursor: pointer;
       opacity: .7;
       text-shadow: 1px 1px 2px #000;
+      width: 22px;
     }
     #controlContainer > button,
     #controlContainer > input {
