@@ -73,7 +73,10 @@
   const _SECOND = 1000;
   const _SECONDS = 5000;
   const _aURL = 'https://raw.githubusercontent.com/Razzano/My_Images/master/';
-  const _githubSite = 'https://raw.githubusercontent.com/Razzano/My_Wallpaper_Images/master/image';
+  const WALLPAPER_HOSTS = {
+    github: 'https://raw.githubusercontent.com/Razzano/My_Wallpaper_Images/master/image',
+    ibb:    'https://i.ibb.co/'
+  };
   const body = document.body;
 
   // ===========================================================================
@@ -257,8 +260,10 @@
     clock22: _aURL + 'clock22.png',
     clock22L: _aURL + 'clock22L.png',
     clock26: _aURL + 'clock26.png',
+    github: _aURL + 'github.png',
     hand22: _aURL + 'hand22.png',
     hourglass22: _aURL + 'hourglass22.png',
+    ibb: _aURL + 'ibb.png',
     moon16: _aURL + 'moon16.png',
     moon22: _aURL + 'moon22.png',
     panel34: _aURL + 'panel34.png',
@@ -321,6 +326,72 @@
     scalerResetTitle: 'Reset To 100%',
     secondHandBtnTitle: 'Toggle Between Smooth/Tick Second Hand Movement',
     themeBtnTitle: 'Toggle Between Dark/Light Theme',
+  };
+
+  const Wallpapers = {
+    github: 'https://raw.githubusercontent.com/Razzano/My_Wallpaper_Images/master/image',
+    ibb: 'https://i.ibb.co/',
+    images: {
+      1: 'ccpzdVPW/image1.jpg',
+      2: 'tMPSxh3g/image2.jpg',
+      3: 'gLjPrzf3/image3.jpg',
+      4: 'LD8QxWYR/image4.jpg',
+      5: '3y0DqWHk/image5.jpg',
+      6: 'B2dSDb3H/image6.jpg',
+      7: '8DK6RKvR/image7.jpg',
+      8: '8nbpV53N/image8.jpg',
+      9: 'Z6bC7T5M/image9.jpg',
+      10: 'zTqBrTmM/image10.jpg',
+      11: 'FkpXCBhv/image11.jpg',
+      12: 'F4ffy4rm/image12.jpg',
+      13: 'LwhVzS8/image13.jpg',
+      14: '7dQmB94X/image14.jpg',
+      15: 'pjncQL5x/image15.jpg',
+      16: 'bg41CCm4/image16.jpg',
+      17: 'yBpnshnY/image17.jpg',
+      18: 'qYNQbwTH/image18.jpg',
+      19: 'mCLFRqsV/image19.jpg',
+      20: 'wFgNR5H8/image20.jpg',
+      21: 'FqHtmDk1/image21.jpg',
+      22: 'nNrstZRN/image22.jpg',
+      23: '7xzvSYgp/image23.jpg',
+      24: '7tfycjYy/image24.jpg',
+      25: 'fdgjbMRm/image25.jpg',
+      26: '9H6YcBKf/image26.jpg',
+      27: '5gnFSxZt/image27.jpg',
+      28: 'XZPngML0/image28.jpg',
+      29: '7Nn8Y9Gv/image29.jpg',
+      30: 'yck538br/image30.jpg',
+      31: 'XxFHNjqt/image31.jpg',
+      32: 'HfPmkHPp/image32.jpg',
+      33: 'gMBv6CZG/image33.jpg',
+      34: 'Ld3DY74b/image34.jpg',
+      35: 'jPPF3mP1/image35.jpg',
+      36: 'mVYVX4Kb/image36.jpg',
+      37: '8gfncszx/image37.jpg',
+      38: 'xKdRSKgk/image38.jpg',
+      39: 'kgNXnpPL/image39.jpg',
+      40: '8D2cPStZ/image40.jpg',
+      41: 'bgS10X16/image41.jpg',
+      42: 'W4WV39Ls/image42.jpg',
+      43: 'Y7PRD86Q/image43.jpg',
+      44: 'mr8rLLfm/image44.jpg',
+      45: 'rRJMCTss/image45.jpg',
+      46: 'dwL7nbp3/image46.jpg',
+      47: 'fdjpz40P/image47.jpg',
+      48: 'yFFtYM13/image48.jpg',
+      49: 'bRC5r95C/image49.jpg',
+      50: 'dyVJD2w/image50.jpg',
+      51: 'PZx7gVyd/image51.jpg',
+      52: 'CKKvMsDf/image52.jpg'
+    },
+    url(num) {
+      const host = Settings.get('wallpaperHost', 'ibb');
+      if (host === 'github') {
+        return `${this.github}${num}.jpg`;
+      }
+      return this.ibb + this.images[num];
+    }
   };
 
   // ===========================================================================
@@ -434,9 +505,11 @@
     }
     num = parseInt(num, 10) || 0;
     if (num === 0) return;
+    const image = Wallpapers.url(num);
+    if (!image) return;
     const css = `
       body {
-        background: url(${_githubSite}${num}.jpg) no-repeat center center / cover fixed !important;
+        background: url('${image}') no-repeat center center / cover fixed !important;
       }
     `;
     State.wallpaper.style = GM_addStyle(css);
@@ -558,6 +631,20 @@
     tog.title = WALLPAPER_MODES[mode].title;
     applyCurrentWallpaper();
     scheduleWallpaperUpdate();
+  };
+
+  const toggleWallpaperHost = () => {
+    const current = Settings.get('wallpaperHost', 'ibb');
+    const next = current === 'ibb' ? 'github' : 'ibb';
+    const img = document.getElementById('hostImg');
+    Settings.set('wallpaperHost', next);
+    img.src = Icons[next];
+    if (next === 'ibb') {
+      img.title = 'This is the ibb (ImgBB) host site\nToggles to the github host site';
+    } else {
+      img.title = 'This is the github (Github) host site\nToggles to the ibb host site';
+    }
+    applyCurrentWallpaper();
   };
 
   const updateWallpaperControls = () => {
@@ -1254,6 +1341,16 @@
     const controlContainer = $el('div', {
       id: 'controlContainer'
     });
+    const host = Settings.get('wallpaperHost', 'ibb');
+    const hostImg = $el('img', {
+      id: 'hostImg',
+      src: Icons[host],
+    });
+    const hostToggler = $el('button', {
+      id: 'hostToggler',
+      onclick: toggleWallpaperHost
+      }, hostImg
+    );
     const toggleImg = $el('img', {
       id: 'toggleImg',
       src: Icons.hand22
@@ -1262,7 +1359,7 @@
       id: 'wallpaperToggler',
       onclick: wallpaperToggleHandler
     }, toggleImg);
-      const buttonThemer = $el('button', {
+    const buttonThemer = $el('button', {
       id: 'buttonThemer',
       textContent: Strings.buttonThemerText,
       title: Titles.buttonThemerTitle,
@@ -1320,6 +1417,7 @@
       }), ' Show'
     );
     controlContainer.append(
+      hostToggler,
       wallpaperToggler,
       buttonThemer,
       inputThemer,
@@ -1367,6 +1465,13 @@
     btn.replaceChildren($el('img', {src: Icons.clock26, alt: 'Clock'}),
       Settings.get('analogClock', true) ? Strings.hideText : Strings.showText
     );
+    const img = document.getElementById('hostImg');
+    const pref = Settings.get('wallpaperHost', 'ibb');
+    if (pref === 'ibb') {
+      img.title = 'This is the ibb (ImgBB) host site\nToggles to the github host site';
+    } else {
+      img.title = 'This is the github (Github) host site\nToggles to the ibb host site';
+    }
   };
 
   // ===========================================================================
@@ -1510,7 +1615,7 @@
       width: 100%;
     }
     .Analog-Ticks {
-      filter: drop-shadow(1px 1px 1px #666);
+      filter: drop-shadow(0px 0px 2px #000);
     }
     .Analog-Number {
       font-family: 'sans-serif';
@@ -1813,6 +1918,13 @@
     #controlContainer > * {
       pointer-events: auto;
     }
+    #hostImg {
+      filter: none;
+      margin: 0px 16px 0px -4px;
+      position: relative;
+      top: 5px;
+      width: 22px;
+    }
     #wallpaperToggler {
       height: 22px;
       width: 22px;
@@ -1821,7 +1933,7 @@
       height: 22px;
       margin-left: 8px;
       position: relative;
-      right: 14px;
+      right: 16px;
       top: 5px;
       width: 22px;
     }
@@ -1908,11 +2020,11 @@
       top: 5px;
       width: 22px;
     }
-    #analogClockBtn:not(img):hover {
+    #analogClockBtn:not(img):not(#hostToggler):hover {
       color: orange;
       opacity: 1;
     }
-    #controlContainer > button:not(#analogClockBtn):not(#wallpaperToggler):hover {
+    #controlContainer > button:not(#analogClockBtn):not(#hostToggler):not(#wallpaperToggler):hover {
       filter: brightness(2);
       opacity: 1;
     }
