@@ -233,7 +233,7 @@
   // OBJECT GROUPS
   // ===========================================================================
 
-  const DAY_BANNER = [
+  const Day_Banner = [
     { text: 'Sunday', x: 42 },
     { text: 'Monday', x: 42 },
     { text: 'Tuesday', x: 40 },
@@ -243,7 +243,7 @@
     { text: 'Saturday', x: 40 }
   ];
 
-  const HostTitles = {
+  const Host_Titles = {
     ibb: 'This is the ImgBB host site\nToggles to the GitHub host site',
     github: 'This is the GitHub host site\nToggles to the Postimages host site',
     postimages: 'This is the Postimages host site\nToggles to the ImgBB host site'
@@ -1269,8 +1269,8 @@
       timeText.textContent = `${h12}:${min}`;
       timeText.setAttribute('x', h12 < 10 ? 42 : 41);
       calendarText.textContent = `${monthFull} ${ordinal}, ${yr} 🕑 ${h12}:${min} ${ampm}`;
-      dayBannerText.textContent = DAY_BANNER[day].text.toUpperCase();
-      dayBannerText.setAttribute('x', DAY_BANNER[day].x);
+      dayBannerText.textContent = Day_Banner[day].text.toUpperCase();
+      dayBannerText.setAttribute('x', Day_Banner[day].x);
     };
     const showCalendarPref = Settings.get('calendarInfo', false);
     if (!showCalendarPref) {
@@ -1545,7 +1545,7 @@
       Settings.get('analogClock', true) ? Strings.hideText : Strings.showText
     );
     const img = document.getElementById('hostImg');
-    img.title = HostTitles[Settings.get('wallpaperHost', 'ibb')];
+    img.title = Host_Titles[Settings.get('wallpaperHost', 'ibb')];
   };
 
   // ===========================================================================
