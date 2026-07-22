@@ -69,11 +69,11 @@
   const WALLPAPER_WEEKLY = 3;
   const WALLPAPER_MONTHLY = 4;
   const WALLPAPER_START_DATE = new Date(2026, 0, 1);
-  WALLPAPER_START_DATE.setHours(0, 0, 0, 0);
   const _SECOND = 1000;
   const _SECONDS = 5000;
   const _aURL = 'https://raw.githubusercontent.com/Razzano/My_Images/master/';
   const body = document.body;
+  WALLPAPER_START_DATE.setHours(0, 0, 0, 0);
 
   // ===========================================================================
   // DOM HELPERS
@@ -240,7 +240,7 @@
     { text: 'Wednesday', x: 38 },
     { text: 'Thursday', x: 40 },
     { text: 'Friday', x: 42 },
-    { text: 'Saturday', x: 40 }
+    { text: 'Saturday', x: 40 },
   ];
 
   const ICONS = {
@@ -321,17 +321,9 @@
     },
     url(num) {
       const host = Settings.get('wallpaperHost', 'ibb');
-      let imageNum = num;
-      if (host === 'ibb') {
-        imageNum += 100;
-      } else if (host === 'postimages') {
-        imageNum += 200;
-      }
-      const image = this.images[imageNum];
-      if (!image) {
-        return '';
-      }
-      return this[host] + image;
+      const offset = host === 'postimages' ? 200 : 100;
+      const image = this.images[num + offset];
+      return image ? this[host] + image : '';
     }
   };
 
@@ -386,8 +378,8 @@
 
   const WALLPAPERS = {
     github: 'https://raw.githubusercontent.com/Razzano/My_Wallpaper_Images/master/image',
-    ibb: 'https://i.ibb.co/', // num + 100
-    postimages: 'https://i.postimg.cc/', // num + 200
+    ibb: 'https://i.ibb.co/', // num + offset of 100
+    postimages: 'https://i.postimg.cc/', // num + offset of 200
     images: {
       101: 'ccpzdVPW/image1.jpg',
       102: 'tMPSxh3g/image2.jpg',
@@ -492,7 +484,7 @@
       249: '26GDZvTw/image49.jpg',
       250: 'DZ6TXs5B/image50.jpg',
       251: 'Hxzgy536/image51.jpg',
-      252: 'g09mFGnH/image52.jpg'
+      252: 'g09mFGnH/image52.jpg',
     },
     url(num) {
       const host = Settings.get('wallpaperHost', 'ibb');
@@ -516,7 +508,7 @@
     { src: ICONS.hourglass, title: 'Hourly Change Wallpaper' },
     { src: ICONS.calendarDaily, title: 'Daily Change Wallpaper' },
     { src: ICONS.calendarWeekly, title: 'Weekly Change Wallpaper' },
-    { src: ICONS.calendarMonthly, title: 'Monthly Change Wallpaper' }
+    { src: ICONS.calendarMonthly, title: 'Monthly Change Wallpaper' },
   ];
 
   const WALLPAPER_SITES = [
@@ -1055,21 +1047,9 @@
     });
     const dayBannerBorder = $el('rect', {
       id: 'dayBannerBorder',
-      //x: 36,
-      //y: 16,
-      //width: 29,
-      //height: 8,
-      //rx: 2,
-      //ry: 2
     });
     const dayBannerHighlight = $el('rect', {
       id: 'dayBannerHighlight',
-      //x: 36,
-      //y: 16,
-      //width: 29,
-      //height: 8,
-      //rx: 2,
-      //ry: 2
     });
     const dayBannerText = $el('text', {
       id: 'dayBannerText',
