@@ -499,17 +499,9 @@
       if (host === 'github') {
         return `${this.github}${num}.jpg`;
       }
-      let imageNum = num;
-      if (host === 'ibb') {
-        imageNum += 100;
-      } else if (host === 'postimages') {
-        imageNum += 200;
-      }
-      const image = this.images[imageNum];
-      if (!image) {
-        return '';
-      }
-      return this[host] + image;
+      const offset = host === 'postimages' ? 200 : 100;
+      const image = this.images[num + offset];
+      return image ? this[host] + image : '';
     }
   };
 
