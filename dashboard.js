@@ -245,10 +245,10 @@
 
   const ICONS = {
     calendar: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABYAAAAWCAYAAADEtGw7AAAA30lEQVR4AcySPQ7CMAyFTSYWGDgGAwsLA0POwzk4WAYGFhg4CANd2IqfK0VxZUXKTyVQXuR8KB8uriP+hBBGhEu1wBAF+QCGcKkWGAIoYhSS63OkNAJ5SxlqRrJQpxE4bU5EU91v5x+Tjv1tS8jcDIbUcBfOHxou+66BUzqed9Tj/D/ix+tOm91aPZTFijv23hO/q0rsDVYsHt5fOh5OSmyxYrEyZg7Li60BtLDYsTWAFhbF1gBaWBRn5lD11fLilkFZd2PHLYOy7kZxy6Csu1FcNaHMJcePscJ/1DNw/gAAAP//0v4bEwAAAAZJREFUAwD80vEZnRNbEwAAAABJRU5ErkJggg==',
-    calendar32: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAhCAYAAAC4JqlRAAABFklEQVR4AeyTMQrCQBBFh9xGCxs7K1sJiHgAe+3TeACb9Np7ABFBbPcCNjYeR5llB8JOdkwxEyFswP3m/zD7XPOL8az8xB/nHPPoGe2sgOg6HirvkPqbsJBHGmwv5JF6MyzkkQbbCwPwbo9LBmg9gd2+Tv4J2lkrQHJ3g4AB0C8kbe5JHqlGxgCaQ/v4ngGGcwKrZQnnUw2o8buDXipTO4H1Yg7TyQhQIbrQS2VqAJeHg+frDajR/t5LZWoA19sdNtsKUGMA9FKZGkC8adf7DMBOQKqMRcYApMpYZAwAa5SqjEXGAKTKWGQMoGt9tJ7LAOwELKomzWQAFlWTZjIAi6pJMxmARdWkmQxAq15d55gD/AL5O8AXAAD///IWSOwAAAAGSURBVAMAC9MOEoOWO8AAAAAASUVORK5CYII=',
-    calendarD: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABYAAAAWCAYAAADEtGw7AAABJElEQVR4AbSUPRIBQRCFe+YQikgu2IwjOIBAqMTIpII9gBCJRAkFAscg20DkAFMOIB3ztmraGD87+6c80/1af1v7amsleZ+7UtqzuM0zewPbRXsy0RTfPGOnXzuzJ0x5WyzmSRTpmEjD2DSbpPp9gmflzqxnT3dm98CRj9NpiaJK4aJvUQA+UYqOSYLyQ3lmDB5EURoBbge1S0UPH0IdMpN6u6U6JFvtNtUhjsK9vSrqIHDDPIKuQi4cBAZIa00Qamg0jul8uaJM5ffB4HTb+ZlNh7RaH9jx+2CwEIKEEAzqdTu038U/+yCweQeQK6b9KRjsZ1S2Z7CfUdmewVmZ5Z0z+E9chUYMLpupv8/gspn6+wzOm2HW/6V5B7ye+kJpfi6B+QQAAP//ZMuhpAAAAAZJREFUAwApJROw/1D9zwAAAABJRU5ErkJggg==',
-    calendarM: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABYAAAAWCAYAAADEtGw7AAABA0lEQVR4AbSVsQ2DMBBF73uIiFRswBgMkDHSpqXIAKnTsEMKRqHOAFYGSOv4I90JSIIMMoiv+3eHH/YJCSez6+V9mJUsXdObgHWhRiNG86sWy8OtPY0sumfTXPqqCleRwMK9KMTXtbCmGve0pnHc03XkuHfX3Whyii+djILws/fy6HvaL63pGfhUVcMIeBz6MZU56xR9Ss+FtpU95I5lKXvIRjE+Xg7vDvHz2kPJOw4hCKWnoaf+5clgBaTGZDAAAWBcAIt5MtiIicbAnBel6+iprbmBFZArGhhYnhmwrm/gXDtVjoE5T0ob9NTW3MAKyBUNDKybIbD8PMGI/yrJqXhqfAAAAP//CetdbQAAAAZJREFUAwANXx+wJdNnLAAAAABJRU5ErkJggg==',
-    calendarW: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABYAAAAWCAYAAADEtGw7AAABFUlEQVR4AcRUMQ6CQBDcvUcYrewt6PQJPsDC0lirnS0FD7BUGxpjaWHBM7SjsPIBFx9ge94SdgNoclyASJjs7kwY9o49FFSul9amQknpo5WM+UGO4miTX5yls5s1jkSqZxhu0yAwEYAh4tjvg55OgThGUWOOY1Hj58hHvZNkR0mboJeWtoLMV1rDNU0p/YKPJsazIMi2gJZDedGVauIJlNfRlIlj6AJqMBxCF5CtKC6vjfz/xotlBLf7Qxbjqmt3vFnPYX+4iLGrrm08GY/gfLLnLLd21apnj3AXkI6NMUDIG8ryJrUYs2FbUYwRERBRfBGxUa3sPxS6gHTsmktfXYxdc+mri7FrLn11mmOUL9ZSYs8FfgAAAP//+POvEAAAAAZJREFUAwB8Az2wNEQxIQAAAABJRU5ErkJggg==',
+    calendarDark: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAhCAYAAAC4JqlRAAABFklEQVR4AeyTMQrCQBBFh9xGCxs7K1sJiHgAe+3TeACb9Np7ABFBbPcCNjYeR5llB8JOdkwxEyFswP3m/zD7XPOL8az8xB/nHPPoGe2sgOg6HirvkPqbsJBHGmwv5JF6MyzkkQbbCwPwbo9LBmg9gd2+Tv4J2lkrQHJ3g4AB0C8kbe5JHqlGxgCaQ/v4ngGGcwKrZQnnUw2o8buDXipTO4H1Yg7TyQhQIbrQS2VqAJeHg+frDajR/t5LZWoA19sdNtsKUGMA9FKZGkC8adf7DMBOQKqMRcYApMpYZAwAa5SqjEXGAKTKWGQMoGt9tJ7LAOwELKomzWQAFlWTZjIAi6pJMxmARdWkmQxAq15d55gD/AL5O8AXAAD///IWSOwAAAAGSURBVAMAC9MOEoOWO8AAAAAASUVORK5CYII=',
+    calendarDaily: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABYAAAAWCAYAAADEtGw7AAABJElEQVR4AbSUPRIBQRCFe+YQikgu2IwjOIBAqMTIpII9gBCJRAkFAscg20DkAFMOIB3ztmraGD87+6c80/1af1v7amsleZ+7UtqzuM0zewPbRXsy0RTfPGOnXzuzJ0x5WyzmSRTpmEjD2DSbpPp9gmflzqxnT3dm98CRj9NpiaJK4aJvUQA+UYqOSYLyQ3lmDB5EURoBbge1S0UPH0IdMpN6u6U6JFvtNtUhjsK9vSrqIHDDPIKuQi4cBAZIa00Qamg0jul8uaJM5ffB4HTb+ZlNh7RaH9jx+2CwEIKEEAzqdTu038U/+yCweQeQK6b9KRjsZ1S2Z7CfUdmewVmZ5Z0z+E9chUYMLpupv8/gspn6+wzOm2HW/6V5B7ye+kJpfi6B+QQAAP//ZMuhpAAAAAZJREFUAwApJROw/1D9zwAAAABJRU5ErkJggg==',
+    calendarMonthly: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABYAAAAWCAYAAADEtGw7AAABA0lEQVR4AbSVsQ2DMBBF73uIiFRswBgMkDHSpqXIAKnTsEMKRqHOAFYGSOv4I90JSIIMMoiv+3eHH/YJCSez6+V9mJUsXdObgHWhRiNG86sWy8OtPY0sumfTXPqqCleRwMK9KMTXtbCmGve0pnHc03XkuHfX3Whyii+djILws/fy6HvaL63pGfhUVcMIeBz6MZU56xR9Ss+FtpU95I5lKXvIRjE+Xg7vDvHz2kPJOw4hCKWnoaf+5clgBaTGZDAAAWBcAIt5MtiIicbAnBel6+iprbmBFZArGhhYnhmwrm/gXDtVjoE5T0ob9NTW3MAKyBUNDKybIbD8PMGI/yrJqXhqfAAAAP//CetdbQAAAAZJREFUAwANXx+wJdNnLAAAAABJRU5ErkJggg==',
+    calendarWeekly: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABYAAAAWCAYAAADEtGw7AAABFUlEQVR4AcRUMQ6CQBDcvUcYrewt6PQJPsDC0lirnS0FD7BUGxpjaWHBM7SjsPIBFx9ge94SdgNoclyASJjs7kwY9o49FFSul9amQknpo5WM+UGO4miTX5yls5s1jkSqZxhu0yAwEYAh4tjvg55OgThGUWOOY1Hj58hHvZNkR0mboJeWtoLMV1rDNU0p/YKPJsazIMi2gJZDedGVauIJlNfRlIlj6AJqMBxCF5CtKC6vjfz/xotlBLf7Qxbjqmt3vFnPYX+4iLGrrm08GY/gfLLnLLd21apnj3AXkI6NMUDIG8ryJrUYs2FbUYwRERBRfBGxUa3sPxS6gHTsmktfXYxdc+mri7FrLn11mmOUL9ZSYs8FfgAAAP//+POvEAAAAAZJREFUAwB8Az2wNEQxIQAAAABJRU5ErkJggg==',
     clock: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABYAAAAWCAYAAADEtGw7AAAC/0lEQVR4AaSUS0hVURSGl9ZMUgdmkJklWZaZImkOBOmShFY06GUR0sNsUJQmQqUiotZATIskstsDKbXXIColrFuCA3sgifhIwzLTgTpQw1lh69vce/VgVzBlrXPWXuv/v733Ea63ePibmpparBmneV6zVvONM6npMVvswS7/BCsgRQ2vBn4OvX/e0Hi5vLIqtaCk1EZS02OGxqnV0hoWsIp8NMvV9FIBtoJLpfKlt09CgldKYkKCSWp6zNCgxaPpMxPtBjsH9uaWD5k5+UXiu8RXivNz5dC+PRIfu1nC14aZpKbHDA1aPAq1OxlaiuVTFKsg9U51rWQcSZPkpG1GMNcDDVo8eFVbrGnCnFh3StErZV6/eVcOH9hvTmamczyWBgQIyU3w4IUBC5u3Fvxns588eyFJWxMtUIwkwplJz37rtmzaGOGG44WhumyYnDhGd7K1d3RZro8ZIwDqRYOD6hEDonft6hU5c/ac6fHgs8CApesYwLbP7R2yITxc19bACADQstjoWdD0E8dlZHTUbYIBSxs2wFFf+75J6KoQXU8HBowu+I1Ku7ABG9FjhmbaIYYBS3tRgAPHxsbF389P19bACAAQQJKaHjOrWgwDlvYDAevbcwAA5FJQ03OtPb0BD/v7+8nY+LgnjfmOXT2d8u5Bjak9CWHA0vkw4LY1oaul73u/rhcWMGAppQ2wIzoyQjq7u3W9sIABSykOwK3BK5Y7IiPWS0Pja+39X+CFAUsJrd5eXl6/tSjbu3unNL5tku6eXl3OL/DghaHOMpicWLSo150qTp88KvcfPpoXHCgevDBgKdzy65aXEB9XdyztoFTdq571WYaGRuRPUBAed3J9tHjw6iBP04Q5MZXuNKnvdBVUlBbly8SvCckrKpGax0+l5eMncwtOR02PGRq0ePA6GVpaf4/5JJM6zNIr7cg6leEovJgj68JCpX/ghzQ1N5ukpscMDVo8mhzMQHm4T8zClSqq13q7mrbsSk66oIC6wtwcB0lNjxkap1ZLa/wFAAD//3R0xwUAAAAGSURBVAMA37ilSkZhjSsAAAAASUVORK5CYII=',
     clockHide: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABYAAAAWCAYAAADEtGw7AAAC/ElEQVR4AYSUXUgUURTHz94Zl0VXZ8YPWrMXJRCKsI9HMYIgKBAknyspqOgp6KEoosACewiCIiwwrHfBfCgIgkikp+ohCITQgtIN05nVURed2en8rzvjjN6tZc7uuef8z+/ePffOFVThExBpC43WE6feWHUMI0gYx5CDpkI5KcF2vfm+YBhekNXPO8d3ZPKXWyl/pWzsI4YcNNCq4AmwbZomi4NSXVUXYHNnW6jYXs1rj5VqJGPIQQMt/xvPranJxVSbKwZUBIGNpG6vUTrXRs09d6n95mdpYzWn6ORISfqIIQcNJnAPmZpXVTUbh0crFmUowLCGa2+pbt8JuEpDrvXiCNXuOUbuEYvcgwZ5uv4zFEsw+uRZ6TAW/S6a5qbvLkV+3NnZey+C+1ZaAwt5gZ1N+UHX3JkWmh84iljCQvjqymoi7o2ORmPA001tBAZYYAq70XrMM8kNaug8R3WOExWEDuAzM7PhkABd6euTv2EQtcQbCxaYQpRKp5c6LZlH3+Co4INjL5GSMECrh4dJ7+mRMXyFtWCBKcinTHE3HylkY6aCf/j+g1TQWBlJFjPl5uEvxJOhr4Ij13H7Fu3d3yEN44RxOzDeAMOrYCo4Vt7d3U2wCmXlF8SvlCbZU1X2+sNHNNB/Z3uqzBLchmLm28p2AUfC3cdGqVaO08KyxCNZGhVFSYgXtRPyTabFL68iURwa7v6/4GEtWGAK6499SeO7gU8HzU8MSbAKKhP8VQkua7kNYIEpUkR+oKXGm57/orW5KZoZufrfI6WC424BAyww5amwFpzDPJOffWfT0tc35A5dSBx+Xui2RwXHrQgWxBIMR/e8XdlPBQrh04O9iZ5DEzf0dOvdUkqlNl5hFkbg7PJyXl9fb85+dPymZ9yW/BTNjt6gyf4DSkNujTXhrQio5TgOM+UTgTEC3CwUdLG4Pp57ME2YIDPJR5E3BXlp7COGHDTQGoVCKg6FLgFGAIY+sVhPud5T8/XvIgC5+9MkjSdEDDlooEXNVvsLAAD//xH3ir0AAAAGSURBVAMAfdKC3CfqlkcAAAAASUVORK5CYII=',
     clockShow: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABYAAAAWCAYAAADEtGw7AAACmElEQVR4AYxUP2gTURj/3aXtULHUSgVFBwUxKP03u3VwkAaCdbRQcNDZRaRpDPmDdnFx0UEo1E0DwcFBsJs4NklRTgs6KCm0WEsqKaRNzu/3Xl688y5pHve99933+5P3vruLjS6j/GjshJOeyjjpyVdOeuq9DpVniHWRItR4IzV+1hHDgYPIDuAmxOCmrNM6wDxBjBxyBQ9cAWMnPXGrYds/xISGAYG/4CbIpcZfh3/HTnrSBawVyBgYvYDT8RwuLa6puJFv4s2xOZWzRowcocplrWitpK2rvWPvrx6/fA3n7+YxNHa9RQsuxMgh16BeD2Ws+6R3SuKZ2SXD9a3VP3u+e96QSw1zyGm1V6sVDTtyBzJ4NBIlDb32a/uhdWqoJWi8bP3aqCePk1dvE+sYlcpmR+yf1k3Q0x446Ltn2OybycPWUrmIw0IB1eHhAOzV0lN67EYDrA6F6VoNtfl5DC4vd2CYshsVY2vE3HZar0xOgKa5rW0snBrFROohWGOEa6wROxzwV72mq4ODCozFYpiZmVF52CTGrny2YZCusadmpzT9VCyB8TiTxVI2p0mB2d0RY8sJ1D0F09OnXzeUoQfqklqOXe8/fGIY1fW3Jm0//aHdXfTF4+16p8Srpac9/mD9N2BlIePXhxcyQ5manapCD5PRQrzoKa0AIs3Gc8iob39DJX9fMqhXqpedkkwNtcyNlzK+mCr/lL/JOQJ7n99hq/Gxp+OTT1NqmNNDewHKmMVosvSSK4PE789m4e0b694gRg65pu71aBsTjCaLFn+VOY+2WVjAl8xUaBAjh1xqtFbfcfYZsxCVnUeazXOQh4Ajh5Ull5r/qQFjEtinaHJtsd7fkM9dvTGvAWtVB5hniZFDLkLGXwAAAP//cw1IbAAAAAZJREFUAwCc1SaA5NDCrQAAAABJRU5ErkJggg==',
@@ -263,23 +263,76 @@
   };
 
   const IMAGES = {
-    logo1: _aURL + 'google1.png',
-    logo2: _aURL + 'google2.png',
-    logo3: _aURL + 'world.png',
-    logo4: _aURL + 'search2.png',
-    logo5: _aURL + 'google3.png',
-    logo6: _aURL + 'google4.png',
-    logo7: _aURL + 'bulb.png',
-    logo8: _aURL + 'search1.png',
-    logo9: _aURL + 'google5.png',
-    logo10: _aURL + 'google6.png',
-    logo11: _aURL + 'flag.png',
-    logo12: _aURL + 'face.png',
-    logo13: _aURL + 'eagle.png',
-    logo14: _aURL + 'monkey.png',
-    logo15: _aURL + 'globe.png',
-    logo16: _aURL + 'eyes.png',
-    logo17: '',
+    github: 'https://raw.githubusercontent.com/Razzano/My_Images/master/',
+    ibb: 'https://i.ibb.co/', // num + 100
+    postimages: 'https://i.postimg.cc/', // num + 200
+    images: {
+      1: 'google1.png',
+      2: 'google2.png',
+      3: 'world.png',
+      4: 'search2.png',
+      5: 'google3.png',
+      6: 'google4.png',
+      7: 'bulb.png',
+      8: 'search1.png',
+      9: 'google5.png',
+      10: 'google6.png',
+      11: 'flag.png',
+      12: 'face.png',
+      13: 'eagle.png',
+      14: 'monkey.png',
+      15: 'globe.png',
+      16: 'eyes.png',
+      17: undefined,
+      101: 'TMCbzH45/google1.png',
+      102: 'N8dvQ21/google2.png',
+      103: 'y9gns0g/world.png',
+      104: 'jvmTQX6J/search2.png',
+      105: 'YBdjTJMg/google3.png',
+      106: 'k2s1wg0h/google4.png',
+      107: 'nqQYvY9b/bulb.png',
+      108: '99L5BJkp/search1.png',
+      109: 'CKGqDHzn/google5.png',
+      110: 'TM9S5VXg/google6.png',
+      111: 'Q1WQxJ1/flag.png',
+      112: 'Txq5BXr2/face.png',
+      113: 'sJW6hkvw/eagle.png',
+      114: 'rKhh1VGF/monkey.png',
+      115: 'nsqttmjb/globe.png',
+      116: 'V0QSfJFb/eyes.png',
+      117: undefined,
+      201: '7Zp8GkvN/google1.png',
+      202: 'P5BspjGb/google2.png',
+      203: 'g0893TdD/world.png',
+      204: 'KYBXtHFD/search2.png',
+      205: 'kgk36mrs/google3.png',
+      206: 'rwvX0k6h/google4.png',
+      207: 'cLVygSqr/bulb.png',
+      208: 'DzLV1MFd/search1.png',
+      209: 'NjWq9chC/google5.png',
+      210: 'sgtdQrF0/google6.png',
+      211: 'P5BspjGY/flag.png',
+      212: '4xrk7gCc/face.png',
+      213: 'GmZw8C0Y/eagle.png',
+      214: 'g2fFXW97/monkey.png',
+      215: 'bwKcDhX1/globe.png',
+      216: 'bwKcDhXD/eyes.png',
+      217: undefined,
+    },
+    url(num) {
+      const host = Settings.get('wallpaperHost', 'ibb');
+      let imageNum = num;
+      if (host === 'ibb') {
+        imageNum += 100;
+      } else if (host === 'postimages') {
+        imageNum += 200;
+      }
+      const image = this.images[imageNum];
+      if (!image) {
+        return '';
+      }
+      return this[host] + image;
+    }
   };
 
   const LOGO_CONFIG = {
@@ -333,137 +386,146 @@
 
   const WALLPAPERS = {
     github: 'https://raw.githubusercontent.com/Razzano/My_Wallpaper_Images/master/image',
-    ibb: 'https://i.ibb.co/',
-    postimages: 'https://i.postimg.cc/',
+    ibb: 'https://i.ibb.co/', // num + 100
+    postimages: 'https://i.postimg.cc/', // num + 200
     images: {
-      1: 'ccpzdVPW/image1.jpg',
-      2: 'tMPSxh3g/image2.jpg',
-      3: 'gLjPrzf3/image3.jpg',
-      4: 'LD8QxWYR/image4.jpg',
-      5: '3y0DqWHk/image5.jpg',
-      6: 'B2dSDb3H/image6.jpg',
-      7: '8DK6RKvR/image7.jpg',
-      8: '8nbpV53N/image8.jpg',
-      9: 'Z6bC7T5M/image9.jpg',
-      10: 'zTqBrTmM/image10.jpg',
-      11: 'FkpXCBhv/image11.jpg',
-      12: 'F4ffy4rm/image12.jpg',
-      13: 'LwhVzS8/image13.jpg',
-      14: '7dQmB94X/image14.jpg',
-      15: 'pjncQL5x/image15.jpg',
-      16: 'bg41CCm4/image16.jpg',
-      17: 'yBpnshnY/image17.jpg',
-      18: 'qYNQbwTH/image18.jpg',
-      19: 'mCLFRqsV/image19.jpg',
-      20: 'wFgNR5H8/image20.jpg',
-      21: 'FqHtmDk1/image21.jpg',
-      22: 'nNrstZRN/image22.jpg',
-      23: '7xzvSYgp/image23.jpg',
-      24: '7tfycjYy/image24.jpg',
-      25: 'fdgjbMRm/image25.jpg',
-      26: '9H6YcBKf/image26.jpg',
-      27: '5gnFSxZt/image27.jpg',
-      28: 'XZPngML0/image28.jpg',
-      29: '7Nn8Y9Gv/image29.jpg',
-      30: 'yck538br/image30.jpg',
-      31: 'XxFHNjqt/image31.jpg',
-      32: 'HfPmkHPp/image32.jpg',
-      33: 'gMBv6CZG/image33.jpg',
-      34: 'Ld3DY74b/image34.jpg',
-      35: 'jPPF3mP1/image35.jpg',
-      36: 'mVYVX4Kb/image36.jpg',
-      37: '8gfncszx/image37.jpg',
-      38: 'xKdRSKgk/image38.jpg',
-      39: 'kgNXnpPL/image39.jpg',
-      40: '8D2cPStZ/image40.jpg',
-      41: 'bgS10X16/image41.jpg',
-      42: 'W4WV39Ls/image42.jpg',
-      43: 'Y7PRD86Q/image43.jpg',
-      44: 'mr8rLLfm/image44.jpg',
-      45: 'rRJMCTss/image45.jpg',
-      46: 'dwL7nbp3/image46.jpg',
-      47: 'fdjpz40P/image47.jpg',
-      48: 'yFFtYM13/image48.jpg',
-      49: 'bRC5r95C/image49.jpg',
-      50: 'dyVJD2w/image50.jpg',
-      51: 'PZx7gVyd/image51.jpg',
-      52: 'CKKvMsDf/image52.jpg',
-      101: 'Gp0dwbHF/image1.jpg',
-      102: '5tcbdf6q/image2.jpg',
-      103: 'q7f4Vpzc/image3.jpg',
-      104: 'HLGdDTVt/image4.jpg',
-      105: 'MGyxzgQf/image5.jpg',
-      106: 'jjVt0RLX/image6.jpg',
-      107: 'BvxsJRKD/image7.jpg',
-      108: 'MGyxzgQB/image8.jpg',
-      109: 'vmWMGCVf/image9.jpg',
-      110: 'JhbmRSkj/image10.jpg',
-      111: '254mCgZd/image11.jpg',
-      112: 'hG9gKNdb/image12.jpg',
-      113: 'wBhH9nmQ/image13.jpg',
-      114: 'YS1ktTWx/image14.jpg',
-      115: '5tw1fDC3/image15.jpg',
-      116: 'pdDxP3Fk/image16.jpg',
-      117: '3wg73zvn/image17.jpg',
-      118: 'k5x97Lbs/image18.jpg',
-      119: '6QdwBFvb/image19.jpg',
-      120: '5tw1fDC7/image20.jpg',
-      121: '254mCgZX/image21.jpg',
-      122: 'tghy98xc/image22.jpg',
-      123: 'HLQHTFyh/image23.jpg',
-      124: 'FKjmhwLw/image24.jpg',
-      125: 'TPrGTBDZ/image25.jpg',
-      126: 'NMBtFb6C/image26.jpg',
-      127: 'tghy986G/image27.jpg',
-      128: 'wvgzMFXf/image28.jpg',
-      129: 'wvgzMFXG/image29.jpg',
-      130: 'Hxdmn3wN/image30.jpg',
-      131: 'mDB4kVYv/image31.jpg',
-      132: '3RYhN9jT/image32.jpg',
-      133: '0QPvjZGv/image33.jpg',
-      134: 'Ssk4RVLq/image34.jpg',
-      135: '26rYyTdr/image35.jpg',
-      136: '85NGcwd5/image36.jpg',
-      137: 'DZnh05Q8/image37.jpg',
-      138: 'gJmpj4yx/image38.jpg',
-      139: 'vBbyTX7g/image39.jpg',
-      140: 'RFdBHfG0/image40.jpg',
-      141: 'Kzf2MLQK/image41.jpg',
-      142: 'bJghtbLn/image42.jpg',
-      143: 'SsdhM8Vs/image43.jpg',
-      144: 'LXDp1fvf/image44.jpg',
-      145: 'nz2JD7Tv/image45.jpg',
-      146: 'sXmrhSK5/image46.jpg',
-      147: 'SsdhM8VV/image47.jpg',
-      148: 'fLCN9X5v/image48.jpg',
-      149: '26GDZvTw/image49.jpg',
-      150: 'DZ6TXs5B/image50.jpg',
-      151: 'Hxzgy536/image51.jpg',
-      152: 'g09mFGnH/image52.jpg'
+      101: 'ccpzdVPW/image1.jpg',
+      102: 'tMPSxh3g/image2.jpg',
+      103: 'gLjPrzf3/image3.jpg',
+      104: 'LD8QxWYR/image4.jpg',
+      105: '3y0DqWHk/image5.jpg',
+      106: 'B2dSDb3H/image6.jpg',
+      107: '8DK6RKvR/image7.jpg',
+      108: '8nbpV53N/image8.jpg',
+      109: 'Z6bC7T5M/image9.jpg',
+      110: 'zTqBrTmM/image10.jpg',
+      111: 'FkpXCBhv/image11.jpg',
+      112: 'F4ffy4rm/image12.jpg',
+      113: 'LwhVzS8/image13.jpg',
+      114: '7dQmB94X/image14.jpg',
+      115: 'pjncQL5x/image15.jpg',
+      116: 'bg41CCm4/image16.jpg',
+      117: 'yBpnshnY/image17.jpg',
+      118: 'qYNQbwTH/image18.jpg',
+      119: 'mCLFRqsV/image19.jpg',
+      120: 'wFgNR5H8/image20.jpg',
+      121: 'FqHtmDk1/image21.jpg',
+      122: 'nNrstZRN/image22.jpg',
+      123: '7xzvSYgp/image23.jpg',
+      124: '7tfycjYy/image24.jpg',
+      125: 'fdgjbMRm/image25.jpg',
+      126: '9H6YcBKf/image26.jpg',
+      127: '5gnFSxZt/image27.jpg',
+      128: 'XZPngML0/image28.jpg',
+      129: '7Nn8Y9Gv/image29.jpg',
+      130: 'yck538br/image30.jpg',
+      131: 'XxFHNjqt/image31.jpg',
+      132: 'HfPmkHPp/image32.jpg',
+      133: 'gMBv6CZG/image33.jpg',
+      134: 'Ld3DY74b/image34.jpg',
+      135: 'jPPF3mP1/image35.jpg',
+      136: 'mVYVX4Kb/image36.jpg',
+      137: '8gfncszx/image37.jpg',
+      138: 'xKdRSKgk/image38.jpg',
+      139: 'kgNXnpPL/image39.jpg',
+      140: '8D2cPStZ/image40.jpg',
+      141: 'bgS10X16/image41.jpg',
+      142: 'W4WV39Ls/image42.jpg',
+      143: 'Y7PRD86Q/image43.jpg',
+      144: 'mr8rLLfm/image44.jpg',
+      145: 'rRJMCTss/image45.jpg',
+      146: 'dwL7nbp3/image46.jpg',
+      147: 'fdjpz40P/image47.jpg',
+      148: 'yFFtYM13/image48.jpg',
+      149: 'bRC5r95C/image49.jpg',
+      150: 'dyVJD2w/image50.jpg',
+      151: 'PZx7gVyd/image51.jpg',
+      152: 'CKKvMsDf/image52.jpg',
+      201: 'Gp0dwbHF/image1.jpg',
+      202: '5tcbdf6q/image2.jpg',
+      203: 'q7f4Vpzc/image3.jpg',
+      204: 'HLGdDTVt/image4.jpg',
+      205: 'MGyxzgQf/image5.jpg',
+      206: 'jjVt0RLX/image6.jpg',
+      207: 'BvxsJRKD/image7.jpg',
+      208: 'MGyxzgQB/image8.jpg',
+      209: 'vmWMGCVf/image9.jpg',
+      210: 'JhbmRSkj/image10.jpg',
+      211: '254mCgZd/image11.jpg',
+      212: 'hG9gKNdb/image12.jpg',
+      213: 'wBhH9nmQ/image13.jpg',
+      214: 'YS1ktTWx/image14.jpg',
+      215: '5tw1fDC3/image15.jpg',
+      216: 'pdDxP3Fk/image16.jpg',
+      217: '3wg73zvn/image17.jpg',
+      218: 'k5x97Lbs/image18.jpg',
+      219: '6QdwBFvb/image19.jpg',
+      220: '5tw1fDC7/image20.jpg',
+      221: '254mCgZX/image21.jpg',
+      222: 'tghy98xc/image22.jpg',
+      223: 'HLQHTFyh/image23.jpg',
+      224: 'FKjmhwLw/image24.jpg',
+      225: 'TPrGTBDZ/image25.jpg',
+      226: 'NMBtFb6C/image26.jpg',
+      227: 'tghy986G/image27.jpg',
+      228: 'wvgzMFXf/image28.jpg',
+      229: 'wvgzMFXG/image29.jpg',
+      230: 'Hxdmn3wN/image30.jpg',
+      231: 'mDB4kVYv/image31.jpg',
+      232: '3RYhN9jT/image32.jpg',
+      233: '0QPvjZGv/image33.jpg',
+      234: 'Ssk4RVLq/image34.jpg',
+      235: '26rYyTdr/image35.jpg',
+      236: '85NGcwd5/image36.jpg',
+      237: 'DZnh05Q8/image37.jpg',
+      238: 'gJmpj4yx/image38.jpg',
+      239: 'vBbyTX7g/image39.jpg',
+      240: 'RFdBHfG0/image40.jpg',
+      241: 'Kzf2MLQK/image41.jpg',
+      242: 'bJghtbLn/image42.jpg',
+      243: 'SsdhM8Vs/image43.jpg',
+      244: 'LXDp1fvf/image44.jpg',
+      245: 'nz2JD7Tv/image45.jpg',
+      246: 'sXmrhSK5/image46.jpg',
+      247: 'SsdhM8VV/image47.jpg',
+      248: 'fLCN9X5v/image48.jpg',
+      249: '26GDZvTw/image49.jpg',
+      250: 'DZ6TXs5B/image50.jpg',
+      251: 'Hxzgy536/image51.jpg',
+      252: 'g09mFGnH/image52.jpg'
     },
     url(num) {
       const host = Settings.get('wallpaperHost', 'ibb');
       if (host === 'github') {
         return `${this.github}${num}.jpg`;
       }
-      if (host === 'postimages') num += 100;
-      return this[host] + this.images[num];
+      let imageNum = num;
+      if (host === 'ibb') {
+        imageNum += 100;
+      } else if (host === 'postimages') {
+        imageNum += 200;
+      }
+      const image = this.images[imageNum];
+      if (!image) {
+        return '';
+      }
+      return this[host] + image;
     }
   };
-
-  const WALLPAPER_MODES = [
-    { src: ICONS.hand, title: 'Manually Change Wallpaper' },
-    { src: ICONS.hourglass, title: 'Hourly Change Wallpaper' },
-    { src: ICONS.calendarD, title: 'Daily Change Wallpaper' },
-    { src: ICONS.calendarW, title: 'Weekly Change Wallpaper' },
-    { src: ICONS.calendarM, title: 'Monthly Change Wallpaper' }
-  ];
 
   const WALLPAPER_HOSTS = {
     ibb:    'https://i.ibb.co/',
     github: 'https://raw.githubusercontent.com/Razzano/My_Wallpaper_Images/master/image',
     postimages: 'https://i.postimg.cc/'
   };
+
+  const WALLPAPER_MODES = [
+    { src: ICONS.hand, title: 'Manually Change Wallpaper' },
+    { src: ICONS.hourglass, title: 'Hourly Change Wallpaper' },
+    { src: ICONS.calendarDaily, title: 'Daily Change Wallpaper' },
+    { src: ICONS.calendarWeekly, title: 'Weekly Change Wallpaper' },
+    { src: ICONS.calendarMonthly, title: 'Monthly Change Wallpaper' }
+  ];
 
   const WALLPAPER_SITES = [
     {
@@ -487,12 +549,6 @@
   // LOGO MANAGER (Section 1)
   // ===========================================================================
 
-  const Logo = [null];
-
-  for (let i = 1; i <= 16; i++) {
-    Logo.push($el('img', {id: 'logoGoogle', class: 'logo', src: IMAGES[`logo${i}`]}));
-  }
-
   const applyLogo = (num) => {
     const existing = $id('logoGoogle');
     if (existing) existing.remove();
@@ -500,9 +556,14 @@
     if (isNaN(num) || num < 0 || num > (IMAGE_COUNT + 1)) {
       num = 0;
     }
-    const config = LOGO_CONFIG[num] || { marginTop: '40px', transform: 'translateX(-50%)' };
+    const config = LOGO_CONFIG[num] || {
+      marginTop: '40px',
+      transform: 'translateX(-50%)'
+    };
     GM_addStyle(`
-      img[alt='Google'], #hplogo, #logo, .k1zIA img, .k1zIA svg, #${STRINGS.bodyIdText} #LS8OJ img, #${STRINGS.bodyIdText} #LS8OJ .k1zIA {
+      img[alt='Google'], #hplogo, #logo, .k1zIA img, .k1zIA svg,
+      #${STRINGS.bodyIdText} #LS8OJ img,
+      #${STRINGS.bodyIdText} #LS8OJ .k1zIA {
         display: ${num === 0 ? 'block' : 'none'} !important;
         visibility: ${num === 0 ? 'visible' : 'hidden'} !important;
       }
@@ -513,19 +574,26 @@
         margin-top: ${config.marginTop} !important;
       }
     `);
-    if (num !== 0 && Logo[num]) {
-      const logoCopy = Logo[num].cloneNode(false);
-      logoCopy.id = 'logoGoogle';
-      logoCopy.className = 'logo';
-      logoCopy.style.cssText = `
-        left: 50%;
-        position: absolute;
-        top: ${config.marginTop} !important;
-        transform: ${config.transform} !important;
-      `;
-      body.prepend(logoCopy);
-    } else if (num !== 0) {
-      console.warn(`Logo #${num} not found`);
+    if (num !== 0) {
+      const src = IMAGES.url(num);
+      if (src) {
+        const logoCopy = $el('img', {
+          id: 'logoGoogle',
+          class: 'logo',
+          src
+        });
+        logoCopy.style.cssText = `
+          left: 50%;
+          position: absolute;
+          top: ${config.marginTop};
+          transform: ${config.transform};
+        `;
+        logoCopy.onerror = () => {
+          console.warn(`Logo #${num} not found`);
+          logoCopy.remove();
+        };
+        body.prepend(logoCopy);
+      }
     }
     const inp = $id('inputLogo');
     if (inp) {
@@ -824,11 +892,9 @@
         $el('stop', { offset: '100%', 'stop-color': 'var(--banner-bottom)' })
       )
     );
-
     // =======================
     // CREATE SVG ELEMENTS
     // =======================
-
     const panelImage = $el('image', {
       id: 'panelImage',
       href: ICONS.panel,
@@ -1081,11 +1147,9 @@
       dayBannerGroup,
       dateTimeGroup
     );
-
     // =======================
     // NON SVG
     // =======================
-
     const Clock = $el('div', { className: 'Analog-Bigclock' }, svg);
     const ampmView = Settings.get('ampmView', true);
     ampmText.style.display = ampmView ? '' : 'none';
@@ -1317,7 +1381,7 @@
     });
     const imageCalendar = $el('img', {
       id: 'imageCalendar',
-      src: ICONS.calendar32
+      src: ICONS.calendarDark
     });
     const digCalBtn = $el('button', {
       id: 'digCalBtn',
