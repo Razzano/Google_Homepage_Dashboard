@@ -1,5 +1,5 @@
 # Tampermonkey UserScript
-(1) Analog resizeable svg clock, control container, and dateTime container are all draggable.
+(1) Analog resizeable svg clock, controlContainer, and dateTimeContainer are all draggable.
 
 (2) Options to change wallpaper (0 - 52), manually or auto change hourly, daily, weekly, monthly.
 
