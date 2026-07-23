@@ -1,4 +1,5 @@
-# Tampermonkey UserScript
+# Google Homepage Dashboard
+### Tampermonkey UserScript:
 (1) Analog resizeable svg clock, controlContainer, and dateTimeContainer are all draggable.
 
 (2) Option to change wallpaper (0 - 52), manually or auto change hourly, daily, weekly, monthly.
