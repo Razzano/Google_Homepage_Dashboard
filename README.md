@@ -7,7 +7,7 @@
 
 (4) Option to display custom logos (0 - 17), default Google logo, or leave blank.
 
-(5) Option between Clock face light and dark theme.
+(5) Option between SVG Analog Clock face light and dark theme.
 
 (6) Option for second hand movement for ticking or smoothe sweeping.
 
