@@ -62,7 +62,7 @@
   // GLOBAL CONSTANTS
   // ===========================================================================
 
-  const BASE_SIZE = 340;
+  const BASE_SIZE = 360;
   const DAY_ABBR = ['Sun.','Mon.','Tue.','Wed.','Thu.','Fri.','Sat.'];
   const DAY_FULL = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
   const MONTH_ABBR = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
@@ -1035,7 +1035,7 @@
     });
     const dayBannerText = $el('text', {
       id: 'dayBannerText',
-      y: 23.8,
+      y: 23.2,
       textAnchor: 'middle',
       dominantBaseline: 'middle'
     });
@@ -1272,7 +1272,7 @@
       ampmText.textContent = ampm;
       timeText.textContent = `${h12}:${min}`;
       timeText.setAttribute('x', h12 < 10 ? 42 : 41);
-      calendarText.textContent = `${monthFull} ${ordinal}, ${yr} 🕑 ${h12}:${min} ${ampm}`;
+      calendarText.textContent = `${dayFull} ⇒ ${monthFull} ${dt}${suffix}, ${yr}`; //`${monthFull} ${ordinal}, ${yr} 🕑 ${h12}:${min} ${ampm}`;
       dayBannerText.textContent = DAY_BANNER[day].text.toUpperCase();
       dayBannerText.setAttribute('x', DAY_BANNER[day].x);
     };
@@ -1869,17 +1869,17 @@
                   0 0 0 2px #4f4f4f;
       border-radius: 8px;
       margin-top: 22px;
-      width: 332px;
+      width: 356px;
     }
     #scalerControls {
       align-items: center;
       color: #000;
       cursor: default;
       display: flex;
-      gap: 10px;
+      gap: 12px;
       height: 32px;
       justify-content: center;
-      width: 332px;
+      width: 356px;
     }
     .ClockThemeToggle,
     .ClockSecondToggle,
@@ -1972,14 +1972,15 @@
       cursor: default;
       display: inline-flex;
       justify-content: center;
-      padding-bottom: 4px;
+      padding: 0px 0px 2px 0px;
 	     text-align: center;
-      width: 332px;
+      width: 356px;
+      filter: drop-shadow(1px 1px 2px #000);
     }
     .Analog-CalendarText {
       display: inline-block;
       color: #fff;
-      font: 600 16px Consolas;
+      font: 600 19px Consolas;
       text-shadow: 1px 1px 2px #000;
       white-space: nowrap;
     }
