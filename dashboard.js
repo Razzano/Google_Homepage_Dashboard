@@ -87,9 +87,10 @@
 
   const SVG_NS = 'http://www.w3.org/2000/svg';
   const SVG_TAGS = new Set([
-    'circle','clipPath','defs','desc','feDropShadow','feGaussianBlur','feMerge','feOffset','filter','foreignObject',
-    'g','image','line','linearGradient','marker','mask','path','pattern','polyline','polygon','radialGradient',
-    'rect','script','stop','style','svg','symbol','text','textPath','title','tspan','use'
+    'circle','clipPath','defs','desc','feBlend','feComposite','feColorMatrix','feDropShadow','feFlood','feFuncA','feFuncB','feFuncG',
+    'feFuncR','feGaussianBlur','feImage','feMerge','feMergeNode','feMorphology','feOffset','feSpecularLighting','feSpotLight',
+    'feDistantLight','filter','foreignObject','g','image','line','linearGradient','marker','mask','path','pattern','polyline',
+    'polygon','radialGradient','rect','script','stop','style','svg','symbol','text','textPath','title','tspan','use'
   ]);
 
   const $el = (tag, props = {}, ...children) => {
@@ -856,22 +857,162 @@
         },
         $el('stop', { offset: '0%', 'stop-color': 'var(--banner-top)' }),
         $el('stop', { offset: '100%', 'stop-color': 'var(--banner-bottom)' })
+      ),
+      $el('linearGradient', {
+        id: 'panelGradient',
+        gradientTransform: 'rotate(90)'
+        },
+        $el('stop', { offset: '0%', 'stop-color': '#ccc' }),
+        $el('stop', { offset: '100%', 'stop-color': '#666' })
       )
     );
     // =======================
     // CREATE SVG ELEMENTS
     // =======================
-    const panelImage = $el('image', {
-      id: 'panelImage',
-      href: ICONS.panel,
+    const outerFrame = $el('rect', {
+      className: 'Outer-Frame',
+      x: -1,
+      y: -1,
+      width: 13,
+      height: 13,
+      rx: 1,
+      ry: 1,
+      fill: '#666',
+      stroke: '#999',
+      'stroke-width': .3
+    });
+    const innerPanel = $el('rect', {
+      className: 'Inner-Frame',
+      x: -.5,
+      y: -.5,
       width: 12,
       height: 12,
-      x: 0,
-      y: 0,
+      rx: .5,
+      ry: .5,
+      fill: 'url(#panelGradient)',
+      stroke: '#999',
+      'stroke-width': .2
+    });
+    const verticalLine1 = $el('line', {
+      className: 'Track-1',
+      x1: 1,
+      y1: 1,
+      x2: 1,
+      y2: 8,
+      stroke: '#000',
+      'stroke-width': 1,
+      'stroke-linecap': 'round'
+    });
+    const verticalLine2 = $el('line', {
+      className: 'Track-2',
+      x1: 4,
+      y1: 1,
+      x2: 4,
+      y2: 8,
+      stroke: '#000',
+      'stroke-width': 1,
+      'stroke-linecap': 'round'
+    });
+    const verticalLine3 = $el('line', {
+      className: 'Track-3',
+      x1: 7,
+      y1: 1,
+      x2: 7,
+      y2: 8,
+      stroke: '#000',
+      'stroke-width': 1,
+      'stroke-linecap': 'round'
+    });
+    const verticalLine4 = $el('line', {
+      className: 'Track-4',
+      x1: 10,
+      y1: 1,
+      x2: 10,
+      y2: 8,
+      stroke: '#000',
+      'stroke-width': 1,
+      'stroke-linecap': 'round'
+    });
+    const knob1 = $el('rect', {
+      className: 'Knob-1',
+      x: .25,
+      y: 4,
+      width: 1.5,
+      height: 1.5,
+      rx: 0,
+      fill: '#090',
+      stroke: '#fff',
+      'stroke-width': .75
+    });
+    const knob2 = $el('rect', {
+      className: 'Knob-2',
+      x: 3.25,
+      y: 6,
+      width: 1.5,
+      height: 1.5,
+      rx: 0,
+      fill: '#090',
+      stroke: '#fff',
+      'stroke-width': .75
+    });
+    const knob3 = $el('rect', {
+      className: 'Knob-3',
+      x: 6.25,
+      y: 3,
+      width: 1.5,
+      height: 1.5,
+      rx: 0,
+      fill: '#090',
+      stroke: '#fff',
+      'stroke-width': .75
+    });
+    const knob4 = $el('rect', {
+      className: 'Knob-4',
+      x: 9.25,
+      y: 5,
+      width: 1.5,
+      height: 1.5,
+      rx: 0,
+      fill: '#090',
+      stroke: '#fff',
+      'stroke-width': .75
+    });
+    const horizontalTrack = $el('line', {
+      className: 'Horizontal-Track',
+      x1: 1,
+      y1: 10.5,
+      x2: 10,
+      y2: 10.5,
+      stroke: '#000',
+      'stroke-width': 1,
+      'stroke-linecap': 'round'
+    });
+    const roundKnob = $el('circle', {
+      className: 'Round-Knob',
+      cx: 7,
+      cy: 10.5,
+      r: .75,
+      fill: '#090',
+      stroke: '#fff',
+      'stroke-width': .75
+    });
+    const panelGroup = $el('g', {
+      id: 'panelGroup',
       style: 'cursor: pointer;',
       onclick: () => toggleControls()
-    }, [
-      $el('title', {}, [TITLES.controlsBtnTitle])
+      }, [
+      outerFrame,
+      innerPanel,
+      verticalLine1,
+      verticalLine2,
+      verticalLine3,
+      verticalLine4,
+      knob1,
+      knob2,
+      knob3,
+      knob4,
+      horizontalTrack,
+      roundKnob
     ]);
     const bezelGroup = $el('g', {
       className: 'Analog-Bezel'
@@ -1086,7 +1227,7 @@
       viewBox: '0 0 100 100'
       },
       defs,
-      panelImage,
+      panelGroup,
       bezelGroup,
       clockFace,
       ...ticks,
@@ -1851,10 +1992,10 @@
       stroke: rgba(255, 255, 255, .85);
       stroke-width: .18;
     }
-    .Analog > #panelImage {
+    .Analog > #panelGroup {
       display: none;
     }
-    .Analog:hover > #panelImage {
+    .Analog:hover > #panelGroup {
       display: block;
     }
   `);
