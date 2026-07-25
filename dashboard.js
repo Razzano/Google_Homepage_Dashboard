@@ -2204,7 +2204,7 @@
       box-shadow: none;
       color: #FFF;
       cursor: pointer;
-      margin: 0px 0px 0px 2px;
+      margin: 0px 10px;
       max-height: 32px;
       min-width: 0px;
       padding: 3px 10px;
