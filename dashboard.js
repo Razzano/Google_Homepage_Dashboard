@@ -797,10 +797,8 @@
       },
       $el('linearGradient', {
         id: 'bezelOuterGradient',
-        x1: '0%',
-        y1: '0%',
-        x2: '0%',
-        y2: '100%'
+        x1: '0%', y1: '0%',
+        x2: '0%', y2: '100%'
         },
         $el('stop', { offset: '0%', 'stop-color': '#ffffff' }),
         $el('stop', { offset: '8%', 'stop-color': '#f3f3f3' }),
@@ -814,10 +812,8 @@
       ),
       $el('linearGradient', {
         id: 'bezelInnerGradient',
-        x1: '0%',
-        y1: '0%',
-        x2: '0%',
-        y2: '100%'
+        x1: '0%', y1: '0%',
+        x2: '0%', y2: '100%'
         },
         $el('stop', { offset: '0%', 'stop-color': '#ffffff' }),
         $el('stop', { offset: '20%', 'stop-color': '#d8d8d8' }),
@@ -826,9 +822,7 @@
       ),
       $el('radialGradient', {
         id: 'faceGradient',
-        cx: '50%',
-        cy: '50%',
-        r: '50%',
+        cx: '50%', cy: '50%', r: '50%',
         gradientUnits: 'objectBoundingBox'
         },
         $el('stop', {
@@ -862,208 +856,143 @@
         id: 'panelGradient',
         gradientTransform: 'rotate(90)'
         },
-        $el('stop', { offset: '0%', 'stop-color': '#ccc' }),
-        $el('stop', { offset: '100%', 'stop-color': '#666' })
+        $el('stop', { offset: '0%', 'stop-color': '#fff' }),
+        $el('stop', { offset: '100%', 'stop-color': '#4f4f4f' })
       )
     );
     // =======================
     // CREATE SVG ELEMENTS
     // =======================
-    const outerFrame = $el('rect', {
-      className: 'Outer-Frame',
-      x: -1,
-      y: -1,
-      width: 13,
-      height: 13,
-      rx: 1,
-      ry: 1,
-      fill: '#666',
-      stroke: '#999',
-      'stroke-width': .3
-    });
-    const innerPanel = $el('rect', {
-      className: 'Inner-Frame',
-      x: -.5,
-      y: -.5,
-      width: 12,
-      height: 12,
-      rx: .5,
-      ry: .5,
-      fill: 'url(#panelGradient)',
-      stroke: '#999',
-      'stroke-width': .2
-    });
-    const verticalLine1 = $el('line', {
-      className: 'Track-1',
-      x1: 1,
-      y1: 1,
-      x2: 1,
-      y2: 8,
-      stroke: '#000',
-      'stroke-width': 1,
-      'stroke-linecap': 'round'
-    });
-    const verticalLine2 = $el('line', {
-      className: 'Track-2',
-      x1: 4,
-      y1: 1,
-      x2: 4,
-      y2: 8,
-      stroke: '#000',
-      'stroke-width': 1,
-      'stroke-linecap': 'round'
-    });
-    const verticalLine3 = $el('line', {
-      className: 'Track-3',
-      x1: 7,
-      y1: 1,
-      x2: 7,
-      y2: 8,
-      stroke: '#000',
-      'stroke-width': 1,
-      'stroke-linecap': 'round'
-    });
-    const verticalLine4 = $el('line', {
-      className: 'Track-4',
-      x1: 10,
-      y1: 1,
-      x2: 10,
-      y2: 8,
-      stroke: '#000',
-      'stroke-width': 1,
-      'stroke-linecap': 'round'
-    });
-    const knob1 = $el('rect', {
-      className: 'Knob-1',
-      x: .25,
-      y: 4,
-      width: 1.5,
-      height: 1.5,
-      rx: 0,
-      fill: '#090',
-      stroke: '#fff',
-      'stroke-width': .75
-    });
-    const knob2 = $el('rect', {
-      className: 'Knob-2',
-      x: 3.25,
-      y: 6,
-      width: 1.5,
-      height: 1.5,
-      rx: 0,
-      fill: '#090',
-      stroke: '#fff',
-      'stroke-width': .75
-    });
-    const knob3 = $el('rect', {
-      className: 'Knob-3',
-      x: 6.25,
-      y: 3,
-      width: 1.5,
-      height: 1.5,
-      rx: 0,
-      fill: '#090',
-      stroke: '#fff',
-      'stroke-width': .75
-    });
-    const knob4 = $el('rect', {
-      className: 'Knob-4',
-      x: 9.25,
-      y: 5,
-      width: 1.5,
-      height: 1.5,
-      rx: 0,
-      fill: '#090',
-      stroke: '#fff',
-      'stroke-width': .75
-    });
-    const horizontalTrack = $el('line', {
-      className: 'Horizontal-Track',
-      x1: 1,
-      y1: 10.5,
-      x2: 10,
-      y2: 10.5,
-      stroke: '#000',
-      'stroke-width': 1,
-      'stroke-linecap': 'round'
-    });
-    const roundKnob = $el('circle', {
-      className: 'Round-Knob',
-      cx: 7,
-      cy: 10.5,
-      r: .75,
-      fill: '#090',
-      stroke: '#fff',
-      'stroke-width': .75
-    });
     const panelGroup = $el('g', {
       id: 'panelGroup',
       style: 'cursor: pointer;',
       onclick: () => toggleControls()
-      }, [
-      outerFrame,
-      innerPanel,
-      verticalLine1,
-      verticalLine2,
-      verticalLine3,
-      verticalLine4,
-      knob1,
-      knob2,
-      knob3,
-      knob4,
-      horizontalTrack,
-      roundKnob
-    ]);
+      },
+      $el('rect', {
+        className: 'Outer-Frame',
+        x: -1, y: -1,
+        width: 13, height: 13,
+        rx: 1, ry: 1,
+        fill: '#666',
+        stroke: '#999', 'stroke-width': .3
+      }),
+      $el('rect', {
+        className: 'Inner-Frame',
+        x: -.5, y: -.5,
+        width: 12, height: 12,
+        rx: .5, ry: .5,
+        fill: 'url(#panelGradient)',
+        stroke: '#999', 'stroke-width': .2
+      }),
+      $el('line', {
+        className: 'Track-1',
+        x1: 1, y1: 1,
+        x2: 1, y2: 8,
+        stroke: '#000', 'stroke-width': 1, 'stroke-linecap': 'round'
+      }),
+      $el('line', {
+        className: 'Track-2',
+        x1: 4, y1: 1,
+        x2: 4, y2: 8,
+        stroke: '#000',
+        'stroke-width': 1, 'stroke-linecap': 'round'
+      }),
+      $el('line', {
+        className: 'Track-3',
+        x1: 7, y1: 1,
+        x2: 7, y2: 8,
+        stroke: '#000',
+        'stroke-width': 1, 'stroke-linecap': 'round'
+      }),
+      $el('line', {
+        className: 'Track-4',
+        x1: 10, y1: 1,
+        x2: 10, y2: 8,
+        stroke: '#000',
+        'stroke-width': 1, 'stroke-linecap': 'round'
+      }),
+      $el('rect', {
+        className: 'Knob-1',
+        x: .25, y: 4,
+        width: 1.5, height: 1.5,
+        rx: 0,
+        fill: '#090',
+        stroke: '#fff', 'stroke-width': .75
+      }),
+      $el('rect', {
+        className: 'Knob-2',
+        x: 3.25, y: 6,
+        width: 1.5, height: 1.5,
+        rx: 0,
+        fill: '#090',
+        stroke: '#fff', 'stroke-width': .75
+      }),
+      $el('rect', {
+        className: 'Knob-3',
+        x: 6.25, y: 3,
+        width: 1.5, height: 1.5,
+        rx: 0,
+        fill: '#090',
+        stroke: '#fff', 'stroke-width': .75
+      }),
+      $el('rect', {
+        className: 'Knob-4',
+        x: 9.25, y: 5,
+        width: 1.5, height: 1.5,
+        rx: 0,
+        fill: '#090',
+        stroke: '#fff', 'stroke-width': .75
+      }),
+      $el('line', {
+        className: 'Horizontal-Track',
+        x1: 1, y1: 10.5,
+        x2: 10, y2: 10.5,
+        stroke: '#000',
+        'stroke-width': 1, 'stroke-linecap': 'round'
+      }),
+      $el('circle', {
+        className: 'Round-Knob',
+        cx: 7, cy: 10.5,
+        r: .75,
+        fill: '#090',
+        stroke: '#fff', 'stroke-width': .75
+      })
+    );
     const bezelGroup = $el('g', {
       className: 'Analog-Bezel'
       },
       $el('circle', {
         className: 'Analog-BezelOuter',
-        cx: 50,
-        cy: 50,
-        r: 48.8,
+        cx: 50, cy: 50, r: 48.8,
         fill: 'none',
-        stroke: 'url(#bezelOuterGradient)',
-        'stroke-width': 7.5
+        stroke: 'url(#bezelOuterGradient)', 'stroke-width': 7.5
       }),
       $el('circle', {
         className: 'Analog-BezelInner',
-        cx: 50,
-        cy: 50,
-        r: 48.8,
+        cx: 50, cy: 50, r: 48.8,
         fill: 'none',
-        stroke: 'url(#bezelInnerGradient)',
-        'stroke-width': 1.0
+        stroke: 'url(#bezelInnerGradient)', 'stroke-width': 1.0
       }),
       $el('circle', {
         className: 'Analog-BezelShadow',
-        cx: 50,
-        cy: 50,
-        r: 49,
+        cx: 50, cy: 50, r: 49,
         fill: 'none'
       }),
       $el('circle', {
         className: 'Analog-BezelHighlight',
-        cx: 50,
-        cy: 50,
-        r: 48.1,
+        cx: 50, cy: 50, r: 48.1,
         fill: 'none'
       }),
       $el('circle', {
         className: 'Analog-BezelFinish',
-        cx: 50,
-        cy: 50,
-        r: 47,
+        cx: 50, cy: 50, r: 47,
         fill: 'none',
-        stroke: 'rgba(0, 0, 0, .3)',
-        'stroke-width': .5
+        stroke: 'rgba(0, 0, 0, .3)', 'stroke-width': .5
       })
     );
     const clockFace = $el('circle', {
       className: 'Analog-Face',
-      cx: 50,
-      cy: 50,
-      r: 47,
+      cx: 50, cy: 50, r: 47,
       fill: 'url(#faceGradient)'
     });
     for (let i = 0; i < 60; i++) {
@@ -1117,55 +1046,35 @@
       }),
       $el('line', {
         className: 'Analog-Second-Tail',
-        x1: 50,
-        y1: 55,
-        x2: 50,
-        y2: 56
+        x1: 50, y1: 55,
+        x2: 50, y2: 56
       }),
       $el('polygon', {
         className: 'Analog-Second-Counter',
-        points: `
-          50,61
-          49.2,60.4
-          49.2,56.8
-          50,56
-          50.8,56.8
-          50.8,60.4
-        `
+        points: `50,61 49.2,60.4 49.2,56.8 50,56 50.8,56.8 50.8,60.4`
       })
     );
     const hubOuter = $el('circle', {
       className: 'Analog-HubOuter',
-      cx: 50,
-      cy: 50,
-      r: 2.6
+      cx: 50, cy: 50, r: 2.6
     });
     const hubInner = $el('circle', {
       className: 'Analog-HubInner',
-      cx: 50,
-      cy: 50,
-      r: 1.55
+      cx: 50, cy: 50, r: 1.55
     });
     const hubPin = $el('circle', {
       className: 'Analog-HubPin',
-      cx: 50,
-      cy: 50,
-      r: 0.58
+      cx: 50, cy: 50, r: 0.58
     });
     const hubHighlight = $el('circle', {
       className: 'Analog-HubHighlight',
-      cx: 49.2,
-      cy: 49.1,
-      r: 0.32
+      cx: 49.2, cy: 49.1, r: 0.32
     });
     const dayBannerBg = $el('rect', {
       id: 'dayBannerBg',
-      x: 36,
-      y: 18,
-      width: 29,
-      height: 7.5,
-      rx: 2,
-      ry: 2,
+      x: 36, y: 18,
+      width: 29, height: 7.5,
+      rx: 2, ry: 2,
       fill: 'url(#bannerGradient)'
     });
     const dayBannerBorder = $el('rect', {
@@ -1192,8 +1101,7 @@
     const dateText = $el('text', {
       id: 'dateText',
       className: 'Analog-MonthDateText',
-      x: 41,
-      y: 31,
+      x: 41, y: 31,
       textAnchor: 'start',
       dominantBaseline: 'middle'
     });
@@ -1207,8 +1115,7 @@
     });
     const ampmText = $el('text', {
       className: 'Analog-AMPMText',
-      x: 47,
-      y: 84,
+      x: 47, y: 84,
       textAnchor: 'middle',
       dominantBaseline: 'middle'
     });
@@ -1339,18 +1246,13 @@
       title: '',
       onclick: dateTimeToggle
     }, calendarImg2);
-    const scalerControls = $el('div', {
-      id: 'scalerControls',
-      className: 'scaler-controls' },
-      themeBtn,
-      secondHandBtn,
-      anaCalBtn,
-      anaCalBtn2
-    );
     const controlsPanel = $el('div', {
       id: 'controlsPanel'
       },
-      scalerControls,
+      themeBtn,
+      secondHandBtn,
+      anaCalBtn,
+      anaCalBtn2,
       clockInfo
     );
     const toggleControls = () => {
@@ -2057,98 +1959,18 @@
                   0 0 0 2px #4f4f4f;
       border-radius: 8px;
       margin-top: 22px;
-      width: 120px;
+      width: 110px;
     }
-    #scalerControls {
-      align-items: center;
-      color: #000;
-      cursor: default;
-      display: flex;
-      gap: 4px;
-      height: 32px;
-      justify-content: center;
-      width: 120px;
-    }
-    .ClockThemeToggle,
-    .ClockSecondToggle,
-    .scaler-info,
-    .am-pm {
-      border: none;
-      cursor: pointer;
-      margin: 0px;
-      padding: 0px;
-      width: 32px;
-    }
-    #spacer3 {
-      color: #000;
-      margin: 0px;
-      opacity: 1;
-      pointer-events: none;
-      text-align: center;
-    }
-    .scaler-reset {
-      background: none;
-      border: 1px solid transparent;
-      border-radius: 11px;
-      cursor: pointer;
-      font-size: 14px;
-      font-weight: 500;
-      justify-content: center;;
-      margin: 0px 10px;
-      padding: 0px;
-      text-align: center;
-      width: 60px;
-    }
-    .scaler-reset:hover {
-      background: rgba(255, 255, 255, .9);
-      color: #000;
-      font-weight: 700;
-    }
-    .scaler-btn {
-      background: rgba(255, 255, 255, .1);;
-      border: 1px solid #000;
-      border-radius: 11px;
-      cursor: pointer;
-      font-size: 18px;
-      font-weight: 700;
-      height: 22px;
-      line-height: 1;
-      opacity: .7;
-      width: 22px;
-    }
-    .scaler-btn:hover {
-      background: rgba(255, 255, 255, .9);
-      color: #000;
-      opacity: 1;
-    }
-    .scaler-inp {
-      background: rgba(255, 255, 255, .1);
-      border: 1px solid #000;
-      border-radius: 14px;
-      color: #fff;
-      font-size: 14px;
-      font-weight: 500;
-      margin: 0px 14px;
-      min-width: 32px;
-      padding: 2px 2px 0px 0px;
-      text-align: center;
-    }
-    .scaler-inp:hover,
-    .scaler-inp:focus-within {
-      background: rgba(255 ,255, 255, .9);
-      color: #000;
-    }
-    .scaler-controls > button {
+    #controlsPanel > button {
       color: #000;
       opacity: .7;
+      position: relative;
+      top: 2px;
       width: 26px;
     }
-    .scaler-controls > button:hover {
+    #controlsPanel > button:hover {
       cursor: pointer;
       opacity: 1;
-      filter: drop-shadow(1px 1px 3px #000);
-    }
-    .scaler {
       filter: drop-shadow(1px 1px 3px #000);
     }
   `);
@@ -2157,13 +1979,6 @@
   GM_addStyle(`
     #clockInfo {
       display: none;
-    }
-    .Analog-CalendarText {
-      display: inline-block;
-      color: #fff;
-      font: 600 19px Consolas;
-      text-shadow: 1px 1px 2px #000;
-      white-space: nowrap;
     }
   `);
 
@@ -2190,6 +2005,7 @@
       pointer-events: auto;
     }
     #hostImg {
+      cursor: pointer;
       filter: none;
       margin: 0px 16px 0px -4px;
       position: relative;
@@ -2197,6 +2013,7 @@
       width: 22px;
     }
     #wallpaperToggler {
+      cursor: pointer;
       height: 22px;
       width: 22px;
     }
@@ -2287,6 +2104,7 @@
     }
     #analogClockBtn {
       color: #fff;
+      cursor: pointer;
       opacity: .7;
     }
     #analogClockBtn > img {
@@ -2311,19 +2129,64 @@
       filter: brightness(2);
       opacity: 1;
     }
+    #scalerReset {
+      border-radius: 11px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 500;
+      justify-content: center;;
+      margin: 0px 10px;
+      padding: 0px;
+      text-align: center;
+      width: 60px;
+    }
+    #scalerReset:hover {
+      font-weight: 700;
+    }
+    .scaler-btn {
+      border-radius: 11px;
+      cursor: pointer;
+      font-size: 18px;
+      font-weight: 700;
+      height: 22px;
+      line-height: 1;
+      opacity: .7;
+      width: 22px;
+    }
+    #scalerInput {
+      border-radius: 14px;
+      font-size: 14px;
+      font-weight: 500;
+      margin: 0px 14px;
+      min-width: 32px;
+      padding: 2px 2px 0px 0px;
+      text-align: center;
+    }
+    .scaler {
+      background: rgba(255, 255, 255, .1);
+      border: 1px solid #000;
+      color: #fff;
+      filter: drop-shadow(1px 1px 3px #000);
+    }
+    .scaler:hover,
+    .scaler-inp:hover,
+    .scaler-inp:focus-within {
+      background: rgba(255 ,255, 255, .9);
+      color: #000;
+      opacity: 1;
+    }
   `);
 
   // DATE/TIME CONTAINER
   GM_addStyle(`
+    #digCalBtn {
+      display: none;
+    }
     #dateTimeContainer {
       align-items: center;
-      border-radius: 8px;
       box-sizing: border-box;
       display: inline-flex;
       font: 18px monospace;
-      max-height: 32px;
-      min-width: 32px;
-      padding: 0px 8px;
       pointer-events: auto;
       user-select: none;
       z-index: 4;
@@ -2334,17 +2197,6 @@
     #dateTimeContainer > * {
       pointer-events: auto;
     }
-    #digCalBtn {
-      border-radius: 8px;
-      cursor: pointer;
-      display: none;
-      height: 33px;
-      margin: 0px;
-      width: 32px;
-    }
-    #imageCalendar {
-      border-radius: 8px;
-    }
     #dateTime {
       background: #34495e;
       border: 1px solid transparent;
@@ -2352,7 +2204,6 @@
       box-shadow: none;
       color: #FFF;
       cursor: pointer;
-      display: block;
       margin: 0px 0px 0px 2px;
       max-height: 32px;
       min-width: 0px;
