@@ -264,7 +264,7 @@
     hourglass: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABYAAAAWCAYAAADEtGw7AAABHklEQVR4AbyTMY7CQAxFPSttt2eAvcEeZA/BISigAAEduQgFR+EMFCBKoECCCqTB3xokGNsMiRBRfjK2v984ifJF2XGcd2NdZQgJFViyb7go8P5/SnVlzaHAlqlJ7oPgSP1aEzp+NXH757six6w2ZJ/4VYFIgeGBubUb9lvbAbladsbwwW/JBMMY2tOKQjBfS/itQvibTeDz5ILRYMIPmzFqJT0Fo/kBztDSpOiBimCYBM6LV6FstT8eCvdan87y+Lf7fc1bFydOsFECjFKcQv/2FMyQyK03KC/lBBx5CbyLC2aoPL7XWKqb4NSUT5rvgcndzU0wE0pQtsjp+hQ4rnrR+o2BsfLwo5ZLgXND01iBT4sL1ZW1uQJbpia5KwAAAP//ZeibPAAAAAZJREFUAwBJyMT9o1gnygAAAABJRU5ErkJggg==',
     ibb: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABYAAAAWCAYAAADEtGw7AAAA5klEQVR4AdSQsQ3CQBAEX06pgJiEBuiEfhDdENAJDRCSUYFjW2NpX6vz/8uBPzDS6O5371bmhsvrN/VgSJ1+Bw0ev5/k6Dqu0UtXRXOkU/Mp/o97AkQHDVzzHg9co8/BPPakf/D5+U7Q+mrdszbjfv5i7gRaYkg9FQ/o8YBe4AFvvByMENEguv6Na95HvxlMIGhJFc2Rroq3KZjB0/VGqRL9YjA3igklzWeiXwz22/lyTdeM+6tgN31But+x5a+CNVyqCo331Kz7ORjRYdjf9Ggeiua4vwQzvBWWoTaPB0swzd4cL3gGAAD//6vZcxQAAAAGSURBVAMAImLHyZEJKAgAAAAASUVORK5CYII=',
     moon: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABYAAAAWCAYAAADEtGw7AAADFUlEQVR4AazUX0gUQRwH8O/sn1vvTu9SL0+TzIOIqx4LAstIsCgyK8SMyHoJygJ7CHqxSKWojMoH8SWhCCTNKDWC6s3QTJQyCiz/lPmH8s/ppd15tns7/fYuROsh0hv2tzszt/OZ380MKyACpet+Ef+TiQhsCmjQhqoW4BGBA9PTEJmOia6KOTwisKhoANcRazeh+MzeEB4R2BRDKxwYJRy4cDaXGkCEYAbdN4Hvb18A2gxuFh/kEYFtsSIEUYY9JQmeV89ReHz30jO+cXI7j7YIQHRKaAmsScmEBilCzcXfcnekgjEaP91Nt5+IciYAuro0OHvzWu5MFmGciLnQNZpAXxp851waZIkczgnnmPUFqKFTXV883F99hMcm0NrS+cVvWIl1QfOMEIzFwe8q83iCKwajQ16MDU8SZGTJ6ahNQYpLhOrX/h8evZfP16e7oWhTiF+mwGaRMfx5LIxrPoBJGOgZgZCzxUVT4Z+l5VI29z85zJevolfprzORgQkMkiTAbJIJpn6BnnSeV2ddZML1fRvAH2VztW4/by/L5Kf3rOMFO928unArf30ti09V5/FAfR5P22SG2UI7HqQ8pCg6YgIFIw2E09NYa9GMkU8/Qn1CYW0nvOMiJPo6bXRZUX50DSqPuXFomwPulSZ4JmegyEFaPwINNEh11Qvd7ATXqY8ui8MByBaomoLEzFIGKkJjey/r7NXg8woAjQkHvR3UIVri4VzhQF+PkSltUAjmYJODEFQPmN0B0WaFJKjgYjROnW8kMnyRBmRcfcze9OrwekRA40CQJiVLsNshWq2wxJkBIzuaDEYY9YAPzE+bpqlQdRtKylpwq6GDBs6DjWr6lQZW9mwAX/pNmPXT75S99K0PJt9XJEXP0mQ0oQHOD6ZgdNCC9PwalNxtokGGFI5QxuEqcLmxg6UW1bHW9xwfuxVMTzIEZyh1jZaB3FDWBGuqhP4uM+pqxuHMqWBtH4YWoIa3ADY6jMgor2fu0lpmO/GQPX2po7lVRluzgpYmGVUPpiDvqmaugtvsQHnDX6Ax3ohfAAAA///Q4S43AAAABklEQVQDAFx5QpKw11dEAAAAAElFTkSuQmCC',
-    panel: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABYAAAAWCAYAAADEtGw7AAAB2ElEQVR4AayUMYoqQRRFH70GwdBAXIEgGAiCGGoi/Xdh5Dp0C+ZdkcaCgoGRiTswNxJRROFPnYL3qCk6aOgZOHPfvdV1qS7UTPxfv9/PPcVkMvlfBzo8ua+UjGGxWBTdbldarVYt6KCLTk6cHw4Ht1qtco/UJHT5E+dZo9Hg6Pnr9RKYzWZBmSH1ZVn8DKV0cmI/i5Vh2KyknjzNYs8Mv4qbzaZst1tBKQAeQmPSLPbMYMWfzwdv4IEAjUmz2DODFXOiy+Ui0+lUUDzwEKp0Op3wVqhm8TPMYMV6IkKd0TJPBqxDOuOt+H6/CxCiwOeSO0fxsN/vw1uheIj3MIMVf79fAUIUmBW8QqYzGntmsOKy++K03Dmq6ygbURiPx+HOUTxrYMXcFRCiSurJ44xZ0TW8FXNXQIgqqSePs/V6He4c1TXWrZi7AkJUST15msWeGaz4+XwKjEajoMyQ+rIsfoZSsGJO8hdQClb8eDxE6fV64n9XBdWsqlIKVvx+v+V8PgcGgwFrgmpWRekIG/2/7Ha7Oa+Oz2C73RY4Ho8+EtntdsGTVYEOv9HRyYndcDjM/f06T/j2FUUh8/lcNptN8JpX0NBFeXY6ndxyufzHq16vV6kDHXTR+QMAAP//rdU68AAAAAZJREFUAwCKh1tkw2wR6gAAAABJRU5ErkJggg==',
+    panel: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABYAAAAWCAYAAADEtGw7AAABA0lEQVR4AayVARKDIAwEOV/uzykbjQVrEKWduSaEy0JaZ1zS/lnXNf9DOy4ZGKAXZqOzFk8AlpzQ6E2t9GS/cSoLAxKRLSa+DEx/zjm5WM/qAI+AmAThJSLyKx1gSUnadGX0mk9F9NpVNDAnIwxERD4jAz8BSNtUkrptIZhbI7qJteoa+ZVCMGZ+RxfrJ+qCR0A+Cd4674IlvX5SQnB9ep1zsxGF4JFm90i/kzVgbuZmj3c19s+itwFTiFQ3R566buC6Kcr9sSNGHq9zgIFJaIjE/ll33gMsff8Aqc3PUNZS65G2NXuIN4h8hF6UtkZJ9lLoecue7MYknNJT8RzAG5/Y/wAAAP//3j4GLgAAAAZJREFUAwBkNgkqKLnghwAAAABJRU5ErkJggg==',
     postimages: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABYAAAAWCAYAAADEtGw7AAABNElEQVR4AbyST0pCURTGL06aNWsLQQXNmkQjW0JE7aBNFAS1iXZQREvIUbNmggouQWfOHCm/h5/cd+7RexBU+Lzn3/d7x+ftXL9OFvtQJ+3psxE8HvVTVN5uLhggw093V+nr5SZNP28LUafPnOaJpQKsIYzv98epe3Gk2dZJnT5zNOQjRgWYIptgJJZOHn+TpBonc8wT53LB3fP2lgAxnZ5dcjQPaILVl52n7IOzn2+hHpytgeVywfkAsWDEyObUrEJga4rkIbD9x23uPagK5g5jFEyn6vR6gzlHS1Uw04J4UPq94Y5gzMAlcoltP37+la7P6sZct+fv2dqgACD1h7e/pmRvShWMi414QC6A1OlbKLUQGOM2AbIKga0pkh8WnL/LyHbeTLGx9y49Y61WgGuGaH8JAAD//+ycaQIAAAAGSURBVAMAErvEL4E+ypgAAAAASUVORK5CYII=',
     sun: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABYAAAAWCAYAAADEtGw7AAADw0lEQVR4AYxVS28cRRD+umd2dzZj1mtjYrCMojwwSBgcsHgkkAM5IA4cOHDlwim/ACFhiUQiUkhQhEQOBsIhFwS/AIGQOCKIeEZGQglYAhwSybKzfmx2t7urqOpZr3cdibh3vq7q6qqvaqp7tBa7HO0zUxzmn+RdumNXxI3Tj3IgcbUWfOkoP//Q8F0TiPdgDSvvHWa6+Cy7+Wd4/fws3zz5GAdv4APgmw6h5fDFiQNYfmeaN09PsT97kP25gzzIgsGKP3ttP+dpAnIEI57UdqjMlFB+YQil4yMwR3Ngtozs6SpsSTKJD8PAVHOsfTDYJit7vef4vmFsrAY0Orextj+An6ogGSnBiJfCWgObGKS1BCMvjWHPy+OgR+qwe4ZwTy1H/5CQ7aUPBL+XQIfK20bRjCA+ohgjU1wUU3lfVfwB6RdeP3IvF1YUrbgxN81/vTnNnBB4MhEvebouLFIRA1SPyuBkhxO4tIX5V0YRLsyIlxCvnJpiLcIiBQ6nUBKWSZ6o6xTXVCRjinHYOcozQ0BSAtKy3JxjbIm0whSJ/AoCVi4ogUJ5WEhJlH7sJNY11YU0yNk4D/v7jRTkMrhDDhQYMbhfeirsYgtyWyI6BC8Ishc8I0L27OM5XKOJzkoD9rkPrxhmA59St0pEchaimEQrVb2LSCJ6lEJKkZwiOcnhK1f2xm/G6isojDrpK0tQj1R0EgQJCFFyrD70yKgglFjdV19TKikd7PcnZovTaJoYFPu6o0oN0MpICSIpR8LgVCo5gbp2WykjXDzCdrJW3NnKUi7O4iS9ihVpUA8EL3bt6zYCVHfS6y2Ey5twTQ+36WBbkolBIJbTlIpiX1XG1ycElboWxIR3SInt2vyaRbtFaN1qwx44/53Z6Hiw8cgXUwR16usnyVoRurYghQSxhZ5kiSHQQhtBPvkgHa6/faU4vIff/8E8+O7PRopDflNuhZAUfWUEJZF1iEQkvWQBFXa1SYtoWQrbSPHiJ39i76lfjXAXn7QqCitfn1nPUVsyUGKtkiSbkmrVCtWDJlNSkXbJIVvOoCX+8s96JIWM3nUTHZd+vCWZ5LrcHkbtWh31aymStRAPqf+gaNWjvABkC+PINiZgTRUhKSlFDwPEc18vmj9WW73NQDmy66OSpIba1Qz1xQyjf+fSrnH8u3I/2s0xNBuj6LQyPPDWZYO+MUCs9mMf/2Qmzn47AED+kmwF1XqGilzP+05+Y5648JWZPPepmTjzuRmb+9JobD/uIO7f3NI10fV1L5888OpHV7fM/yv/AwAA//+yOWhCAAAABklEQVQDAEqT4fvQlDynAAAAAElFTkSuQmCC',
   };
@@ -975,34 +975,30 @@
       className: 'Analog-HubHighlight',
       cx: 49.2, cy: 49.1, r: 0.32
     });
-    const dayBannerBg = $el('rect', {
-      id: 'dayBannerBg',
-      x: 36, y: 18,
-      width: 29, height: 7.5,
-      rx: 2, ry: 2,
-      fill: 'url(#bannerGradient)'
-    });
-    const dayBannerBorder = $el('rect', {
-      id: 'dayBannerBorder',
-    });
-    const dayBannerHighlight = $el('rect', {
-      id: 'dayBannerHighlight',
-    });
-    const dayBannerText = $el('text', {
-      id: 'dayBannerText',
-      y: 23.2,
-      textAnchor: 'middle',
-      dominantBaseline: 'middle'
-    });
     const dayBannerGroup = $el('g', {
       id: 'dayBanner',
       className: 'DayBanner'
-      }, [
-      dayBannerBg,
-      dayBannerBorder,
-      dayBannerHighlight,
-      dayBannerText
-    ]);
+      },
+      $el('rect', {
+        id: 'dayBannerBg',
+        x: 36, y: 18,
+        width: 29, height: 7.5,
+        rx: 2, ry: 2,
+        fill: 'url(#bannerGradient)'
+      }),
+      $el('rect', {
+        id: 'dayBannerBorder',
+      }),
+      $el('rect', {
+        id: 'dayBannerHighlight',
+      }),
+      $el('text', {
+        id: 'dayBannerText',
+        y: 23.2,
+        textAnchor: 'middle',
+        dominantBaseline: 'middle'
+      })
+    );
     const dateText = $el('text', {
       id: 'dateText',
       className: 'Analog-MonthDateText',
@@ -1494,6 +1490,7 @@
     });
     const panelToggler = $el('button', {
       id: 'panelToggler',
+      className: 'scaler scaler-btn',
       title: TITLES.controlsBtnTitle,
       onclick: toggleControls
       },
@@ -2086,6 +2083,7 @@
     .scaler-inp:focus-within {
       background: rgba(255 ,255, 255, .9);
       color: #000;
+      filter: drop-shadow(0px 0px 3px #000);
       opacity: 1;
     }
     #panelToggler {
@@ -2093,7 +2091,7 @@
       left: 10px;
       margin-right: 8px;
       position: relative;
-      top: 5px;
+      top: 4px;
     }
     #panelToggler:hover {
     }
