@@ -344,7 +344,7 @@
     analogClockBtnShowTitle: 'Show Analog Clock',
     buttonLogoTitle: 'Left-click To Change Logos',
     buttonThemerTitle: 'Left-click To Change Wallpaper',
-    controlsBtnTitle: 'Show/Hide Controls Panel',
+    controlsBtnTitle: 'Show/Hide Clock Controls',
     dateTimeElTitle: 'Left-click → Show/Hide Seconds',
     digCalBtnTitle: 'Left-click → Show/Hide Calendar & Digital Time',
     downLogoTitle: 'Left-click To Change Logos',
@@ -863,101 +863,6 @@
     // =======================
     // CREATE SVG ELEMENTS
     // =======================
-    /*const panelGroup = $el('g', {
-      id: 'panelGroup',
-      style: 'cursor: pointer;',
-      onclick: () => toggleControls()
-      },
-      $el('rect', {
-        className: 'Outer-Frame',
-        x: -1, y: -1,
-        width: 13, height: 13,
-        rx: 1, ry: 1,
-        fill: '#666',
-        stroke: '#999', 'stroke-width': .3
-      }),
-      $el('rect', {
-        className: 'Inner-Frame',
-        x: -.5, y: -.5,
-        width: 12, height: 12,
-        rx: .5, ry: .5,
-        fill: 'url(#panelGradient)',
-        stroke: '#999', 'stroke-width': .2
-      }),
-      $el('line', {
-        className: 'Track-1',
-        x1: 1, y1: 1,
-        x2: 1, y2: 8,
-        stroke: '#000', 'stroke-width': 1, 'stroke-linecap': 'round'
-      }),
-      $el('line', {
-        className: 'Track-2',
-        x1: 4, y1: 1,
-        x2: 4, y2: 8,
-        stroke: '#000',
-        'stroke-width': 1, 'stroke-linecap': 'round'
-      }),
-      $el('line', {
-        className: 'Track-3',
-        x1: 7, y1: 1,
-        x2: 7, y2: 8,
-        stroke: '#000',
-        'stroke-width': 1, 'stroke-linecap': 'round'
-      }),
-      $el('line', {
-        className: 'Track-4',
-        x1: 10, y1: 1,
-        x2: 10, y2: 8,
-        stroke: '#000',
-        'stroke-width': 1, 'stroke-linecap': 'round'
-      }),
-      $el('rect', {
-        className: 'Knob-1',
-        x: .25, y: 4,
-        width: 1.5, height: 1.5,
-        rx: 0,
-        fill: '#090',
-        stroke: '#fff', 'stroke-width': .75
-      }),
-      $el('rect', {
-        className: 'Knob-2',
-        x: 3.25, y: 6,
-        width: 1.5, height: 1.5,
-        rx: 0,
-        fill: '#090',
-        stroke: '#fff', 'stroke-width': .75
-      }),
-      $el('rect', {
-        className: 'Knob-3',
-        x: 6.25, y: 3,
-        width: 1.5, height: 1.5,
-        rx: 0,
-        fill: '#090',
-        stroke: '#fff', 'stroke-width': .75
-      }),
-      $el('rect', {
-        className: 'Knob-4',
-        x: 9.25, y: 5,
-        width: 1.5, height: 1.5,
-        rx: 0,
-        fill: '#090',
-        stroke: '#fff', 'stroke-width': .75
-      }),
-      $el('line', {
-        className: 'Horizontal-Track',
-        x1: 1, y1: 10.5,
-        x2: 10, y2: 10.5,
-        stroke: '#000',
-        'stroke-width': 1, 'stroke-linecap': 'round'
-      }),
-      $el('circle', {
-        className: 'Round-Knob',
-        cx: 7, cy: 10.5,
-        r: .75,
-        fill: '#090',
-        stroke: '#fff', 'stroke-width': .75
-      })
-    );*/
     const bezelGroup = $el('g', {
       className: 'Analog-Bezel'
       },
@@ -1134,7 +1039,6 @@
       viewBox: '0 0 100 100'
       },
       defs,
-      //panelGroup,
       bezelGroup,
       clockFace,
       ...ticks,
@@ -1170,8 +1074,7 @@
         const num = parseInt(val, 10);
         if (!isNaN(num)) {
           setClockPercentage(num);
-        }
-      }
+      } }
     });
     const setClockPercentage = (percent) => {
       currentPercent = Math.max(30, Math.min(200, percent));
@@ -1591,6 +1494,7 @@
     });
     const panelToggler = $el('button', {
       id: 'panelToggler',
+      title: TITLES.controlsBtnTitle,
       onclick: toggleControls
       },
       $el('img', {
@@ -2224,7 +2128,7 @@
       color: #FFF;
       cursor: pointer;
       height: 26px;
-      margin: 0px 10px;
+      margin: 0px 4px;
       padding: 1px 10px 3px 10px;
       text-shadow: 1px 1px 2px #000;
       user-select: none;
