@@ -252,7 +252,7 @@
 
   const ICONS = {
     calendar: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABYAAAAWCAYAAADEtGw7AAAA30lEQVR4AcySPQ7CMAyFTSYWGDgGAwsLA0POwzk4WAYGFhg4CANd2IqfK0VxZUXKTyVQXuR8KB8uriP+hBBGhEu1wBAF+QCGcKkWGAIoYhSS63OkNAJ5SxlqRrJQpxE4bU5EU91v5x+Tjv1tS8jcDIbUcBfOHxou+66BUzqed9Tj/D/ix+tOm91aPZTFijv23hO/q0rsDVYsHt5fOh5OSmyxYrEyZg7Li60BtLDYsTWAFhbF1gBaWBRn5lD11fLilkFZd2PHLYOy7kZxy6Csu1FcNaHMJcePscJ/1DNw/gAAAP//0v4bEwAAAAZJREFUAwD80vEZnRNbEwAAAABJRU5ErkJggg==',
-    calendarDark: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABYAAAAWCAYAAADEtGw7AAAA2UlEQVR4AcyRyw3CMBBETcqBDuCQAqAS7lwogAt3KoG7fYAOoJ3gZymWV6ws+ROJKKOMn7WjjWYw/rHWTshb8cKQgP4AQ96KF4aAIRiD1tv9lAqGUoaHIXwq2KyBi/nQ60um2LhXMDkh+Hi+GgRIBUMpw8MQPhUMwUIwprf+J/h2OZn38y5+UGPFG4/jaJxzIlhjxcGb3eGnaI0VB4tVM4flg7UCWljcWCughcVgrYAWFoMzPVRdLR/cUpQ2GzduKUqbjcEtRWmzMbiqoczQ8Hk9Vpn7qisyvwAAAP//OsS7qwAAAAZJREFUAwDlXZvFShwCaQAAAABJRU5ErkJggg==',
+    calendarDark: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABYAAAAWCAYAAADEtGw7AAAAt0lEQVR4AbSR0Q3DIAxEDSs1M7UzNTO1M1FeieDykwhkozxiX8Jxgmx1lGPY81OUQz5pfL/Vq2fmx/r2fWrAf2Jf1+YWa5xeX4O215jRYCitQoPWjRkNUGITs4M304nL+2GgQehBtWljXXxVTxtzOaCm9KDatLEuvqrjjTl80BT0sKLFJ+bwQdPRw4oWn1hTedQ9MZcEakoPK1o31sUedTfmkkBN6WFF68a62KPOtm/Jw+jksW/pBwAA//8ZwxcQAAAABklEQVQDAAXChgEJSdYpAAAAAElFTkSuQmCC',
     calendarDaily: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABYAAAAWCAYAAADEtGw7AAABJElEQVR4AbSUPRIBQRCFe+YQikgu2IwjOIBAqMTIpII9gBCJRAkFAscg20DkAFMOIB3ztmraGD87+6c80/1af1v7amsleZ+7UtqzuM0zewPbRXsy0RTfPGOnXzuzJ0x5WyzmSRTpmEjD2DSbpPp9gmflzqxnT3dm98CRj9NpiaJK4aJvUQA+UYqOSYLyQ3lmDB5EURoBbge1S0UPH0IdMpN6u6U6JFvtNtUhjsK9vSrqIHDDPIKuQi4cBAZIa00Qamg0jul8uaJM5ffB4HTb+ZlNh7RaH9jx+2CwEIKEEAzqdTu038U/+yCweQeQK6b9KRjsZ1S2Z7CfUdmewVmZ5Z0z+E9chUYMLpupv8/gspn6+wzOm2HW/6V5B7ye+kJpfi6B+QQAAP//ZMuhpAAAAAZJREFUAwApJROw/1D9zwAAAABJRU5ErkJggg==',
     calendarMonthly: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABYAAAAWCAYAAADEtGw7AAABA0lEQVR4AbSVsQ2DMBBF73uIiFRswBgMkDHSpqXIAKnTsEMKRqHOAFYGSOv4I90JSIIMMoiv+3eHH/YJCSez6+V9mJUsXdObgHWhRiNG86sWy8OtPY0sumfTXPqqCleRwMK9KMTXtbCmGve0pnHc03XkuHfX3Whyii+djILws/fy6HvaL63pGfhUVcMIeBz6MZU56xR9Ss+FtpU95I5lKXvIRjE+Xg7vDvHz2kPJOw4hCKWnoaf+5clgBaTGZDAAAWBcAIt5MtiIicbAnBel6+iprbmBFZArGhhYnhmwrm/gXDtVjoE5T0ob9NTW3MAKyBUNDKybIbD8PMGI/yrJqXhqfAAAAP//CetdbQAAAAZJREFUAwANXx+wJdNnLAAAAABJRU5ErkJggg==',
     calendarWeekly: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABYAAAAWCAYAAADEtGw7AAABFUlEQVR4AcRUMQ6CQBDcvUcYrewt6PQJPsDC0lirnS0FD7BUGxpjaWHBM7SjsPIBFx9ge94SdgNoclyASJjs7kwY9o49FFSul9amQknpo5WM+UGO4miTX5yls5s1jkSqZxhu0yAwEYAh4tjvg55OgThGUWOOY1Hj58hHvZNkR0mboJeWtoLMV1rDNU0p/YKPJsazIMi2gJZDedGVauIJlNfRlIlj6AJqMBxCF5CtKC6vjfz/xotlBLf7Qxbjqmt3vFnPYX+4iLGrrm08GY/gfLLnLLd21apnj3AXkI6NMUDIG8ryJrUYs2FbUYwRERBRfBGxUa3sPxS6gHTsmktfXYxdc+mri7FrLn11mmOUL9ZSYs8FfgAAAP//+POvEAAAAAZJREFUAwB8Az2wNEQxIQAAAABJRU5ErkJggg==',
@@ -344,6 +344,7 @@
     analogClockBtnShowTitle: 'Show Analog Clock',
     buttonLogoTitle: 'Left-click To Change Logos',
     buttonThemerTitle: 'Left-click To Change Wallpaper',
+    calBtnTitle: 'Show/Hide dateTime Container',
     controlsBtnTitle: 'Show/Hide Clock Controls',
     dateTimeElTitle: 'Left-click → Show/Hide Seconds',
     digCalBtnTitle: 'Left-click → Show/Hide Calendar & Digital Time',
@@ -1112,14 +1113,6 @@
       Settings.set('smoothSecondHand', !Settings.get('smoothSecondHand', true));
       startAnalogClock();
     };
-    const calendarImg = $el('img', {
-      id: 'calendarImg',
-      src: ICONS.calendar
-    });
-    const calendarImg2 = $el('img', {
-      id: 'calendarImg2',
-      src: ICONS.calendarDark
-    });
     const calendarText = $el('div', {
       className: 'Analog-CalendarText'
     });
@@ -1133,25 +1126,22 @@
       dateTimeGroup.classList.toggle('hidden', !hidden);
       Settings.set('calendarInfo', !hidden);
     };
+    const calendarImg = $el('img', {
+      id: 'calendarImg',
+      src: ICONS.calendar
+    });
     const anaCalBtn = $el('button', {
       id: 'anaCalBtn',
       className: 'scaler-info',
       title: TITLES.anaCalBtnTitle,
       onclick: () => toggleCalendarInfo()
     }, calendarImg);
-    const anaCalBtn2 = $el('button', {
-      id: 'anaCalBtn2',
-      className: '',
-      title: '',
-      onclick: dateTimeToggle
-    }, calendarImg2);
     const controlsPanel = $el('div', {
       id: 'controlsPanel'
       },
       themeBtn,
       secondHandBtn,
       anaCalBtn,
-      anaCalBtn2,
       clockInfo
     );
     const showControlsPref = Settings.get('controlsPanel', true);
@@ -1498,6 +1488,18 @@
         src: ICONS.panel
       })
     );
+    const calendarImg2 = $el('img', {
+      id: 'calendarImg2',
+      src: ICONS.calendarDark
+    });
+    const anaCalBtn2 = $el('button', {
+      id: 'anaCalBtn2',
+      className: 'scaler scaler-btn',
+      title: TITLES.calBtnTitle,
+      onclick: dateTimeToggle
+      },
+      calendarImg2
+    );
     setClockPercentage(savedPercent);
     controlContainer.append(
       hostToggler,
@@ -1515,7 +1517,8 @@
       scalerMinus,
       percentageDisplay,
       scalerPlus,
-      panelToggler
+      panelToggler,
+      anaCalBtn2
     );
     body.prepend(controlContainer);
     controlContainer.style.position = 'fixed';
@@ -1869,7 +1872,7 @@
                   0 0 0 2px #4f4f4f;
       border-radius: 8px;
       margin-top: 22px;
-      width: 110px;
+      width: 80px;
     }
     #controlsPanel > button {
       color: #000;
@@ -2086,7 +2089,8 @@
       filter: drop-shadow(0px 0px 3px #000);
       opacity: 1;
     }
-    #panelToggler {
+    #panelToggler,
+    #anaCalBtn2 {
       cursor: pointer;
       left: 10px;
       margin-right: 8px;
