@@ -1517,11 +1517,11 @@
     );
     scalerContainer.append(
       analogClockBtn,
+      panelToggler,
       scalerReset,
       scalerMinus,
       percentageDisplay,
       scalerPlus,
-      panelToggler,
       digitalCalBtn
     );
     body.prepend(controlContainer);
@@ -1912,7 +1912,7 @@
   GM_addStyle(`
     #controlContainer {
       align-items: center;
-      background: #34495e;
+      background: rgba(0, 0, 0, .2);
       border: none;
       border-radius: 8px;
       height: 32px;
@@ -2139,8 +2139,8 @@
       pointer-events: auto;
     }
     #dateTime {
-      background: #34495e;
-      border: 1px solid transparent;
+      background: rgba(0, 0, 0, .2);
+      border: none;
       border-radius: 8px;
       box-shadow: none;
       color: #FFF;
