@@ -358,7 +358,7 @@
     buttonThemerTitle: 'Left-click To Change Wallpaper',
     calBtnTitle: 'Show/Hide dateTime Container',
     controlsBtnTitle: 'Show/Hide Clock Controls',
-    dateTimeElTitle: 'Left-click → Show/Hide Seconds',
+    dateTimeTitle: 'Left-click → Show/Hide Seconds',
     digCalBtnTitle: 'Left-click → Show/Hide Calendar & Digital Time',
     downLogoTitle: 'Left-click To Change Logos',
     downThemerTitle: 'Left-click To Change Wallpaper',
