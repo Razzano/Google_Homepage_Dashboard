@@ -1235,12 +1235,15 @@
   const toggleAnalogClock = () => {
     const clock = Settings.get('analogClock', true);
     const cont = $id('analogClockContainer');
+    const panelTog = $id('panelToggler');
     if (clock) {
       stopAnalogClock();
       Settings.set('analogClock', false);
       cont?.remove();
+      panelTog.setAttribute('disabled', true);
     } else {
       Settings.set('analogClock', true);
+      panelTog.removeAttribute('disabled');
       applyAnalogClock();
     }
     const btn = $id('analogClockBtn');
@@ -1448,7 +1451,21 @@
       onclick: toggleAnalogClock
       },
       $el('img', {
+        id: 'clock32Img',
+        className: 'image',
         src: pref
+      })
+    );
+    const panelToggler = $el('button', {
+      id: 'panelToggler',
+      className: 'toggler',
+      title: TITLES.controlsBtnTitle,
+      onclick: toggleControls
+      },
+      $el('img', {
+        id: 'panel32Img',
+        className: 'image',
+        src: ICONS.panel32
       })
     );
     const scalerReset = $el('button', {
@@ -1489,27 +1506,17 @@
       title: TITLES.scalerBtnUpTitle,
       onclick: () => setClockPercentage(currentPercent + 5)
     });
-    const panelToggler = $el('button', {
-      id: 'panelToggler',
-      className: 'toggler',
-      title: TITLES.controlsBtnTitle,
-      onclick: toggleControls
-      },
-      $el('img', {
-        src: ICONS.panel32
-      })
-    );
-    const calendarImg2 = $el('img', {
-      id: 'calendarImg2',
-      src: ICONS.calendar32
-    });
     const digitalCalBtn = $el('button', {
       id: 'digitalCalBtn',
       className: 'toggler digital-cal-btn',
       title: TITLES.calBtnTitle,
       onclick: dateTimeToggle
       },
-      calendarImg2
+      $el('img', {
+        id: 'calendar32Img',
+        className: 'image',
+        src: ICONS.calendar32
+      })
     );
     setClockPercentage(savedPercent);
     controlContainer.append(
@@ -1566,10 +1573,13 @@
     startDigitalClock();
     const showClock = Settings.get('analogClock', true);
     const clock = $id('analogClockContainer');
+    const panelTog = $id('panelToggler');
     if (showClock) {
       requestAnimationFrame(() => applyAnalogClock());
+      panelTog.removeAttribute('disabled');
     } else {
       clock?.remove();
+      panelTog.setAttribute('disabled', true);
     }
     const btn = $id('analogClockBtn');
     const bool = Settings.get('analogClock', true);
@@ -2116,9 +2126,15 @@
       height: 32px;
       margin: 0 5px;
       opacity: .6;
+      pointer-events: all;
       position: relative;
       top: 3px;
       width: 32px;
+    }
+    .toggler[disabled] {
+      opacity: .3;
+      pointer-events: none;
+      position: relative;
     }
     .scaler:hover,
     .scaler-inp:focus-within {
