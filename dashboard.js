@@ -252,7 +252,7 @@
 
   const ICONS = {
     calendar: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABYAAAAWCAYAAADEtGw7AAAA30lEQVR4AcySPQ7CMAyFTSYWGDgGAwsLA0POwzk4WAYGFhg4CANd2IqfK0VxZUXKTyVQXuR8KB8uriP+hBBGhEu1wBAF+QCGcKkWGAIoYhSS63OkNAJ5SxlqRrJQpxE4bU5EU91v5x+Tjv1tS8jcDIbUcBfOHxou+66BUzqed9Tj/D/ix+tOm91aPZTFijv23hO/q0rsDVYsHt5fOh5OSmyxYrEyZg7Li60BtLDYsTWAFhbF1gBaWBRn5lD11fLilkFZd2PHLYOy7kZxy6Csu1FcNaHMJcePscJ/1DNw/gAAAP//0v4bEwAAAAZJREFUAwD80vEZnRNbEwAAAABJRU5ErkJggg==',
-    calendar32: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAABiUlEQVR4AdyVMVLDQAxFF1c0UHAMChoaCgqfh3NwMBcUNFBwEArS0IX9m31hnUjGy9gbhozlb31ppW9FM+6C8xuGYeuERvScvKkcUwAHwFHHwiEOFqH9IzFwH8gPpoAcawLfAh5ftwErW8NZOCfPy8n8ToCKZ6IZ5J5demuja/90abDH1Jw8NyeK2E3guG4zxhSAYtBTQxy08oiBhzmmgMOkNf1uuP8Im4frk5h6n34Ca453Tu3/M4GXt+dwcXUehOWby7d4chabQN/3qSaYnHjDByM1uhYTEL92qTCYnHjDByM1uhYTcHtzFzbvn0FYdpBv8eQsJoCCtfg3BUxtrher5ZmUOQE2FiRZCAeKk+GD4mT4oLjSTAFsLFgegAOJ4YM/8cRNAVOb68Vq+UkBBFugOYEWjelhCvA2Woe8WC2vWjJTABsLKhGDA3/Lc84UwCaDJAvhQHEyfFCcDB8UV5opwNtoHfRitbxqyUwBCrSyLv6XZ1qgVg3po57qnSagBxFrmFdTPSXmCwAA//9HeuyLAAAABklEQVQDAFdMbzRa6asMAAAAAElFTkSuQmCC',
+    calendar32: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAABUklEQVR4AcySMU7DQBBFBx+Ag3CGINwhUdCAaJGg4xxcAyRaBA0FUjpHSZEmKXKU5ACJ/2ZHsXa8Ixcz60TZ/fYfa/7zeirq+TVNs++xg2VdEwAcwBpS48Yea7SDsMcazLixxxrtIAIguAW3E8D7ek9Y3XDcd5dlLfY6AiAkGsUkZlbirVuCenHZ7v1/01oLcTyB/qwirgDgN2TtUrDHalETAN2mJa7HB2gmW9q9XY2ykD3+CZT4zlqG2Qn8/H7T3f0tQdNAeLmaGcDn1wfNFzOCpgDwcjUzgJfnV7qe3BA0BYCXq5kBPD480f/flKApALxczQwgDR16f34A2sR61MQJaBPrURMA2sR61ASANrEeNQEwdHqtnjs/AI9J13qKE/CYdK2nAPCYdK2nAPCYdK2nALCa7qF9qrquL1ab5dDnzZ5DJrLDCeAChsfK9UQm3uYAAAD//6SULkcAAAAGSURBVAMAnK6TNOnKaHQAAAAASUVORK5CYII=',
     calendarDark: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABYAAAAWCAYAAADEtGw7AAAAt0lEQVR4AbSR0Q3DIAxEDSs1M7UzNTO1M1FeieDykwhkozxiX8Jxgmx1lGPY81OUQz5pfL/Vq2fmx/r2fWrAf2Jf1+YWa5xeX4O215jRYCitQoPWjRkNUGITs4M304nL+2GgQehBtWljXXxVTxtzOaCm9KDatLEuvqrjjTl80BT0sKLFJ+bwQdPRw4oWn1hTedQ9MZcEakoPK1o31sUedTfmkkBN6WFF68a62KPOtm/Jw+jksW/pBwAA//8ZwxcQAAAABklEQVQDAAXChgEJSdYpAAAAAElFTkSuQmCC',
     calendarDaily: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABYAAAAWCAYAAADEtGw7AAABJElEQVR4AbSUPRIBQRCFe+YQikgu2IwjOIBAqMTIpII9gBCJRAkFAscg20DkAFMOIB3ztmraGD87+6c80/1af1v7amsleZ+7UtqzuM0zewPbRXsy0RTfPGOnXzuzJ0x5WyzmSRTpmEjD2DSbpPp9gmflzqxnT3dm98CRj9NpiaJK4aJvUQA+UYqOSYLyQ3lmDB5EURoBbge1S0UPH0IdMpN6u6U6JFvtNtUhjsK9vSrqIHDDPIKuQi4cBAZIa00Qamg0jul8uaJM5ffB4HTb+ZlNh7RaH9jx+2CwEIKEEAzqdTu038U/+yCweQeQK6b9KRjsZ1S2Z7CfUdmewVmZ5Z0z+E9chUYMLpupv8/gspn6+wzOm2HW/6V5B7ye+kJpfi6B+QQAAP//ZMuhpAAAAAZJREFUAwApJROw/1D9zwAAAABJRU5ErkJggg==',
     calendarDaily32: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABYAAAAWCAYAAADEtGw7AAABJElEQVR4AbSUPRIBQRCFe+YQikgu2IwjOIBAqMTIpII9gBCJRAkFAscg20DkAFMOIB3ztmraGD87+6c80/1af1v7amsleZ+7UtqzuM0zewPbRXsy0RTfPGOnXzuzJ0x5WyzmSRTpmEjD2DSbpPp9gmflzqxnT3dm98CRj9NpiaJK4aJvUQA+UYqOSYLyQ3lmDB5EURoBbge1S0UPH0IdMpN6u6U6JFvtNtUhjsK9vSrqIHDDPIKuQi4cBAZIa00Qamg0jul8uaJM5ffB4HTb+ZlNh7RaH9jx+2CwEIKEEAzqdTu038U/+yCweQeQK6b9KRjsZ1S2Z7CfUdmewVmZ5Z0z+E9chUYMLpupv8/gspn6+wzOm2HW/6V5B7ye+kJpfi6B+QQAAP//ZMuhpAAAAAZJREFUAwApJROw/1D9zwAAAABJRU5ErkJggg==',
@@ -1539,7 +1539,7 @@
     controlContainer.style.left = '50%';
     controlContainer.style.transform = 'translateX(-50%)';
     scalerContainer.style.position = 'fixed';
-    scalerContainer.style.top = '616px';
+    scalerContainer.style.top = '566px';
     scalerContainer.style.left = '50%';
     scalerContainer.style.transform = 'translateX(-50%)';
     makeDraggable(controlContainer, 'controlContainer');
@@ -1957,6 +1957,7 @@
     }
     #hostToggler:hover,
     #wallpaperToggler:hover {
+      filter: drop-shadow(0px 0px 3px #000);
       opacity: 1;
     }
     #buttonThemer {
@@ -1969,7 +1970,6 @@
       background: transparent;
       border: 1px solid transparent;
       border-radius: 6px;
-      box-shadow: 0 1px 3px rgba(2555, 255, 255, 0.15);
       color: #FFF;
       cursor: pointer;
       height: 22px;
@@ -1977,6 +1977,7 @@
       opacity: .7;
       padding: 4px 0px;
       text-align: center;
+      text-shadow: 1px 1px 2px #000;
       width: 30px;
     }
     #downThemer {
@@ -1985,6 +1986,13 @@
       opacity: .7;
       text-shadow: 1px 1px 2px #000;
       width: 22px;
+    }
+    #inputThemer:hover {
+      background: rgba(255 ,255, 255, .9);
+      color: #000;
+      filter: drop-shadow(0px 0px 3px #000);
+      font-weight: 700;
+      text-shadow: none;
     }
     #spacer1 {
       color: #FFF;
@@ -2009,7 +2017,6 @@
       background: transparent;
       border: 1px solid transparent;
       border-radius: 6px;
-      box-shadow: 0 1px 3px rgba(255,255,255,0.15);
       color: #FFF;
       cursor: pointer;
       height: 22px;
@@ -2017,7 +2024,14 @@
       opacity: .7;
       padding: 4px 0px;
       text-align: center;
+      text-shadow: 1px 1px 2px #000;
       width: 30px;
+    }
+    #inputLogo:hover {
+      background: rgba(255 ,255, 255, .9);
+      color: #000;
+      font-weight: 700;
+      text-shadow: none;
     }
     #downLogo {
       color: #FFF;
@@ -2040,7 +2054,7 @@
     #inputLogo:hover,
     #inputLogo:focus-within {
       border-color: #999;
-      filter: brightness(2);
+      filter: drop-shadow(0px 0px 3px #000);
       opacity: 1;
     }
     #buttonThemer,
@@ -2060,7 +2074,7 @@
       border: none;
       border-radius: 8px;
       box-sizing: border-box;
-      height: 36px;
+      height: 38px;
       padding: 0px;
       pointer-events: auto;
       text-shadow: 1px 1px 2px #000;
@@ -2077,8 +2091,9 @@
     }
     #scalerInput {
       font-weight: 600;
+      height: 23px;
+      padding: 0px;
       width: auto;
-      padding: 2px 2px 0px 2px;
     }
     .scaler {
       background: rgba(255, 255, 255, .1);
@@ -2086,7 +2101,7 @@
       border-radius: 13px;
       color: #fff;
       display: inline-flex;
-      filter: drop-shadow(1px 1px 3px #000);
+      filter: drop-shadow(0px 0px 3px #000);
       font-size: 16px;
       font-weight: 700;
       justify-content: center;
@@ -2095,12 +2110,14 @@
       padding: 2px 0px;
       position: relative;
       text-align: center;
-      top: -10px;
+      top: -7px;
     }
     .toggler {
       height: 32px;
       margin: 0 5px;
       opacity: .6;
+      position: relative;
+      top: 3px;
       width: 32px;
     }
     .scaler:hover,
