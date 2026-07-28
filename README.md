@@ -1,6 +1,6 @@
 # Google Homepage Dashboard
 ## Tampermonkey UserScript:
-(1) Analog resizeable svg clock, controlContainer, and dateTimeContainer are all draggable.  
+(1) Analog resizable svg clock, controlContainer, and dateTimeContainer are all draggable.  
 (2) Option to change wallpaper (0 - 52), manually or auto change hourly, daily, weekly, monthly.  
 (3) Option to toggle wallpaper host site between GitHub, ImgBB, or Postimages.  
 (4) Option to display custom logos (0 - 17), default Google logo, or leave blank.  
