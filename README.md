@@ -9,5 +9,5 @@
 (7) Logo images are hard coded into script. Go into Settings, scroll down to Editor and uncheck Word wrap, then Save.  
 
 Light theme analog clock face, Eagle logo, Stars and Stripes wallpaper, digital clock/calendar
-<img src="https://github.com/Razzano/MY_Images/raw/main/GoogleDashboard.png"/>
+<img src="https://github.com/Razzano/MY_Images/raw/main/GoogleHomepageDashboard.png"/>
 
