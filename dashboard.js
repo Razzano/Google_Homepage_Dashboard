@@ -152,7 +152,7 @@
       if (dragSelector) {
         if (!e.target.closest(dragSelector)) return;
       } else {
-        if (e.target.closest('button,input,select,textarea,span')) return; // image,img,
+        if (e.target.closest('button,image,img,input,select,span,textarea')) return;
         if (e.target !== elmnt) return;
       }
       e.preventDefault();
@@ -362,7 +362,7 @@
     buttonLogoTitle: 'Left-click To Change Logos',
     buttonThemerTitle: 'Left-click To Change Wallpaper',
     calBtnTitle: 'Show/Hide dateTime Container',
-    controlsBtnTitle: 'Show/Hide Clock Controls',
+    controlsBtnTitle: 'Show/Hide Clock Options',
     dateTimeTitle: 'Left-click → Show/Hide Seconds',
     digCalBtnTitle: 'Left-click → Show/Hide Calendar & Digital Time',
     downLogoTitle: 'Left-click To Change Logos',
@@ -1708,7 +1708,7 @@
       position: absolute;
       top: 100px;
       user-select: none;
-      z-index: 3;
+      z-index: 999;
     }
     .Analog-Bigclock {
       align-self: center;
@@ -1945,7 +1945,7 @@
       pointer-events: auto;
       text-shadow: 1px 1px 2px #000;
       user-select: none;
-      z-index: 2;
+      z-index: 3;
     }
     #controlContainer.dragged {
       transform: none;
@@ -2093,7 +2093,7 @@
       text-shadow: 1px 1px 2px #000;
       user-select: none;
       width: auto;
-      z-index: 2;
+      z-index: 4;
     }
     #scalerReset {
       width: 60px;
@@ -2167,7 +2167,7 @@
       font-size: 18px;
       pointer-events: auto;
       user-select: none;
-      z-index: 4;
+      z-index: 3;
     }
     #dateTimeContainer.dragged {
       transform: none;
@@ -2209,7 +2209,7 @@
       opacity: 1;
       position: absolute;
       top: 0px;
-      z-index: 999;
+      z-index: 99;
     }
   `);
 
