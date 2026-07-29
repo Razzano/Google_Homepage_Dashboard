@@ -1129,19 +1129,14 @@
       Settings.set('smoothSecondHand', !Settings.get('smoothSecondHand', true));
       startAnalogClock();
     };
-    const calendarText = $el('div', {
-      className: 'Analog-CalendarText'
-    });
-    const clockInfo = $el('div', {
-      id: 'clockInfo',
-      className: 'Analog-Info' },
-      calendarText
-    );
     const toggleCalendarInfo = () => {
       const hidden = clockInfo.classList.toggle('hidden');
       dateTimeGroup.classList.toggle('hidden', !hidden);
       Settings.set('calendarInfo', !hidden);
     };
+    const clockInfo = $el('div', {
+      id: 'clockInfo',
+    });
     const calendarImg = $el('img', {
       id: 'calendarImg',
       src: ICONS.panelFace
@@ -1157,8 +1152,7 @@
       },
       themeBtn,
       secondHandBtn,
-      anaCalBtn,
-      clockInfo
+      anaCalBtn
     );
     const showControlsPref = Settings.get('controlsPanel', true);
     controlsPanel.classList.toggle('hidden', !showControlsPref);
@@ -1207,15 +1201,14 @@
       ampmText.textContent = ampm;
       timeText.textContent = `${h12}:${min}`;
       timeText.setAttribute('x', h12 < 10 ? 42 : 41);
-      calendarText.textContent = `${dayFull} ⇒ ${monthFull} ${dt}${suffix}, ${yr}`; //`${monthFull} ${ordinal}, ${yr} 🕑 ${h12}:${min} ${ampm}`;
       dayBannerText.textContent = DAY_BANNER[day].text.toUpperCase();
       dayBannerText.setAttribute('x', DAY_BANNER[day].x);
     };
-    const showCalendarPref = Settings.get('calendarInfo', false);
-    if (!showCalendarPref) {
+    const showCalendarInfo = Settings.get('calendarInfo', false);
+    if (!showCalendarInfo) {
       clockInfo.classList.add('hidden');
     }
-    dateTimeGroup.classList.toggle('hidden', showCalendarPref);
+    dateTimeGroup.classList.toggle('hidden', showCalendarInfo);
     const startAnalogClock = () => {
       stopAnalogClock();
       State.analog.running = true;
@@ -1911,7 +1904,7 @@
       gap: 6px;
       height: auto;
       margin-top: 22px;
-      width: auto;
+      width: 114px;
     }
     #controlsPanel > button {
       color: #000;
@@ -1924,13 +1917,6 @@
       cursor: pointer;
       opacity: 1;
       filter: drop-shadow(1px 1px 3px #000);
-    }
-  `);
-
-  // CLOCK INFO
-  GM_addStyle(`
-    #clockInfo {
-      display: none;
     }
   `);
 
