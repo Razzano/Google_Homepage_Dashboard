@@ -1240,6 +1240,8 @@
     const clock = Settings.get('analogClock', true);
     const cont = $id('analogClockContainer');
     const panelTog = $id('panelToggler');
+    const scalerCtn = $id('scalerContainer');
+    const scaler = $qa('.scaler', scalerCtn);
     if (clock) {
       stopAnalogClock();
       Settings.set('analogClock', false);
@@ -1251,6 +1253,7 @@
     const btn = $id('analogClockBtn');
     const bool = Settings.get('analogClock', true);
     panelTog.classList.toggle('disabled', !bool);
+    scaler.forEach(el => el.classList.toggle('disabled', !bool));
     const pref = bool ? ICONS.clock32 : ICONS.noclock32;
     const tip = bool ? TITLES.analogClockBtnHideTitle : TITLES.analogClockBtnShowTitle;
     btn.replaceChildren(
@@ -1576,6 +1579,8 @@
     startDigitalClock();
     const showClock = Settings.get('analogClock', true);
     const clock = $id('analogClockContainer');
+    const scalerCtn = $id('scalerContainer');
+    const scaler = $qa('.scaler', scalerCtn);
     const panelTog = $id('panelToggler');
     if (showClock) {
       requestAnimationFrame(() => applyAnalogClock());
@@ -1583,6 +1588,7 @@
       clock?.remove();
     }
     panelTog.classList.toggle('disabled', !showClock);
+    scaler.forEach(el => el.classList.toggle('disabled', !showClock));
     const btn = $id('analogClockBtn');
     const pref = showClock ? ICONS.clock32 : ICONS.noclock32;
     const tip = showClock ? TITLES.analogClockBtnHideTitle : TITLES.analogClockBtnShowTitle;
