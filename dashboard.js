@@ -240,15 +240,15 @@
   // OBJECT GROUPS
   // ===========================================================================
 
-  const DAY_BANNER = [
-    { text: 'Sunday', x: 42 },
-    { text: 'Monday', x: 42 },
-    { text: 'Tuesday', x: 40 },
-    { text: 'Wednesday', x: 38 },
-    { text: 'Thursday', x: 40 },
-    { text: 'Friday', x: 42 },
-    { text: 'Saturday', x: 40 },
-  ];
+  /*const DAY_BANNER = [
+    { text: 'Sunday' },
+    { text: 'Monday' },
+    { text: 'Tuesday' },
+    { text: 'Wednesday' },
+    { text: 'Thursday' },
+    { text: 'Friday' },
+    { text: 'Saturday' },
+  ];*/
 
   const ICONS = {
     calendar: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABYAAAAWCAYAAADEtGw7AAAA30lEQVR4AcySPQ7CMAyFTSYWGDgGAwsLA0POwzk4WAYGFhg4CANd2IqfK0VxZUXKTyVQXuR8KB8uriP+hBBGhEu1wBAF+QCGcKkWGAIoYhSS63OkNAJ5SxlqRrJQpxE4bU5EU91v5x+Tjv1tS8jcDIbUcBfOHxou+66BUzqed9Tj/D/ix+tOm91aPZTFijv23hO/q0rsDVYsHt5fOh5OSmyxYrEyZg7Li60BtLDYsTWAFhbF1gBaWBRn5lD11fLilkFZd2PHLYOy7kZxy6Csu1FcNaHMJcePscJ/1DNw/gAAAP//0v4bEwAAAAZJREFUAwD80vEZnRNbEwAAAABJRU5ErkJggg==',
@@ -1011,31 +1011,31 @@
       }),
       $el('text', {
         id: 'dayBannerText',
-        y: 23.2,
-        textAnchor: 'middle',
-        dominantBaseline: 'middle'
+        x: 50.5, y: 22,
+        'text-anchor': 'middle',
+        'dominant-baseline': 'middle'
       })
     );
     const dateText = $el('text', {
       id: 'dateText',
       className: 'Analog-MonthDateText',
-      x: 41, y: 31,
-      textAnchor: 'start',
-      dominantBaseline: 'middle'
+      x: 50.5, y: 29.5,
+      'text-anchor': 'middle',
+      'dominant-baseline': 'middle'
     });
     const timeText = $el('text', {
       id: 'timeText',
       className: 'Analog-timeText',
-      y: 79,
-      textAnchor: 'end',
-      dominantBaseline: 'middle',
+      x: 50.5, y: 79,
+      'text-anchor': 'middle',
+      'dominant-baseline': 'middle',
       'xml:space': 'preserve'
     });
     const ampmText = $el('text', {
       className: 'Analog-AMPMText',
-      x: 47, y: 84,
-      textAnchor: 'middle',
-      dominantBaseline: 'middle'
+      x: 50.5, y: 83.5,
+      'text-anchor': 'middle',
+      'dominant-baseline': 'middle'
     });
     const dateTimeGroup = $el('g', {
       id: 'dateTimeGroup'
@@ -1200,9 +1200,10 @@
       dateText.textContent = `${monthAbb} ${monthday}`;
       ampmText.textContent = ampm;
       timeText.textContent = `${h12}:${min}`;
-      timeText.setAttribute('x', h12 < 10 ? 42 : 41);
-      dayBannerText.textContent = DAY_BANNER[day].text.toUpperCase();
-      dayBannerText.setAttribute('x', DAY_BANNER[day].x);
+      //timeText.setAttribute('x', h12 < 10 ? 42 : 41);
+      //dayBannerText.textContent = DAY_BANNER[day].text.toUpperCase();
+      dayBannerText.textContent = DAY_FULL[now.getDay()].toUpperCase();
+      //dayBannerText.setAttribute('x', DAY_BANNER[day].x);
     };
     const showCalendarInfo = Settings.get('calendarInfo', false);
     if (!showCalendarInfo) {
