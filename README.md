@@ -1,10 +1,5 @@
 # Google Homepage Dashboard
 
-Language Compatibility
-
-This script currently supports English text only.
-The svg clock layout was designed around English day and date names to ensure proper alignment and appearance. Other languages may cause text overflow or spacing issues due to longer translated words.
-
 ## Tampermonkey UserScript:
 (1) Analog resizable svg clock, controlContainer, and dateTimeContainer are all draggable.  
 (2) Option to change wallpaper (0 - 52), manually or auto change hourly, daily, weekly, monthly.  
