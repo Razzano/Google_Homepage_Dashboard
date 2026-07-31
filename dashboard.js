@@ -2,7 +2,7 @@
 // @name         Google Homepage Dashboard
 // @namespace    srazzano
 // @version      2.5.0-alpha.2
-// @description  Modernized Google with centered logo, wallpaper, date/digital time, resizeable analog clock + draggable containers
+// @description  Google with centered logo, wallpaper, date/digital time, resizeable analog clock + draggable containers
 // @author       Sonny Razzano a.k.a. srazzano
 // @match        https://www.google.com/*
 // @match        https://google.com/*
@@ -240,16 +240,6 @@
   // OBJECT GROUPS
   // ===========================================================================
 
-  /*const DAY_BANNER = [
-    { text: 'Sunday' },
-    { text: 'Monday' },
-    { text: 'Tuesday' },
-    { text: 'Wednesday' },
-    { text: 'Thursday' },
-    { text: 'Friday' },
-    { text: 'Saturday' },
-  ];*/
-
   const ICONS = {
     calendar: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABYAAAAWCAYAAADEtGw7AAAA30lEQVR4AcySPQ7CMAyFTSYWGDgGAwsLA0POwzk4WAYGFhg4CANd2IqfK0VxZUXKTyVQXuR8KB8uriP+hBBGhEu1wBAF+QCGcKkWGAIoYhSS63OkNAJ5SxlqRrJQpxE4bU5EU91v5x+Tjv1tS8jcDIbUcBfOHxou+66BUzqed9Tj/D/ix+tOm91aPZTFijv23hO/q0rsDVYsHt5fOh5OSmyxYrEyZg7Li60BtLDYsTWAFhbF1gBaWBRn5lD11fLilkFZd2PHLYOy7kZxy6Csu1FcNaHMJcePscJ/1DNw/gAAAP//0v4bEwAAAAZJREFUAwD80vEZnRNbEwAAAABJRU5ErkJggg==',
     calendar32: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAABUklEQVR4AcySMU7DQBBFBx+Ag3CGINwhUdCAaJGg4xxcAyRaBA0FUjpHSZEmKXKU5ACJ/2ZHsXa8Ixcz60TZ/fYfa/7zeirq+TVNs++xg2VdEwAcwBpS48Yea7SDsMcazLixxxrtIAIguAW3E8D7ek9Y3XDcd5dlLfY6AiAkGsUkZlbirVuCenHZ7v1/01oLcTyB/qwirgDgN2TtUrDHalETAN2mJa7HB2gmW9q9XY2ykD3+CZT4zlqG2Qn8/H7T3f0tQdNAeLmaGcDn1wfNFzOCpgDwcjUzgJfnV7qe3BA0BYCXq5kBPD480f/flKApALxczQwgDR16f34A2sR61MQJaBPrURMA2sR61ASANrEeNQEwdHqtnjs/AI9J13qKE/CYdK2nAPCYdK2nAPCYdK2nALCa7qF9qrquL1ab5dDnzZ5DJrLDCeAChsfK9UQm3uYAAAD//6SULkcAAAAGSURBVAMAnK6TNOnKaHQAAAAASUVORK5CYII=',
@@ -325,6 +315,59 @@
       return this.images[num] || '';
     }
   };
+
+  const LOCALE = Intl.DateTimeFormat().resolvedOptions().locale;
+  const DAY_BANNER_FMT = new Intl.DateTimeFormat(LOCALE, {
+    weekday: 'long'
+  });
+  const DATE_FMT = new Intl.DateTimeFormat(LOCALE, {
+    month: 'short', day: '2-digit'
+  });
+  const TIME_FMT = new Intl.DateTimeFormat(LOCALE, { // with am/pm
+    hour: 'numeric', minute: '2-digit', hour12: true
+  });
+  const TIME_ONLY_FMT = new Intl.DateTimeFormat(LOCALE, { // w/o am/pm
+    hour: 'numeric', minute: '2-digit'
+  });
+  const AMPM_FMT = new Intl.DateTimeFormat(LOCALE, {
+    hour: 'numeric', hour12: true
+  });
+  // 3 - 6 characters
+  const SHORT_DAY_LOCALES = [
+    'bn-BD',
+    'cs-CZ',
+    'da-DK',
+    'he-IL',
+    'hu-HU',
+    'ja-JP',
+    'ko-KR',
+    'no-NO',
+    'pl-PL',
+    'sk-SK',
+    'sv-SE',
+    'uk-UA',
+    'zh-CN',
+    'zh-TW'
+  ];
+  // 7 - 9 characters
+  const MEDIUM_DAY_LOCALES = [
+    'ar-SA',
+    'el-GR',
+    'en-US',
+    'es-ES',
+    'fr-FR',
+    'it-IT',
+    'nl-NL',
+    'ro-RO',
+    'ru-RU',
+    'tr-TR'
+  ];
+  // 10 - 12 characters
+  const LONG_DAY_LOCALES = [
+    'de-DE',
+    'fi-FI',
+    'pt-BR'
+  ];
 
   const LOGO_CONFIG = {
     3: { marginTop: '15px', transform: 'translateX(-50%)' },
@@ -992,48 +1035,42 @@
       className: 'Analog-HubHighlight',
       cx: 49.2, cy: 49.1, r: 0.32
     });
-    const dayBannerGroup = $el('g', {
-      id: 'dayBanner',
-      className: 'DayBanner'
-      },
-      $el('rect', {
-        id: 'dayBannerBg',
-        x: 36, y: 18,
-        width: 29, height: 7.5,
-        rx: 2, ry: 2,
-        fill: 'url(#bannerGradient)'
-      }),
-      $el('rect', {
-        id: 'dayBannerBorder',
-      }),
-      $el('rect', {
-        id: 'dayBannerHighlight',
-      }),
-      $el('text', {
-        id: 'dayBannerText',
-        x: 50.5, y: 22,
-        'text-anchor': 'middle',
-        'dominant-baseline': 'middle'
-      })
-    );
+    const dayBannerBg = $el('rect', {
+      id: 'dayBannerBg',
+      height: 7.5,
+      rx: 2, ry: 2,
+      fill: 'url(#bannerGradient)'
+    });
+    const dayBannerBorder = $el('rect', {
+      id: 'dayBannerBorder',
+    });
+    const dayBannerHighlight = $el('rect', {
+      id: 'dayBannerHighlight',
+    });
+    const dayBannerText = $el('text', {
+      id: 'dayBannerText',
+      x: 50.5,
+      'text-anchor': 'middle',
+      'dominant-baseline': 'middle'
+    });
     const dateText = $el('text', {
       id: 'dateText',
       className: 'Analog-MonthDateText',
-      x: 50.5, y: 29.5,
+      x: 50.5,
       'text-anchor': 'middle',
       'dominant-baseline': 'middle'
     });
     const timeText = $el('text', {
       id: 'timeText',
       className: 'Analog-timeText',
-      x: 50.5, y: 79,
+      x: 50.5, y: 78,
       'text-anchor': 'middle',
       'dominant-baseline': 'middle',
       'xml:space': 'preserve'
     });
     const ampmText = $el('text', {
       className: 'Analog-AMPMText',
-      x: 50.5, y: 83.5,
+      x: 50.5, y: 82.5,
       'text-anchor': 'middle',
       'dominant-baseline': 'middle'
     });
@@ -1063,7 +1100,10 @@
       hubInner,
       hubPin,
       hubHighlight,
-      dayBannerGroup,
+      dayBannerBg,
+      dayBannerBorder,
+      dayBannerHighlight,
+      dayBannerText,
       dateTimeGroup
     );
     // =======================
@@ -1186,24 +1226,40 @@
       Clock.style.setProperty('--secondDeg', `${displayedSecondDeg}deg`);
       Clock.style.setProperty('--minuteDeg', `${minuteDeg}deg`);
       Clock.style.setProperty('--hourDeg', `${hourDeg}deg`);
-      const dt = now.getDate(), mth = now.getMonth(), yr = now.getFullYear();
-      const dayAbbr = DAY_ABBR[day], dayFull = DAY_FULL[day], monthAbbr = MONTH_ABBR[mth], monthFull = MONTH_FULL[mth];
-      const suffix = ['th', 'st', 'nd', 'rd'][(dt % 10 > 3 || Math.floor(dt / 10) === 1 ? 0 : dt % 10)] || 'th';
-      const ordinal = dt + suffix;
-      const h12 = String(now.getHours() % 12 || 12);
-      const min = String(now.getMinutes()).padStart(2, '0');
-      const sec = String(now.getSeconds()).padStart(2, '0');
-      const month = String(now.getMonth() + 1).padStart(2, '0');
-      const monthday = String(now.getDate()).padStart(2, '0');
-      const monthAbb = MONTH_ABBR[now.getMonth()];
-      const ampm = now.getHours() < 12 ? STRINGS.amText : STRINGS.pmText;
-      dateText.textContent = `${monthAbb} ${monthday}`;
-      ampmText.textContent = ampm;
-      timeText.textContent = `${h12}:${min}`;
-      //timeText.setAttribute('x', h12 < 10 ? 42 : 41);
-      //dayBannerText.textContent = DAY_BANNER[day].text.toUpperCase();
-      dayBannerText.textContent = DAY_FULL[now.getDay()].toUpperCase();
-      //dayBannerText.setAttribute('x', DAY_BANNER[day].x);
+      const isShortDay = SHORT_DAY_LOCALES.includes(LOCALE);
+      const isMediumDay = MEDIUM_DAY_LOCALES.includes(LOCALE);
+      const isLongDay = LONG_DAY_LOCALES.includes(LOCALE);
+      if (isShortDay) {
+        dayBannerBg.setAttribute('x', 40);
+        dayBannerBg.setAttribute('y', 18);
+        dayBannerBg.setAttribute('width', 20.8);
+        dayBannerText.setAttribute('y', 22.4);
+        dayBannerText.textContent = DAY_BANNER_FMT.format(now);
+        dateText.setAttribute('y', 29.5);
+      } else if (isMediumDay) {
+        dayBannerBg.setAttribute('x', 36);
+        dayBannerBg.setAttribute('y', 18);
+        dayBannerBg.setAttribute('width', 29);
+        dayBannerText.setAttribute('y', 22.4);
+        if (LOCALE === 'en-US') dayBannerText.textContent = DAY_BANNER_FMT.format(now).toLocaleUpperCase(LOCALE);
+        else dayBannerText.textContent = DAY_BANNER_FMT.format(now);
+        dateText.setAttribute('y', 29.5);
+      } else {
+        dayBannerBg.setAttribute('x', 32.5);
+        dayBannerBg.setAttribute('y', 21);
+        dayBannerBg.setAttribute('width', 36);
+        dayBannerText.setAttribute('y', 25.4);
+        dayBannerText.textContent = DAY_BANNER_FMT.format(now);
+        dateText.setAttribute('y', 33);
+      }
+      dateText.textContent = DATE_FMT.format(now);
+      const parts = TIME_FMT.formatToParts(now);
+      timeText.textContent = parts
+        .filter(part => part.type !== 'dayPeriod')
+        .map(part => part.value)
+        .join('')
+        .trim();
+      ampmText.textContent = parts.find(part => part.type === 'dayPeriod')?.value ?? '';
     };
     const showCalendarInfo = Settings.get('calendarInfo', false);
     if (!showCalendarInfo) {
@@ -1296,25 +1352,32 @@
   const updateDigitalClock = () => {
     const digitalClock = $id('dateTime');
     if (!digitalClock) {
-      clearInterval(State.digital.interval);
+       clearInterval(State.digital.interval);
       State.digital.interval = null;
       return;
     }
     const now = new Date();
-    const dayFull = DAY_FULL[now.getDay()];
-    const monthFull = MONTH_FULL[now.getMonth()];
-    const dt = now.getDate();
-    const yr = now.getFullYear();
-    const suffix = ['th','st','nd','rd']
-      [(dt % 10 > 3 || Math.floor(dt / 10) === 1 ? 0 : dt % 10)] || 'th';
-    const h12 = String(now.getHours() % 12 || 12);
-    const min = String(now.getMinutes()).padStart(2, '0');
-    const sec = String(now.getSeconds()).padStart(2, '0');
-    const ampm = now.getHours() < 12 ? STRINGS.amText : STRINGS.pmText;
+    const date = new Intl.DateTimeFormat(LOCALE, {
+      weekday: 'long',
+      month: 'long',
+      day: 'numeric',
+      year: 'numeric'
+    }).format(now);
+    const time = new Intl.DateTimeFormat(LOCALE, {
+      hour: 'numeric',
+      minute: '2-digit',
+      second: '2-digit',
+      hour12: true
+    }).format(now);
+    const timeNoSeconds = new Intl.DateTimeFormat(LOCALE, {
+      hour: 'numeric',
+      minute: '2-digit',
+      hour12: true
+    }).format(now);
     const secView = Settings.get('secondsView', false);
     digitalClock.textContent = secView
-      ? `${dayFull} ⇒ ${monthFull} ${dt}${suffix}, ${yr} 🕑 ${h12}:${min}:${sec} ${ampm}`
-      : `${dayFull} ⇒ ${monthFull} ${dt}${suffix}, ${yr} 🕑 ${h12}:${min} ${ampm}`;
+      ? `${date} 🕑 ${time}`
+      : `${date} 🕑 ${timeNoSeconds}`;
   };
 
   const startDigitalClock = () => {
@@ -1702,7 +1765,7 @@
       align-items: center;
       display: flex;
       flex-direction: column;
-      font-family: Consolas;
+      font-family: system-ui, sans-serif;
       left: 50px;
       position: absolute;
       top: 100px;
@@ -1733,9 +1796,9 @@
       filter: drop-shadow(0px 0px 2px #000);
     }
     .Analog-Number {
-      font-family: 'sans-serif';
+      font-family: system-ui, sans-serif;
       font-size: 8px;
-      font-weight: 700;
+      font-weight: 500;
       paint-order: stroke fill;
       stroke: none;
       filter: drop-shadow(1px 1px 1px #666);
@@ -1816,18 +1879,18 @@
     }
     #dayBannerText {
       fill: #000;
-      font: 600 5px Consolas;
+      font: 600 5px "Segoe UI", sans-serif;
     }
     .Analog-Bigclock.dark #dayBannerText {
       fill: #fff;
-      font: 400 5px Consolas;
+      font: 400 5px "Segoe UI", sans-serif;
       text-shadow: 1px 1px #000;
     }
     .Analog-MonthDateText {
       color: #000;
       fill: #000;
       filter: drop-shadow(1px 1px 1px #666);
-      font: 400 6px Consolas;
+      font: 400 6px "Segoe UI", sans-serif;
     }
     .Analog-Bigclock.dark .Analog-MonthDateText {
       color: #FFF;
@@ -1837,7 +1900,7 @@
       color: #000;
       fill: #000;
       filter: drop-shadow(1px 1px 1px #666);
-      font: 400 7px Consolas;
+      font: 400 7px "Segoe UI", sans-serif;
     }
     .Analog-Bigclock.dark .Analog-timeText {
       color: #FFF;
@@ -1848,7 +1911,7 @@
       color: #000;
       fill: #000;
       filter: drop-shadow(1px 1px 1px #666);
-      font: 400 5px Consolas;
+      font: 400 5px "Segoe UI", sans-serif;
     }
     .Analog-Bigclock.dark .Analog-AMPMText {
       color: #FFF;
@@ -2047,7 +2110,7 @@
     }
     #controlContainer > button,
     #controlContainer > input {
-      font-family: Consolas;
+      font-family: system-ui, sans-serif;
       font-size: 18px;
     }
     #controlContainer > button:not(#analogClockBtn):not(#hostToggler):not(#wallpaperToggler):not(#panelToggler):not(#digitalCalBtn):hover {
@@ -2155,7 +2218,7 @@
       align-items: center;
       box-sizing: border-box;
       display: flex;
-      font-family: Consolas;
+      font-family: system-ui, sans-serif;
       font-size: 18px;
       pointer-events: auto;
       user-select: none;
