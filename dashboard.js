@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Google Homepage Dashboard
 // @namespace    srazzano
-// @version      2.5.0-alpha.2
+// @version      2.6.0
 // @description  Google with centered logo, wallpaper, date/digital time, resizeable analog clock + draggable containers
 // @author       Sonny Razzano a.k.a. srazzano
 // @match        https://www.google.com/*
@@ -33,30 +33,8 @@
   // ===========================================================================
   // Google Homepage Dashboard Changelog
   // -----------------------------------
-  // Version : 2.5.0-alpha.1
-  // ✅ Renamed Object groups.
-  // ✅ Added Settings helper.
-  // ✅ Added State manager.
-  // ✅ Beginning internal refactor.
-  // ✅ No feature changes.
+  // Version : 2.6.0
   // -----------------------------------
-  // Version: 2.5.0-alpha.2
-  // ✅ Implemented Settings helper.
-  // ✅ Implemented State manager.
-  // ✅ Removed global runtime variables.
-  // ✅ Reorganized source into eight sections.
-  // -----------------------------------
-  // Version 2.5.0-alpha.3
-  // ✅ Remove PNG day images
-  // ✅ Create SVG Day Banner
-  // ✅ Dynamic day text
-  // ✅ Move date/time layout
-  // ☐ Glass banner styling
-  // ☐ Theme-aware colors
-  // ☐ CSS style attributes
-  // ☐ Final spacing adjustments
-  // ☐ Code cleanup
-  // ===========================================================================
 
   // ===========================================================================
   // GLOBAL CONSTANTS
