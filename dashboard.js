@@ -1041,7 +1041,7 @@
     const timeText = $el('text', {
       id: 'timeText',
       className: 'Analog-timeText',
-      x: 50.5, y: 78,
+      x: 50.5, y: 77,
       'text-anchor': 'middle',
       'dominant-baseline': 'middle',
       'xml:space': 'preserve'
@@ -1059,6 +1059,54 @@
       timeText,
       ampmText
     ]);
+    const themeBtn = $el('image', {
+      id: 'sunImg',
+      className: 'ClockThemeToggle',
+      href: ICONS.panelSun,
+      x: 34,
+      y: 106,
+      width: 10,
+      height: 10,
+      title: TITLES.themeBtnTitle
+    });
+    const secondHandBtn = $el('image', {
+      id: 'clockImg',
+      href: ICONS.panelClock,
+      x: 45.2,
+      y: 106,
+      width: 10,
+      height: 10,
+      title: ''
+    });
+    const anaCalBtn = $el('image', {
+      id: 'anaCalBtn',
+      className: 'scaler-info',
+      href: ICONS.panelFace,
+      x: 56.4,
+      y: 106,
+      width: 10,
+      height: 10,
+      title: TITLES.anaCalBtnTitle,
+      onclick: () => toggleCalendarInfo()
+    });
+    const panelRect = $el('rect', {
+      x: 33,
+      y: 105,
+      width: 35,
+      height: 12,
+      rx: 2,
+      fill: 'url(#panelGradient)',
+      stroke: '#555',
+      'stroke-width': .5
+    });
+    const controlsGroup = $el('g', {
+      id: 'controlsGroup'
+      },
+      panelRect,
+      themeBtn,
+      secondHandBtn,
+      anaCalBtn
+    );
     // =======================
     // ATTACH TO SVG
     // =======================
@@ -1082,8 +1130,22 @@
       dayBannerBorder,
       dayBannerHighlight,
       dayBannerText,
-      dateTimeGroup
+      dateTimeGroup,
+      controlsGroup
     );
+    const setSecondMode = (smooth) => {
+      Settings.set('smoothSecondHand', smooth);
+    };
+    setSecondMode(Settings.get('smoothSecondHand', true));
+    secondHandBtn.onclick = () => {
+      Settings.set('smoothSecondHand', !Settings.get('smoothSecondHand', true));
+      startAnalogClock();
+    };
+    const toggleCalendarInfo = () => {
+      const hidden = clockInfo.classList.toggle('hidden');
+      dateTimeGroup.classList.toggle('hidden', !hidden);
+      Settings.set('calendarInfo', !hidden);
+    };
     // =======================
     // NON SVG
     // =======================
@@ -1114,72 +1176,25 @@
       percentageDisplay.value = String(currentPercent);
       Settings.set('clockSizePercent', currentPercent);
     };
-    const sunImg = $el('img', {
-      id: 'sunImg',
-      src: ICONS.panelSun
-    });
-    const themeBtn = $el('button', {
-      className: 'ClockThemeToggle',
-      title: TITLES.themeBtnTitle
-    }, sunImg);
     const setTheme = (dark) => {
       Clock.classList.toggle('dark', dark);
-      sunImg.src = dark ? ICONS.panelMoon : ICONS.panelSun;
+      themeBtn.src = dark ? ICONS.panelMoon : ICONS.panelSun;
       Settings.set('clockDarkTheme', dark);
     };
     setTheme(Settings.get('clockDarkTheme', true));
     themeBtn.onclick = () => {
       setTheme(!Clock.classList.contains('dark'));
     };
-    const clockImg = $el('img', {
-      id: 'clockImg',
-      src: ICONS.panelClock
-    });
-    const secondHandBtn = $el('button', {
-      className: 'ClockSecondToggle',
-      title: TITLES.secondHandBtnTitle
-    }, clockImg);
-    const setSecondMode = (smooth) => {
-      Settings.set('smoothSecondHand', smooth);
-    };
-    setSecondMode(Settings.get('smoothSecondHand', true));
-    secondHandBtn.onclick = () => {
-      Settings.set('smoothSecondHand', !Settings.get('smoothSecondHand', true));
-      startAnalogClock();
-    };
-    const toggleCalendarInfo = () => {
-      const hidden = clockInfo.classList.toggle('hidden');
-      dateTimeGroup.classList.toggle('hidden', !hidden);
-      Settings.set('calendarInfo', !hidden);
-    };
     const clockInfo = $el('div', {
       id: 'clockInfo',
     });
-    const calendarImg = $el('img', {
-      id: 'calendarImg',
-      src: ICONS.panelFace
-    });
-    const anaCalBtn = $el('button', {
-      id: 'anaCalBtn',
-      className: 'scaler-info',
-      title: TITLES.anaCalBtnTitle,
-      onclick: () => toggleCalendarInfo()
-    }, calendarImg);
-    const controlsPanel = $el('div', {
-      id: 'controlsPanel'
-      },
-      themeBtn,
-      secondHandBtn,
-      anaCalBtn
-    );
     const showControlsPref = Settings.get('controlsPanel', true);
-    controlsPanel.classList.toggle('hidden', !showControlsPref);
+    controlsGroup.classList.toggle('hidden', !showControlsPref);
     const savedPercent = Settings.get('clockSizePercent', 100);
     setClockPercentage(savedPercent);
     const analogClockContainer = $el('div', {
       id: 'analogClockContainer', className: 'ClockContainer' },
-      Clock,
-      controlsPanel
+      Clock
     );
     makeDraggable(analogClockContainer, 'analogClockContainer', '.Analog-Bigclock');
     restorePosition(analogClockContainer, 'analogClockContainer');
@@ -1478,10 +1493,12 @@
       Settings.set('clockSizePercent', currentPercent);
     };
     const savedPercent = Settings.get('clockSizePercent', 100);
+    //
     const toggleControls = () => {
-      const hidden = controlsPanel.classList.toggle('hidden');
+      const hidden = controlsGroup.classList.toggle('hidden');
       Settings.set('controlsPanel', !hidden);
     };
+    //
     const bool = Settings.get('analogClock', true);
     const pref = bool ? ICONS.clock32 : ICONS.noclock32;
     const tip = bool ? TITLES.analogClockBtnHideTitle : TITLES.analogClockBtnShowTitle;
@@ -1933,30 +1950,12 @@
     }
   `);
 
-  // CONTROLS PANEL
+  // CONTROLS GROUP
   GM_addStyle(`
-    #controlsPanel {
-      background-image: linear-gradient(to bottom, #fff, #4f4f4f);
-      border: 2px solid #4f4f4f;
-      box-shadow: 0 0 0 2px #999,
-                  0 0 0 2px #ccc,
-                  0 0 0 2px #4f4f4f;
-      border-radius: 8px;
-      display: flex;
-      gap: 6px;
-      height: auto;
-      margin-top: 22px;
-      width: 114px;
-    }
-    #controlsPanel > button {
-      color: #000;
-      height: 32px;
-      opacity: .7;
-      margin-top: 2px;
-      width: 32px;
-    }
-    #controlsPanel > button:hover {
+    #controlsGroup {
       cursor: pointer;
+    }
+    #controlsGroup > image:hover {
       opacity: 1;
       filter: drop-shadow(1px 1px 3px #000);
     }
