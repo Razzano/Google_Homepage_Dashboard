@@ -1072,32 +1072,26 @@
     const secondHandBtn = $el('image', {
       id: 'clockImg',
       href: ICONS.panelClock,
-      x: 45.2,
-      y: 106,
-      width: 10,
-      height: 10,
+      x: 45.2, y: 106,
+      width: 10, height: 10,
       title: ''
     });
     const anaCalBtn = $el('image', {
       id: 'anaCalBtn',
       className: 'scaler-info',
       href: ICONS.panelFace,
-      x: 56.4,
-      y: 106,
-      width: 10,
-      height: 10,
+      x: 56.4, y: 106,
+      width: 10, height: 10,
       title: TITLES.anaCalBtnTitle,
       onclick: () => toggleCalendarInfo()
     });
     const panelRect = $el('rect', {
-      x: 33,
-      y: 105,
-      width: 35,
-      height: 12,
+      x: 33, y: 105,
+      width: 35, height: 12,
       rx: 2,
       fill: 'url(#panelGradient)',
       stroke: '#555',
-      'stroke-width': .5
+      'stroke-width': .6
     });
     const controlsGroup = $el('g', {
       id: 'controlsGroup'
@@ -1193,7 +1187,8 @@
     const savedPercent = Settings.get('clockSizePercent', 100);
     setClockPercentage(savedPercent);
     const analogClockContainer = $el('div', {
-      id: 'analogClockContainer', className: 'ClockContainer' },
+      id: 'analogClockContainer', className: 'ClockContainer'
+      },
       Clock
     );
     makeDraggable(analogClockContainer, 'analogClockContainer', '.Analog-Bigclock');
@@ -1230,9 +1225,9 @@
         dayBannerText.textContent = DAY_BANNER_FMT.format(now);
         dateText.setAttribute('y', 29.5);
       } else if (isMediumDay) {
-        dayBannerBg.setAttribute('x', 36);
+        dayBannerBg.setAttribute('x', 34);
         dayBannerBg.setAttribute('y', 18);
-        dayBannerBg.setAttribute('width', 29);
+        dayBannerBg.setAttribute('width', 33);
         dayBannerText.setAttribute('y', 22.4);
         if (LOCALE === 'en-US') dayBannerText.textContent = DAY_BANNER_FMT.format(now).toLocaleUpperCase(LOCALE);
         else dayBannerText.textContent = DAY_BANNER_FMT.format(now);
