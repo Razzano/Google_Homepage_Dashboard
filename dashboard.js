@@ -1054,7 +1054,7 @@
     });
     const ampmText = $el('text', {
       className: 'Analog-AMPMText',
-      x: 50.5, y: 82.5,
+      x: 50.5, y: 82,
       'text-anchor': 'middle',
       'dominant-baseline': 'middle'
     });
