@@ -1,7 +1,6 @@
 # Google Homepage Dashboard
 ### Interface note: 
-Date and time are localized using the browser's language settings. Menu labels, tooltips, and control text remain in English in this release.
-Translations in progress.
+Date and time are localized using the browser's language settings. Menu labels, tooltips, and control text remain in English in this release. Translations in progress.
 ## Tampermonkey UserScript:
 (1) Analog resizable svg clock, controlContainer, and dateTimeContainer are all draggable.  
 (2) Option to change wallpaper (0 - 52), manually or auto change hourly, daily, weekly, monthly.  
