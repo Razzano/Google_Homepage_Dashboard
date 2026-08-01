@@ -382,7 +382,7 @@
   };
 
   const TITLES = {
-    anaCalBtnTitle: 'Show/Hide Date and Time Info On Clock Face',
+    anaCalImgTitle: 'Show/Hide Date and Time Info On Clock Face',
     analogClockBtnHideTitle: 'Hide Analog Clock',
     analogClockBtnShowTitle: 'Show Analog Clock',
     buttonLogoTitle: 'Left-click To Change Logos',
@@ -399,8 +399,8 @@
     scalerBtnDownTitle: 'Scale Down In 5% Increments',
     scalerBtnUpTitle: 'Scale Up In 5% Increments',
     scalerResetTitle: 'Reset To 100%',
-    secondHandBtnTitle: 'Toggle Between Smooth/Tick Second Hand Movement',
-    themeBtnTitle: 'Toggle Between Dark/Light Theme',
+    secondHandImgTitle: 'Toggle Between Smooth/Tick Second Hand Movement',
+    themeImgTitle: 'Toggle Between Dark/Light Theme',
   };
 
   const WALLPAPERS = {
@@ -1065,30 +1065,30 @@
       timeText,
       ampmText
     ]);
-    const themeBtn = $el('image', {
-      id: 'sunImg',
+    const themeImg = $el('image', {
+      id: 'themeImg',
       className: 'ClockThemeToggle',
       href: ICONS.panelSun,
       x: 34,
       y: 106,
       width: 10,
       height: 10,
-      title: TITLES.themeBtnTitle
+      title: TITLES.themeImgTitle
     });
-    const secondHandBtn = $el('image', {
+    const secondHandImg = $el('image', {
       id: 'clockImg',
       href: ICONS.panelClock,
       x: 45.2, y: 106,
       width: 10, height: 10,
-      title: TITLES.secondHandBtnTitle
+      title: TITLES.secondHandImgTitle
     });
-    const anaCalBtn = $el('image', {
-      id: 'anaCalBtn',
+    const anaCalImg = $el('image', {
+      id: 'anaCalImg',
       className: 'scaler-info',
       href: ICONS.panelFace,
       x: 56.4, y: 106,
       width: 10, height: 10,
-      title: TITLES.anaCalBtnTitle,
+      title: TITLES.anaCalImgTitle,
       onclick: () => toggleCalendarInfo()
     });
     const panelRect = $el('rect', {
@@ -1103,9 +1103,9 @@
       id: 'controlsGroup'
       },
       panelRect,
-      themeBtn,
-      secondHandBtn,
-      anaCalBtn
+      themeImg,
+      secondHandImg,
+      anaCalImg
     );
     // =======================
     // ATTACH TO SVG
@@ -1137,7 +1137,7 @@
       Settings.set('smoothSecondHand', smooth);
     };
     setSecondMode(Settings.get('smoothSecondHand', true));
-    secondHandBtn.onclick = () => {
+    secondHandImg.onclick = () => {
       Settings.set('smoothSecondHand', !Settings.get('smoothSecondHand', true));
       startAnalogClock();
     };
@@ -1178,12 +1178,13 @@
     };
     const setTheme = (dark) => {
       Clock.classList.toggle('dark', dark);
-      themeBtn.src = dark ? ICONS.panelMoon : ICONS.panelSun;
+      themeImg.setAttribute('href', dark ? ICONS.panelMoon : ICONS.panelSun);
       Settings.set('clockDarkTheme', dark);
     };
     setTheme(Settings.get('clockDarkTheme', true));
-    themeBtn.onclick = () => {
-      setTheme(!Clock.classList.contains('dark'));
+    themeImg.onclick = () => {
+      const dark = !Settings.get('clockDarkTheme', true);
+      setTheme(dark);
     };
     const clockInfo = $el('div', {
       id: 'clockInfo',
@@ -1494,12 +1495,10 @@
       Settings.set('clockSizePercent', currentPercent);
     };
     const savedPercent = Settings.get('clockSizePercent', 100);
-    //
     const toggleControls = () => {
       const hidden = controlsGroup.classList.toggle('hidden');
       Settings.set('controlsPanel', !hidden);
     };
-    //
     const bool = Settings.get('analogClock', true);
     const pref = bool ? ICONS.clock32 : ICONS.noclock32;
     const tip = bool ? TITLES.analogClockBtnHideTitle : TITLES.analogClockBtnShowTitle;
