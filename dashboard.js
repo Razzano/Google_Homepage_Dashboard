@@ -306,6 +306,8 @@
   };
 
   const LOCALE = Intl.DateTimeFormat().resolvedOptions().locale;
+  const LANG_LONG = (LOCALE ?? 'en-US');
+  const LANG_SHORT = (LOCALE ?? 'en').split('-')[0];
   const DAY_BANNER_FMT = new Intl.DateTimeFormat(LOCALE, {
     weekday: 'long'
   });
@@ -321,42 +323,17 @@
   const AMPM_FMT = new Intl.DateTimeFormat(LOCALE, {
     hour: 'numeric', hour12: true
   });
-  // 3 - 6 characters
   const SHORT_DAY_LOCALES = [
-    'bn-BD',
-    'cs-CZ',
-    'da-DK',
-    'he-IL',
-    'hu-HU',
-    'ja-JP',
-    'ko-KR',
-    'no-NO',
-    'pl-PL',
-    'sk-SK',
-    'sv-SE',
-    'uk-UA',
-    'zh-CN',
-    'zh-TW'
-  ];
-  // 7 - 9 characters
+    'bn-BD', 'cs-CZ', 'da-DK', 'he-IL', 'hu-HU', 'ja-JP', 'ko-KR',
+    'no-NO', 'pl-PL', 'sk-SK', 'sv-SE', 'uk-UA', 'zh-CN', 'zh-TW'
+  ]; // 3 - 6 characters
   const MEDIUM_DAY_LOCALES = [
-    'ar-SA',
-    'el-GR',
-    'en-US',
-    'es-ES',
-    'fr-FR',
-    'it-IT',
-    'nl-NL',
-    'ro-RO',
-    'ru-RU',
-    'tr-TR'
-  ];
-  // 10 - 12 characters
+    'ar-SA', 'el-GR', 'en-US', 'es-ES', 'fr-FR',
+    'it-IT', 'nl-NL', 'ro-RO', 'ru-RU', 'tr-TR'
+  ]; // 7 - 9 characters
   const LONG_DAY_LOCALES = [
-    'de-DE',
-    'fi-FI',
-    'pt-BR'
-  ];
+    'de-DE', 'fi-FI', 'pt-BR'
+  ]; // 10 - 12 characters
 
   const LOGO_CONFIG = {
     3: { marginTop: '15px', transform: 'translateX(-50%)' },
@@ -369,152 +346,962 @@
     15: { marginTop: '25px', transform: 'translateX(-50%)' },
   };
 
-  const STRINGS = {
-    amText: 'AM',
+  const STRING_ID = {
     bodyIdText: 'googleDashboard',
-    buttonLogoText: 'Logo 🠉',
-    buttonThemerText: 'Wallpaper 🠉',
-    downLogoText: '🠋',
-    downThemerText: '🠋',
-    hideText: ' Hide',
-    placeholderText: 'Search Look-up',
-    pmText: 'PM',
-    scalerBtnMinusText: '–',
-    scalerBtnPlusText: '+',
-    scalerBtnResetText: 'Reset',
-    showText: ' Show',
-    spacerXText: '|',
   };
 
-  const TITLES = {
-    anaCalImgTitle: 'Show/Hide Date and Time Info On Clock Face',
-    analogClockBtnHideTitle: 'Hide Analog Clock',
-    analogClockBtnShowTitle: 'Show Analog Clock',
-    calBtnTitle: 'Show/Hide dateTime Container',
-    changeLogoTitle: 'Left-click To Change Logos',
-    changeWallpaperTitle: 'Left-click To Change Wallpaper',
-    controlsBtnTitle: 'Show/Hide Clock Options',
-    dateTimeTitle: 'Left-click → Show/Hide Seconds',
-    digCalBtnTitle: 'Left-click → Show/Hide Calendar & Digital Time',
-    inputLogoTitle: `Manually Enter:\n • 0 - ${IMAGE_COUNT - 1} (0 = Default Google Logo, 17 = No Logo)`,
-    inputThemerTitle: `Manually Enter:\n • 1 - ${WALLPAPER_COUNT} (0 = Default Google Background)`,
-    percentageDisplayTitle: 'Manually Enter Percentage:\n • Min. 30% = 90px Ø\n • Reset 100% = 300px Ø\n • Max. 200% = 600px Ø',
-    scalerBtnDownTitle: 'Scale Down In 5% Increments',
-    scalerBtnUpTitle: 'Scale Up In 5% Increments',
-    scalerResetTitle: 'Reset To 100%',
-    secondHandImgTitle: 'Toggle Between Smooth/Tick Second Hand Movement',
-    themeImgTitle: 'Toggle Between Dark/Light Theme',
+  const STRING_TRANSLATIONS = {
+    en: {
+      amText: 'AM',
+      bodyIdText: 'googleDashboard',
+      buttonLogoText: 'Logo 🠉',
+      buttonThemerText: 'Wallpaper 🠉',
+      downLogoText: '🠋',
+      downThemerText: '🠋',
+      hideText: ' Hide',
+      placeholderText: 'Search Look-up',
+      pmText: 'PM',
+      scalerBtnMinusText: '–',
+      scalerBtnPlusText: '+',
+      scalerBtnResetText: 'Reset',
+      showText: ' Show',
+      spacerXText: '|',
+    },
+    ar: {
+      amText: '',
+      bodyIdText: 'googleDashboard',
+      buttonLogoText: ' 🠉',
+      buttonThemerText: ' 🠉',
+      downLogoText: '🠋',
+      downThemerText: '🠋',
+      hideText: ' ',
+      placeholderText: '',
+      pmText: '',
+      scalerBtnMinusText: '–',
+      scalerBtnPlusText: '+',
+      scalerBtnResetText: '',
+      showText: ' ',
+      spacerXText: '|',
+    },
+    bn: {
+      amText: '',
+      bodyIdText: 'googleDashboard',
+      buttonLogoText: ' 🠉',
+      buttonThemerText: ' 🠉',
+      downLogoText: '🠋',
+      downThemerText: '🠋',
+      hideText: ' ',
+      placeholderText: '',
+      pmText: '',
+      scalerBtnMinusText: '–',
+      scalerBtnPlusText: '+',
+      scalerBtnResetText: '',
+      showText: ' ',
+      spacerXText: '|',
+    },
+    cs: {
+      amText: '',
+      bodyIdText: 'googleDashboard',
+      buttonLogoText: ' 🠉',
+      buttonThemerText: ' 🠉',
+      downLogoText: '🠋',
+      downThemerText: '🠋',
+      hideText: ' ',
+      placeholderText: '',
+      pmText: '',
+      scalerBtnMinusText: '–',
+      scalerBtnPlusText: '+',
+      scalerBtnResetText: '',
+      showText: ' ',
+      spacerXText: '|',
+    },
+    da: {
+      amText: '',
+      bodyIdText: 'googleDashboard',
+      buttonLogoText: ' 🠉',
+      buttonThemerText: ' 🠉',
+      downLogoText: '🠋',
+      downThemerText: '🠋',
+      hideText: ' ',
+      placeholderText: '',
+      pmText: '',
+      scalerBtnMinusText: '–',
+      scalerBtnPlusText: '+',
+      scalerBtnResetText: '',
+      showText: ' ',
+      spacerXText: '|',
+    },
+    de: {
+      amText: '',
+      bodyIdText: 'googleDashboard',
+      buttonLogoText: ' 🠉',
+      buttonThemerText: ' 🠉',
+      downLogoText: '🠋',
+      downThemerText: '🠋',
+      hideText: ' ',
+      placeholderText: '',
+      pmText: '',
+      scalerBtnMinusText: '–',
+      scalerBtnPlusText: '+',
+      scalerBtnResetText: '',
+      showText: ' ',
+      spacerXText: '|',
+    },
+    el: {
+      amText: '',
+      bodyIdText: 'googleDashboard',
+      buttonLogoText: ' 🠉',
+      buttonThemerText: ' 🠉',
+      downLogoText: '🠋',
+      downThemerText: '🠋',
+      hideText: ' ',
+      placeholderText: '',
+      pmText: '',
+      scalerBtnMinusText: '–',
+      scalerBtnPlusText: '+',
+      scalerBtnResetText: '',
+      showText: ' ',
+      spacerXText: '|',
+    },
+    es: {
+      amText: '',
+      bodyIdText: 'googleDashboard',
+      buttonLogoText: ' 🠉',
+      buttonThemerText: ' 🠉',
+      downLogoText: '🠋',
+      downThemerText: '🠋',
+      hideText: ' ',
+      placeholderText: '',
+      pmText: '',
+      scalerBtnMinusText: '–',
+      scalerBtnPlusText: '+',
+      scalerBtnResetText: '',
+      showText: ' ',
+      spacerXText: '|',
+    },
+    fi: {
+      amText: '',
+      bodyIdText: 'googleDashboard',
+      buttonLogoText: ' 🠉',
+      buttonThemerText: ' 🠉',
+      downLogoText: '🠋',
+      downThemerText: '🠋',
+      hideText: ' ',
+      placeholderText: '',
+      pmText: '',
+      scalerBtnMinusText: '–',
+      scalerBtnPlusText: '+',
+      scalerBtnResetText: '',
+      showText: ' ',
+      spacerXText: '|',
+    },
+    fr: {
+      amText: '',
+      bodyIdText: 'googleDashboard',
+      buttonLogoText: ' 🠉',
+      buttonThemerText: ' 🠉',
+      downLogoText: '🠋',
+      downThemerText: '🠋',
+      hideText: ' ',
+      placeholderText: '',
+      pmText: '',
+      scalerBtnMinusText: '–',
+      scalerBtnPlusText: '+',
+      scalerBtnResetText: '',
+      showText: ' ',
+      spacerXText: '|',
+    },
+    he: {
+      amText: '',
+      bodyIdText: 'googleDashboard',
+      buttonLogoText: ' 🠉',
+      buttonThemerText: ' 🠉',
+      downLogoText: '🠋',
+      downThemerText: '🠋',
+      hideText: ' ',
+      placeholderText: '',
+      pmText: '',
+      scalerBtnMinusText: '–',
+      scalerBtnPlusText: '+',
+      scalerBtnResetText: '',
+      showText: ' ',
+      spacerXText: '|',
+    },
+    hu: {
+      amText: '',
+      bodyIdText: 'googleDashboard',
+      buttonLogoText: ' 🠉',
+      buttonThemerText: ' 🠉',
+      downLogoText: '🠋',
+      downThemerText: '🠋',
+      hideText: ' ',
+      placeholderText: '',
+      pmText: '',
+      scalerBtnMinusText: '–',
+      scalerBtnPlusText: '+',
+      scalerBtnResetText: '',
+      showText: ' ',
+      spacerXText: '|',
+    },
+    it: {
+      amText: '',
+      bodyIdText: 'googleDashboard',
+      buttonLogoText: ' 🠉',
+      buttonThemerText: ' 🠉',
+      downLogoText: '🠋',
+      downThemerText: '🠋',
+      hideText: ' ',
+      placeholderText: '',
+      pmText: '',
+      scalerBtnMinusText: '–',
+      scalerBtnPlusText: '+',
+      scalerBtnResetText: '',
+      showText: ' ',
+      spacerXText: '|',
+    },
+    ja: {
+      amText: '',
+      bodyIdText: 'googleDashboard',
+      buttonLogoText: ' 🠉',
+      buttonThemerText: ' 🠉',
+      downLogoText: '🠋',
+      downThemerText: '🠋',
+      hideText: ' ',
+      placeholderText: '',
+      pmText: '',
+      scalerBtnMinusText: '–',
+      scalerBtnPlusText: '+',
+      scalerBtnResetText: '',
+      showText: ' ',
+      spacerXText: '|',
+    },
+    ko: {
+      amText: '',
+      bodyIdText: 'googleDashboard',
+      buttonLogoText: ' 🠉',
+      buttonThemerText: ' 🠉',
+      downLogoText: '🠋',
+      downThemerText: '🠋',
+      hideText: ' ',
+      placeholderText: '',
+      pmText: '',
+      scalerBtnMinusText: '–',
+      scalerBtnPlusText: '+',
+      scalerBtnResetText: '',
+      showText: ' ',
+      spacerXText: '|',
+    },
+    nl: {
+      amText: '',
+      bodyIdText: 'googleDashboard',
+      buttonLogoText: ' 🠉',
+      buttonThemerText: ' 🠉',
+      downLogoText: '🠋',
+      downThemerText: '🠋',
+      hideText: ' ',
+      placeholderText: '',
+      pmText: '',
+      scalerBtnMinusText: '–',
+      scalerBtnPlusText: '+',
+      scalerBtnResetText: '',
+      showText: ' ',
+      spacerXText: '|',
+    },
+    no: {
+      amText: '',
+      bodyIdText: 'googleDashboard',
+      buttonLogoText: ' 🠉',
+      buttonThemerText: ' 🠉',
+      downLogoText: '🠋',
+      downThemerText: '🠋',
+      hideText: ' ',
+      placeholderText: '',
+      pmText: '',
+      scalerBtnMinusText: '–',
+      scalerBtnPlusText: '+',
+      scalerBtnResetText: '',
+      showText: ' ',
+      spacerXText: '|',
+    },
+    pl: {
+      amText: '',
+      bodyIdText: 'googleDashboard',
+      buttonLogoText: ' 🠉',
+      buttonThemerText: ' 🠉',
+      downLogoText: '🠋',
+      downThemerText: '🠋',
+      hideText: ' ',
+      placeholderText: '',
+      pmText: '',
+      scalerBtnMinusText: '–',
+      scalerBtnPlusText: '+',
+      scalerBtnResetText: '',
+      showText: ' ',
+      spacerXText: '|',
+    },
+    pt: {
+      amText: '',
+      bodyIdText: 'googleDashboard',
+      buttonLogoText: ' 🠉',
+      buttonThemerText: ' 🠉',
+      downLogoText: '🠋',
+      downThemerText: '🠋',
+      hideText: ' ',
+      placeholderText: '',
+      pmText: '',
+      scalerBtnMinusText: '–',
+      scalerBtnPlusText: '+',
+      scalerBtnResetText: '',
+      showText: ' ',
+      spacerXText: '|',
+    },
+    ro: {
+      amText: '',
+      bodyIdText: 'googleDashboard',
+      buttonLogoText: ' 🠉',
+      buttonThemerText: ' 🠉',
+      downLogoText: '🠋',
+      downThemerText: '🠋',
+      hideText: ' ',
+      placeholderText: '',
+      pmText: '',
+      scalerBtnMinusText: '–',
+      scalerBtnPlusText: '+',
+      scalerBtnResetText: '',
+      showText: ' ',
+      spacerXText: '|',
+    },
+    ru: {
+      amText: '',
+      bodyIdText: 'googleDashboard',
+      buttonLogoText: ' 🠉',
+      buttonThemerText: ' 🠉',
+      downLogoText: '🠋',
+      downThemerText: '🠋',
+      hideText: ' ',
+      placeholderText: '',
+      pmText: '',
+      scalerBtnMinusText: '–',
+      scalerBtnPlusText: '+',
+      scalerBtnResetText: '',
+      showText: ' ',
+      spacerXText: '|',
+    },
+    sk: {
+      amText: '',
+      bodyIdText: 'googleDashboard',
+      buttonLogoText: ' 🠉',
+      buttonThemerText: ' 🠉',
+      downLogoText: '🠋',
+      downThemerText: '🠋',
+      hideText: ' ',
+      placeholderText: '',
+      pmText: '',
+      scalerBtnMinusText: '–',
+      scalerBtnPlusText: '+',
+      scalerBtnResetText: '',
+      showText: ' ',
+      spacerXText: '|',
+    },
+    sv: {
+      amText: '',
+      bodyIdText: 'googleDashboard',
+      buttonLogoText: ' 🠉',
+      buttonThemerText: ' 🠉',
+      downLogoText: '🠋',
+      downThemerText: '🠋',
+      hideText: ' ',
+      placeholderText: '',
+      pmText: '',
+      scalerBtnMinusText: '–',
+      scalerBtnPlusText: '+',
+      scalerBtnResetText: '',
+      showText: ' ',
+      spacerXText: '|',
+    },
+    tr: {
+      amText: '',
+      bodyIdText: 'googleDashboard',
+      buttonLogoText: ' 🠉',
+      buttonThemerText: ' 🠉',
+      downLogoText: '🠋',
+      downThemerText: '🠋',
+      hideText: ' ',
+      placeholderText: '',
+      pmText: '',
+      scalerBtnMinusText: '–',
+      scalerBtnPlusText: '+',
+      scalerBtnResetText: '',
+      showText: ' ',
+      spacerXText: '|',
+    },
+    uk: {
+      amText: '',
+      bodyIdText: 'googleDashboard',
+      buttonLogoText: ' 🠉',
+      buttonThemerText: ' 🠉',
+      downLogoText: '🠋',
+      downThemerText: '🠋',
+      hideText: ' ',
+      placeholderText: '',
+      pmText: '',
+      scalerBtnMinusText: '–',
+      scalerBtnPlusText: '+',
+      scalerBtnResetText: '',
+      showText: ' ',
+      spacerXText: '|',
+    },
+    zh: {
+      amText: '',
+      bodyIdText: 'googleDashboard',
+      buttonLogoText: ' 🠉',
+      buttonThemerText: ' 🠉',
+      downLogoText: '🠋',
+      downThemerText: '🠋',
+      hideText: ' ',
+      placeholderText: '',
+      pmText: '',
+      scalerBtnMinusText: '–',
+      scalerBtnPlusText: '+',
+      scalerBtnResetText: '',
+      showText: ' ',
+      spacerXText: '|',
+    }
   };
+  const localizedStrings = STRING_TRANSLATIONS[LANG_SHORT] ?? STRING_TRANSLATIONS.en;
+  //const localizedStrings = STRING_TRANSLATIONS.es; // For Testing Different Locals
+
+  const TITLE_TRANSLATIONS = {
+    en: {
+      anaCalImgTitle: 'Show/Hide Date and Time Info On Clock Face',
+      analogClockBtnHideTitle: 'Hide Analog Clock',
+      analogClockBtnShowTitle: 'Show Analog Clock',
+      calBtnTitle: 'Show/Hide dateTime Container',
+      changeLogoTitle: 'Left-click To Change Logos',
+      changeWallpaperTitle: 'Left-click To Change Wallpaper',
+      controlsBtnTitle: 'Show/Hide Clock Options',
+      dateTimeTitle: 'Left-click → Show/Hide Seconds',
+      digCalBtnTitle: 'Left-click → Show/Hide Calendar & Digital Time',
+      inputLogoTitle: '0 - 17',
+      inputThemerTitle: '0 - 52',
+      percentageDisplayTitle: 'Min. 30 - Max. 200',
+      scalerBtnDownTitle: 'Scale Down In 5% Increments',
+      scalerBtnUpTitle: 'Scale Up In 5% Increments',
+      scalerResetTitle: 'Reset To 100%',
+      secondHandImgTitle: 'Toggle Between Smooth/Tick Second Hand Movement',
+      themeImgTitle: 'Toggle Between Dark/Light Theme',
+    },
+    ar: {
+      anaCalImgTitle: '',
+      analogClockBtnHideTitle: '',
+      analogClockBtnShowTitle: '',
+      calBtnTitle: '',
+      changeLogoTitle: '',
+      changeWallpaperTitle: '',
+      controlsBtnTitle: '',
+      dateTimeTitle: '',
+      digCalBtnTitle: '',
+      inputLogoTitle: '',
+      inputThemerTitle: '',
+      percentageDisplayTitle: '',
+      scalerBtnDownTitle: '',
+      scalerBtnUpTitle: '',
+      scalerResetTitle: '',
+      secondHandImgTitle: '',
+      themeImgTitle: '',
+    },
+    bn: {
+      anaCalImgTitle: '',
+      analogClockBtnHideTitle: '',
+      analogClockBtnShowTitle: '',
+      calBtnTitle: '',
+      changeLogoTitle: '',
+      changeWallpaperTitle: '',
+      controlsBtnTitle: '',
+      dateTimeTitle: '',
+      digCalBtnTitle: '',
+      inputLogoTitle: '',
+      inputThemerTitle: '',
+      percentageDisplayTitle: '',
+      scalerBtnDownTitle: '',
+      scalerBtnUpTitle: '',
+      scalerResetTitle: '',
+      secondHandImgTitle: '',
+      themeImgTitle: '',
+    },
+    cs: {
+      anaCalImgTitle: '',
+      analogClockBtnHideTitle: '',
+      analogClockBtnShowTitle: '',
+      calBtnTitle: '',
+      changeLogoTitle: '',
+      changeWallpaperTitle: '',
+      controlsBtnTitle: '',
+      dateTimeTitle: '',
+      digCalBtnTitle: '',
+      inputLogoTitle: '',
+      inputThemerTitle: '',
+      percentageDisplayTitle: '',
+      scalerBtnDownTitle: '',
+      scalerBtnUpTitle: '',
+      scalerResetTitle: '',
+      secondHandImgTitle: '',
+      themeImgTitle: '',
+    },
+    da: {
+      anaCalImgTitle: '',
+      analogClockBtnHideTitle: '',
+      analogClockBtnShowTitle: '',
+      calBtnTitle: '',
+      changeLogoTitle: '',
+      changeWallpaperTitle: '',
+      controlsBtnTitle: '',
+      dateTimeTitle: '',
+      digCalBtnTitle: '',
+      inputLogoTitle: '',
+      inputThemerTitle: '',
+      percentageDisplayTitle: '',
+      scalerBtnDownTitle: '',
+      scalerBtnUpTitle: '',
+      scalerResetTitle: '',
+      secondHandImgTitle: '',
+      themeImgTitle: '',
+    },
+    de: {
+      anaCalImgTitle: 'Datums- und Uhrzeitinformationen auf dem Zifferblatt ein-/ausblenden',
+      analogClockBtnHideTitle: 'Analoguhr ausblenden',
+      analogClockBtnShowTitle: 'Analoguhr anzeigen',
+      calBtnTitle: 'dateTime-Container ein-/ausblenden',
+      changeLogoTitle: 'Linksklick zum Ändern der Logos',
+      changeWallpaperTitle: 'Linksklick zum Ändern des Hintergrundbilds',
+      controlsBtnTitle: 'Uhrenoptionen ein-/ausblenden',
+      dateTimeTitle: 'Linksklick → Sekunden ein-/ausblenden',
+      digCalBtnTitle: 'Linksklick → Kalender und Digitalzeit ein-/ausblenden',
+      inputLogoTitle: '0 - 17',
+      inputThemerTitle: '0 - 52',
+      percentageDisplayTitle: 'Min. 30 - Max. 200',
+      scalerBtnDownTitle: 'Um 5-%-Schritte verkleinern',
+      scalerBtnUpTitle: 'Um 5-%-Schritte vergrößern',
+      scalerResetTitle: 'Auf 100 % zurücksetzen',
+      secondHandImgTitle: 'Zwischen fließender und tickender Sekundenbewegung wechseln',
+      themeImgTitle: 'Zwischen dunklem und hellem Design wechseln',
+    },
+    el: {
+      anaCalImgTitle: '',
+      analogClockBtnHideTitle: '',
+      analogClockBtnShowTitle: '',
+      calBtnTitle: '',
+      changeLogoTitle: '',
+      changeWallpaperTitle: '',
+      controlsBtnTitle: '',
+      dateTimeTitle: '',
+      digCalBtnTitle: '',
+      inputLogoTitle: '',
+      inputThemerTitle: '',
+      percentageDisplayTitle: '',
+      scalerBtnDownTitle: '',
+      scalerBtnUpTitle: '',
+      scalerResetTitle: '',
+      secondHandImgTitle: '',
+      themeImgTitle: '',
+    },
+    es: {
+      anaCalImgTitle: 'Mostrar/Ocultar información de fecha y hora en la esfera del reloj',
+      analogClockBtnHideTitle: 'Ocultar reloj analógico',
+      analogClockBtnShowTitle: 'Mostrar reloj analógico',
+      calBtnTitle: 'Mostrar/Ocultar contenedor dateTime',
+      changeLogoTitle: 'Clic izquierdo para cambiar logotipos',
+      changeWallpaperTitle: 'Clic izquierdo para cambiar fondo de pantalla',
+      controlsBtnTitle: 'Mostrar/Ocultar opciones del reloj',
+      dateTimeTitle: 'Clic izquierdo → Mostrar/Ocultar segundos',
+      digCalBtnTitle: 'Clic izquierdo → Mostrar/Ocultar calendario y hora digital',
+      inputLogoTitle: '0 - 17',
+      inputThemerTitle: '0 - 52',
+      percentageDisplayTitle: 'Mín. 30 - Máx. 200',
+      scalerBtnDownTitle: 'Reducir en incrementos de 5 %',
+      scalerBtnUpTitle: 'Aumentar en incrementos de 5 %',
+      scalerResetTitle: 'Restablecer a 100 %',
+      secondHandImgTitle: 'Cambiar entre movimiento suave y por segundos',
+      themeImgTitle: 'Cambiar entre tema oscuro y claro',
+    },
+    fi: {
+      anaCalImgTitle: '',
+      analogClockBtnHideTitle: '',
+      analogClockBtnShowTitle: '',
+      calBtnTitle: '',
+      changeLogoTitle: '',
+      changeWallpaperTitle: '',
+      controlsBtnTitle: '',
+      dateTimeTitle: '',
+      digCalBtnTitle: '',
+      inputLogoTitle: '',
+      inputThemerTitle: '',
+      percentageDisplayTitle: '',
+      scalerBtnDownTitle: '',
+      scalerBtnUpTitle: '',
+      scalerResetTitle: '',
+      secondHandImgTitle: '',
+      themeImgTitle: '',
+    },
+    fr: {
+      anaCalImgTitle: 'Afficher/Masquer les informations de date et heure sur le cadran',
+      analogClockBtnHideTitle: 'Masquer l’horloge analogique',
+      analogClockBtnShowTitle: 'Afficher l’horloge analogique',
+      calBtnTitle: 'Afficher/Masquer le conteneur dateTime',
+      changeLogoTitle: 'Clic gauche pour changer les logos',
+      changeWallpaperTitle: 'Clic gauche pour changer le fond d’écran',
+      controlsBtnTitle: 'Afficher/Masquer les options de l’horloge',
+      dateTimeTitle: 'Clic gauche → Afficher/Masquer les secondes',
+      digCalBtnTitle: 'Clic gauche → Afficher/Masquer calendrier et heure numérique',
+      inputLogoTitle: '0 - 17',
+      inputThemerTitle: '0 - 52',
+      percentageDisplayTitle: 'Min. 30 - Max. 200',
+      scalerBtnDownTitle: 'Réduire par incréments de 5 %',
+      scalerBtnUpTitle: 'Augmenter par incréments de 5 %',
+      scalerResetTitle: 'Réinitialiser à 100 %',
+      secondHandImgTitle: 'Basculer entre mouvement fluide et par secondes',
+      themeImgTitle: 'Basculer entre thème sombre et clair',
+    },
+    he: {
+      anaCalImgTitle: '',
+      analogClockBtnHideTitle: '',
+      analogClockBtnShowTitle: '',
+      calBtnTitle: '',
+      changeLogoTitle: '',
+      changeWallpaperTitle: '',
+      controlsBtnTitle: '',
+      dateTimeTitle: '',
+      digCalBtnTitle: '',
+      inputLogoTitle: '',
+      inputThemerTitle: '',
+      percentageDisplayTitle: '',
+      scalerBtnDownTitle: '',
+      scalerBtnUpTitle: '',
+      scalerResetTitle: '',
+      secondHandImgTitle: '',
+      themeImgTitle: '',
+    },
+    hu: {
+      anaCalImgTitle: '',
+      analogClockBtnHideTitle: '',
+      analogClockBtnShowTitle: '',
+      calBtnTitle: '',
+      changeLogoTitle: '',
+      changeWallpaperTitle: '',
+      controlsBtnTitle: '',
+      dateTimeTitle: '',
+      digCalBtnTitle: '',
+      inputLogoTitle: '',
+      inputThemerTitle: '',
+      percentageDisplayTitle: '',
+      scalerBtnDownTitle: '',
+      scalerBtnUpTitle: '',
+      scalerResetTitle: '',
+      secondHandImgTitle: '',
+      themeImgTitle: '',
+    },
+    it: {
+      anaCalImgTitle: '',
+      analogClockBtnHideTitle: '',
+      analogClockBtnShowTitle: '',
+      calBtnTitle: '',
+      changeLogoTitle: '',
+      changeWallpaperTitle: '',
+      controlsBtnTitle: '',
+      dateTimeTitle: '',
+      digCalBtnTitle: '',
+      inputLogoTitle: '',
+      inputThemerTitle: '',
+      percentageDisplayTitle: '',
+      scalerBtnDownTitle: '',
+      scalerBtnUpTitle: '',
+      scalerResetTitle: '',
+      secondHandImgTitle: '',
+      themeImgTitle: '',
+    },
+    ja: {
+      anaCalImgTitle: '',
+      analogClockBtnHideTitle: '',
+      analogClockBtnShowTitle: '',
+      calBtnTitle: '',
+      changeLogoTitle: '',
+      changeWallpaperTitle: '',
+      controlsBtnTitle: '',
+      dateTimeTitle: '',
+      digCalBtnTitle: '',
+      inputLogoTitle: '',
+      inputThemerTitle: '',
+      percentageDisplayTitle: '',
+      scalerBtnDownTitle: '',
+      scalerBtnUpTitle: '',
+      scalerResetTitle: '',
+      secondHandImgTitle: '',
+      themeImgTitle: '',
+    },
+    ko: {
+      anaCalImgTitle: '',
+      analogClockBtnHideTitle: '',
+      analogClockBtnShowTitle: '',
+      calBtnTitle: '',
+      changeLogoTitle: '',
+      changeWallpaperTitle: '',
+      controlsBtnTitle: '',
+      dateTimeTitle: '',
+      digCalBtnTitle: '',
+      inputLogoTitle: '',
+      inputThemerTitle: '',
+      percentageDisplayTitle: '',
+      scalerBtnDownTitle: '',
+      scalerBtnUpTitle: '',
+      scalerResetTitle: '',
+      secondHandImgTitle: '',
+      themeImgTitle: '',
+    },
+    nl: {
+      anaCalImgTitle: '',
+      analogClockBtnHideTitle: '',
+      analogClockBtnShowTitle: '',
+      calBtnTitle: '',
+      changeLogoTitle: '',
+      changeWallpaperTitle: '',
+      controlsBtnTitle: '',
+      dateTimeTitle: '',
+      digCalBtnTitle: '',
+      inputLogoTitle: '',
+      inputThemerTitle: '',
+      percentageDisplayTitle: '',
+      scalerBtnDownTitle: '',
+      scalerBtnUpTitle: '',
+      scalerResetTitle: '',
+      secondHandImgTitle: '',
+      themeImgTitle: '',
+    },
+    no: {
+      anaCalImgTitle: '',
+      analogClockBtnHideTitle: '',
+      analogClockBtnShowTitle: '',
+      calBtnTitle: '',
+      changeLogoTitle: '',
+      changeWallpaperTitle: '',
+      controlsBtnTitle: '',
+      dateTimeTitle: '',
+      digCalBtnTitle: '',
+      inputLogoTitle: '',
+      inputThemerTitle: '',
+      percentageDisplayTitle: '',
+      scalerBtnDownTitle: '',
+      scalerBtnUpTitle: '',
+      scalerResetTitle: '',
+      secondHandImgTitle: '',
+      themeImgTitle: '',
+    },
+    pl: {
+      anaCalImgTitle: '',
+      analogClockBtnHideTitle: '',
+      analogClockBtnShowTitle: '',
+      calBtnTitle: '',
+      changeLogoTitle: '',
+      changeWallpaperTitle: '',
+      controlsBtnTitle: '',
+      dateTimeTitle: '',
+      digCalBtnTitle: '',
+      inputLogoTitle: '',
+      inputThemerTitle: '',
+      percentageDisplayTitle: '',
+      scalerBtnDownTitle: '',
+      scalerBtnUpTitle: '',
+      scalerResetTitle: '',
+      secondHandImgTitle: '',
+      themeImgTitle: '',
+    },
+    pt: {
+      anaCalImgTitle: '',
+      analogClockBtnHideTitle: '',
+      analogClockBtnShowTitle: '',
+      calBtnTitle: '',
+      changeLogoTitle: '',
+      changeWallpaperTitle: '',
+      controlsBtnTitle: '',
+      dateTimeTitle: '',
+      digCalBtnTitle: '',
+      inputLogoTitle: '',
+      inputThemerTitle: '',
+      percentageDisplayTitle: '',
+      scalerBtnDownTitle: '',
+      scalerBtnUpTitle: '',
+      scalerResetTitle: '',
+      secondHandImgTitle: '',
+      themeImgTitle: '',
+    },
+    ro: {
+      anaCalImgTitle: '',
+      analogClockBtnHideTitle: '',
+      analogClockBtnShowTitle: '',
+      calBtnTitle: '',
+      changeLogoTitle: '',
+      changeWallpaperTitle: '',
+      controlsBtnTitle: '',
+      dateTimeTitle: '',
+      digCalBtnTitle: '',
+      inputLogoTitle: '',
+      inputThemerTitle: '',
+      percentageDisplayTitle: '',
+      scalerBtnDownTitle: '',
+      scalerBtnUpTitle: '',
+      scalerResetTitle: '',
+      secondHandImgTitle: '',
+      themeImgTitle: '',
+    },
+    ru: {
+      anaCalImgTitle: '',
+      analogClockBtnHideTitle: '',
+      analogClockBtnShowTitle: '',
+      calBtnTitle: '',
+      changeLogoTitle: '',
+      changeWallpaperTitle: '',
+      controlsBtnTitle: '',
+      dateTimeTitle: '',
+      digCalBtnTitle: '',
+      inputLogoTitle: '',
+      inputThemerTitle: '',
+      percentageDisplayTitle: '',
+      scalerBtnDownTitle: '',
+      scalerBtnUpTitle: '',
+      scalerResetTitle: '',
+      secondHandImgTitle: '',
+      themeImgTitle: '',
+    },
+    sk: {
+      anaCalImgTitle: '',
+      analogClockBtnHideTitle: '',
+      analogClockBtnShowTitle: '',
+      calBtnTitle: '',
+      changeLogoTitle: '',
+      changeWallpaperTitle: '',
+      controlsBtnTitle: '',
+      dateTimeTitle: '',
+      digCalBtnTitle: '',
+      inputLogoTitle: '',
+      inputThemerTitle: '',
+      percentageDisplayTitle: '',
+      scalerBtnDownTitle: '',
+      scalerBtnUpTitle: '',
+      scalerResetTitle: '',
+      secondHandImgTitle: '',
+      themeImgTitle: '',
+    },
+    sv: {
+      anaCalImgTitle: '',
+      analogClockBtnHideTitle: '',
+      analogClockBtnShowTitle: '',
+      calBtnTitle: '',
+      changeLogoTitle: '',
+      changeWallpaperTitle: '',
+      controlsBtnTitle: '',
+      dateTimeTitle: '',
+      digCalBtnTitle: '',
+      inputLogoTitle: '',
+      inputThemerTitle: '',
+      percentageDisplayTitle: '',
+      scalerBtnDownTitle: '',
+      scalerBtnUpTitle: '',
+      scalerResetTitle: '',
+      secondHandImgTitle: '',
+      themeImgTitle: '',
+    },
+    tr: {
+      anaCalImgTitle: '',
+      analogClockBtnHideTitle: '',
+      analogClockBtnShowTitle: '',
+      calBtnTitle: '',
+      changeLogoTitle: '',
+      changeWallpaperTitle: '',
+      controlsBtnTitle: '',
+      dateTimeTitle: '',
+      digCalBtnTitle: '',
+      inputLogoTitle: '',
+      inputThemerTitle: '',
+      percentageDisplayTitle: '',
+      scalerBtnDownTitle: '',
+      scalerBtnUpTitle: '',
+      scalerResetTitle: '',
+      secondHandImgTitle: '',
+      themeImgTitle: '',
+    },
+    uk: {
+      anaCalImgTitle: '',
+      analogClockBtnHideTitle: '',
+      analogClockBtnShowTitle: '',
+      calBtnTitle: '',
+      changeLogoTitle: '',
+      changeWallpaperTitle: '',
+      controlsBtnTitle: '',
+      dateTimeTitle: '',
+      digCalBtnTitle: '',
+      inputLogoTitle: '',
+      inputThemerTitle: '',
+      percentageDisplayTitle: '',
+      scalerBtnDownTitle: '',
+      scalerBtnUpTitle: '',
+      scalerResetTitle: '',
+      secondHandImgTitle: '',
+      themeImgTitle: '',
+    },
+    zh: {
+      anaCalImgTitle: '',
+      analogClockBtnHideTitle: '',
+      analogClockBtnShowTitle: '',
+      calBtnTitle: '',
+      changeLogoTitle: '',
+      changeWallpaperTitle: '',
+      controlsBtnTitle: '',
+      dateTimeTitle: '',
+      digCalBtnTitle: '',
+      inputLogoTitle: '',
+      inputThemerTitle: '',
+      percentageDisplayTitle: '',
+      scalerBtnDownTitle: '',
+      scalerBtnUpTitle: '',
+      scalerResetTitle: '',
+      secondHandImgTitle: '',
+      themeImgTitle: '',
+    }
+  };
+
+  const localizedTitles = TITLE_TRANSLATIONS[LANG_SHORT] ?? TITLE_TRANSLATIONS.en;
+  //const localizedTitles = TITLE_TRANSLATIONS.es; // For Testing Different Locals
 
   const WALLPAPERS = {
     github: 'https://raw.githubusercontent.com/Razzano/My_Wallpaper_Images/master/image',
     ibb: 'https://i.ibb.co/', // num + offset of 100
     postimages: 'https://i.postimg.cc/', // num + offset of 200
     images: {
-      101: 'ccpzdVPW/image1.jpg',
-      102: 'tMPSxh3g/image2.jpg',
-      103: 'gLjPrzf3/image3.jpg',
-      104: 'LD8QxWYR/image4.jpg',
-      105: '3y0DqWHk/image5.jpg',
-      106: 'B2dSDb3H/image6.jpg',
-      107: '8DK6RKvR/image7.jpg',
-      108: '8nbpV53N/image8.jpg',
-      109: 'Z6bC7T5M/image9.jpg',
-      110: 'zTqBrTmM/image10.jpg',
-      111: 'FkpXCBhv/image11.jpg',
-      112: 'F4ffy4rm/image12.jpg',
-      113: 'LwhVzS8/image13.jpg',
-      114: '7dQmB94X/image14.jpg',
-      115: 'pjncQL5x/image15.jpg',
-      116: 'bg41CCm4/image16.jpg',
-      117: 'yBpnshnY/image17.jpg',
-      118: 'qYNQbwTH/image18.jpg',
-      119: 'mCLFRqsV/image19.jpg',
-      120: 'wFgNR5H8/image20.jpg',
-      121: 'FqHtmDk1/image21.jpg',
-      122: 'nNrstZRN/image22.jpg',
-      123: '7xzvSYgp/image23.jpg',
-      124: '7tfycjYy/image24.jpg',
-      125: 'fdgjbMRm/image25.jpg',
-      126: '9H6YcBKf/image26.jpg',
-      127: '5gnFSxZt/image27.jpg',
-      128: 'XZPngML0/image28.jpg',
-      129: '7Nn8Y9Gv/image29.jpg',
-      130: 'yck538br/image30.jpg',
-      131: 'XxFHNjqt/image31.jpg',
-      132: 'HfPmkHPp/image32.jpg',
-      133: 'gMBv6CZG/image33.jpg',
-      134: 'Ld3DY74b/image34.jpg',
-      135: 'jPPF3mP1/image35.jpg',
-      136: 'mVYVX4Kb/image36.jpg',
-      137: '8gfncszx/image37.jpg',
-      138: 'xKdRSKgk/image38.jpg',
-      139: 'kgNXnpPL/image39.jpg',
-      140: '8D2cPStZ/image40.jpg',
-      141: 'bgS10X16/image41.jpg',
-      142: 'W4WV39Ls/image42.jpg',
-      143: 'Y7PRD86Q/image43.jpg',
-      144: 'mr8rLLfm/image44.jpg',
-      145: 'rRJMCTss/image45.jpg',
-      146: 'dwL7nbp3/image46.jpg',
-      147: 'fdjpz40P/image47.jpg',
-      148: 'yFFtYM13/image48.jpg',
-      149: 'bRC5r95C/image49.jpg',
-      150: 'dyVJD2w/image50.jpg',
-      151: 'PZx7gVyd/image51.jpg',
-      152: 'CKKvMsDf/image52.jpg',
-      201: 'Gp0dwbHF/image1.jpg',
-      202: '5tcbdf6q/image2.jpg',
-      203: 'q7f4Vpzc/image3.jpg',
-      204: 'HLGdDTVt/image4.jpg',
-      205: 'MGyxzgQf/image5.jpg',
-      206: 'jjVt0RLX/image6.jpg',
-      207: 'BvxsJRKD/image7.jpg',
-      208: 'MGyxzgQB/image8.jpg',
-      209: 'vmWMGCVf/image9.jpg',
-      210: 'JhbmRSkj/image10.jpg',
-      211: '254mCgZd/image11.jpg',
-      212: 'hG9gKNdb/image12.jpg',
-      213: 'wBhH9nmQ/image13.jpg',
-      214: 'YS1ktTWx/image14.jpg',
-      215: '5tw1fDC3/image15.jpg',
-      216: 'pdDxP3Fk/image16.jpg',
-      217: '3wg73zvn/image17.jpg',
-      218: 'k5x97Lbs/image18.jpg',
-      219: '6QdwBFvb/image19.jpg',
-      220: '5tw1fDC7/image20.jpg',
-      221: '254mCgZX/image21.jpg',
-      222: 'tghy98xc/image22.jpg',
-      223: 'HLQHTFyh/image23.jpg',
-      224: 'FKjmhwLw/image24.jpg',
-      225: 'TPrGTBDZ/image25.jpg',
-      226: 'NMBtFb6C/image26.jpg',
-      227: 'tghy986G/image27.jpg',
-      228: 'wvgzMFXf/image28.jpg',
-      229: 'wvgzMFXG/image29.jpg',
-      230: 'Hxdmn3wN/image30.jpg',
-      231: 'mDB4kVYv/image31.jpg',
-      232: '3RYhN9jT/image32.jpg',
-      233: '0QPvjZGv/image33.jpg',
-      234: 'Ssk4RVLq/image34.jpg',
-      235: '26rYyTdr/image35.jpg',
-      236: '85NGcwd5/image36.jpg',
-      237: 'DZnh05Q8/image37.jpg',
-      238: 'gJmpj4yx/image38.jpg',
-      239: 'vBbyTX7g/image39.jpg',
-      240: 'RFdBHfG0/image40.jpg',
-      241: 'Kzf2MLQK/image41.jpg',
-      242: 'bJghtbLn/image42.jpg',
-      243: 'SsdhM8Vs/image43.jpg',
-      244: 'LXDp1fvf/image44.jpg',
-      245: 'nz2JD7Tv/image45.jpg',
-      246: 'sXmrhSK5/image46.jpg',
-      247: 'SsdhM8VV/image47.jpg',
-      248: 'fLCN9X5v/image48.jpg',
-      249: '26GDZvTw/image49.jpg',
-      250: 'DZ6TXs5B/image50.jpg',
-      251: 'Hxzgy536/image51.jpg',
-      252: 'g09mFGnH/image52.jpg',
+      101: 'ccpzdVPW/image1.jpg', 102: 'tMPSxh3g/image2.jpg', 103: 'gLjPrzf3/image3.jpg', 104: 'LD8QxWYR/image4.jpg',
+      105: '3y0DqWHk/image5.jpg', 106: 'B2dSDb3H/image6.jpg', 107: '8DK6RKvR/image7.jpg', 108: '8nbpV53N/image8.jpg',
+      109: 'Z6bC7T5M/image9.jpg', 110: 'zTqBrTmM/image10.jpg', 111: 'FkpXCBhv/image11.jpg', 112: 'F4ffy4rm/image12.jpg',
+      113: 'LwhVzS8/image13.jpg', 114: '7dQmB94X/image14.jpg', 115: 'pjncQL5x/image15.jpg', 116: 'bg41CCm4/image16.jpg',
+      117: 'yBpnshnY/image17.jpg', 118: 'qYNQbwTH/image18.jpg', 119: 'mCLFRqsV/image19.jpg', 120: 'wFgNR5H8/image20.jpg',
+      121: 'FqHtmDk1/image21.jpg', 122: 'nNrstZRN/image22.jpg', 123: '7xzvSYgp/image23.jpg', 124: '7tfycjYy/image24.jpg',
+      125: 'fdgjbMRm/image25.jpg', 126: '9H6YcBKf/image26.jpg', 127: '5gnFSxZt/image27.jpg', 128: 'XZPngML0/image28.jpg',
+      129: '7Nn8Y9Gv/image29.jpg', 130: 'yck538br/image30.jpg', 131: 'XxFHNjqt/image31.jpg', 132: 'HfPmkHPp/image32.jpg',
+      133: 'gMBv6CZG/image33.jpg', 134: 'Ld3DY74b/image34.jpg', 135: 'jPPF3mP1/image35.jpg', 136: 'mVYVX4Kb/image36.jpg',
+      137: '8gfncszx/image37.jpg', 138: 'xKdRSKgk/image38.jpg', 139: 'kgNXnpPL/image39.jpg', 140: '8D2cPStZ/image40.jpg',
+      141: 'bgS10X16/image41.jpg', 142: 'W4WV39Ls/image42.jpg', 143: 'Y7PRD86Q/image43.jpg', 144: 'mr8rLLfm/image44.jpg',
+      145: 'rRJMCTss/image45.jpg', 146: 'dwL7nbp3/image46.jpg', 147: 'fdjpz40P/image47.jpg', 148: 'yFFtYM13/image48.jpg',
+      149: 'bRC5r95C/image49.jpg', 150: 'dyVJD2w/image50.jpg', 151: 'PZx7gVyd/image51.jpg', 152: 'CKKvMsDf/image52.jpg',
+      201: 'Gp0dwbHF/image1.jpg', 202: '5tcbdf6q/image2.jpg', 203: 'q7f4Vpzc/image3.jpg', 204: 'HLGdDTVt/image4.jpg',
+      205: 'MGyxzgQf/image5.jpg', 206: 'jjVt0RLX/image6.jpg', 207: 'BvxsJRKD/image7.jpg', 208: 'MGyxzgQB/image8.jpg',
+      209: 'vmWMGCVf/image9.jpg', 210: 'JhbmRSkj/image10.jpg', 211: '254mCgZd/image11.jpg', 212: 'hG9gKNdb/image12.jpg',
+      213: 'wBhH9nmQ/image13.jpg', 214: 'YS1ktTWx/image14.jpg', 215: '5tw1fDC3/image15.jpg', 216: 'pdDxP3Fk/image16.jpg',
+      217: '3wg73zvn/image17.jpg', 218: 'k5x97Lbs/image18.jpg', 219: '6QdwBFvb/image19.jpg', 220: '5tw1fDC7/image20.jpg',
+      221: '254mCgZX/image21.jpg', 222: 'tghy98xc/image22.jpg', 223: 'HLQHTFyh/image23.jpg', 224: 'FKjmhwLw/image24.jpg',
+      225: 'TPrGTBDZ/image25.jpg', 226: 'NMBtFb6C/image26.jpg', 227: 'tghy986G/image27.jpg', 228: 'wvgzMFXf/image28.jpg',
+      229: 'wvgzMFXG/image29.jpg', 230: 'Hxdmn3wN/image30.jpg', 231: 'mDB4kVYv/image31.jpg', 232: '3RYhN9jT/image32.jpg',
+      233: '0QPvjZGv/image33.jpg', 234: 'Ssk4RVLq/image34.jpg', 235: '26rYyTdr/image35.jpg', 236: '85NGcwd5/image36.jpg',
+      237: 'DZnh05Q8/image37.jpg', 238: 'gJmpj4yx/image38.jpg', 239: 'vBbyTX7g/image39.jpg', 240: 'RFdBHfG0/image40.jpg',
+      241: 'Kzf2MLQK/image41.jpg', 242: 'bJghtbLn/image42.jpg', 243: 'SsdhM8Vs/image43.jpg', 244: 'LXDp1fvf/image44.jpg',
+      245: 'nz2JD7Tv/image45.jpg', 246: 'sXmrhSK5/image46.jpg', 247: 'SsdhM8VV/image47.jpg', 248: 'fLCN9X5v/image48.jpg',
+      249: '26GDZvTw/image49.jpg', 250: 'DZ6TXs5B/image50.jpg', 251: 'Hxzgy536/image51.jpg', 252: 'g09mFGnH/image52.jpg',
     },
     url(num) {
       const host = Settings.get('wallpaperHost', 'ibb');
@@ -577,15 +1364,15 @@
     };
     GM_addStyle(`
       img[alt='Google'], #hplogo, #logo, .k1zIA img, .k1zIA svg,
-      #${STRINGS.bodyIdText} #LS8OJ img,
-      #${STRINGS.bodyIdText} #LS8OJ .k1zIA {
+      #${STRING_ID.bodyIdText} #LS8OJ img,
+      #${STRING_ID.bodyIdText} #LS8OJ .k1zIA {
         display: ${num === 0 ? 'block' : 'none'} !important;
         visibility: ${num === 0 ? 'visible' : 'hidden'} !important;
       }
       div:has(> img[alt='Google']) {
         display: ${num === 0 ? 'block' : 'none'} !important;
       }
-      #${STRINGS.bodyIdText} #logoGoogle {
+      #${STRING_ID.bodyIdText} #logoGoogle {
         margin-top: ${config.marginTop} !important;
       }
     `);
@@ -836,7 +1623,7 @@
     const smoothSecondHand = Settings.get('smoothSecondHand', true);
     const ticks = [];
     const hourNumbers = [];
-    const spacer3 = $el('span', {id: 'spacer3', class: 'spacerX', textContent: STRINGS.spacerXText});
+    const spacer3 = $el('span', {id: 'spacer3', class: 'spacerX', textContent: localizedStrings.spacerXText});
     // =======================
     // GRAPHICAL OBJECTS
     // =======================
@@ -1076,14 +1863,14 @@
       y: 106,
       width: 10,
       height: 10,
-      title: TITLES.themeImgTitle
+      title: localizedTitles.themeImgTitle
     });
     const secondHandImg = $el('image', {
       id: 'clockImg',
       href: ICONS.panelClock,
       x: 45.2, y: 106,
       width: 10, height: 10,
-      title: TITLES.secondHandImgTitle
+      title: localizedTitles.secondHandImgTitle
     });
     const anaCalImg = $el('image', {
       id: 'anaCalImg',
@@ -1091,7 +1878,7 @@
       href: ICONS.panelFace,
       x: 56.4, y: 106,
       width: 10, height: 10,
-      title: TITLES.anaCalImgTitle,
+      title: localizedTitles.anaCalImgTitle,
       onclick: () => toggleCalendarInfo()
     });
     const panelRect = $el('rect', {
@@ -1163,7 +1950,7 @@
       min: '30',
       max: '200',
       step: '1',
-      title: TITLES.percentageDisplayTitle,
+      title: localizedTitles.percentageDisplayTitle,
       oninput(e) {
         const val = e.target.value;
         if (val === '') return;
@@ -1303,7 +2090,7 @@
     panelTog.classList.toggle('disabled', !bool);
     scaler.forEach(el => el.classList.toggle('disabled', !bool));
     const pref = bool ? ICONS.clock32 : ICONS.noclock32;
-    const tip = bool ? TITLES.analogClockBtnHideTitle : TITLES.analogClockBtnShowTitle;
+    const tip = bool ? localizedTitles.analogClockBtnHideTitle : localizedTitles.analogClockBtnShowTitle;
     btn.replaceChildren(
       $el('img', {
         src: pref,
@@ -1327,13 +2114,13 @@
     });
     const digCalBtn = $el('button', {
       id: 'digCalBtn',
-      title: TITLES.digCalBtnTitle,
+      title: localizedTitles.digCalBtnTitle,
       onclick: dateTimeToggle},
       imageCalendar
     );
     const dateTime = $el('span', {
       id: 'dateTime',
-      title: TITLES.dateTimeTitle,
+      title: localizedTitles.dateTimeTitle,
       onclick: dateTimeToggleSeconds
     });
     dtContainer.append(digCalBtn, dateTime);
@@ -1442,45 +2229,45 @@
     }, toggleImg);
     const buttonThemer = $el('button', {
       id: 'buttonThemer',
-      textContent: STRINGS.buttonThemerText,
-      title: TITLES.changeWallpaperTitle,
+      textContent: localizedStrings.buttonThemerText,
+      title: localizedTitles.changeWallpaperTitle,
       onclick: wallpaperButtonChanger
     });
     const inputThemer = $el('input', {
       id: 'inputThemer',
       type: 'number',
       value: Settings.get('wallpaperImage', 0),
-      title: TITLES.inputThemerTitle,
+      title: localizedTitles.inputThemerTitle,
       oninput: wallpaperInputChanger
     });
     const downThemer = $el('button', {
       id: 'downThemer',
-      textContent: STRINGS.downThemerText,
-      title: TITLES.changeWallpaperTitle,
+      textContent: localizedStrings.downThemerText,
+      title: localizedTitles.changeWallpaperTitle,
       onclick: wallpaperButtonChanger
     });
     const spacer1 = $el('span', {
       id: 'spacer1',
       class: 'spacerX',
-      textContent: STRINGS.spacerXText
+      textContent: localizedStrings.spacerXText
     });
     const buttonLogo = $el('button', {
       id: 'buttonLogo',
-      textContent: STRINGS.buttonLogoText,
-      title: TITLES.changeLogoTitle,
+      textContent: localizedStrings.buttonLogoText,
+      title: localizedTitles.changeLogoTitle,
       onclick: e => logoClick(e.target.id)
     });
     const inputLogo = $el('input', {
       id: 'inputLogo',
       type: 'number',
       value: Settings.get('logoImageNum', 1),
-      title: TITLES.inputLogoTitle,
+      title: localizedTitles.inputLogoTitle,
       oninput: handleLogoInput
     });
     const downLogo = $el('button', {
       id: 'downLogo',
-      textContent: STRINGS.downLogoText,
-      title: TITLES.changeLogoTitle,
+      textContent: localizedStrings.downLogoText,
+      title: localizedTitles.changeLogoTitle,
       onclick: e => logoClick(e.target.id)
     });
     const scalerContainer = $el('div', {
@@ -1504,7 +2291,7 @@
     };
     const bool = Settings.get('analogClock', true);
     const pref = bool ? ICONS.clock32 : ICONS.noclock32;
-    const tip = bool ? TITLES.analogClockBtnHideTitle : TITLES.analogClockBtnShowTitle;
+    const tip = bool ? localizedTitles.analogClockBtnHideTitle : localizedTitles.analogClockBtnShowTitle;
     const analogClockBtn = $el('button', {
       id: 'analogClockBtn',
       className: 'toggler analog-clock-btn',
@@ -1520,7 +2307,7 @@
     const panelToggler = $el('button', {
       id: 'panelToggler',
       className: 'toggler',
-      title: TITLES.controlsBtnTitle,
+      title: localizedTitles.controlsBtnTitle,
       onclick: toggleControls
       },
       $el('img', {
@@ -1532,15 +2319,15 @@
     const scalerReset = $el('button', {
       id: 'scalerReset',
       className: 'scaler scaler-reset',
-      textContent: STRINGS.scalerBtnResetText,
-      title: TITLES.scalerResetTitle,
+      textContent: localizedStrings.scalerBtnResetText,
+      title: localizedTitles.scalerResetTitle,
       onclick: () => setClockPercentage(100)
     });
     const scalerMinus = $el('button', {
       id: 'scalerMinus',
       className: 'scaler scaler-btn',
-      textContent: STRINGS.scalerBtnMinusText,
-      title: TITLES.scalerBtnDownTitle,
+      textContent: localizedStrings.scalerBtnMinusText,
+      title: localizedTitles.scalerBtnDownTitle,
       onclick: () => setClockPercentage(currentPercent - 5)
     });
     const percentageDisplay = $el('input', {
@@ -1551,7 +2338,7 @@
       min: '30',
       max: '200',
       step: '1',
-      title: TITLES.percentageDisplayTitle,
+      title: localizedTitles.percentageDisplayTitle,
       oninput(e) {
         const val = e.target.value;
         if (val === '') return;
@@ -1563,14 +2350,14 @@
     const scalerPlus = $el('button', {
       id: 'scalerPlus',
       className: 'scaler scaler-btn',
-      textContent: STRINGS.scalerBtnPlusText,
-      title: TITLES.scalerBtnUpTitle,
+      textContent: localizedStrings.scalerBtnPlusText,
+      title: localizedTitles.scalerBtnUpTitle,
       onclick: () => setClockPercentage(currentPercent + 5)
     });
     const digitalCalBtn = $el('button', {
       id: 'digitalCalBtn',
       className: 'toggler digital-cal-btn',
-      title: TITLES.calBtnTitle,
+      title: localizedTitles.calBtnTitle,
       onclick: dateTimeToggle
       },
       $el('img', {
@@ -1622,9 +2409,9 @@
 
   const init = () => {
     if (!body) return;
-    body.id = STRINGS.bodyIdText;
+    body.id = localizedStrings.bodyIdText;
     const textArea = $id('APjFqb');
-    if (textArea) textArea.placeholder = STRINGS.placeholderText;
+    if (textArea) textArea.placeholder = localizedStrings.placeholderText;
     applyCurrentWallpaper();
     scheduleWallpaperUpdate();
     applyLogo(Settings.get('logoImageNum', 1));
@@ -1646,7 +2433,7 @@
     scaler.forEach(el => el.classList.toggle('disabled', !showClock));
     const btn = $id('analogClockBtn');
     const pref = showClock ? ICONS.clock32 : ICONS.noclock32;
-    const tip = showClock ? TITLES.analogClockBtnHideTitle : TITLES.analogClockBtnShowTitle;
+    const tip = showClock ? localizedTitles.analogClockBtnHideTitle : localizedTitles.analogClockBtnShowTitle;
     btn.replaceChildren($el('img', { title: tip, src: pref }));
     const img = $id('hostImg');
     const current = Settings.get('wallpaperHost', 'ibb');
@@ -1686,73 +2473,73 @@
 
   // GLOBAL
   GM_addStyle(`
-    #${STRINGS.bodyIdText} .disabled {
+    #${STRING_ID.bodyIdText} .disabled {
       cursor: default;
       opacity: 0.3;
       pointer-events: none;
     }
-    #${STRINGS.bodyIdText} .hidden {
+    #${STRING_ID.bodyIdText} .hidden {
       display: none;
     }
-    #${STRINGS.bodyIdText} ::-webkit-inner-spin-button,
-    #${STRINGS.bodyIdText} ::-webkit-outer-spin-button {
+    #${STRING_ID.bodyIdText} ::-webkit-inner-spin-button,
+    #${STRING_ID.bodyIdText} ::-webkit-outer-spin-button {
       display: none;
     }
   `);
 
   // GOOGLE PAGE
   GM_addStyle(`
-    #${STRINGS.bodyIdText} div.o3j99.n1xJcf.CoM3Df > a.w5hRs,
-    #${STRINGS.bodyIdText} #gb > div.gb_Q.gb_6.gb_Vf.gb_3f > div:nth-child(2) > a,
-    #${STRINGS.bodyIdText} #gb > div.gb_Ad.gb_6.gb_L,
-    #${STRINGS.bodyIdText} div.KxwPGc.SSwjIe > div.KxwPGc.AghGtd,
-    #${STRINGS.bodyIdText} div.KxwPGc.SSwjIe > div.KxwPGc.ssOUyb,
-    #${STRINGS.bodyIdText} div.KxwPGc.SSwjIe > div.KxwPGc.iTjxkf > a,
-    #${STRINGS.bodyIdText} div.RNNXgb div.fzj3ad,
-    #${STRINGS.bodyIdText} div.o3j99.qarstb > div:nth-child(3),
-    #${STRINGS.bodyIdText} #EUjKDc,
-    #${STRINGS.bodyIdText} #gbqfbb,
-    #${STRINGS.bodyIdText} div.k1zIA.kKvsb > div.IzOpfd,
-    #${STRINGS.bodyIdText} div.o3j99.qarstb > div:nth-child(2){
+    #${STRING_ID.bodyIdText} div.o3j99.n1xJcf.CoM3Df > a.w5hRs,
+    #${STRING_ID.bodyIdText} #gb > div.gb_Q.gb_6.gb_Vf.gb_3f > div:nth-child(2) > a,
+    #${STRING_ID.bodyIdText} #gb > div.gb_Ad.gb_6.gb_L,
+    #${STRING_ID.bodyIdText} div.KxwPGc.SSwjIe > div.KxwPGc.AghGtd,
+    #${STRING_ID.bodyIdText} div.KxwPGc.SSwjIe > div.KxwPGc.ssOUyb,
+    #${STRING_ID.bodyIdText} div.KxwPGc.SSwjIe > div.KxwPGc.iTjxkf > a,
+    #${STRING_ID.bodyIdText} div.RNNXgb div.fzj3ad,
+    #${STRING_ID.bodyIdText} div.o3j99.qarstb > div:nth-child(3),
+    #${STRING_ID.bodyIdText} #EUjKDc,
+    #${STRING_ID.bodyIdText} #gbqfbb,
+    #${STRING_ID.bodyIdText} div.k1zIA.kKvsb > div.IzOpfd,
+    #${STRING_ID.bodyIdText} div.o3j99.qarstb > div:nth-child(2){
       display: none !important;
     }
-    #${STRINGS.bodyIdText} #gb > div.gb_Q.gb_6.gb_Vf.gb_3f {
+    #${STRING_ID.bodyIdText} #gb > div.gb_Q.gb_6.gb_Vf.gb_3f {
       padding-right: 0px !important;
     }
-    #${STRINGS.bodyIdText} header a {
+    #${STRING_ID.bodyIdText} header a {
       color: #FFF !important;
       text-decoration: none !important;
     }
-    #${STRINGS.bodyIdText} header a > svg {
+    #${STRING_ID.bodyIdText} header a > svg {
       fill: #FFF !important;
     }
-    #${STRINGS.bodyIdText} > div.L3eUgb > div:nth-child(13) > div {
+    #${STRING_ID.bodyIdText} > div.L3eUgb > div:nth-child(13) > div {
       background: transparent !important;
     }
-    #${STRINGS.bodyIdText} div.KxwPGc.SSwjIe {
+    #${STRING_ID.bodyIdText} div.KxwPGc.SSwjIe {
       background: transparent !important;
       float: right !important;
     }
-    #${STRINGS.bodyIdText} g-popup > div.CcNe6e > div {
+    #${STRING_ID.bodyIdText} g-popup > div.CcNe6e > div {
       background: #2A3A4B !important;
       border-radius: 6px !important;
       padding: 8px 16px !important;
     }
-    #${STRINGS.bodyIdText} #LS8OJ > div.k1zIA.rSk4se > svg {
+    #${STRING_ID.bodyIdText} #LS8OJ > div.k1zIA.rSk4se > svg {
       fill: #FFF !important;
     }
-    #${STRINGS.bodyIdText} > div.L3eUgb div.RNNXgb,
-    #${STRINGS.bodyIdText} > div.L3eUgb input.gNO89b {
+    #${STRING_ID.bodyIdText} > div.L3eUgb div.RNNXgb,
+    #${STRING_ID.bodyIdText} > div.L3eUgb input.gNO89b {
       background: rgba(0, 0, 0, .2) !important;
     }
-    #${STRINGS.bodyIdText} #APjFqb {
+    #${STRING_ID.bodyIdText} #APjFqb {
       filter: brightness(2) !important;
       text-shadow: 1px 1px 2px #000 !important;
     }
-    #${STRINGS.bodyIdText} div.fM33ce.dRYYxd > div.ywK6Rd {
+    #${STRING_ID.bodyIdText} div.fM33ce.dRYYxd > div.ywK6Rd {
       background: none !important;
     }
-    #${STRINGS.bodyIdText} #gb > div.gb_z > div:nth-child(2) {
+    #${STRING_ID.bodyIdText} #gb > div.gb_z > div:nth-child(2) {
       height: calc(-70px + 100vh) !important;
     }
   `);
