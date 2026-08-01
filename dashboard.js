@@ -34,6 +34,7 @@
   // Google Homepage Dashboard Changelog
   // -----------------------------------
   // Version : 2.6.0
+  // ✅ Added Locales: de, en, es, fr
   // -----------------------------------
 
   // ===========================================================================
@@ -353,7 +354,6 @@
   const STRING_TRANSLATIONS = {
     ar: {
       amText: '',
-      bodyIdText: 'googleDashboard',
       buttonLogoText: ' 🠉',
       buttonThemerText: ' 🠉',
       downLogoText: '🠋',
@@ -369,7 +369,6 @@
     },
     bn: {
       amText: '',
-      bodyIdText: 'googleDashboard',
       buttonLogoText: ' 🠉',
       buttonThemerText: ' 🠉',
       downLogoText: '🠋',
@@ -385,7 +384,6 @@
     },
     cs: {
       amText: '',
-      bodyIdText: 'googleDashboard',
       buttonLogoText: ' 🠉',
       buttonThemerText: ' 🠉',
       downLogoText: '🠋',
@@ -401,7 +399,6 @@
     },
     da: {
       amText: '',
-      bodyIdText: 'googleDashboard',
       buttonLogoText: ' 🠉',
       buttonThemerText: ' 🠉',
       downLogoText: '🠋',
@@ -417,7 +414,6 @@
     },
     de: {
       amText: 'AM',
-      bodyIdText: 'googleDashboard',
       buttonLogoText: 'Logo 🠉',
       buttonThemerText: 'Hintergrund 🠉',
       downLogoText: '🠋',
@@ -433,7 +429,6 @@
     },
     el: {
       amText: '',
-      bodyIdText: 'googleDashboard',
       buttonLogoText: ' 🠉',
       buttonThemerText: ' 🠉',
       downLogoText: '🠋',
@@ -449,7 +444,6 @@
     },
     en: {
       amText: 'AM',
-      bodyIdText: 'googleDashboard',
       buttonLogoText: 'Logo 🠉',
       buttonThemerText: 'Wallpaper 🠉',
       downLogoText: '🠋',
@@ -465,7 +459,6 @@
     },
     es: {
       amText: 'a. m.',
-      bodyIdText: 'googleDashboard',
       buttonLogoText: 'Logo 🠉',
       buttonThemerText: 'Fondo 🠉',
       downLogoText: '🠋',
@@ -481,7 +474,6 @@
     },
     fi: {
       amText: '',
-      bodyIdText: 'googleDashboard',
       buttonLogoText: ' 🠉',
       buttonThemerText: ' 🠉',
       downLogoText: '🠋',
@@ -497,7 +489,6 @@
     },
     fr: {
       amText: 'AM',
-      bodyIdText: 'googleDashboard',
       buttonLogoText: 'Logo 🠉',
       buttonThemerText: 'Fond d’écran 🠉',
       downLogoText: '🠋',
@@ -513,7 +504,6 @@
     },
     he: {
       amText: '',
-      bodyIdText: 'googleDashboard',
       buttonLogoText: ' 🠉',
       buttonThemerText: ' 🠉',
       downLogoText: '🠋',
@@ -529,7 +519,6 @@
     },
     hu: {
       amText: '',
-      bodyIdText: 'googleDashboard',
       buttonLogoText: ' 🠉',
       buttonThemerText: ' 🠉',
       downLogoText: '🠋',
@@ -545,7 +534,6 @@
     },
     it: {
       amText: '',
-      bodyIdText: 'googleDashboard',
       buttonLogoText: ' 🠉',
       buttonThemerText: ' 🠉',
       downLogoText: '🠋',
@@ -561,7 +549,6 @@
     },
     ja: {
       amText: '',
-      bodyIdText: 'googleDashboard',
       buttonLogoText: ' 🠉',
       buttonThemerText: ' 🠉',
       downLogoText: '🠋',
@@ -577,7 +564,6 @@
     },
     ko: {
       amText: '',
-      bodyIdText: 'googleDashboard',
       buttonLogoText: ' 🠉',
       buttonThemerText: ' 🠉',
       downLogoText: '🠋',
@@ -593,7 +579,6 @@
     },
     nl: {
       amText: '',
-      bodyIdText: 'googleDashboard',
       buttonLogoText: ' 🠉',
       buttonThemerText: ' 🠉',
       downLogoText: '🠋',
@@ -609,7 +594,6 @@
     },
     no: {
       amText: '',
-      bodyIdText: 'googleDashboard',
       buttonLogoText: ' 🠉',
       buttonThemerText: ' 🠉',
       downLogoText: '🠋',
@@ -625,7 +609,6 @@
     },
     pl: {
       amText: '',
-      bodyIdText: 'googleDashboard',
       buttonLogoText: ' 🠉',
       buttonThemerText: ' 🠉',
       downLogoText: '🠋',
@@ -641,7 +624,6 @@
     },
     pt: {
       amText: '',
-      bodyIdText: 'googleDashboard',
       buttonLogoText: ' 🠉',
       buttonThemerText: ' 🠉',
       downLogoText: '🠋',
@@ -657,7 +639,6 @@
     },
     ro: {
       amText: '',
-      bodyIdText: 'googleDashboard',
       buttonLogoText: ' 🠉',
       buttonThemerText: ' 🠉',
       downLogoText: '🠋',
@@ -673,7 +654,6 @@
     },
     ru: {
       amText: '',
-      bodyIdText: 'googleDashboard',
       buttonLogoText: ' 🠉',
       buttonThemerText: ' 🠉',
       downLogoText: '🠋',
@@ -689,7 +669,6 @@
     },
     sk: {
       amText: '',
-      bodyIdText: 'googleDashboard',
       buttonLogoText: ' 🠉',
       buttonThemerText: ' 🠉',
       downLogoText: '🠋',
@@ -705,7 +684,6 @@
     },
     sv: {
       amText: '',
-      bodyIdText: 'googleDashboard',
       buttonLogoText: ' 🠉',
       buttonThemerText: ' 🠉',
       downLogoText: '🠋',
@@ -721,7 +699,6 @@
     },
     tr: {
       amText: '',
-      bodyIdText: 'googleDashboard',
       buttonLogoText: ' 🠉',
       buttonThemerText: ' 🠉',
       downLogoText: '🠋',
@@ -737,7 +714,6 @@
     },
     uk: {
       amText: '',
-      bodyIdText: 'googleDashboard',
       buttonLogoText: ' 🠉',
       buttonThemerText: ' 🠉',
       downLogoText: '🠋',
@@ -753,7 +729,6 @@
     },
     zh: {
       amText: '',
-      bodyIdText: 'googleDashboard',
       buttonLogoText: ' 🠉',
       buttonThemerText: ' 🠉',
       downLogoText: '🠋',
@@ -2492,7 +2467,7 @@
 
   const init = () => {
     if (!body) return;
-    body.id = localizedStrings.bodyIdText;
+    body.id = STRING_ID.bodyIdText;
     const textArea = $id('APjFqb');
     if (textArea) textArea.placeholder = localizedStrings.placeholderText;
     applyCurrentWallpaper();
@@ -2583,7 +2558,8 @@
     #${STRING_ID.bodyIdText} #EUjKDc,
     #${STRING_ID.bodyIdText} #gbqfbb,
     #${STRING_ID.bodyIdText} div.k1zIA.kKvsb > div.IzOpfd,
-    #${STRING_ID.bodyIdText} div.o3j99.qarstb > div:nth-child(2){
+    #${STRING_ID.bodyIdText} div.o3j99.qarstb > div:nth-child(2),
+    #${STRING_ID.bodyIdText} a.w5hRs {
       display: none !important;
     }
     #${STRING_ID.bodyIdText} #gb > div.gb_Q.gb_6.gb_Vf.gb_3f {
