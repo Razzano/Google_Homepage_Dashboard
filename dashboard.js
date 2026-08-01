@@ -744,12 +744,7 @@
     }
   };
   const localizedStrings = STRING_TRANSLATIONS[LANG_SHORT] ?? STRING_TRANSLATIONS.en;
-  //const localizedStrings = STRING_TRANSLATIONS.es; // For Testing Different Locals
-
-  // Add these titles
-     // ibb: 'This is the ImgBB host site\nToggles to the GitHub host site'
-     // github: 'This is the GitHub host site\nToggles to the Postimages host site'
-     //postimages: 'This is the Postimages host site\nToggles to the ImgBB host site'
+  //const localizedStrings = STRING_TRANSLATIONS.de; // For Testing Different Locales
 
   const TITLE_TRANSLATIONS = {
     ar: {
@@ -1327,7 +1322,7 @@
   };
 
   const localizedTitles = TITLE_TRANSLATIONS[LANG_SHORT] ?? TITLE_TRANSLATIONS.en;
-  //const localizedTitles = TITLE_TRANSLATIONS.es; // For Testing Different Locals
+  //const localizedTitles = TITLE_TRANSLATIONS.de; // For Testing Different Locales
 
   const WALLPAPERS = {
     github: 'https://raw.githubusercontent.com/Razzano/My_Wallpaper_Images/master/image',
@@ -2977,7 +2972,8 @@
       z-index: 4;
     }
     #scalerReset {
-      width: 60px;
+      padding: 0px 8px;
+      width: auto;
     }
     .scaler-btn {
       font-size: 18px;
