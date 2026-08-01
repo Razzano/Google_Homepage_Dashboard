@@ -94,6 +94,12 @@
         el.textContent = value;
         continue;
       }
+      if (key === 'title') {
+        const titleEl = document.createElementNS('http://www.w3.org/2000/svg', 'title');
+        titleEl.textContent = value;
+        el.appendChild(titleEl);
+        continue;
+      }
       if (isSVG) {
         el.setAttribute(key, value);
         continue;
@@ -1074,7 +1080,7 @@
       href: ICONS.panelClock,
       x: 45.2, y: 106,
       width: 10, height: 10,
-      title: ''
+      title: TITLES.secondHandBtnTitle
     });
     const anaCalBtn = $el('image', {
       id: 'anaCalBtn',
