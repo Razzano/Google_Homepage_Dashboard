@@ -95,9 +95,14 @@
         continue;
       }
       if (key === 'title') {
-        const titleEl = document.createElementNS('http://www.w3.org/2000/svg', 'title');
-        titleEl.textContent = value;
-        el.appendChild(titleEl);
+        if (isSVG) {
+          el.querySelector(':scope > title')?.remove();
+          const titleEl = document.createElementNS(SVG_NS, 'title');
+          titleEl.textContent = value;
+          el.prepend(titleEl);
+        } else {
+          el.title = value;
+        }
         continue;
       }
       if (isSVG) {
@@ -385,14 +390,12 @@
     anaCalImgTitle: 'Show/Hide Date and Time Info On Clock Face',
     analogClockBtnHideTitle: 'Hide Analog Clock',
     analogClockBtnShowTitle: 'Show Analog Clock',
-    buttonLogoTitle: 'Left-click To Change Logos',
-    buttonThemerTitle: 'Left-click To Change Wallpaper',
     calBtnTitle: 'Show/Hide dateTime Container',
+    changeLogoTitle: 'Left-click To Change Logos',
+    changeWallpaperTitle: 'Left-click To Change Wallpaper',
     controlsBtnTitle: 'Show/Hide Clock Options',
     dateTimeTitle: 'Left-click → Show/Hide Seconds',
     digCalBtnTitle: 'Left-click → Show/Hide Calendar & Digital Time',
-    downLogoTitle: 'Left-click To Change Logos',
-    downThemerTitle: 'Left-click To Change Wallpaper',
     inputLogoTitle: `Manually Enter:\n • 0 - ${IMAGE_COUNT - 1} (0 = Default Google Logo, 17 = No Logo)`,
     inputThemerTitle: `Manually Enter:\n • 1 - ${WALLPAPER_COUNT} (0 = Default Google Background)`,
     percentageDisplayTitle: 'Manually Enter Percentage:\n • Min. 30% = 90px Ø\n • Reset 100% = 300px Ø\n • Max. 200% = 600px Ø',
@@ -1440,7 +1443,7 @@
     const buttonThemer = $el('button', {
       id: 'buttonThemer',
       textContent: STRINGS.buttonThemerText,
-      title: TITLES.buttonThemerTitle,
+      title: TITLES.changeWallpaperTitle,
       onclick: wallpaperButtonChanger
     });
     const inputThemer = $el('input', {
@@ -1453,7 +1456,7 @@
     const downThemer = $el('button', {
       id: 'downThemer',
       textContent: STRINGS.downThemerText,
-      title: TITLES.downThemerTitle,
+      title: TITLES.changeWallpaperTitle,
       onclick: wallpaperButtonChanger
     });
     const spacer1 = $el('span', {
@@ -1464,7 +1467,7 @@
     const buttonLogo = $el('button', {
       id: 'buttonLogo',
       textContent: STRINGS.buttonLogoText,
-      title: TITLES.buttonLogoTitle,
+      title: TITLES.changeLogoTitle,
       onclick: e => logoClick(e.target.id)
     });
     const inputLogo = $el('input', {
@@ -1477,7 +1480,7 @@
     const downLogo = $el('button', {
       id: 'downLogo',
       textContent: STRINGS.downLogoText,
-      title: TITLES.downLogoTitle,
+      title: TITLES.changeLogoTitle,
       onclick: e => logoClick(e.target.id)
     });
     const scalerContainer = $el('div', {
