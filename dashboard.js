@@ -305,8 +305,8 @@
     }
   };
 
-  const LOCALE = Intl.DateTimeFormat().resolvedOptions().locale;
-  //const LOCALE = '??'; // For Testing Different Locales
+  //const LOCALE = Intl.DateTimeFormat().resolvedOptions().locale;
+  const LOCALE = 'zh'; // For Testing Different Locales
   const LANG_LONG = (LOCALE ?? 'en-US');
   const LANG_SHORT = (LOCALE ?? 'en').split('-')[0];
   const DAY_BANNER_FMT = new Intl.DateTimeFormat(LOCALE, {
@@ -325,15 +325,15 @@
     hour: 'numeric', hour12: true
   });
   const SHORT_DAY_LOCALES = [
-    'bn-BD', 'cs-CZ', 'da-DK', 'he-IL', 'hu-HU', 'ja-JP', 'ko-KR',
-    'no-NO', 'pl-PL', 'sk-SK', 'sv-SE', 'uk-UA', 'zh-CN', 'zh-TW'
+    'bn', 'cs', 'da', 'he', 'hu', 'ja', 'ko',
+    'no', 'pl', 'sk', 'sv', 'uk', 'zh'
   ]; // 3 - 6 characters
   const MEDIUM_DAY_LOCALES = [
-    'ar-SA', 'el-GR', 'en-US', 'es-ES', 'fr-FR',
-    'it-IT', 'nl-NL', 'ro-RO', 'ru-RU', 'tr-TR'
+    'ar', 'el', 'en', 'es', 'fr',
+    'it', 'nl', 'ro', 'ru', 'tr'
   ]; // 7 - 9 characters
   const LONG_DAY_LOCALES = [
-    'de-DE', 'fi-FI', 'pt-BR'
+    'de', 'fi', 'pt'
   ]; // 10 - 12 characters
 
   const LOGO_CONFIG = {
@@ -691,8 +691,8 @@
       spacerXText: '|',
     }
   };
-  const localizedStrings = STRING_TRANSLATIONS[LANG_SHORT] ?? STRING_TRANSLATIONS.en;
-  //const localizedStrings = STRING_TRANSLATIONS.??; // For Testing Different Locales
+  //const localizedStrings = STRING_TRANSLATIONS[LANG_SHORT] ?? STRING_TRANSLATIONS.en;
+  const localizedStrings = STRING_TRANSLATIONS.zh; // For Testing Different Locales
 
   const TITLE_TRANSLATIONS = {
     ar: {
@@ -1399,8 +1399,8 @@
     }
   };
 
-  const localizedTitles = TITLE_TRANSLATIONS[LANG_SHORT] ?? TITLE_TRANSLATIONS.en;
-  //const localizedTitles = TITLE_TRANSLATIONS.??; // For Testing Different Locales
+  //const localizedTitles = TITLE_TRANSLATIONS[LANG_SHORT] ?? TITLE_TRANSLATIONS.en;
+  const localizedTitles = TITLE_TRANSLATIONS.zh; // For Testing Different Locales
 
   const WALLPAPERS = {
     github: 'https://raw.githubusercontent.com/Razzano/My_Wallpaper_Images/master/image',
