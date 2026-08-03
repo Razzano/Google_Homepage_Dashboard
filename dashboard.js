@@ -707,6 +707,7 @@
       spacerXText: '|',
     }
   };
+
   const localizedStrings = STRING_TRANSLATIONS[LANG_SHORT] ?? STRING_TRANSLATIONS.en;
 
   const TITLE_TRANSLATIONS = {
@@ -2374,15 +2375,7 @@
       startDigitalClock();
     }
   };
-/*
-  const bool = Settings.get('dateTimeView', false);
-    const calImg = $id('calendar32Img');
-    if (bool) {
-      calImg.src = ICONS.calendar32
-    } else {
-      calImg.src = ICONS.nocalendar32
-    }
-*/
+
   const dateTimeToggleSeconds = (e) => {
     if (e.button !== 0 || e.shiftKey || e.ctrlKey || e.altKey) return;
     e.preventDefault();
