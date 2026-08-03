@@ -331,7 +331,7 @@
     'no', 'pl', 'sk', 'sv', 'uk', 'zh'
   ]; // 3 - 6 characters
   const MEDIUM_DAY_LOCALES = [
-    'ar', 'el', 'en', 'es', 'fr',
+    'ar', 'el', 'en', 'es', 'fr', 'hi',
     'it', 'nl', 'ro', 'ru', 'tr'
   ]; // 7 - 9 characters
   const LONG_DAY_LOCALES = [
@@ -495,6 +495,19 @@
       scalerBtnMinusText: '–',
       scalerBtnPlusText: '+',
       scalerBtnResetText: 'איפוס',
+      spacerXText: '|',
+    },
+    hi: {
+      amText: 'पूर्वाह्न',
+      buttonLogoText: 'लोगो 🠉',
+      buttonThemerText: 'वॉलपेपर 🠉',
+      downLogoText: '🠋',
+      downThemerText: '🠋',
+      placeholderText: 'खोजें',
+      pmText: 'अपराह्न',
+      scalerBtnMinusText: '–',
+      scalerBtnPlusText: '+',
+      scalerBtnResetText: 'रीसेट',
       spacerXText: '|',
     },
     hu: {
@@ -992,6 +1005,33 @@
       wallpaperDailyTitle: 'שנה טפט מדי יום',
       wallpaperWeeklyTitle: 'שנה טפט מדי שבוע',
       wallpaperMonthlyTitle: 'שנה טפט מדי חודש',
+    },
+    hi: {
+      anaCalImgTitle: 'घड़ी के डायल पर दिनांक और समय जानकारी दिखाएँ/छिपाएँ',
+      analogClockBtnHideTitle: 'एनालॉग घड़ी छिपाएँ',
+      analogClockBtnShowTitle: 'एनालॉग घड़ी दिखाएँ',
+      calBtnTitle: 'दिनांक/समय कंटेनर दिखाएँ/छिपाएँ',
+      changeLogoTitle: 'लोगो बदलने के लिए बायाँ-क्लिक करें',
+      changeWallpaperTitle: 'वॉलपेपर बदलने के लिए बायाँ-क्लिक करें',
+      controlsBtnTitle: 'घड़ी विकल्प दिखाएँ/छिपाएँ',
+      dateTimeTitle: 'बायाँ-क्लिक → सेकंड दिखाएँ/छिपाएँ',
+      digCalBtnTitle: 'बायाँ-क्लिक → कैलेंडर और डिजिटल समय दिखाएँ/छिपाएँ',
+      githubTitle: 'यह GitHub होस्ट साइट है\nPostimages होस्ट साइट पर स्विच करता है',
+      ibbTitle: 'यह ImgBB होस्ट साइट है\nGitHub होस्ट साइट पर स्विच करता है',
+      inputLogoTitle: '0 - 17',
+      inputThemerTitle: '0 - 52',
+      percentageDisplayTitle: 'न्यूनतम 30 - अधिकतम 200',
+      postimagesTitle: 'यह Postimages होस्ट साइट है\nImgBB होस्ट साइट पर स्विच करता है',
+      scalerBtnDownTitle: '5% की वृद्धि में आकार घटाएँ',
+      scalerBtnUpTitle: '5% की वृद्धि में आकार बढ़ाएँ',
+      scalerResetTitle: '100% पर रीसेट करें',
+      secondHandImgTitle: 'सेकंड हैंड की स्मूथ/टिक गति के बीच बदलें',
+      themeImgTitle: 'डार्क/लाइट थीम के बीच बदलें',
+      wallpaperManualTitle: 'वॉलपेपर मैन्युअल रूप से बदलें',
+      wallpaperHourlyTitle: 'हर घंटे वॉलपेपर बदलें',
+      wallpaperDailyTitle: 'प्रतिदिन वॉलपेपर बदलें',
+      wallpaperWeeklyTitle: 'प्रति सप्ताह वॉलपेपर बदलें',
+      wallpaperMonthlyTitle: 'प्रति माह वॉलपेपर बदलें',
     },
     hu: {
       anaCalImgTitle: 'Dátum- és időinformációk megjelenítése/elrejtése az óralapon',
