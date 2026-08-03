@@ -41,7 +41,7 @@
   // GLOBAL CONSTANTS
   // ===========================================================================
 
-  const TEST_LOCALE = null; // Set to null for normal browser detection "en-US"
+  const TEST_LOCALE = null; // Test LANG_LONG i.e. "en-US". Set to null for normal browser detection.
   const LOCALE = TEST_LOCALE ?? Intl.DateTimeFormat().resolvedOptions().locale;
 
   const BASE_SIZE = 360;
@@ -2196,7 +2196,7 @@
         dayBannerBg.setAttribute('width', 20.8);
         dayBannerText.setAttribute('y', 22.4);
         dayBannerText.textContent = DAY_BANNER_FMT.format(now);
-        dateText.setAttribute('y', 29.5);
+        dateText.setAttribute('y', 31);
       } else if (isMediumDay) {
         dayBannerBg.setAttribute('x', 34);
         dayBannerBg.setAttribute('y', 18);
@@ -2207,14 +2207,14 @@
         } else {
           dayBannerText.textContent = DAY_BANNER_FMT.format(now);
         }
-        dateText.setAttribute('y', 30.5);
+        dateText.setAttribute('y', 31);
       } else {
         dayBannerBg.setAttribute('x', 32.5);
         dayBannerBg.setAttribute('y', 21);
         dayBannerBg.setAttribute('width', 36);
         dayBannerText.setAttribute('y', 25.4);
         dayBannerText.textContent = DAY_BANNER_FMT.format(now);
-        dateText.setAttribute('y', 33);
+        dateText.setAttribute('y', 34);
       }
       dateText.textContent = DATE_FMT.format(now);
       const parts = TIME_FMT.formatToParts(now);
