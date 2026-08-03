@@ -41,7 +41,7 @@
   // GLOBAL CONSTANTS
   // ===========================================================================
 
-  const TEST_LOCALE = null; // Set to null for normal browser detection 'en-US'
+  const TEST_LOCALE = null; // Set to null for normal browser detection "en-US"
   const LOCALE = TEST_LOCALE ?? Intl.DateTimeFormat().resolvedOptions().locale;
 
   const BASE_SIZE = 360;
@@ -329,15 +329,13 @@
     hour: 'numeric', hour12: true
   });
   const SHORT_DAY_LOCALES = [
-    'bn', 'cs', 'da', 'he', 'hu', 'ja', 'ko',
-    'no', 'pl', 'sk', 'sv', 'uk', 'zh'
+    'ja', 'ko', 'zh', 'he', 'sv', 'da', 'no', 'hu', 'el'
   ]; // 3 - 6 characters
   const MEDIUM_DAY_LOCALES = [
-    'ar', 'el', 'en', 'es', 'fr', 'hi',
-    'it', 'nl', 'ro', 'ru', 'tr'
+    'cs', 'sk', 'hi', 'fr', 'ro', 'tr', 'ar', 'en', 'es', 'it', 'nl', 'uk'
   ]; // 7 - 9 characters
   const LONG_DAY_LOCALES = [
-    'de', 'fi', 'pt'
+    'bn', 'de', 'fi', 'pl', 'pt', 'ru'
   ]; // 10 - 12 characters
 
   const LOGO_CONFIG = {
@@ -1989,7 +1987,7 @@
     });
     const dayBannerBg = $el('rect', {
       id: 'dayBannerBg',
-      height: 7.5,
+      height: 8.5,
       rx: 2, ry: 2,
       fill: 'url(#bannerGradient)'
     });
@@ -2203,13 +2201,13 @@
         dayBannerBg.setAttribute('x', 34);
         dayBannerBg.setAttribute('y', 18);
         dayBannerBg.setAttribute('width', 33);
-        dayBannerText.setAttribute('y', 22.4);
+        dayBannerText.setAttribute('y', 23);
         if (LANG_LONG === 'en-US') {
           dayBannerText.textContent = DAY_BANNER_FMT.format(now).toLocaleUpperCase(LANG_LONG);
         } else {
           dayBannerText.textContent = DAY_BANNER_FMT.format(now);
         }
-        dateText.setAttribute('y', 29.5);
+        dateText.setAttribute('y', 30.5);
       } else {
         dayBannerBg.setAttribute('x', 32.5);
         dayBannerBg.setAttribute('y', 21);
