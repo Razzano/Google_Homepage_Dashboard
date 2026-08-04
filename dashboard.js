@@ -1800,6 +1800,7 @@
       img.src = next.icon;
       img.title = localizedTitle[next.titleKey];
     }
+    applyCurrentWallpaper();
   };
 
   const updateWallpaperControls = () => {
@@ -2687,6 +2688,7 @@
     } else {
       panelImg.src = ICONS.nopanel32;
     }
+    console.log(Settings.get('wallpaperHost', 'github'));
   };
 
   // ===========================================================================
