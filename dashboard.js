@@ -2688,7 +2688,6 @@
     } else {
       panelImg.src = ICONS.nopanel32;
     }
-    console.log(Settings.get('wallpaperHost', 'github'));
   };
 
   // ===========================================================================
