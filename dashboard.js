@@ -41,7 +41,7 @@
   // GLOBAL CONSTANTS
   // ===========================================================================
 
-  const TEST_LOCALE = null; // Test LANG_LONG i.e. "en-US". Set to null for normal browser detection.
+  const TEST_LOCALE = null; // Test LANG_LONG i.e. 'en-US'. Set to null for normal browser detection.
   const LOCALE = TEST_LOCALE ?? Intl.DateTimeFormat().resolvedOptions().locale;
 
   const BASE_SIZE = 360;
@@ -720,7 +720,7 @@
     }
   };
 
-  const localizedStrings = {
+  const localizedString = {
     ...(STRING_TRANSLATIONS.en ?? {}),
     ...(STRING_TRANSLATIONS[LANG_SHORT] ?? {}),
     ...(STRING_TRANSLATIONS[LANG_LONG] ?? {}),
@@ -1485,7 +1485,7 @@
     }
   };
 
-  const localizedTitles = {
+  const localizedTitle = {
     ...(TITLE_TRANSLATIONS.en ?? {}),
     ...(TITLE_TRANSLATIONS[LANG_SHORT] ?? {}),
     ...(TITLE_TRANSLATIONS[LANG_LONG] ?? {}),
@@ -1548,7 +1548,7 @@
     { src: ICONS.calendarMonthly32, key: 'wallpaperMonthlyTitle' },
   ].map(mode => ({
     src: mode.src,
-    title: localizedTitles[mode.key]
+    title: localizedTitle[mode.key]
   }));
 
   const WALLPAPER_SITES = [
@@ -1805,7 +1805,7 @@
     const img = $id('hostImg');
     if (img) {
       img.src = next.icon;
-      img.title = localizedTitles[next.titleKey];
+      img.title = localizedTitle[next.titleKey];
     }
   };
 
@@ -1847,7 +1847,7 @@
     const smoothSecondHand = Settings.get('smoothSecondHand', true);
     const ticks = [];
     const hourNumbers = [];
-    const spacer3 = $el('span', {id: 'spacer3', class: 'spacerX', textContent: localizedStrings.spacerXText});
+    const spacer3 = $el('span', {id: 'spacer3', class: 'spacerX', textContent: localizedString.spacerXText});
     // =======================
     // GRAPHICAL OBJECTS
     // =======================
@@ -2087,14 +2087,14 @@
       y: 106,
       width: 10,
       height: 10,
-      title: localizedTitles.themeImgTitle
+      title: localizedTitle.themeImgTitle
     });
     const secondHandImg = $el('image', {
       id: 'clockImg',
       href: ICONS.panelClock,
       x: 45.2, y: 106,
       width: 10, height: 10,
-      title: localizedTitles.secondHandImgTitle
+      title: localizedTitle.secondHandImgTitle
     });
     const anaCalImg = $el('image', {
       id: 'anaCalImg',
@@ -2102,7 +2102,7 @@
       href: ICONS.panelFace,
       x: 56.4, y: 106,
       width: 10, height: 10,
-      title: localizedTitles.anaCalImgTitle,
+      title: localizedTitle.anaCalImgTitle,
       onclick: () => toggleCalendarInfo()
     });
     const panelRect = $el('rect', {
@@ -2174,7 +2174,7 @@
       min: '30',
       max: '200',
       step: '1',
-      title: localizedTitles.percentageDisplayTitle,
+      title: localizedTitle.percentageDisplayTitle,
       oninput(e) {
         const val = e.target.value;
         if (val === '') return;
@@ -2317,7 +2317,7 @@
     panelTog.classList.toggle('disabled', !bool);
     scaler.forEach(el => el.classList.toggle('disabled', !bool));
     const pref = bool ? ICONS.clock32 : ICONS.noclock32;
-    const tip = bool ? localizedTitles.analogClockBtnHideTitle : localizedTitles.analogClockBtnShowTitle;
+    const tip = bool ? localizedTitle.analogClockBtnHideTitle : localizedTitle.analogClockBtnShowTitle;
     btn.replaceChildren(
       $el('img', {
         src: pref,
@@ -2341,13 +2341,13 @@
     });
     const digCalBtn = $el('button', {
       id: 'digCalBtn',
-      title: localizedTitles.digCalBtnTitle,
+      title: localizedTitle.digCalBtnTitle,
       onclick: dateTimeToggle},
       imageCalendar
     );
     const dateTime = $el('span', {
       id: 'dateTime',
-      title: localizedTitles.dateTimeTitle,
+      title: localizedTitle.dateTimeTitle,
       onclick: dateTimeToggleSeconds
     });
     dtContainer.append(digCalBtn, dateTime);
@@ -2459,45 +2459,45 @@
     }, toggleImg);
     const buttonThemer = $el('button', {
       id: 'buttonThemer',
-      textContent: localizedStrings.buttonThemerText,
-      title: localizedTitles.changeWallpaperTitle,
+      textContent: localizedString.buttonThemerText,
+      title: localizedTitle.changeWallpaperTitle,
       onclick: wallpaperButtonChanger
     });
     const inputThemer = $el('input', {
       id: 'inputThemer',
       type: 'number',
       value: Settings.get('wallpaperImage', 0),
-      title: localizedTitles.inputThemerTitle,
+      title: localizedTitle.inputThemerTitle,
       oninput: wallpaperInputChanger
     });
     const downThemer = $el('button', {
       id: 'downThemer',
-      textContent: localizedStrings.downThemerText,
-      title: localizedTitles.changeWallpaperTitle,
+      textContent: localizedString.downThemerText,
+      title: localizedTitle.changeWallpaperTitle,
       onclick: wallpaperButtonChanger
     });
     const spacer1 = $el('span', {
       id: 'spacer1',
       class: 'spacerX',
-      textContent: localizedStrings.spacerXText
+      textContent: localizedString.spacerXText
     });
     const buttonLogo = $el('button', {
       id: 'buttonLogo',
-      textContent: localizedStrings.buttonLogoText,
-      title: localizedTitles.changeLogoTitle,
+      textContent: localizedString.buttonLogoText,
+      title: localizedTitle.changeLogoTitle,
       onclick: e => logoClick(e.target.id)
     });
     const inputLogo = $el('input', {
       id: 'inputLogo',
       type: 'number',
       value: Settings.get('logoImageNum', 1),
-      title: localizedTitles.inputLogoTitle,
+      title: localizedTitle.inputLogoTitle,
       oninput: handleLogoInput
     });
     const downLogo = $el('button', {
       id: 'downLogo',
-      textContent: localizedStrings.downLogoText,
-      title: localizedTitles.changeLogoTitle,
+      textContent: localizedString.downLogoText,
+      title: localizedTitle.changeLogoTitle,
       onclick: e => logoClick(e.target.id)
     });
     const scalerContainer = $el('div', {
@@ -2527,7 +2527,7 @@
     };
     const bool = Settings.get('analogClock', true);
     const pref = bool ? ICONS.clock32 : ICONS.noclock32;
-    const tip = bool ? localizedTitles.analogClockBtnHideTitle : localizedTitles.analogClockBtnShowTitle;
+    const tip = bool ? localizedTitle.analogClockBtnHideTitle : localizedTitle.analogClockBtnShowTitle;
     const analogClockBtn = $el('button', {
       id: 'analogClockBtn',
       className: 'toggler analog-clock-btn',
@@ -2543,7 +2543,7 @@
     const panelToggler = $el('button', {
       id: 'panelToggler',
       className: 'toggler',
-      title: localizedTitles.controlsBtnTitle,
+      title: localizedTitle.controlsBtnTitle,
       onclick: toggleControls
       },
       $el('img', {
@@ -2555,15 +2555,15 @@
     const scalerReset = $el('button', {
       id: 'scalerReset',
       className: 'scaler scaler-reset',
-      textContent: localizedStrings.scalerBtnResetText,
-      title: localizedTitles.scalerResetTitle,
+      textContent: localizedString.scalerBtnResetText,
+      title: localizedTitle.scalerResetTitle,
       onclick: () => setClockPercentage(100)
     });
     const scalerMinus = $el('button', {
       id: 'scalerMinus',
       className: 'scaler scaler-btn',
-      textContent: localizedStrings.scalerBtnMinusText,
-      title: localizedTitles.scalerBtnDownTitle,
+      textContent: localizedString.scalerBtnMinusText,
+      title: localizedTitle.scalerBtnDownTitle,
       onclick: () => setClockPercentage(currentPercent - 5)
     });
     const percentageDisplay = $el('input', {
@@ -2574,7 +2574,7 @@
       min: '30',
       max: '200',
       step: '1',
-      title: localizedTitles.percentageDisplayTitle,
+      title: localizedTitle.percentageDisplayTitle,
       oninput(e) {
         const val = e.target.value;
         if (val === '') return;
@@ -2586,14 +2586,14 @@
     const scalerPlus = $el('button', {
       id: 'scalerPlus',
       className: 'scaler scaler-btn',
-      textContent: localizedStrings.scalerBtnPlusText,
-      title: localizedTitles.scalerBtnUpTitle,
+      textContent: localizedString.scalerBtnPlusText,
+      title: localizedTitle.scalerBtnUpTitle,
       onclick: () => setClockPercentage(currentPercent + 5)
     });
     const digitalCalBtn = $el('button', {
       id: 'digitalCalBtn',
       className: 'toggler digital-cal-btn',
-      title: localizedTitles.calBtnTitle,
+      title: localizedTitle.calBtnTitle,
       onclick: dateTimeToggle
       },
       $el('img', {
@@ -2647,7 +2647,7 @@
     if (!body) return;
     body.id = STRING_ID.bodyIdText;
     const textArea = $id('APjFqb');
-    if (textArea) textArea.placeholder = localizedStrings.placeholderText;
+    if (textArea) textArea.placeholder = localizedString.placeholderText;
     applyCurrentWallpaper();
     scheduleWallpaperUpdate();
     applyLogo(Settings.get('logoImageNum', 1));
@@ -2669,7 +2669,7 @@
     scaler.forEach(el => el.classList.toggle('disabled', !showClock));
     const btn = $id('analogClockBtn');
     const pref = showClock ? ICONS.clock32 : ICONS.noclock32;
-    const tip = showClock ? localizedTitles.analogClockBtnHideTitle : localizedTitles.analogClockBtnShowTitle;
+    const tip = showClock ? localizedTitle.analogClockBtnHideTitle : localizedTitle.analogClockBtnShowTitle;
     btn.replaceChildren($el('img', { title: tip, src: pref }));
     const img = $id('hostImg');
     const current = Settings.get('wallpaperHost', 'ibb');
@@ -2678,7 +2678,7 @@
     index = index % WALLPAPER_SITES.length;
     img.src = WALLPAPER_SITES[index].icon;
     if (currentSite) {
-      img.title = localizedTitles[currentSite.titleKey];
+      img.title = localizedTitle[currentSite.titleKey];
     }
     const dtView = Settings.get('dateTimeView', false);
     const calImg = $id('calendar32Img');
