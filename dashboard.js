@@ -34,7 +34,10 @@
   // Google Homepage Dashboard Changelog
   // -----------------------------------
   // Version : 2.6.0
-  // ✅ Added Locales: de, en, es, fr
+  // ✅ Added Locales:
+  //      ar-SA, bn-BD, cs-CZ, da-DK, de-DE, el-GR, en-US, es-ES, fi-FI, fr-FR,
+  //      he-IL, hi-IN, hu-HU, it-IT, ja-JP, ko-KR, nl-NL, no-NO, pl-PL, pt-BR,
+  //      ro-RO, ru-RU, sk-SK, sv-SE, tr-TR, uk-UA, zh-CN, zh-TW
   // -----------------------------------
 
   // ===========================================================================
@@ -692,7 +695,7 @@
       scalerBtnResetText: 'Скинути',
       spacerXText: '|',
     },
-    'zh-CN': {
+    zh: {
       amText: '上午',
       buttonLogoText: 'Logo 🠉',
       buttonThemerText: '壁纸 🠉',
@@ -705,18 +708,12 @@
       scalerBtnResetText: '重置',
       spacerXText: '|',
     },
+    'zh-CN': {
+    },
     'zh-TW': {
-      amText: '上午',
-      buttonLogoText: 'Logo 🠉',
       buttonThemerText: '桌布 🠉',
-      downLogoText: '🠋',
-      downThemerText: '🠋',
       placeholderText: '搜尋',
-      pmText: '下午',
-      scalerBtnMinusText: '–',
-      scalerBtnPlusText: '+',
       scalerBtnResetText: '重設',
-      spacerXText: '|',
     }
   };
 
@@ -1429,7 +1426,7 @@
       wallpaperWeeklyTitle: 'Змінювати Шпалери Щотижня',
       wallpaperMonthlyTitle: 'Змінювати Шпалери Щомісяця',
     },
-    'zh-CN': {
+    zh: {
       anaCalImgTitle: '显示/隐藏时钟表盘上的日期和时间信息',
       analogClockBtnHideTitle: '隐藏模拟时钟',
       analogClockBtnShowTitle: '显示模拟时钟',
@@ -1456,21 +1453,17 @@
       wallpaperWeeklyTitle: '每周更换壁纸',
       wallpaperMonthlyTitle: '每月更换壁纸',
     },
+    'zh-CN': {
+    },
     'zh-TW': {
       anaCalImgTitle: '顯示/隱藏時鐘錶盤上的日期和時間資訊',
       analogClockBtnHideTitle: '隱藏類比時鐘',
       analogClockBtnShowTitle: '顯示類比時鐘',
-      calBtnTitle: '顯示/隱藏日期和時間容器',
       changeLogoTitle: '左鍵單擊以切換標誌',
       changeWallpaperTitle: '左鍵單擊以切換桌布',
-      controlsBtnTitle: '顯示/隱藏時鐘選項',
-      dateTimeTitle: '左鍵單擊 → 顯示/隱藏秒',
       digCalBtnTitle: '左鍵單擊 → 顯示/隱藏日曆和數位時間',
       githubTitle: '這是 GitHub 伺服器\n切換到 Postimages 伺服器',
       ibbTitle: '這是 ImgBB 伺服器\n切換到 GitHub 伺服器',
-      inputLogoTitle: '0 - 17',
-      inputThemerTitle: '0 - 52',
-      percentageDisplayTitle: '最小 30 - 最大 200',
       postimagesTitle: '這是 Postimages 伺服器\n切換到 ImgBB 伺服器',
       scalerBtnDownTitle: '按 5% 遞減縮放',
       scalerBtnUpTitle: '按 5% 遞增縮放',
