@@ -44,7 +44,7 @@
   // GLOBAL CONSTANTS
   // ===========================================================================
 
-  const TEST_LOCALE = null; // Test LANG_LONG i.e. 'en-US'. Set to null for normal browser detection.
+  const TEST_LOCALE = 'es-MX'; // Test LANG_LONG i.e. 'en-US'. Set to null for normal browser detection.
   const LOCALE = TEST_LOCALE ?? Intl.DateTimeFormat().resolvedOptions().locale;
 
   const BASE_SIZE = 360;
@@ -461,6 +461,9 @@
       scalerBtnResetText: 'Restablecer',
       spacerXText: '|',
     },
+    'es-MX': {
+      buttonLogoText: 'Logotipo 🠉',
+    },
     fi: {
       amText: 'ap',
       buttonLogoText: 'Logo 🠉',
@@ -486,6 +489,9 @@
       scalerBtnPlusText: '+',
       scalerBtnResetText: 'Réinitialiser',
       spacerXText: '|',
+    },
+    'fr-CA': {
+      placeholderText: 'Recherche',
     },
     he: {
       amText: 'לפנה״צ',
@@ -617,6 +623,11 @@
       scalerBtnResetText: 'Redefinir',
       spacerXText: '|',
     },
+    'pt-PT': {
+      buttonLogoText: 'Logótipo 🠉',
+      buttonThemerText: 'Fundo 🠉',
+      scalerBtnResetText: 'Repor',
+    },
     ro: {
       amText: 'AM',
       buttonLogoText: 'Logo 🠉',
@@ -707,8 +718,6 @@
       scalerBtnPlusText: '+',
       scalerBtnResetText: '重置',
       spacerXText: '|',
-    },
-    'zh-CN': {
     },
     'zh-TW': {
       buttonThemerText: '桌布 🠉',
@@ -940,6 +949,22 @@
       wallpaperWeeklyTitle: 'Cambiar el fondo de pantalla semanalmente',
       wallpaperMonthlyTitle: 'Cambiar el fondo de pantalla mensualmente',
     },
+    'es-MX': {
+      calBtnTitle: 'Mostrar/Ocultar contenedor de fecha y hora',
+      changeLogoTitle: 'Clic izquierdo para cambiar logotipos',
+      githubTitle: 'Este es el sitio host de GitHub\nCambia al sitio host de Postimages',
+      ibbTitle: 'Este es el sitio host de ImgBB\nCambia al sitio host de GitHub',
+      postimagesTitle: 'Este es el sitio host de Postimages\nCambia al sitio host de ImgBB',
+      scalerBtnDownTitle: 'Reducir escala en incrementos de 5%',
+      scalerBtnUpTitle: 'Aumentar escala en incrementos de 5%',
+      secondHandImgTitle: 'Alternar entre movimiento suave y movimiento por segundos',
+      themeImgTitle: 'Alternar entre tema oscuro/claro',
+      wallpaperManualTitle: 'Cambiar fondo manualmente',
+      wallpaperHourlyTitle: 'Cambiar fondo cada hora',
+      wallpaperDailyTitle: 'Cambiar fondo diariamente',
+      wallpaperWeeklyTitle: 'Cambiar fondo semanalmente',
+      wallpaperMonthlyTitle: 'Cambiar fondo mensualmente',
+    },
     fi: {
       anaCalImgTitle: 'Näytä/Piilota päivämäärä- ja aikatiedot kellotaulussa',
       analogClockBtnHideTitle: 'Piilota analoginen kello',
@@ -993,6 +1018,20 @@
       wallpaperDailyTitle: 'Changer le fond d’écran chaque jour',
       wallpaperWeeklyTitle: 'Changer le fond d’écran chaque semaine',
       wallpaperMonthlyTitle: 'Changer le fond d’écran chaque mois',
+    },
+    'fr-CA': {
+      anaCalImgTitle: 'Afficher/Masquer la date et l’heure sur le cadran',
+      calBtnTitle: 'Afficher/Masquer le conteneur de la date et de l’heure',
+      changeLogoTitle: 'Clic gauche pour changer de logo',
+      digCalBtnTitle: 'Clic gauche → Afficher/Masquer le calendrier et l’heure numérique',
+      githubTitle: 'Ceci est le site hôte GitHub\nBascule vers le site hôte Postimages',
+      ibbTitle: 'Ceci est le site hôte ImgBB\nBascule vers le site hôte GitHub',
+      postimagesTitle: 'Ceci est le site hôte Postimages\nBascule vers le site hôte ImgBB',
+      scalerBtnDownTitle: 'Réduire l’échelle par incréments de 5 %',
+      scalerBtnUpTitle: 'Augmenter l’échelle par incréments de 5 %',
+      secondHandImgTitle: 'Basculer entre le mouvement fluide et le mouvement par à-coups de la trotteuse',
+      themeImgTitle: 'Basculer entre le thème sombre et le thème clair',
+      wallpaperDailyTitle: 'Changer le fond d’écran quotidiennement',
     },
     he: {
       anaCalImgTitle: 'הצג/הסתר מידע על תאריך ושעה על פני השעון',
@@ -1264,6 +1303,30 @@
       wallpaperWeeklyTitle: 'Alterar Papel de Parede Semanalmente',
       wallpaperMonthlyTitle: 'Alterar Papel de Parede Mensalmente',
     },
+    'pt-PT': {
+      anaCalImgTitle: 'Mostrar/Ocultar a data e hora no mostrador do relógio',
+      analogClockBtnHideTitle: 'Ocultar relógio analógico',
+      analogClockBtnShowTitle: 'Mostrar relógio analógico',
+      calBtnTitle: 'Mostrar/Ocultar o contentor de data e hora',
+      changeLogoTitle: 'Clique com o botão esquerdo para alterar os logótipos',
+      changeWallpaperTitle: 'Clique com o botão esquerdo para alterar o fundo',
+      controlsBtnTitle: 'Mostrar/Ocultar as opções do relógio',
+      dateTimeTitle: 'Clique com o botão esquerdo → Mostrar/Ocultar os segundos',
+      digCalBtnTitle: 'Clique com o botão esquerdo → Mostrar/Ocultar o calendário e a hora digital',
+      githubTitle: 'Este é o site de alojamento GitHub\nAlterna para o site de alojamento Postimages',
+      ibbTitle: 'Este é o site de alojamento ImgBB\nAlterna para o site de alojamento GitHub',
+      postimagesTitle: 'Este é o site de alojamento Postimages\nAlterna para o site de alojamento ImgBB',
+      scalerBtnDownTitle: 'Reduzir a escala em incrementos de 5%',
+      scalerBtnUpTitle: 'Aumentar a escala em incrementos de 5%',
+      scalerResetTitle: 'Repor para 100%',
+      secondHandImgTitle: 'Alternar entre o movimento suave e o movimento por passos do ponteiro dos segundos',
+      themeImgTitle: 'Alternar entre o tema escuro e o tema claro',
+      wallpaperManualTitle: 'Alterar o fundo manualmente',
+      wallpaperHourlyTitle: 'Alterar o fundo de hora a hora',
+      wallpaperDailyTitle: 'Alterar o fundo diariamente',
+      wallpaperWeeklyTitle: 'Alterar o fundo semanalmente',
+      wallpaperMonthlyTitle: 'Alterar o fundo mensalmente',
+    },
     ro: {
       anaCalImgTitle: 'Afișează/Ascunde Informațiile de Dată și Oră pe Cadranul Ceasului',
       analogClockBtnHideTitle: 'Ascunde Ceasul Analogic',
@@ -1452,8 +1515,6 @@
       wallpaperDailyTitle: '每天更换壁纸',
       wallpaperWeeklyTitle: '每周更换壁纸',
       wallpaperMonthlyTitle: '每月更换壁纸',
-    },
-    'zh-CN': {
     },
     'zh-TW': {
       anaCalImgTitle: '顯示/隱藏時鐘錶盤上的日期和時間資訊',
