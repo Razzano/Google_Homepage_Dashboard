@@ -41,7 +41,7 @@
   // GLOBAL CONSTANTS
   // ===========================================================================
 
-  const TEST_LOCALE = null; // Test LANG_LONG i.e. "en-US". Set to null for normal browser detection.
+  const TEST_LOCALE = 'zh-CN'; // Test LANG_LONG i.e. "en-US". Set to null for normal browser detection.
   const LOCALE = TEST_LOCALE ?? Intl.DateTimeFormat().resolvedOptions().locale;
 
   const BASE_SIZE = 360;
@@ -692,7 +692,7 @@
       scalerBtnResetText: 'Скинути',
       spacerXText: '|',
     },
-    zh: {
+    'zh-CN': {
       amText: '上午',
       buttonLogoText: 'Logo 🠉',
       buttonThemerText: '壁纸 🠉',
@@ -704,10 +704,27 @@
       scalerBtnPlusText: '+',
       scalerBtnResetText: '重置',
       spacerXText: '|',
+    },
+    'zh-TW': {
+      amText: '上午',
+      buttonLogoText: 'Logo 🠉',
+      buttonThemerText: '桌布 🠉',
+      downLogoText: '🠋',
+      downThemerText: '🠋',
+      placeholderText: '搜尋',
+      pmText: '下午',
+      scalerBtnMinusText: '–',
+      scalerBtnPlusText: '+',
+      scalerBtnResetText: '重設',
+      spacerXText: '|',
     }
   };
 
-  const localizedStrings = STRING_TRANSLATIONS[LANG_SHORT] ?? STRING_TRANSLATIONS.en;
+  const localizedStrings = {
+    ...(STRING_TRANSLATIONS.en ?? {}),
+    ...(STRING_TRANSLATIONS[LANG_SHORT] ?? {}),
+    ...(STRING_TRANSLATIONS[LANG_LONG] ?? {}),
+  };
 
   const TITLE_TRANSLATIONS = {
     ar: {
@@ -1412,7 +1429,7 @@
       wallpaperWeeklyTitle: 'Змінювати Шпалери Щотижня',
       wallpaperMonthlyTitle: 'Змінювати Шпалери Щомісяця',
     },
-    zh: {
+    'zh-CN': {
       anaCalImgTitle: '显示/隐藏时钟表盘上的日期和时间信息',
       analogClockBtnHideTitle: '隐藏模拟时钟',
       analogClockBtnShowTitle: '显示模拟时钟',
@@ -1438,10 +1455,41 @@
       wallpaperDailyTitle: '每天更换壁纸',
       wallpaperWeeklyTitle: '每周更换壁纸',
       wallpaperMonthlyTitle: '每月更换壁纸',
+    },
+    'zh-TW': {
+      anaCalImgTitle: '顯示/隱藏時鐘錶盤上的日期和時間資訊',
+      analogClockBtnHideTitle: '隱藏類比時鐘',
+      analogClockBtnShowTitle: '顯示類比時鐘',
+      calBtnTitle: '顯示/隱藏日期和時間容器',
+      changeLogoTitle: '左鍵單擊以切換標誌',
+      changeWallpaperTitle: '左鍵單擊以切換桌布',
+      controlsBtnTitle: '顯示/隱藏時鐘選項',
+      dateTimeTitle: '左鍵單擊 → 顯示/隱藏秒',
+      digCalBtnTitle: '左鍵單擊 → 顯示/隱藏日曆和數位時間',
+      githubTitle: '這是 GitHub 伺服器\n切換到 Postimages 伺服器',
+      ibbTitle: '這是 ImgBB 伺服器\n切換到 GitHub 伺服器',
+      inputLogoTitle: '0 - 17',
+      inputThemerTitle: '0 - 52',
+      percentageDisplayTitle: '最小 30 - 最大 200',
+      postimagesTitle: '這是 Postimages 伺服器\n切換到 ImgBB 伺服器',
+      scalerBtnDownTitle: '按 5% 遞減縮放',
+      scalerBtnUpTitle: '按 5% 遞增縮放',
+      scalerResetTitle: '重設為 100%',
+      secondHandImgTitle: '切換秒針平滑/跳動模式',
+      themeImgTitle: '切換深色/淺色主題',
+      wallpaperManualTitle: '手動更換桌布',
+      wallpaperHourlyTitle: '每小時更換桌布',
+      wallpaperDailyTitle: '每日更換桌布',
+      wallpaperWeeklyTitle: '每週更換桌布',
+      wallpaperMonthlyTitle: '每月更換桌布',
     }
   };
 
-  const localizedTitles = TITLE_TRANSLATIONS[LANG_SHORT] ?? TITLE_TRANSLATIONS.en;
+  const localizedTitles = {
+    ...(TITLE_TRANSLATIONS.en ?? {}),
+    ...(TITLE_TRANSLATIONS[LANG_SHORT] ?? {}),
+    ...(TITLE_TRANSLATIONS[LANG_LONG] ?? {}),
+  };
 
   const WALLPAPERS = {
     github: 'https://raw.githubusercontent.com/Razzano/My_Wallpaper_Images/master/image',
