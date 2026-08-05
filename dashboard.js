@@ -44,7 +44,7 @@
   // GLOBAL CONSTANTS
   // ===========================================================================
 
-  const TEST_LOCALE = 'es-MX'; // Test LANG_LONG i.e. 'en-US'. Set to null for normal browser detection.
+  const TEST_LOCALE = null; // Test LANG_LONG i.e. 'en-US'. Set to null for normal browser detection.
   const LOCALE = TEST_LOCALE ?? Intl.DateTimeFormat().resolvedOptions().locale;
 
   const BASE_SIZE = 360;
