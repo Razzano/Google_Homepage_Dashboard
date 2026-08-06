@@ -44,7 +44,7 @@
   // GLOBAL CONSTANTS
   // ===========================================================================
 
-  const TEST_LOCALE = 'bn-BD'; // Test LANG_LONG i.e. 'en-US'. Set to null for normal browser detection.
+  const TEST_LOCALE = null; // Test LANG_LONG i.e. 'en-US'. Set to null for normal browser detection.
   const LOCALE = TEST_LOCALE ?? Intl.DateTimeFormat().resolvedOptions().locale;
   const LANG_LONG = (LOCALE ?? 'en-US');
   const LANG_SHORT = (LOCALE ?? 'en').split('-')[0];
@@ -64,10 +64,10 @@
     hour: 'numeric', hour12: true
   });
   const SHORT_DAY_LOCALES = [
-    'ja', 'ko', 'zh', 'he', 'sv', 'da', 'no', 'el'
+    'cs', 'da', 'el', 'ja', 'ko', 'no', 'ro', 'sk', 'sv', 'zh'
   ]; // 3 - 6 characters
   const MEDIUM_DAY_LOCALES = [
-    'cs', 'sk', 'hi', 'fi', 'fr', 'ro', 'tr', 'ar', 'en', 'es', 'hu', 'it', 'nl', 'pl', 'pt', 'uk'
+    'ar', 'en', 'es', 'fi', 'fr', 'he', 'hi', 'hu', 'it', 'nl', 'pl', 'pt', 'tr', 'uk'
   ]; // 7 - 9 characters
   const LONG_DAY_LOCALES = [
     'bn', 'de', 'ru'
@@ -2299,14 +2299,24 @@
         dayBannerBg.setAttribute('x', 40);
         dayBannerBg.setAttribute('y', 18);
         dayBannerBg.setAttribute('width', 20.8);
-        dayBannerText.setAttribute('y', 22.4);
+        if (['cs-CZ', 'ja-JP', 'ko-KR', 'zh-CN', 'zh-TW'].includes(LANG_LONG)) {
+          dayBannerText.setAttribute('y', 23.1);
+        } else {
+          dayBannerText.setAttribute('y', 22.4);
+        }
         dayBannerText.textContent = DAY_BANNER_FMT.format(now);
         dateText.setAttribute('y', 31);
       } else if (isMediumDay) {
         dayBannerBg.setAttribute('x', 34);
         dayBannerBg.setAttribute('y', 18);
         dayBannerBg.setAttribute('width', 33);
-        dayBannerText.setAttribute('y', 23);
+        if (LANG_LONG === 'hi-IN') {
+          dayBannerText.setAttribute('y', 22.5);
+        } else if (LANG_LONG === 'ar-SA') {
+          dayBannerText.setAttribute('y', 22);
+        } else {
+          dayBannerText.setAttribute('y', 23);
+        }
         if (LANG_LONG === 'en-US') {
           dayBannerText.textContent = DAY_BANNER_FMT.format(now).toLocaleUpperCase(LANG_LONG);
         } else {
