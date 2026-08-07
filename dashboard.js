@@ -2460,7 +2460,7 @@
     const host = Settings.get('wallpaperHost', 'ibb');
     const hostImg = $el('img', {
       id: 'hostImg',
-      src: ICONS[host],
+      src: ICONS.ibb32,
     });
     const hostToggler = $el('button', {
       id: 'hostToggler',
