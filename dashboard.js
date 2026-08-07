@@ -44,7 +44,7 @@
   // GLOBAL CONSTANTS
   // ===========================================================================
 
-  const TEST_LOCALE = null; // Test LANG_LONG i.e. 'en-US'. Set to null for normal browser detection.
+  const TEST_LOCALE = null; // Test LANG_LONG i.e. 'xx-XX'. Set to null for normal browser detection.
   const LOCALE = TEST_LOCALE ?? Intl.DateTimeFormat().resolvedOptions().locale;
   const LANG_LONG = (LOCALE ?? 'en-US');
   const LANG_SHORT = (LOCALE ?? 'en').split('-')[0];
@@ -64,10 +64,10 @@
     hour: 'numeric', hour12: true
   });
   const SHORT_DAY_LOCALES = [
-    'cs', 'da', 'el', 'ja', 'ko', 'no', 'ro', 'sk', 'sv', 'zh'
+    'cs', 'da', 'hi', 'ja', 'ko', 'no', 'ro', 'sk', 'sv', 'zh'
   ]; // 3 - 6 characters
   const MEDIUM_DAY_LOCALES = [
-    'ar', 'en', 'es', 'fi', 'fr', 'he', 'hi', 'hu', 'it', 'nl', 'pl', 'pt', 'tr', 'uk'
+    'ar', 'el', 'en', 'es', 'fi', 'fr', 'he', 'hu', 'it', 'nl', 'pl', 'pt', 'tr', 'uk'
   ]; // 7 - 9 characters
   const LONG_DAY_LOCALES = [
     'bn', 'de', 'ru'
@@ -296,10 +296,8 @@
     panelFace: 'data:image/png;base64,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',
     panelMoon: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB0AAAAgCAYAAADud3N8AAACwUlEQVR4AbSWPYgTURCAs/kxiViYNGog5ucSFAIWFhKwtBAEwUJEhOsUtRIsxEpBC4VDCxFUBAtPsFSwFA1W4hHsgkVIchAO5UQQvVxCsiZ+s7cJL5vN5ed2j5mb2Xlv5tvJe293vR6H/qrVas/UxUkl54L2er2RPE3TrpiwFwI3fVszkmw7SwkCpL7WVUKGm0qlnuG8Q/2oR8DFYjEgvlVnhkLsWYv0r5vN5tm+LzYajRbr9XpYfFVnhqrJVj+Xy7W5qftK/Ein0/laKpV2KTGPo1ApHAwG74pV9HA4HF5Wrp2HxmKxTQDfUFXOscaX+gHHOzULPzStap6Uy+WgBFyBssO/ULyDquLz+/03JeAKlM2zSvEGOiTczC1UcwXq8/na0EbOMjEva3vcFWi73R57ljlSF12BRiIReSpZ15RGDcm7Am00Ggco/w+1k0OuQNmlGWi7UVtxBcoOlQfBXlsiQcehADXqnkLHiuNQjoQAR94syh1sOA7lSDxXAHbub0ehtVrtPBTZuZix8skxKMD9rOfrsShzgF9i2RGovD0Afjfrbmd+MbjzToHxqPW1KDZR6PIl31KtHXUqPymqT6RtTajrun5P3LmhwM7QZVmKTKN0+Tibzf6UuTNBgWjA8pzFVfw3FNiDTiMryWRyqT9R3m/yZb5WqVSuUzApm0IGKaoVCgU/gH3ETzL+FKsT/8x4Ap1W1rvd7mk6HbzuvAQOkh0j+ICCNXbFJiAdQCuRSPxlrEr8LeOX8Wf6ZZi/EQgEjmYymXX8gXgJ1AGfGEQ8xheij2v5Vg1h5W0hFncmWaHuQjweX7NmGXcO+GM6naYZ7bZ1whzXdXKWOBp56g51SNwQA2p4/GPiHcjXcOeRHyS9Iv8YDdzADtaQ+JAMQWUE8COSyNGucv0B3U7+MPieNb8QCoUWyFskX+CEx8t/AAAA//9D4IQKAAAABklEQVQDAKc5AGVwvAEaAAAAAElFTkSuQmCC',
     panelSun: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAGe0lEQVR4AaSWyY8cRRbGf5G9lKu6q7La9NhMy8MAMx6NBjEjBmQky8IGAwYMBy4IJDgjsYj9zh2JffkDfGARN/bFbALLFlgIcwIJIYTAYLfdld3V1bVkZfC9qMWppqBLkIov34sXEe998V5EVkX8ycc/i/8zLsYi8EeCjLtmLAK2w/UO/Ytct95m8wxmd3fgTN8IYxEYOPPP5NLteZVU7gX/5Bm7BZd17DYWAf88t9GVT8E/jveP8QM/aocd2frwjwa7py2bSOk9VhtJwHZhGHhwt3AgEFCwZAXW/vmf4+y7Gq7eDfsuF66Ea2/AxpK6VomAiF4vbdjy/oZGKSMJyB6af0q7ekLQ7sw5e3cTX3MBxYXCxZT3QHkvzF4G5SugtENj24mv2wFX7UdEXglZUXn802dKFBznXiMJhJpnHCLTvrWb1oWXfB5f9T+YPh+q+xVQgVtLtMWqudQgXa1BW6mZu1Hj2vjyVyJzmZEgnJMuBJ/8+hlJIEybZ6fvMMGuy9PCdHIRsdLsZ2meatGqpYLqkbaJsjZZs0Wr3sfyKZgTiZlLifde3CMhAsHniNdvEzjOQ61z/gH1nyeJVedWnWbSIfIK6ltECEFv43KSrEWz2VRGdBiqVxLv2UmyCnYGAl7SpnJEhgQ0+LXgrV46QF41fGRTtQKVXfhGg2ZtlajbIMqauMzkmnTBG9T3QqY5WZ3Ii2xnVeR/gpUTxLt0XtYUtSOcJPW5r+eQgGr0Lw1/qLpjiHfuh9VlOfiJ1sqygq7hRMCFIKYb6rKtEomQS1ek1zVvVdJQZ82twOz/YflEyIL5NSjW8CM1JKDgdlD26LweSRrqrfwMU9toLJ+GzhJRa5FI0rWXcJ2acFr2RKgFuO6yMlQjSmsikODS00JNm1gEXyLesY8Q/G59P+R+0KKBMpRbOdcm0lyF+kloncS1TimgArfltC2HAxKpBappTHaRQ8ToytZRP1PWJBszCbqj0EhotKWua78mcJyt8UVKf2sNq5+TY6fANE9A22BEFqUbTgaCBFKLIiKi0l3akygbSCf5Hpp1Oh2wz7Z/QXnuExkS0ME4YB+eMNRW8LboapHv1KGzonTWFcBkTf0+2pLpMqj+BNnXu3VQSUiXCCTWlIWu74XMJBZF5GEmpek26e17V+NWqb3mNdmnoDvuuk3JVg+mpzogASqRDiWGNKd3Rb4P522t+h2tydZ9DLagfNAj4G6iayfT2QFx4jChxESCMyKibIu9HBip9chENNjkT18ucrrPzKZ1TnMmp+S419xdOItnPUUxcQbuPlzy5UGYnoZJHyqC3j7L8MqMz4yUnHoRM9iJNRmgsX7fa74W4I38lLJdKCoquHtx5J4opwdV52AhTNlUgkmHYiq8UbBhC2ByAPVtQphhtl4/mNQ1OfOjlJkqFGMqculzB1AjvRKYYtACReSHWBOZ3QyVzcwUoL+ZntRE720TA8jgIlHow5kLpzxEguZoPbNVkqPvEDami0PuiQa69xp+rrfGaCVHD0GpDJvkQX5C5jU5kDGp6bYkwCMCYHNsPEjZSroMxH+F2XnCpiyafOnGaVRO1MwkAUbcDkY4iFoTz8hh6ayMyjzFOY1PObqZdqalIYiOwCBQkNYXugGOYqpI5XmIF0gOfYx+lqtO9c8fQPQMCUgfNnez+NyPa356NKK8AOWtFOYiAZHoIVNUNUx2dceDDMGhOCGWM/NadzbJR59hm+F8VNNhiKEykoCN6ou1u1RUsEOfahfnCefiKlX9G/IUtnp0D0hTT6rgXTFxU7Cp7ClVClDZBtXzSN4/Rjwrb5Ogq/4tI57fJMAkH9gv98Q08NFhkoPfwOw5UP47lP5C8W8io1IVz4biloipzfMa03hluwhsJ3nz8DA4ipKvO7lHQ7leX+1P/t7Zh0kB3IO4uALtg1+QvP2dAlygYPr1ruqntnoJzO2Q7ULa6bZjyRvH4N2DxEq4e0ClvEcwP33f68VIAuEw3oG2A3YesGcCpgsQ62Lw9gfwzhFWXj1K8spnrL1+GN56j+kjn/w3jE9qwRbO0nvYzOewk1NGEsiNn1HN6RQ4fSlZ4HrLSllkLDNF+25s44DtmAKofFbz09I2bNGGM3IT3J0467pbeM2kAn0l4JRm1fl2s4WdhlnW2xjjEzjBxHp3IvTvHiVsx/rZIzxGon+OQv/3XmMTcA+jWz7ClePlEVb7e+fMvhF+AQAA//8vrwzlAAAABklEQVQDADRUQa8NlULJAAAAAElFTkSuQmCC',
-    postimages: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABYAAAAWCAYAAADEtGw7AAABNElEQVR4AbyST0pCURTGL06aNWsLQQXNmkQjW0JE7aBNFAS1iXZQREvIUbNmggouQWfOHCm/h5/cd+7RexBU+Lzn3/d7x+ftXL9OFvtQJ+3psxE8HvVTVN5uLhggw093V+nr5SZNP28LUafPnOaJpQKsIYzv98epe3Gk2dZJnT5zNOQjRgWYIptgJJZOHn+TpBonc8wT53LB3fP2lgAxnZ5dcjQPaILVl52n7IOzn2+hHpytgeVywfkAsWDEyObUrEJga4rkIbD9x23uPagK5g5jFEyn6vR6gzlHS1Uw04J4UPq94Y5gzMAlcoltP37+la7P6sZct+fv2dqgACD1h7e/pmRvShWMi414QC6A1OlbKLUQGOM2AbIKga0pkh8WnL/LyHbeTLGx9y49Y61WgGuGaH8JAAD//+ycaQIAAAAGSURBVAMAErvEL4E+ypgAAAAASUVORK5CYII=',
-    postimages32: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAADv0lEQVR4AbRWSWsUURCueng1eFD8A95EXHBB9OBVT168iXjNQXOQqIiioiioBxe8qAfxJIPggiso0URNQlRiDEI0JCTCTAiGODGbk178qrvfUL3MZJuE9029rqr3fdX1XnfHkPrbdz236ui7wpHGlvzDQ835plqhAVzCKdyioSSpXEDD61/7ec223vt9xStXOkf23ugc2VUrXAOXcAq3aIiWLSIooP7FwP6239P3cj+KdYPFEvmuT+QBNqsG1gfd4N8ZyvWO1YmWaAqt2X0ht6pn3LnZXphkkiwNKWIJIFqiKdpm5drNB1rzE3XkoZ4kdDG1nENHNEXbFKbcnVMleDLvNKMopGYWOy+/T6Ip2ma05K6gSnenizqynmg+0GuTc9yXjJ+fP64zJQeno0JCrDCs8FHoXEGNGygA1sR41LUDXeMEBYA91sLsopiZmBnJ8cHMgZ85tBK1hdLRjeETBbHgyVLWc302ngtl5QyTQAF3bK8vfCESIKQHM4d+iUVghi9KkkLo+CYUAUeC00M3jOPibjGJtSlVEHKsDzypYWPWphLgsDFlPQ8dcD0hlwSFZEH6GmmpoeMyTyXAIf4k4A7ehLDxkWhVeStObUajUHCUzRy1WufLmYriMaNzornvEhnHQVrQBRDPZpGaGqc7sL9q7dkt6SKTOZEOus/GdVBG5AgPoCJL+lPqcOichDii4dA5au6jEybzECb3yl6HdPHfc1uJIgQnXkWZmehkO6ElmZAnMHoMsQrVlPc6a35+G3jQHaTaIYIa1s/MwXuBTkA8i0t8SMZabIFqSdUtwAI9mEMR5rSl420UoBo3DqtbHCbjzuCubIurWa1u58daibJQjUfFvMkxNp6DfmBUbb/Erai24l8EfHTIuB4YMKna/svbY/vPzPgyfqSqa2bjRNyDtqHMbwG2BQllAX3Xdq7jC59z9psQ+qRhRbXV8YXOwRd2IElg7+jqDiIAjwtSEwN+iZW7ZNfMyxL+Lcc+VCSBZpa4+AQIL+oc+ISvIbn4GFSqGgrMHLxUmNMW4UUVQMtXk+GxoYlUB+yW1DcTzQabuwDL0+PTxu1508WyDZqgUkdq7e9vGTCl7oe5ZRPD/1JdqLVYBt/MwKcmQxN/urz3126Z6aIfK0J3ZAnm/KzhGZUmm+U94Ln9Hw5T08V7ZrS/RKWp4Gwt5Q8/PfTcz3+9A40WKQAWh3mw9aD3+HA9fbj6irof9FHPizxQmDO+PylQxx3gdgzUEVznqfV6P71sfEt395zxh75dgugjgP4DAAD//2vA3R0AAAAGSURBVAMAxXTksrt0UZ4AAAAASUVORK5CYII=',
     sun: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABYAAAAWCAYAAADEtGw7AAADw0lEQVR4AYxVS28cRRD+umd2dzZj1mtjYrCMojwwSBgcsHgkkAM5IA4cOHDlwim/ACFhiUQiUkhQhEQOBsIhFwS/AIGQOCKIeEZGQglYAhwSybKzfmx2t7urqOpZr3cdibh3vq7q6qqvaqp7tBa7HO0zUxzmn+RdumNXxI3Tj3IgcbUWfOkoP//Q8F0TiPdgDSvvHWa6+Cy7+Wd4/fws3zz5GAdv4APgmw6h5fDFiQNYfmeaN09PsT97kP25gzzIgsGKP3ttP+dpAnIEI57UdqjMlFB+YQil4yMwR3Ngtozs6SpsSTKJD8PAVHOsfTDYJit7vef4vmFsrAY0Orextj+An6ogGSnBiJfCWgObGKS1BCMvjWHPy+OgR+qwe4ZwTy1H/5CQ7aUPBL+XQIfK20bRjCA+ohgjU1wUU3lfVfwB6RdeP3IvF1YUrbgxN81/vTnNnBB4MhEvebouLFIRA1SPyuBkhxO4tIX5V0YRLsyIlxCvnJpiLcIiBQ6nUBKWSZ6o6xTXVCRjinHYOcozQ0BSAtKy3JxjbIm0whSJ/AoCVi4ogUJ5WEhJlH7sJNY11YU0yNk4D/v7jRTkMrhDDhQYMbhfeirsYgtyWyI6BC8Ishc8I0L27OM5XKOJzkoD9rkPrxhmA59St0pEchaimEQrVb2LSCJ6lEJKkZwiOcnhK1f2xm/G6isojDrpK0tQj1R0EgQJCFFyrD70yKgglFjdV19TKikd7PcnZovTaJoYFPu6o0oN0MpICSIpR8LgVCo5gbp2WykjXDzCdrJW3NnKUi7O4iS9ihVpUA8EL3bt6zYCVHfS6y2Ey5twTQ+36WBbkolBIJbTlIpiX1XG1ycElboWxIR3SInt2vyaRbtFaN1qwx44/53Z6Hiw8cgXUwR16usnyVoRurYghQSxhZ5kiSHQQhtBPvkgHa6/faU4vIff/8E8+O7PRopDflNuhZAUfWUEJZF1iEQkvWQBFXa1SYtoWQrbSPHiJ39i76lfjXAXn7QqCitfn1nPUVsyUGKtkiSbkmrVCtWDJlNSkXbJIVvOoCX+8s96JIWM3nUTHZd+vCWZ5LrcHkbtWh31aymStRAPqf+gaNWjvABkC+PINiZgTRUhKSlFDwPEc18vmj9WW73NQDmy66OSpIba1Qz1xQyjf+fSrnH8u3I/2s0xNBuj6LQyPPDWZYO+MUCs9mMf/2Qmzn47AED+kmwF1XqGilzP+05+Y5648JWZPPepmTjzuRmb+9JobD/uIO7f3NI10fV1L5888OpHV7fM/yv/AwAA//+yOWhCAAAABklEQVQDAEqT4fvQlDynAAAAAElFTkSuQmCC',
-    sun74: 'data:image/png;base64,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'
+    sun74: 'data:image/png;base64,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',
   };
 
   const IMAGES = {
@@ -745,12 +743,11 @@
       controlsBtnTitle: 'إظهار/إخفاء خيارات الساعة',
       dateTimeTitle: 'انقر بالزر الأيسر ← إظهار/إخفاء الثواني',
       digCalBtnTitle: 'انقر بالزر الأيسر ← إظهار/إخفاء التقويم والوقت الرقمي',
-      githubTitle: 'هذا هو موقع استضافة GitHub\nيتحول إلى موقع استضافة Postimages',
+      githubTitle: 'هذا هو موقع استضافة GitHub\nيتحول إلى موقع استضافة ImgBB',
       ibbTitle: 'هذا هو موقع استضافة ImgBB\nيتحول إلى موقع استضافة GitHub',
       inputLogoTitle: '0 - 17',
       inputThemerTitle: '0 - 52',
       percentageDisplayTitle: 'الحد الأدنى 30 - الحد الأقصى 200',
-      postimagesTitle: 'هذا هو موقع استضافة Postimages\nيتحول إلى موقع استضافة ImgBB',
       scalerBtnDownTitle: 'تصغير بنسبة 5% في كل مرة',
       scalerBtnUpTitle: 'تكبير بنسبة 5% في كل مرة',
       scalerResetTitle: 'إعادة التعيين إلى 100%',
@@ -772,12 +769,11 @@
       controlsBtnTitle: 'ঘড়ির অপশন দেখান/লুকান',
       dateTimeTitle: 'বাম-ক্লিক → সেকেন্ড দেখান/লুকান',
       digCalBtnTitle: 'বাম-ক্লিক → ক্যালেন্ডার ও ডিজিটাল সময় দেখান/লুকান',
-      githubTitle: 'এটি GitHub হোস্ট সাইট\nPostimages হোস্ট সাইটে টগল করে',
+      githubTitle: 'এটি GitHub হোস্ট সাইট\nImgBB হোস্ট সাইটে টগল করে',
       ibbTitle: 'এটি ImgBB হোস্ট সাইট\nGitHub হোস্ট সাইটে টগল করে',
       inputLogoTitle: '0 - 17',
       inputThemerTitle: '0 - 52',
       percentageDisplayTitle: 'সর্বনিম্ন ৩০ - সর্বোচ্চ ২০০',
-      postimagesTitle: 'এটি Postimages হোস্ট সাইট\nImgBB হোস্ট সাইটে টগল করে',
       scalerBtnDownTitle: '৫% বৃদ্ধিতে স্কেল কমান',
       scalerBtnUpTitle: '৫% বৃদ্ধিতে স্কেল বাড়ান',
       scalerResetTitle: '১০০%-এ রিসেট করুন',
@@ -799,12 +795,11 @@
       controlsBtnTitle: 'Zobrazit/skrýt možnosti hodin',
       dateTimeTitle: 'Levé kliknutí → Zobrazit/skrýt sekundy',
       digCalBtnTitle: 'Levé kliknutí → Zobrazit/skrýt kalendář a digitální čas',
-      githubTitle: 'Toto je hostitelský web GitHub\nPřepíná na hostitelský web Postimages',
+      githubTitle: 'Toto je hostitelský web GitHub\nPřepíná na hostitelský web ImgBB',
       ibbTitle: 'Toto je hostitelský web ImgBB\nPřepíná na hostitelský web GitHub',
       inputLogoTitle: '0 - 17',
       inputThemerTitle: '0 - 52',
       percentageDisplayTitle: 'Min. 30 - Max. 200',
-      postimagesTitle: 'Toto je hostitelský web Postimages\nPřepíná na hostitelský web ImgBB',
       scalerBtnDownTitle: 'Zmenšit o 5 %',
       scalerBtnUpTitle: 'Zvětšit o 5 %',
       scalerResetTitle: 'Obnovit na 100 %',
@@ -826,12 +821,11 @@
       controlsBtnTitle: 'Vis/skjul uropsætning',
       dateTimeTitle: 'Venstreklik → Vis/skjul sekunder',
       digCalBtnTitle: 'Venstreklik → Vis/skjul kalender & digital tid',
-      githubTitle: 'Dette er GitHub-hostwebstedet\nSkifter til Postimages-hostwebstedet',
+      githubTitle: 'Dette er GitHub-hostwebstedet\nSkifter til ImgBB-hostwebstedet',
       ibbTitle: 'Dette er ImgBB-hostwebstedet\nSkifter til GitHub-hostwebstedet',
       inputLogoTitle: '0 - 17',
       inputThemerTitle: '0 - 52',
       percentageDisplayTitle: 'Min. 30 - Maks. 200',
-      postimagesTitle: 'Dette er Postimages-hostwebstedet\nSkifter til ImgBB-hostwebstedet',
       scalerBtnDownTitle: 'Skaler ned i 5 % trin',
       scalerBtnUpTitle: 'Skaler op i 5 % trin',
       scalerResetTitle: 'Nulstil til 100 %',
@@ -853,12 +847,11 @@
       controlsBtnTitle: 'Uhrenoptionen ein-/ausblenden',
       dateTimeTitle: 'Linksklick → Sekunden ein-/ausblenden',
       digCalBtnTitle: 'Linksklick → Kalender und Digitalzeit ein-/ausblenden',
-      githubTitle: 'Dies ist die GitHub-Hostseite\nWechselt zur Postimages-Hostseite',
+      githubTitle: 'Dies ist die GitHub-Hostseite\nWechselt zur ImgBB-Hostseite',
       ibbTitle: 'Dies ist die ImgBB-Hostseite\nWechselt zur GitHub-Hostseite',
       inputLogoTitle: '0 - 17',
       inputThemerTitle: '0 - 52',
       percentageDisplayTitle: 'Min. 30 - Max. 200',
-      postimagesTitle: 'Dies ist die Postimages-Hostseite\nWechselt zur ImgBB-Hostseite',
       scalerBtnDownTitle: 'Um 5-%-Schritte verkleinern',
       scalerBtnUpTitle: 'Um 5-%-Schritte vergrößern',
       scalerResetTitle: 'Auf 100 % zurücksetzen',
@@ -880,12 +873,11 @@
       controlsBtnTitle: 'Εμφάνιση/Απόκρυψη επιλογών ρολογιού',
       dateTimeTitle: 'Αριστερό κλικ → Εμφάνιση/Απόκρυψη δευτερολέπτων',
       digCalBtnTitle: 'Αριστερό κλικ → Εμφάνιση/Απόκρυψη ημερολογίου και ψηφιακής ώρας',
-      githubTitle: 'Αυτός είναι ο ιστότοπος φιλοξενίας GitHub\nΕναλλαγή στον ιστότοπο φιλοξενίας Postimages',
+      githubTitle: 'Αυτός είναι ο ιστότοπος φιλοξενίας GitHub\nΕναλλαγή στον ιστότοπο φιλοξενίας ImgBB',
       ibbTitle: 'Αυτός είναι ο ιστότοπος φιλοξενίας ImgBB\nΕναλλαγή στον ιστότοπο φιλοξενίας GitHub',
       inputLogoTitle: '0 - 17',
       inputThemerTitle: '0 - 52',
       percentageDisplayTitle: 'Ελάχ. 30 - Μέγ. 200',
-      postimagesTitle: 'Αυτός είναι ο ιστότοπος φιλοξενίας Postimages\nΕναλλαγή στον ιστότοπο φιλοξενίας ImgBB',
       scalerBtnDownTitle: 'Σμίκρυνση κατά βήματα 5%',
       scalerBtnUpTitle: 'Μεγέθυνση κατά βήματα 5%',
       scalerResetTitle: 'Επαναφορά στο 100%',
@@ -907,12 +899,11 @@
       controlsBtnTitle: 'Show/Hide Clock Options',
       dateTimeTitle: 'Left-click → Show/Hide Seconds',
       digCalBtnTitle: 'Left-click → Show/Hide Calendar & Digital Time',
-      githubTitle: 'This is the GitHub host site\nToggles to the Postimages host site',
+      githubTitle: 'This is the GitHub host site\nToggles to the ImgBB host site',
       ibbTitle: 'This is the ImgBB host site\nToggles to the GitHub host site',
       inputLogoTitle: '0 - 17',
       inputThemerTitle: '0 - 52',
       percentageDisplayTitle: 'Min. 30 - Max. 200',
-      postimagesTitle: 'This is the Postimages host site\nToggles to the ImgBB host site',
       scalerBtnDownTitle: 'Scale Down In 5% Increments',
       scalerBtnUpTitle: 'Scale Up In 5% Increments',
       scalerResetTitle: 'Reset To 100%',
@@ -934,12 +925,11 @@
       controlsBtnTitle: 'Mostrar/Ocultar opciones del reloj',
       dateTimeTitle: 'Clic izquierdo → Mostrar/Ocultar segundos',
       digCalBtnTitle: 'Clic izquierdo → Mostrar/Ocultar calendario y hora digital',
-      githubTitle: 'Este es el sitio de alojamiento de GitHub\nCambia al sitio de alojamiento de Postimages',
+      githubTitle: 'Este es el sitio de alojamiento de GitHub\nCambia al sitio de alojamiento de ImgBB',
       ibbTitle: 'Este es el sitio de alojamiento de ImgBB\nCambia al sitio de alojamiento de GitHub',
       inputLogoTitle: '0 - 17',
       inputThemerTitle: '0 - 52',
       percentageDisplayTitle: 'Mín. 30 - Máx. 200',
-      postimagesTitle: 'Este es el sitio de alojamiento de Postimages\nCambia al sitio de alojamiento de ImgBB',
       scalerBtnDownTitle: 'Reducir en incrementos de 5 %',
       scalerBtnUpTitle: 'Aumentar en incrementos de 5 %',
       scalerResetTitle: 'Restablecer a 100 %',
@@ -954,9 +944,8 @@
     'es-MX': {
       calBtnTitle: 'Mostrar/Ocultar contenedor de fecha y hora',
       changeLogoTitle: 'Clic izquierdo para cambiar logotipos',
-      githubTitle: 'Este es el sitio host de GitHub\nCambia al sitio host de Postimages',
+      githubTitle: 'Este es el sitio host de GitHub\nCambia al sitio host de ImgBB',
       ibbTitle: 'Este es el sitio host de ImgBB\nCambia al sitio host de GitHub',
-      postimagesTitle: 'Este es el sitio host de Postimages\nCambia al sitio host de ImgBB',
       scalerBtnDownTitle: 'Reducir escala en incrementos de 5%',
       scalerBtnUpTitle: 'Aumentar escala en incrementos de 5%',
       secondHandImgTitle: 'Alternar entre movimiento suave y movimiento por segundos',
@@ -977,12 +966,11 @@
       controlsBtnTitle: 'Näytä/Piilota kellon asetukset',
       dateTimeTitle: 'Vasen napsautus → Näytä/Piilota sekunnit',
       digCalBtnTitle: 'Vasen napsautus → Näytä/Piilota kalenteri ja digitaalinen aika',
-      githubTitle: 'Tämä on GitHub-isännöintisivusto\nVaihtaa Postimages-isännöintisivustoon',
+      githubTitle: 'Tämä on GitHub-isännöintisivusto\nVaihtaa ImgBB-isännöintisivustoon',
       ibbTitle: 'Tämä on ImgBB-isännöintisivusto\nVaihtaa GitHub-isännöintisivustoon',
       inputLogoTitle: '0 - 17',
       inputThemerTitle: '0 - 52',
       percentageDisplayTitle: 'Väh. 30 - Enint. 200',
-      postimagesTitle: 'Tämä on Postimages-isännöintisivusto\nVaihtaa ImgBB-isännöintisivustoon',
       scalerBtnDownTitle: 'Pienennä 5 % askelin',
       scalerBtnUpTitle: 'Suurenna 5 % askelin',
       scalerResetTitle: 'Palauta 100 %',
@@ -1004,12 +992,11 @@
       controlsBtnTitle: 'Afficher/Masquer les options de l’horloge',
       dateTimeTitle: 'Clic gauche → Afficher/Masquer les secondes',
       digCalBtnTitle: 'Clic gauche → Afficher/Masquer calendrier et heure numérique',
-      githubTitle: 'Ceci est le site d’hébergement GitHub\nBascule vers le site d’hébergement Postimages',
+      githubTitle: 'Ceci est le site d’hébergement GitHub\nBascule vers le site d’hébergement ImgBB',
       ibbTitle: 'Ceci est le site d’hébergement ImgBB\nBascule vers le site d’hébergement GitHub',
       inputLogoTitle: '0 - 17',
       inputThemerTitle: '0 - 52',
       percentageDisplayTitle: 'Min. 30 - Max. 200',
-      postimagesTitle: 'Ceci est le site d’hébergement Postimages\nBascule vers le site d’hébergement ImgBB',
       scalerBtnDownTitle: 'Réduire par incréments de 5 %',
       scalerBtnUpTitle: 'Augmenter par incréments de 5 %',
       scalerResetTitle: 'Réinitialiser à 100 %',
@@ -1026,9 +1013,8 @@
       calBtnTitle: 'Afficher/Masquer le conteneur de la date et de l’heure',
       changeLogoTitle: 'Clic gauche pour changer de logo',
       digCalBtnTitle: 'Clic gauche → Afficher/Masquer le calendrier et l’heure numérique',
-      githubTitle: 'Ceci est le site hôte GitHub\nBascule vers le site hôte Postimages',
+      githubTitle: 'Ceci est le site hôte GitHub\nBascule vers le site hôte ImgBB',
       ibbTitle: 'Ceci est le site hôte ImgBB\nBascule vers le site hôte GitHub',
-      postimagesTitle: 'Ceci est le site hôte Postimages\nBascule vers le site hôte ImgBB',
       scalerBtnDownTitle: 'Réduire l’échelle par incréments de 5 %',
       scalerBtnUpTitle: 'Augmenter l’échelle par incréments de 5 %',
       secondHandImgTitle: 'Basculer entre le mouvement fluide et le mouvement par à-coups de la trotteuse',
@@ -1045,12 +1031,11 @@
       controlsBtnTitle: 'הצג/הסתר אפשרויות שעון',
       dateTimeTitle: 'לחיצה שמאלית → הצג/הסתר שניות',
       digCalBtnTitle: 'לחיצה שמאלית → הצג/הסתר לוח שנה ושעה דיגיטלית',
-      githubTitle: 'זהו אתר האחסון של GitHub\nעובר לאתר האחסון של Postimages',
+      githubTitle: 'זהו אתר האחסון של GitHub\nעובר לאתר האחסון של ImgBB',
       ibbTitle: 'זהו אתר האחסון של ImgBB\nעובר לאתר האחסון של GitHub',
       inputLogoTitle: '0 - 17',
       inputThemerTitle: '0 - 52',
       percentageDisplayTitle: 'מינ׳ 30 - מקס׳ 200',
-      postimagesTitle: 'זהו אתר האחסון של Postimages\nעובר לאתר האחסון של ImgBB',
       scalerBtnDownTitle: 'הקטן במרווחים של 5%',
       scalerBtnUpTitle: 'הגדל במרווחים של 5%',
       scalerResetTitle: 'אפס ל-100%',
@@ -1072,12 +1057,11 @@
       controlsBtnTitle: 'घड़ी विकल्प दिखाएँ/छिपाएँ',
       dateTimeTitle: 'बायाँ-क्लिक → सेकंड दिखाएँ/छिपाएँ',
       digCalBtnTitle: 'बायाँ-क्लिक → कैलेंडर और डिजिटल समय दिखाएँ/छिपाएँ',
-      githubTitle: 'यह GitHub होस्ट साइट है\nPostimages होस्ट साइट पर स्विच करता है',
+      githubTitle: 'यह GitHub होस्ट साइट है\ImgBB होस्ट साइट पर स्विच करता है',
       ibbTitle: 'यह ImgBB होस्ट साइट है\nGitHub होस्ट साइट पर स्विच करता है',
       inputLogoTitle: '0 - 17',
       inputThemerTitle: '0 - 52',
       percentageDisplayTitle: 'न्यूनतम 30 - अधिकतम 200',
-      postimagesTitle: 'यह Postimages होस्ट साइट है\nImgBB होस्ट साइट पर स्विच करता है',
       scalerBtnDownTitle: '5% की वृद्धि में आकार घटाएँ',
       scalerBtnUpTitle: '5% की वृद्धि में आकार बढ़ाएँ',
       scalerResetTitle: '100% पर रीसेट करें',
@@ -1099,12 +1083,11 @@
       controlsBtnTitle: 'Órabeállítások megjelenítése/elrejtése',
       dateTimeTitle: 'Bal kattintás → Másodpercek megjelenítése/elrejtése',
       digCalBtnTitle: 'Bal kattintás → Naptár és digitális idő megjelenítése/elrejtése',
-      githubTitle: 'Ez a GitHub tárhelyszolgáltató\nÁtvált a Postimages tárhelyre',
+      githubTitle: 'Ez a GitHub tárhelyszolgáltató\nÁtvált a ImgBB tárhelyre',
       ibbTitle: 'Ez az ImgBB tárhelyszolgáltató\nÁtvált a GitHub tárhelyre',
       inputLogoTitle: '0 - 17',
       inputThemerTitle: '0 - 52',
       percentageDisplayTitle: 'Min. 30 - Max. 200',
-      postimagesTitle: 'Ez a Postimages tárhelyszolgáltató\nÁtvált az ImgBB tárhelyre',
       scalerBtnDownTitle: 'Kicsinyítés 5%-os lépésekben',
       scalerBtnUpTitle: 'Nagyítás 5%-os lépésekben',
       scalerResetTitle: 'Visszaállítás 100%-ra',
@@ -1126,12 +1109,11 @@
 	     controlsBtnTitle: 'Mostra/Nascondi opzioni orologio',
       dateTimeTitle: 'Clic sinistro → Mostra/Nascondi secondi',
       digCalBtnTitle: 'Clic sinistro → Mostra/Nascondi calendario e ora digitale',
-      githubTitle: 'Questo è il sito host GitHub\nPassa al sito host Postimages',
+      githubTitle: 'Questo è il sito host GitHub\nPassa al sito host ImgBB',
       ibbTitle: 'Questo è il sito host ImgBB\nPassa al sito host GitHub',
       inputLogoTitle: '0 - 17',
       inputThemerTitle: '0 - 52',
       percentageDisplayTitle: 'Min. 30 - Max. 200',
-      postimagesTitle: 'Questo è il sito host Postimages\nPassa al sito host ImgBB',
       scalerBtnDownTitle: 'Riduci la scala con incrementi del 5%',
       scalerBtnUpTitle: 'Aumenta la scala con incrementi del 5%',
       scalerResetTitle: 'Reimposta al 100%',
@@ -1153,12 +1135,11 @@
       controlsBtnTitle: '時計オプションを表示/非表示',
       dateTimeTitle: '左クリック → 秒を表示/非表示',
       digCalBtnTitle: '左クリック → カレンダーとデジタル時計を表示/非表示',
-      githubTitle: '現在はGitHubホストサイトです\nPostimagesホストサイトへ切り替えます',
+      githubTitle: '現在はGitHubホストサイトです\nImgBBホストサイトへ切り替えます',
       ibbTitle: '現在はImgBBホストサイトです\nGitHubホストサイトへ切り替えます',
       inputLogoTitle: '0 - 17',
       inputThemerTitle: '0 - 52',
       percentageDisplayTitle: '最小 30 - 最大 200',
-      postimagesTitle: '現在はPostimagesホストサイトです\nImgBBホストサイトへ切り替えます',
       scalerBtnDownTitle: '5%刻みで縮小',
       scalerBtnUpTitle: '5%刻みで拡大',
       scalerResetTitle: '100%にリセット',
@@ -1180,12 +1161,11 @@
       controlsBtnTitle: '시계 옵션 표시/숨기기',
       dateTimeTitle: '왼쪽 클릭 → 초 표시/숨기기',
       digCalBtnTitle: '왼쪽 클릭 → 달력 및 디지털 시계 표시/숨기기',
-      githubTitle: '현재 GitHub 호스트 사이트입니다\nPostimages 호스트 사이트로 전환합니다',
+      githubTitle: '현재 GitHub 호스트 사이트입니다\nImgBB 호스트 사이트로 전환합니다',
       ibbTitle: '현재 ImgBB 호스트 사이트입니다\nGitHub 호스트 사이트로 전환합니다',
       inputLogoTitle: '0 - 17',
       inputThemerTitle: '0 - 52',
       percentageDisplayTitle: '최소 30 - 최대 200',
-      postimagesTitle: '현재 Postimages 호스트 사이트입니다\nImgBB 호스트 사이트로 전환합니다',
       scalerBtnDownTitle: '5%씩 축소',
       scalerBtnUpTitle: '5%씩 확대',
       scalerResetTitle: '100%로 재설정',
@@ -1207,12 +1187,11 @@
       controlsBtnTitle: 'Klokopties tonen/verbergen',
       dateTimeTitle: 'Linksklik → Seconden tonen/verbergen',
       digCalBtnTitle: 'Linksklik → Kalender en digitale tijd tonen/verbergen',
-      githubTitle: 'Dit is de GitHub-hostsite\nSchakelt naar de Postimages-hostsite',
+      githubTitle: 'Dit is de GitHub-hostsite\nSchakelt naar de ImgBB-hostsite',
       ibbTitle: 'Dit is de ImgBB-hostsite\nSchakelt naar de GitHub-hostsite',
       inputLogoTitle: '0 - 17',
       inputThemerTitle: '0 - 52',
       percentageDisplayTitle: 'Min. 30 - Max. 200',
-      postimagesTitle: 'Dit is de Postimages-hostsite\nSchakelt naar de ImgBB-hostsite',
       scalerBtnDownTitle: 'Verklein met stappen van 5%',
       scalerBtnUpTitle: 'Vergroot met stappen van 5%',
       scalerResetTitle: 'Terugzetten naar 100%',
@@ -1234,12 +1213,11 @@
       controlsBtnTitle: 'Vis/skjul klokkeinnstillinger',
       dateTimeTitle: 'Venstreklikk → Vis/skjul sekunder',
       digCalBtnTitle: 'Venstreklikk → Vis/skjul kalender og digital klokke',
-      githubTitle: 'Dette er GitHub-vertsnettstedet\nBytter til Postimages-vertsnettstedet',
+      githubTitle: 'Dette er GitHub-vertsnettstedet\nBytter til ImgBB-vertsnettstedet',
       ibbTitle: 'Dette er ImgBB-vertsnettstedet\nBytter til GitHub-vertsnettstedet',
       inputLogoTitle: '0 - 17',
       inputThemerTitle: '0 - 52',
       percentageDisplayTitle: 'Min. 30 - Maks. 200',
-      postimagesTitle: 'Dette er Postimages-vertsnettstedet\nBytter til ImgBB-vertsnettstedet',
       scalerBtnDownTitle: 'Skaler ned i trinn på 5%',
       scalerBtnUpTitle: 'Skaler opp i trinn på 5%',
       scalerResetTitle: 'Tilbakestill til 100%',
@@ -1261,12 +1239,11 @@
       controlsBtnTitle: 'Pokaż/Ukryj opcje zegara',
       dateTimeTitle: 'Kliknij lewym → Pokaż/Ukryj sekundy',
       digCalBtnTitle: 'Kliknij lewym → Pokaż/Ukryj kalendarz i zegar cyfrowy',
-      githubTitle: 'To jest serwis GitHub\nPrzełącza na serwis Postimages',
+      githubTitle: 'To jest serwis GitHub\nPrzełącza na serwis ImgBB',
       ibbTitle: 'To jest serwis ImgBB\nPrzełącza na serwis GitHub',
       inputLogoTitle: '0 - 17',
       inputThemerTitle: '0 - 52',
       percentageDisplayTitle: 'Min. 30 - Maks. 200',
-      postimagesTitle: 'To jest serwis Postimages\nPrzełącza na serwis ImgBB',
       scalerBtnDownTitle: 'Zmniejsz skalę o 5%',
       scalerBtnUpTitle: 'Zwiększ skalę o 5%',
       scalerResetTitle: 'Przywróć do 100%',
@@ -1288,12 +1265,11 @@
       controlsBtnTitle: 'Mostrar/Ocultar Opções do Relógio',
       dateTimeTitle: 'Clique com o Botão Esquerdo → Mostrar/Ocultar Segundos',
       digCalBtnTitle: 'Clique com o Botão Esquerdo → Mostrar/Ocultar Calendário e Hora Digital',
-      githubTitle: 'Este é o servidor GitHub\nAlterna para o servidor Postimages',
+      githubTitle: 'Este é o servidor GitHub\nAlterna para o servidor ImgBB',
       ibbTitle: 'Este é o servidor ImgBB\nAlterna para o servidor GitHub',
       inputLogoTitle: '0 - 17',
       inputThemerTitle: '0 - 52',
       percentageDisplayTitle: 'Mín. 30 - Máx. 200',
-      postimagesTitle: 'Este é o servidor Postimages\nAlterna para o servidor ImgBB',
       scalerBtnDownTitle: 'Reduzir Escala em Incrementos de 5%',
       scalerBtnUpTitle: 'Aumentar Escala em Incrementos de 5%',
       scalerResetTitle: 'Redefinir para 100%',
@@ -1315,9 +1291,8 @@
       controlsBtnTitle: 'Mostrar/Ocultar as opções do relógio',
       dateTimeTitle: 'Clique com o botão esquerdo → Mostrar/Ocultar os segundos',
       digCalBtnTitle: 'Clique com o botão esquerdo → Mostrar/Ocultar o calendário e a hora digital',
-      githubTitle: 'Este é o site de alojamento GitHub\nAlterna para o site de alojamento Postimages',
+      githubTitle: 'Este é o site de alojamento GitHub\nAlterna para o site de alojamento ImgBB',
       ibbTitle: 'Este é o site de alojamento ImgBB\nAlterna para o site de alojamento GitHub',
-      postimagesTitle: 'Este é o site de alojamento Postimages\nAlterna para o site de alojamento ImgBB',
       scalerBtnDownTitle: 'Reduzir a escala em incrementos de 5%',
       scalerBtnUpTitle: 'Aumentar a escala em incrementos de 5%',
       scalerResetTitle: 'Repor para 100%',
@@ -1339,12 +1314,11 @@
       controlsBtnTitle: 'Afișează/Ascunde Opțiunile Ceasului',
       dateTimeTitle: 'Clic Stânga → Afișează/Ascunde Secundele',
       digCalBtnTitle: 'Clic Stânga → Afișează/Ascunde Calendarul și Ora Digitală',
-      githubTitle: 'Acesta este serverul GitHub\nComută la serverul Postimages',
+      githubTitle: 'Acesta este serverul GitHub\nComută la serverul ImgBB',
       ibbTitle: 'Acesta este serverul ImgBB\nComută la serverul GitHub',
       inputLogoTitle: '0 - 17',
       inputThemerTitle: '0 - 52',
       percentageDisplayTitle: 'Min. 30 - Max. 200',
-      postimagesTitle: 'Acesta este serverul Postimages\nComută la serverul ImgBB',
       scalerBtnDownTitle: 'Micșorează Scara în Pași de 5%',
       scalerBtnUpTitle: 'Mărește Scara în Pași de 5%',
       scalerResetTitle: 'Resetează la 100%',
@@ -1366,12 +1340,11 @@
       controlsBtnTitle: 'Показать/Скрыть Настройки Часов',
       dateTimeTitle: 'Щелкните Левой Кнопкой → Показать/Скрыть Секунды',
       digCalBtnTitle: 'Щелкните Левой Кнопкой → Показать/Скрыть Календарь и Цифровое Время',
-      githubTitle: 'Это сервер GitHub\nПереключает на сервер Postimages',
+      githubTitle: 'Это сервер GitHub\nПереключает на сервер ImgBB',
       ibbTitle: 'Это сервер ImgBB\nПереключает на сервер GitHub',
       inputLogoTitle: '0 - 17',
       inputThemerTitle: '0 - 52',
       percentageDisplayTitle: 'Мин. 30 - Макс. 200',
-      postimagesTitle: 'Это сервер Postimages\nПереключает на сервер ImgBB',
       scalerBtnDownTitle: 'Уменьшить Масштаб с Шагом 5%',
       scalerBtnUpTitle: 'Увеличить Масштаб с Шагом 5%',
       scalerResetTitle: 'Сбросить до 100%',
@@ -1393,12 +1366,11 @@
       controlsBtnTitle: 'Zobraziť/Skryť Možnosti Hodín',
       dateTimeTitle: 'Kliknutie Ľavým Tlačidlom → Zobraziť/Skryť Sekundy',
       digCalBtnTitle: 'Kliknutie Ľavým Tlačidlom → Zobraziť/Skryť Kalendár a Digitálny Čas',
-      githubTitle: 'Toto je server GitHub\nPrepne na server Postimages',
+      githubTitle: 'Toto je server GitHub\nPrepne na server ImgBB',
       ibbTitle: 'Toto je server ImgBB\nPrepne na server GitHub',
       inputLogoTitle: '0 - 17',
       inputThemerTitle: '0 - 52',
       percentageDisplayTitle: 'Min. 30 - Max. 200',
-      postimagesTitle: 'Toto je server Postimages\nPrepne na server ImgBB',
       scalerBtnDownTitle: 'Zmenšiť Mierku po 5%',
       scalerBtnUpTitle: 'Zväčšiť Mierku po 5%',
       scalerResetTitle: 'Obnoviť na 100%',
@@ -1420,12 +1392,11 @@
       controlsBtnTitle: 'Visa/Dölj Klockinställningar',
       dateTimeTitle: 'Vänsterklick → Visa/Dölj Sekunder',
       digCalBtnTitle: 'Vänsterklick → Visa/Dölj Kalender och Digital Tid',
-      githubTitle: 'Detta är GitHub-servern\nVäxlar till Postimages-servern',
+      githubTitle: 'Detta är GitHub-servern\nVäxlar till ImgBB-servern',
       ibbTitle: 'Detta är ImgBB-servern\nVäxlar till GitHub-servern',
       inputLogoTitle: '0 - 17',
       inputThemerTitle: '0 - 52',
       percentageDisplayTitle: 'Min. 30 - Max. 200',
-      postimagesTitle: 'Detta är Postimages-servern\nVäxlar till ImgBB-servern',
       scalerBtnDownTitle: 'Minska Skalan i Steg om 5%',
       scalerBtnUpTitle: 'Öka Skalan i Steg om 5%',
       scalerResetTitle: 'Återställ till 100%',
@@ -1447,12 +1418,11 @@
       controlsBtnTitle: 'Saat Seçeneklerini Göster/Gizle',
       dateTimeTitle: 'Sol Tıklayın → Saniyeleri Göster/Gizle',
       digCalBtnTitle: 'Sol Tıklayın → Takvim ve Dijital Saati Göster/Gizle',
-      githubTitle: 'Bu GitHub sunucusudur\nPostimages sunucusuna geçer',
+      githubTitle: 'Bu GitHub sunucusudur\nImgBB sunucusuna geçer',
       ibbTitle: 'Bu ImgBB sunucusudur\nGitHub sunucusuna geçer',
       inputLogoTitle: '0 - 17',
       inputThemerTitle: '0 - 52',
       percentageDisplayTitle: 'Min. 30 - Maks. 200',
-      postimagesTitle: 'Bu Postimages sunucusudur\nImgBB sunucusuna geçer',
       scalerBtnDownTitle: '%5 Artışlarla Küçült',
       scalerBtnUpTitle: '%5 Artışlarla Büyüt',
       scalerResetTitle: '%100\'e Sıfırla',
@@ -1474,12 +1444,11 @@
       controlsBtnTitle: 'Показати/Приховати Налаштування Годинника',
       dateTimeTitle: 'Клацніть Лівою Кнопкою → Показати/Приховати Секунди',
       digCalBtnTitle: 'Клацніть Лівою Кнопкою → Показати/Приховати Календар і Цифровий Час',
-      githubTitle: 'Це сервер GitHub\nПеремикає на сервер Postimages',
+      githubTitle: 'Це сервер GitHub\nПеремикає на сервер ImgBB',
       ibbTitle: 'Це сервер ImgBB\nПеремикає на сервер GitHub',
       inputLogoTitle: '0 - 17',
       inputThemerTitle: '0 - 52',
       percentageDisplayTitle: 'Мін. 30 - Макс. 200',
-      postimagesTitle: 'Це сервер Postimages\nПеремикає на сервер ImgBB',
       scalerBtnDownTitle: 'Зменшити Масштаб із Кроком 5%',
       scalerBtnUpTitle: 'Збільшити Масштаб із Кроком 5%',
       scalerResetTitle: 'Скинути до 100%',
@@ -1501,12 +1470,11 @@
       controlsBtnTitle: '显示/隐藏时钟选项',
       dateTimeTitle: '左键单击 → 显示/隐藏秒',
       digCalBtnTitle: '左键单击 → 显示/隐藏日历和数字时间',
-      githubTitle: '这是 GitHub 服务器\n切换到 Postimages 服务器',
+      githubTitle: '这是 GitHub 服务器\n切换到 ImgBB 服务器',
       ibbTitle: '这是 ImgBB 服务器\n切换到 GitHub 服务器',
       inputLogoTitle: '0 - 17',
       inputThemerTitle: '0 - 52',
       percentageDisplayTitle: '最小 30 - 最大 200',
-      postimagesTitle: '这是 Postimages 服务器\n切换到 ImgBB 服务器',
       scalerBtnDownTitle: '按 5% 递减缩放',
       scalerBtnUpTitle: '按 5% 递增缩放',
       scalerResetTitle: '重置为 100%',
@@ -1525,9 +1493,8 @@
       changeLogoTitle: '左鍵單擊以切換標誌',
       changeWallpaperTitle: '左鍵單擊以切換桌布',
       digCalBtnTitle: '左鍵單擊 → 顯示/隱藏日曆和數位時間',
-      githubTitle: '這是 GitHub 伺服器\n切換到 Postimages 伺服器',
+      githubTitle: '這是 GitHub 伺服器\n切換到 ImgBB 伺服器',
       ibbTitle: '這是 ImgBB 伺服器\n切換到 GitHub 伺服器',
-      postimagesTitle: '這是 Postimages 伺服器\n切換到 ImgBB 伺服器',
       scalerBtnDownTitle: '按 5% 遞減縮放',
       scalerBtnUpTitle: '按 5% 遞增縮放',
       scalerResetTitle: '重設為 100%',
@@ -1550,7 +1517,6 @@
   const WALLPAPERS = {
     github: 'https://raw.githubusercontent.com/Razzano/My_Wallpaper_Images/master/image',
     ibb: 'https://i.ibb.co/', // num + offset of 100
-    postimages: 'https://i.postimg.cc/', // num + offset of 200
     images: {
       101: 'nqqpD5vV/image1.jpg', 102: 'N2ghpbyg/image2.jpg', 103: 'hJrcmcSL/image3.jpg', 104: 'x8zpWT0N/image4.jpg',
       105: 'wh14qStz/image5.jpg', 106: 'NdCZSVzs/image6.jpg', 107: 'yBpwcNQ1/image7.jpg', 108: 'Xr37SNBV/image8.jpg',
@@ -1565,35 +1531,20 @@
       141: 'PzGzxJKS/image41.jpg', 142: 'LzStYHY7/image42.jpg', 143: 'yFzWRFvd/image43.jpg', 144: '1f0ZXrcj/image44.jpg',
       145: '5Xq48R9x/image45.jpg', 146: 'wrdMKcwP/image46.jpg', 147: 'Z6RtCxvz/image47.jpg', 148: 'v82SrWg/image48.jpg',
       149: '4nQs54Pf/image49.jpg', 150: '39dXTzcj/image50.jpg', 151: 'ch7mVBLx/image51.jpg', 152: 'DP3KyhPK/image52.jpg',
-      201: 'pVzY0qhG/image1.jpg', 202: 'DfLdCBJH/image2.jpg', 203: 'XNdc2QG1/image3.jpg', 204: 'xjMystNS/image4.jpg',
-      205: '1RwcWJVR/image5.jpg', 206: '15S0bwD9/image6.jpg', 207: '02vGhD7j/image7.jpg', 208: 'fTs71mY9/image8.jpg',
-      209: '65KVFnCd/image9.jpg', 210: 'rFTG7x5C/image10.jpg', 211: 'QxqgDCqT/image11.jpg', 212: 'tCzdbJzW/image12.jpg',
-      213: 'ZKLPmnLF/image13.jpg', 214: 'zXkwNvkd/image14.jpg', 215: '02CGvjCX/image15.jpg', 216: 'DycQh0ct/image16.jpg',
-      217: 'MKY0wHDk/image17.jpg', 218: 'VkLqkw7K/image18.jpg', 219: 'nLXqqkf5/image19.jpg', 220: 'mgXQcnJy/image20.jpg',
-      221: 'q7N22LHD/image21.jpg', 222: 'pdmKKZMg/image22.jpg', 223: '43jVP9Jk/image23.jpg', 224: 'jjBPc7sw/image24.jpg',
-      225: 'MTRRFpT1/image25.jpg', 226: 'sXSSNgX0/image26.jpg', 227: 'B6DDVn6h/image27.jpg', 228: 'DZssMwZj/image28.jpg',
-      229: 'qqTnVHhF/image29.jpg', 230: 'PJjZsnp0/image30.jpg', 231: 'wMpJ8YRT/image31.jpg', 232: 'tJN69vFb/image32.jpg',
-      233: 'ZnxNJs6b/image33.jpg', 234: 'RhLtvpwN/image34.jpg', 235: 'KcPB7jw9/image35.jpg', 236: 'WpGgmzCC/image36.jpg',
-      237: 'T2Vgj1Bv/image37.jpg', 238: 'CMGkC59x/image38.jpg', 239: '7P301hjb/image39.jpg', 240: 'J4RJpmWR/image40.jpg',
-      241: 'qMpn10dz/image41.jpg', 242: '9F19SSWY/image42.jpg', 243: 'KvmL0FyD/image43.jpg', 244: 'HsT56HCy/image44.jpg',
-      245: 'MKtB44W0/image45.jpg', 246: 'MKtB44WD/image46.jpg', 247: 'pXkj77Wv/image47.jpg', 248: 'FsGSqqrt/image48.jpg',
-      249: 'ncTm55Ff/image49.jpg', 250: 'PrKDccXh/image50.jpg', 251: 'zGBh1jB4/image51.jpg', 252: 'G3GJMq86/image52.jpg',
     },
     url(num) {
       const host = Settings.get('wallpaperHost', 'ibb');
       if (host === 'github') {
         return `${this.github}${num}.jpg`;
       }
-      const offset = host === 'postimages' ? 200 : 100;
-      const image = this.images[num + offset];
+      const image = this.images[num + 100];
       return image ? this[host] + image : '';
     }
   };
 
   const WALLPAPER_HOSTS = {
     ibb:    'https://i.ibb.co/',
-    github: 'https://raw.githubusercontent.com/Razzano/My_Wallpaper_Images/master/image',
-    postimages: 'https://i.postimg.cc/'
+    github: 'https://raw.githubusercontent.com/Razzano/My_Wallpaper_Images/master/image'
   };
 
   const WALLPAPER_MODES = [
@@ -1617,11 +1568,6 @@
       host: 'github',
       icon: ICONS.github32,
       titleKey: 'githubTitle'
-    },
-    {
-      host: 'postimages',
-      icon: ICONS.postimages32,
-      titleKey: 'postimagesTitle'
     }
   ];
 
@@ -1853,7 +1799,7 @@
   };
 
   const toggleWallpaperHost = () => {
-    const current = Settings.get('wallpaperHost', 'github');
+    const current = Settings.get('wallpaperHost', 'ibb');
     let index = WALLPAPER_SITES.findIndex(site => site.host === current);
     if (index === -1) index = 0;
     const next = WALLPAPER_SITES[(index + 1) % WALLPAPER_SITES.length];
@@ -2343,6 +2289,7 @@
         .join('')
         .trim();
       ampmText.textContent = parts.find(part => part.type === 'dayPeriod')?.value ?? '';
+      const width = dayBannerText.getComputedTextLength();
     };
     const showCalendarInfo = Settings.get('calendarInfo', false);
     if (!showCalendarInfo) {
@@ -2746,10 +2693,14 @@
     const current = Settings.get('wallpaperHost', 'ibb');
     const currentSite = WALLPAPER_SITES.find(site => site.host === current);
     let index = WALLPAPER_SITES.findIndex(site => site.host === current);
+    if (index === -1) index = 0;
     index = index % WALLPAPER_SITES.length;
     img.src = WALLPAPER_SITES[index].icon;
     if (currentSite) {
       img.title = localizedTitle[currentSite.titleKey];
+    }
+    if (Settings.get('wallpaperHost') !== currentSite.host) {
+      Settings.set('wallpaperHost', currentSite.host);
     }
     const dtView = Settings.get('dateTimeView', false);
     const calImg = $id('calendar32Img');
