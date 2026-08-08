@@ -64,10 +64,10 @@
     hour: 'numeric', hour12: true
   });
   const SHORT_DAY_LOCALES = [
-    'cs', 'da', 'hi', 'ja', 'ko', 'no', 'ro', 'sk', 'sv', 'zh'
+    'ja', 'ko', 'zh', 'cs', 'da', 'hi', 'no', 'sv', 'ro', 'sk'
   ]; // 3 - 6 characters
   const MEDIUM_DAY_LOCALES = [
-    'ar', 'el', 'en', 'es', 'fi', 'fr', 'he', 'hu', 'it', 'nl', 'pl', 'pt', 'tr', 'uk'
+    'el', 'ar', 'fr', 'he', 'nl', 'en', 'es', 'it', 'tr', 'uk', 'hu', 'fi', 'pl', 'pt'
   ]; // 7 - 9 characters
   const LONG_DAY_LOCALES = [
     'bn', 'de', 'ru'
