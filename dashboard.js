@@ -44,10 +44,15 @@
   // GLOBAL CONSTANTS
   // ===========================================================================
 
+  const BASE_SIZE = 360;
+  const DAY_BANNER_WIDTH_PADDING = 1;
+  const DAY_BANNER_HEIGHT_PADDING = 0;
+
   const TEST_LOCALE = null; // Test LANG_LONG i.e. 'xx-XX'. Set to null for normal browser detection.
   const LOCALE = TEST_LOCALE ?? Intl.DateTimeFormat().resolvedOptions().locale;
   const LANG_LONG = (LOCALE ?? 'en-US');
   const LANG_SHORT = (LOCALE ?? 'en').split('-')[0];
+
   const DAY_BANNER_FMT = new Intl.DateTimeFormat(LOCALE, {
     weekday: 'long'
   });
@@ -64,16 +69,15 @@
     hour: 'numeric', hour12: true
   });
   const SHORT_DAY_LOCALES = [
-    'ja', 'ko', 'zh', 'cs', 'da', 'hi', 'no', 'sv', 'ro', 'sk'
+    'ja', 'ko', 'zh', 'cs', 'da', 'hi', 'no', 'sv', 'ro'
   ]; // 3 - 6 characters
   const MEDIUM_DAY_LOCALES = [
-    'el', 'ar', 'fr', 'he', 'nl', 'en', 'es', 'it', 'tr', 'uk', 'hu', 'fi', 'pl', 'pt'
+    'el', 'ar', 'fr', 'he', 'nl', 'en', 'es', 'it', 'tr', 'uk', 'hu', 'fi', 'pl', 'pt', 'sk'
   ]; // 7 - 9 characters
   const LONG_DAY_LOCALES = [
     'bn', 'de', 'ru'
   ]; // 10 - 12 characters
 
-  const BASE_SIZE = 360;
   const DAY_ABBR = ['Sun.','Mon.','Tue.','Wed.','Thu.','Fri.','Sat.'];
   const DAY_FULL = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
   const MONTH_ABBR = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
@@ -2020,7 +2024,6 @@
     });
     const dayBannerBg = $el('rect', {
       id: 'dayBannerBg',
-      height: 8.5,
       rx: 2, ry: 2,
       fill: 'url(#bannerGradient)'
     });
@@ -2223,10 +2226,9 @@
       const isShortDay = SHORT_DAY_LOCALES.includes(LANG_SHORT);
       const isMediumDay = MEDIUM_DAY_LOCALES.includes(LANG_SHORT);
       const isLongDay = LONG_DAY_LOCALES.includes(LANG_SHORT);
+      const padding = DAY_BANNER_HEIGHT_PADDING;
       if (isShortDay) {
-        dayBannerBg.setAttribute('x', 40);
-        dayBannerBg.setAttribute('y', 18);
-        dayBannerBg.setAttribute('width', 20.8);
+        dayBannerText.textContent = DAY_BANNER_FMT.format(now);
         if (['ja-JP', 'ko-KR', 'zh-CN', 'zh-TW', 'cs-CZ', 'ro-RO', 'sk-SK'].includes(LANG_LONG)) {
           dayBannerText.setAttribute('y', 23.1);
         } else if (LANG_LONG === 'hi-IN') {
@@ -2234,44 +2236,33 @@
         } else {
           dayBannerText.setAttribute('y', 22.4);
         }
-        dayBannerText.textContent = DAY_BANNER_FMT.format(now);
-        dateText.setAttribute('y', 31);
+        dayBannerBg.setAttribute('y', 18 - (padding / 2));
+        dateText.setAttribute('y', 31 + (padding / 2));
       } else if (isMediumDay) {
-        dayBannerBg.setAttribute('x', 34);
-        dayBannerBg.setAttribute('y', 18);
-        dayBannerBg.setAttribute('width', 33);
-        dayBannerText.setAttribute('y', 23);
         if (LANG_LONG === 'en-US') {
           dayBannerText.textContent = DAY_BANNER_FMT.format(now).toLocaleUpperCase(LANG_LONG);
-          switch (dayBannerText.textContent) {
-            case 'SUNDAY': case 'MONDAY': case 'TUESDAY': case 'FRIDAY':
-              dayBannerBg.setAttribute('x', 38);
-              dayBannerBg.setAttribute('width', 25)
-              break;
-            case 'THURSDAY': case 'SATURDAY':
-              dayBannerBg.setAttribute('x', 36);
-              dayBannerBg.setAttribute('width', 29);
-              break;
-            case 'WEDNESDAY':
-              dayBannerBg.setAttribute('x', 34);
-              dayBannerBg.setAttribute('width', 33);
-          }
         } else {
           dayBannerText.textContent = DAY_BANNER_FMT.format(now);
         }
-        dateText.setAttribute('y', 31);
-      } else {
-        dayBannerBg.setAttribute('x', 32.5);
-        dayBannerBg.setAttribute('y', 21);
-        dayBannerBg.setAttribute('width', 36);
+        dayBannerText.setAttribute('y', 23);
+        dayBannerBg.setAttribute('y', 18 - (padding / 2));
+        dateText.setAttribute('y', 31 + (padding / 2));
+      } else  if (isLongDay) {
+        dayBannerText.textContent = DAY_BANNER_FMT.format(now);
         if (LANG_LONG === 'bn-BD') {
           dayBannerText.setAttribute('y', 26.4);
         } else {
           dayBannerText.setAttribute('y', 25.4);
         }
-        dayBannerText.textContent = DAY_BANNER_FMT.format(now);
-        dateText.setAttribute('y', 34);
+        dayBannerBg.setAttribute('y', 21 - (padding / 2));
+        dateText.setAttribute('y', 34 + (padding / 2));
       }
+      const width = dayBannerText.getComputedTextLength();
+      const bgWidth = width + DAY_BANNER_WIDTH_PADDING;
+      const bgX = (100 - bgWidth) / 2;
+      dayBannerBg.setAttribute('width', bgWidth + 1);
+      dayBannerBg.setAttribute('x', bgX);
+      dayBannerBg.setAttribute('height', (8.5 + padding));
       dateText.textContent = DATE_FMT.format(now);
       const parts = TIME_FMT.formatToParts(now);
       timeText.textContent = parts
