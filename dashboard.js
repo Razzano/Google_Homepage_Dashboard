@@ -2240,13 +2240,22 @@
         dayBannerBg.setAttribute('x', 34);
         dayBannerBg.setAttribute('y', 18);
         dayBannerBg.setAttribute('width', 33);
-        if (LANG_LONG === 'ar-SA') {
-          dayBannerText.setAttribute('y', 22);
-        } else {
-          dayBannerText.setAttribute('y', 23);
-        }
+        dayBannerText.setAttribute('y', 23);
         if (LANG_LONG === 'en-US') {
           dayBannerText.textContent = DAY_BANNER_FMT.format(now).toLocaleUpperCase(LANG_LONG);
+          switch (dayBannerText.textContent) {
+            case 'SUNDAY': case 'MONDAY': case 'TUESDAY': case 'FRIDAY':
+              dayBannerBg.setAttribute('x', 38);
+              dayBannerBg.setAttribute('width', 25)
+              break;
+            case 'THURSDAY': case 'SATURDAY':
+              dayBannerBg.setAttribute('x', 36);
+              dayBannerBg.setAttribute('width', 29);
+              break;
+            case 'WEDNESDAY':
+              dayBannerBg.setAttribute('x', 34);
+              dayBannerBg.setAttribute('width', 33);
+          }
         } else {
           dayBannerText.textContent = DAY_BANNER_FMT.format(now);
         }
@@ -2271,7 +2280,6 @@
         .join('')
         .trim();
       ampmText.textContent = parts.find(part => part.type === 'dayPeriod')?.value ?? '';
-      const width = dayBannerText.getComputedTextLength();
     };
     const showCalendarInfo = Settings.get('calendarInfo', false);
     if (!showCalendarInfo) {
