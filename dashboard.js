@@ -45,11 +45,18 @@
   // ===========================================================================
 
   const BASE_SIZE = 360;
-  const DAY_BANNER_WIDTH_PADDING = 1;
+  const DAY_BANNER_MARGIN_TOP = 0; // default, 2 move down 2, -2 move up 2
+  const DAY_BANNER_WIDTH_PADDING = 2;
   const DAY_BANNER_HEIGHT_PADDING = 0;
 
-  const TEST_LOCALE = null; // Test LANG_LONG i.e. 'xx-XX'. Set to null for normal browser detection.
-  const LOCALE = TEST_LOCALE ?? Intl.DateTimeFormat().resolvedOptions().locale;
+  const TEST_LOCALE = null; // For testing locales i.e. 'fifi' returns fi-FI
+  const str = s => {
+    if (s === null) return null;
+    s = s.trim().toLowerCase();
+    return `${s.slice(0, 2)}-${s.slice(2).toUpperCase()}`;
+  };
+  const LOCALE = str(TEST_LOCALE) ?? Intl.DateTimeFormat().resolvedOptions().locale;
+
   const LANG_LONG = (LOCALE ?? 'en-US');
   const LANG_SHORT = (LOCALE ?? 'en').split('-')[0];
 
@@ -2226,15 +2233,16 @@
       const isShortDay = SHORT_DAY_LOCALES.includes(LANG_SHORT);
       const isMediumDay = MEDIUM_DAY_LOCALES.includes(LANG_SHORT);
       const isLongDay = LONG_DAY_LOCALES.includes(LANG_SHORT);
+      const marginTop = DAY_BANNER_MARGIN_TOP;
       const padding = DAY_BANNER_HEIGHT_PADDING;
       if (isShortDay) {
         dayBannerText.textContent = DAY_BANNER_FMT.format(now);
         if (['ja-JP', 'ko-KR', 'zh-CN', 'zh-TW', 'cs-CZ', 'ro-RO', 'sk-SK'].includes(LANG_LONG)) {
-          dayBannerText.setAttribute('y', 23.1);
+          dayBannerText.setAttribute('y', 23.1 + (DAY_BANNER_MARGIN_TOP));
         } else if (LANG_LONG === 'hi-IN') {
-          dayBannerText.setAttribute('y', 23.7);
+          dayBannerText.setAttribute('y', 23.7 + marginTop);
         } else {
-          dayBannerText.setAttribute('y', 22.4);
+          dayBannerText.setAttribute('y', 22.4 + marginTop);
         }
         dayBannerBg.setAttribute('y', 18 - (padding / 2));
         dateText.setAttribute('y', 31 + (padding / 2));
@@ -2244,13 +2252,13 @@
         } else {
           dayBannerText.textContent = DAY_BANNER_FMT.format(now);
         }
-        dayBannerText.setAttribute('y', 23);
+        dayBannerText.setAttribute('y', 23 + marginTop);
         dayBannerBg.setAttribute('y', 18 - (padding / 2));
         dateText.setAttribute('y', 31 + (padding / 2));
       } else  if (isLongDay) {
         dayBannerText.textContent = DAY_BANNER_FMT.format(now);
         if (LANG_LONG === 'bn-BD') {
-          dayBannerText.setAttribute('y', 26.4);
+          dayBannerText.setAttribute('y', 26.4 + marginTop);
         } else {
           dayBannerText.setAttribute('y', 25.4);
         }
