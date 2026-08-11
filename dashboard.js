@@ -50,20 +50,22 @@
   const AMPM_TEXT_TOP = 0; // 0 default, 2 move down 2, -2 move up 2
   // =======================================================================
 
-  const TEST_LOCALE = null; // For testing locales i.e. 'xxxx' returns xx-XX. Set to null for normal browser detection.
-  const str = s => {
+  const TEST_LOCALE = null; // For testing locales i.e. 'xxxx' returns 'xx-XX'. Set to null for normal browser detection.
+  const stringUC = s => {
     if (s === null) return null;
     s = s.trim().toLowerCase();
-    return `${s.slice(0, 2)}-${s.slice(2).toUpperCase()}`;
+    return `${s.slice(0, 2)}-${s.slice(2).toLocaleUpperCase()}`;
   };
   const LOCALE = (() => {
-    const s = str(TEST_LOCALE);
-    if (!LANGUAGE_COUNTRY.includes(s)) return Intl.DateTimeFormat().resolvedOptions().locale;
+    const s = stringUC(TEST_LOCALE);
+    if (s === null) return;
+    if (!LANGUAGE_COUNTRY.includes(s)) return console.log(`${s} is undefined`);
     return s;
   })();
 
-  const LANG_LONG = (LOCALE ?? 'en-US');
-  const LANG_SHORT = (LOCALE ?? 'en').split('-')[0];
+  const BROWSER_LOCALE = Intl.DateTimeFormat().resolvedOptions().locale;
+  const LANG_LONG = (LOCALE ?? BROWSER_LOCALE);
+  const LANG_SHORT = (LOCALE ?? BROWSER_LOCALE).split('-')[0];
   const DAY_BANNER_FMT = new Intl.DateTimeFormat(LOCALE, {
     weekday: 'long'
   });
@@ -81,13 +83,13 @@
   });
   const SHORT_DAY_LOCALES = [
     'ja', 'ko', 'zh', 'cs', 'da', 'hi', 'no', 'sv', 'ro'
-  ]; // 3 - 6 characters
+  ];
   const MEDIUM_DAY_LOCALES = [
     'el', 'ar', 'fr', 'he', 'nl', 'en', 'es', 'it', 'tr', 'uk', 'hu', 'fi', 'pl', 'pt', 'sk'
-  ]; // 7 - 9 characters
+  ];
   const LONG_DAY_LOCALES = [
     'bn', 'de', 'ru'
-  ]; // 10 - 12 characters
+  ];
 
   const DAY_ABBR = ['Sun.','Mon.','Tue.','Wed.','Thu.','Fri.','Sat.'];
   const DAY_FULL = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
