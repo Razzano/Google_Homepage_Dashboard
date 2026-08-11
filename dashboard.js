@@ -44,22 +44,31 @@
   // GLOBAL CONSTANTS
   // ===========================================================================
 
+  const LANGUAGE_COUNTRY = [
+    'ar-SA', 'bn-BD', 'cs-CZ', 'da-DK', 'de-DE', 'el-GR', 'en-US', 'es-ES', 'fi-FI', 'fr-FR',
+    'he-IL', 'hi-IN', 'hu-HU', 'it-IT', 'ja-JP', 'ko-KR', 'nl-NL', 'no-NO', 'pl-PL', 'pt-BR',
+    'ro-RO', 'ru-RU', 'sk-SK', 'sv-SE', 'tr-TR', 'uk-UA', 'zh-CN', 'zh-TW'
+  ];
+
   const BASE_SIZE = 360;
-  const DAY_BANNER_MARGIN_TOP = 0; // default, 2 move down 2, -2 move up 2
+  const DAY_BANNER_MARGIN_TOP = 0; // 0 default, 2 move down 2, -2 move up 2
   const DAY_BANNER_WIDTH_PADDING = 2;
   const DAY_BANNER_HEIGHT_PADDING = 0;
 
-  const TEST_LOCALE = null; // For testing locales i.e. 'fifi' returns fi-FI
+  const TEST_LOCALE = null; // For testing locales i.e. 'xxxx' returns xx-XX. Set to null for normal browser detection.
   const str = s => {
     if (s === null) return null;
     s = s.trim().toLowerCase();
     return `${s.slice(0, 2)}-${s.slice(2).toUpperCase()}`;
   };
-  const LOCALE = str(TEST_LOCALE) ?? Intl.DateTimeFormat().resolvedOptions().locale;
+  const LOCALE = (() => {
+    const s = str(TEST_LOCALE);
+    if (!LANGUAGE_COUNTRY.includes(s)) return Intl.DateTimeFormat().resolvedOptions().locale;
+    return s;
+  })();
 
   const LANG_LONG = (LOCALE ?? 'en-US');
   const LANG_SHORT = (LOCALE ?? 'en').split('-')[0];
-
   const DAY_BANNER_FMT = new Intl.DateTimeFormat(LOCALE, {
     weekday: 'long'
   });
