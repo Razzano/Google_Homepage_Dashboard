@@ -31,16 +31,6 @@
   // ===========================================================================
 
   // ===========================================================================
-  // Google Homepage Dashboard Changelog
-  // -----------------------------------
-  // Version : 2.6.0
-  // ✅ Added Locales:
-  //      ar-SA, bn-BD, cs-CZ, da-DK, de-DE, el-GR, en-US, es-ES, fi-FI, fr-FR,
-  //      he-IL, hi-IN, hu-HU, it-IT, ja-JP, ko-KR, nl-NL, no-NO, pl-PL, pt-BR,
-  //      ro-RO, ru-RU, sk-SK, sv-SE, tr-TR, uk-UA, zh-CN, zh-TW
-  // -----------------------------------
-
-  // ===========================================================================
   // GLOBAL CONSTANTS
   // ===========================================================================
 
@@ -50,10 +40,15 @@
     'ro-RO', 'ru-RU', 'sk-SK', 'sv-SE', 'tr-TR', 'uk-UA', 'zh-CN', 'zh-TW'
   ];
 
-  const BASE_SIZE = 360;
-  const DAY_BANNER_MARGIN_TOP = 0; // 0 default, 2 move down 2, -2 move up 2
-  const DAY_BANNER_WIDTH_PADDING = 2;
-  const DAY_BANNER_HEIGHT_PADDING = 0;
+  // Reposition Clock Elements =============================================
+  const BASE_SIZE = 360; // Clock Diameter
+  const DAY_BANNER_WIDTH_PADDING = 2; // 0 default, 2 move left 2 & right 2
+  const DAY_BANNER_HEIGHT_PADDING = 0; // 0 default, 2 move top 2 & bottom 2
+  const DAY_BANNER_TEXT_TOP = 0; // 0 default, 2 move down 2, -2 move up 2
+  const DATE_TEXT_TOP = 0; // 0 default, 2 move down 2, -2 move up 2
+  const TIME_TEXT_TOP = 0; // 0 default, 2 move down 2, -2 move up 2
+  const AMPM_TEXT_TOP = 0; // 0 default, 2 move down 2, -2 move up 2
+  // =======================================================================
 
   const TEST_LOCALE = null; // For testing locales i.e. 'xxxx' returns xx-XX. Set to null for normal browser detection.
   const str = s => {
@@ -2065,14 +2060,14 @@
     const timeText = $el('text', {
       id: 'timeText',
       className: 'Analog-timeText',
-      x: 50.5, y: 77,
+      x: 50.5,
       'text-anchor': 'middle',
       'dominant-baseline': 'middle',
       'xml:space': 'preserve'
     });
     const ampmText = $el('text', {
       className: 'Analog-AMPMText',
-      x: 50.5, y: 82,
+      x: 50.5,
       'text-anchor': 'middle',
       'dominant-baseline': 'middle'
     });
@@ -2242,28 +2237,32 @@
       const isShortDay = SHORT_DAY_LOCALES.includes(LANG_SHORT);
       const isMediumDay = MEDIUM_DAY_LOCALES.includes(LANG_SHORT);
       const isLongDay = LONG_DAY_LOCALES.includes(LANG_SHORT);
-      const marginTop = DAY_BANNER_MARGIN_TOP;
+      const marginTop = DAY_BANNER_TEXT_TOP;
       const padding = DAY_BANNER_HEIGHT_PADDING;
       if (isShortDay) {
         dayBannerText.textContent = DAY_BANNER_FMT.format(now);
-        if (['ja-JP', 'ko-KR', 'zh-CN', 'zh-TW', 'cs-CZ', 'ro-RO', 'sk-SK'].includes(LANG_LONG)) {
-          dayBannerText.setAttribute('y', 23.1 + (DAY_BANNER_MARGIN_TOP));
+        if (['ja-JP', 'ko-KR', 'zh-CN', 'zh-TW', 'ro-RO', 'sk-SK'].includes(LANG_LONG)) { // 'cs-CZ',
+          dayBannerText.setAttribute('y', 23.1 + (marginTop));
         } else if (LANG_LONG === 'hi-IN') {
-          dayBannerText.setAttribute('y', 23.7 + marginTop);
+          dayBannerText.setAttribute('y', 23.8 + marginTop);
         } else {
-          dayBannerText.setAttribute('y', 22.4 + marginTop);
+          dayBannerText.setAttribute('y', 22.6 + marginTop);
         }
         dayBannerBg.setAttribute('y', 18 - (padding / 2));
-        dateText.setAttribute('y', 31 + (padding / 2));
+        dateText.setAttribute('y', 31 + (padding / 2) + marginTop);
       } else if (isMediumDay) {
         if (LANG_LONG === 'en-US') {
           dayBannerText.textContent = DAY_BANNER_FMT.format(now).toLocaleUpperCase(LANG_LONG);
         } else {
           dayBannerText.textContent = DAY_BANNER_FMT.format(now);
         }
-        dayBannerText.setAttribute('y', 23 + marginTop);
+        if (LANG_LONG === 'el-GR') {
+          dayBannerText.setAttribute('y', 22.6 + marginTop);
+        } else {
+          dayBannerText.setAttribute('y', 23 + marginTop);
+        }
         dayBannerBg.setAttribute('y', 18 - (padding / 2));
-        dateText.setAttribute('y', 31 + (padding / 2));
+        dateText.setAttribute('y', 31 + (padding / 2) + DATE_TEXT_TOP);
       } else  if (isLongDay) {
         dayBannerText.textContent = DAY_BANNER_FMT.format(now);
         if (LANG_LONG === 'bn-BD') {
@@ -2272,11 +2271,11 @@
           dayBannerText.setAttribute('y', 25.4);
         }
         dayBannerBg.setAttribute('y', 21 - (padding / 2));
-        dateText.setAttribute('y', 34 + (padding / 2));
+        dateText.setAttribute('y', 34 + (padding / 2) + DATE_TEXT_TOP);
       }
       const width = dayBannerText.getComputedTextLength();
-      const bgWidth = width + DAY_BANNER_WIDTH_PADDING;
-      const bgX = (100 - bgWidth) / 2;
+      const bgWidth =  Math.ceil(width + DAY_BANNER_WIDTH_PADDING);
+      const bgX =(100 - bgWidth) / 2;
       dayBannerBg.setAttribute('width', bgWidth + 1);
       dayBannerBg.setAttribute('x', bgX);
       dayBannerBg.setAttribute('height', (8.5 + padding));
@@ -2287,7 +2286,9 @@
         .map(part => part.value)
         .join('')
         .trim();
+      timeText.setAttribute('y', 77 + TIME_TEXT_TOP)
       ampmText.textContent = parts.find(part => part.type === 'dayPeriod')?.value ?? '';
+      ampmText.setAttribute('y', 82 + AMPM_TEXT_TOP);
     };
     const showCalendarInfo = Settings.get('calendarInfo', false);
     if (!showCalendarInfo) {
