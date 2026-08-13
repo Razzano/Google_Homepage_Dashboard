@@ -115,11 +115,10 @@
 
   const SVG_NS = 'http://www.w3.org/2000/svg';
   const SVG_TAGS = new Set([
-    'circle','clipPath','defs','desc','feBlend','feComposite','feColorMatrix','feDropShadow','feFlood','feFuncA','feFuncB',
-    'feFuncG','feFuncR','feGaussianBlur','feImage','feMerge','feMergeNode','feMorphology','feOffset','feSpecularLighting',
-    'feSpotLight','feDistantLight','filter','foreignObject','g','image','line','linearGradient','marker','mask','path',
-    'pattern','polyline','polygon','radialGradient','rect','script','stop','style','svg','symbol','text','textPath','title',
-    'tspan','use'
+    'circle','clipPath','defs','desc','feBlend','feComposite','feColorMatrix','feDistantLight','feDropShadow','feFlood','feFuncA',
+    'feFuncB','feFuncG','feFuncR','feGaussianBlur','feImage','feMerge','feMergeNode','feMorphology','feOffset','feSpecularLighting',
+    'feSpotLight','filter','foreignObject','g','image','line','linearGradient','marker','mask','path','pattern','polyline','polygon',
+    'radialGradient','rect','script','stop','style','svg','symbol','text','textPath','title','tspan','use'
   ]);
 
   const $el = (tag, props = {}, ...children) => {
@@ -278,6 +277,41 @@
   // ===========================================================================
   // OBJECT GROUPS
   // ===========================================================================
+
+  const BANNER_STYLES = {
+    classic: {
+      background: 'url(#bannerGradientClassic)',
+      border: '#666',
+      highlight: '#fff',
+      highlightOpacity: 0.35,
+      text: '#fff'
+    },
+    dark: {
+      background: 'url(#bannerGradientDark)',
+      border: '#222',
+      highlight: '#fff',
+      highlightOpacity: 0.15,
+      text: '#fff'
+    },
+    gold: {
+      background: 'url(#bannerGradientGold)',
+      border: '#666',
+      highlight: '#fff',
+      highlightOpacity: 0.35,
+      text: '#000'
+    },
+    /*metal: {
+      background: 'url(#bannerGradientMetal)',
+      border: '#555',
+      highlight: '#fff',
+      highlightOpacity: 0.5,
+      text: '#222'
+    }*/
+  };
+
+  const savedBannerStyle = Settings.get('bannerStyle', 'classic');
+
+  let bannerStyle = BANNER_STYLES[savedBannerStyle] ? savedBannerStyle : 'classic';
 
   const ICONS = {
     banner74: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEoAAABKCAYAAAAc0MJxAAAEwklEQVR4AeycvW8cRRTA3xsHEQgEgkACJxby2iR8CEhHA0Hio0QiDfwD0NGASMoQOnI2TUooaSnoKUJEQRokKoyUxBT4zgWKLUWOYtm6e3lvdmdvM9nxjmfPXm92RjM7N2/evI+f1zOnPfsUTKjM9QY/JguDf5Jef4N7arRJDL3BUrLQ/2BC6UFtUMn3KyeTS/2rhPAZB3UKEI9w32yVGBBeBsBf5xZWfkt6/70ENUstULOLgzMwUtdA4ZmacezZcgL1LsDUtdne4J06TmqBQoJfAOAYt4NdEZ5BAIkVQkstUOz04EPiIHVlWLoPvNQFFei2fcuCQc0u9j9sW7p88LwfGnMwKBzip6FOm1pHQ/VJqO9gUKDg7VCnTa3jDT34dA4GRUDHm0o41C8hnQhdGwwKAZ8IddrUujoxB4NqKtmm/EZQnuQ7BMqTiEMtgnKAscURlE3EMY6gHGBscQRlE3GMIygHGFscQdlEHOMIygHGFkdQNhHHOIJygLHFEZRNxDGOoBxgbHEEZRNxjCMoBxhb3CpQdvD7OY6gPGlHUBGUJwFPNZUsDLz/RMfTZmvUdpO7QoCl1mTWUKDCSBHiHw35b41bYaQIRhFUxY9MGCkc4l8Vep2fFkZq65HhcudJVAAQRmrlyxPrFXqdnxZGChAJ48nnvBk0G2akRIM8T775y7eOir40BBxI36pG0DfxFnMxsrLesElB+Z58m5vzxhgB/GRet6ZXhZgLuewUv5x4Mq9Bya4ug6o2QvWR0Tl8Z+3C7u8qs3r/e4n18Mb6N8ZzMRcjK+sNGw1KdnWM+9QDnISJsJEJDUp2df5VekUEOzUi+sLM/33xta2b5144vnxuGtvQJFaJ2cRfzMXI7F6YCBuRa1C+Jx8iPAsXKV0jq9vaOAedS0X8ckcJG1HLkybPky85svpz8t3aU7K4jU1ilxx8Yi8yGYPyPfkAzpLavJEsrl44den/J30cHgQdiVViltg5nrPcKqs58UQxB2V2dxFWNX3bEn27rbZvJ7t4nmV0q+xXzRs7u+klVuCYdexVDrL5IpMclNndM53YMYEikxyU2d15PtaMQJFJDsrs7plO7IQAIr9DkBcAY1DpOF4dBHJQciqwTnzkwhCyup4x0cMc1DZuPs+S9vyjIge7x/VYxkS7yUEhTM2BLhTvKkgZYM6ksEcRwquQlsfTrvzaEalmUGAy3sx5e38zhYCPpn2XrymDMZPCHYWAp7uMpix3LDDJ9ygAeqNMuduyMRMNav7y9fjr5rgjDBsNCu4+9pxDL4ozNhoUIb4YiZQTMGw0qBHKF76UK3ZdathoUAAYN3JwlZSNBoUA8a0BlBfDRoNilQiKITiqZqPgCh1ihfyjcn4d6/0EjgojdfLP1afvl8eRTUAYqa3RKPhrOGyDPmOE0VUfvZ10JmFjJ/vZXN4JI4UwVfv73+AhL8iMFCC9DvtVCNb4o+zP67rTNthWXTve65kR31God3XvRaGKnBg/tvh4+fzM9VATZp3YEFvANo1sL3vkpwiKnxrsPSiEK3ho+Na/56d/n1RCYktsAtuelE23HTrNoGDGrRA+Q0AbCLREBD8sfz393s2vZm6EWytfKTbFtvjQvthnuWZt6cw9AAAA///9HI0zAAAABklEQVQDANyXQPkWpMaHAAAAAElFTkSuQmCC',
@@ -1939,11 +1973,32 @@
         $el('stop', { offset: '100%', 'stop-color': 'var(--numeral-bottom)' })
       ),
       $el('linearGradient', {
-        id: 'bannerGradient',
+        id: 'bannerGradientClassic',
         gradientTransform: 'rotate(90)'
         },
-        $el('stop', { offset: '0%', 'stop-color': 'var(--banner-top)' }),
-        $el('stop', { offset: '100%', 'stop-color': 'var(--banner-bottom)' })
+        $el('stop', { offset: '0%', 'stop-color': 'rgba(255, 255, 255, .6)' }),
+        $el('stop', { offset: '100%', 'stop-color': 'rgba(0, 0, 0, .6)' })
+      ),
+      $el('linearGradient', {
+        id: 'bannerGradientDark',
+        gradientTransform: 'rotate(90)'
+        },
+        $el('stop', { offset: '0%', 'stop-color': 'rgba(0, 0 ,0, .6)' }),
+        $el('stop', { offset: '100%', 'stop-color': 'rgba(0, 0, 0, .6)' })
+      ),
+      $el('linearGradient', {
+        id: 'bannerGradientGold',
+        gradientTransform: 'rotate(90)'
+        },
+        $el('stop', { offset: '0%', 'stop-color': 'rgba(255, 250, 210, .6)' }),
+        $el('stop', { offset: '100%', 'stop-color': 'rgba(120, 90, 0, .6)' })
+      ),
+      $el('linearGradient', {
+        id: 'bannerGradientMetal',
+        gradientTransform: 'rotate(90)'
+        },
+        $el('stop', { offset: '0%', 'stop-color': 'rgba(255, 250, 210, .6)' }),
+        $el('stop', { offset: '100%', 'stop-color': 'rgba(120, 90, 0, .6)' })
       ),
       $el('linearGradient', {
         id: 'panelGradient',
@@ -2070,8 +2125,7 @@
     });
     const dayBannerBg = $el('rect', {
       id: 'dayBannerBg',
-      rx: 2, ry: 2,
-      fill: 'url(#bannerGradient)'
+      rx: 2, ry: 2
     });
     const dayBannerBorder = $el('rect', {
       id: 'dayBannerBorder',
@@ -2202,7 +2256,21 @@
       dateTimeGroup.classList.toggle('hidden', !hidden);
       Settings.set('calendarInfo', !hidden);
     };
+    const applyBannerStyle = () => {
+      const style = BANNER_STYLES[bannerStyle];
+      dayBannerBg.setAttribute('fill', style.background);
+      dayBannerBg.setAttribute('stroke', style.border);
+      dayBannerHighlight.setAttribute('fill', style.highlight);
+      dayBannerHighlight.setAttribute('fill-opacity', style.highlightOpacity);
+      dayBannerText.setAttribute('fill', style.text);
+    };
     const toggleBannerStyle = () => {
+      const styles = Object.keys(BANNER_STYLES);
+      const currentIndex = styles.indexOf(bannerStyle);
+      const nextIndex = (currentIndex + 1) % styles.length;
+      bannerStyle = styles[nextIndex];
+      Settings.set('bannerStyle', bannerStyle);
+      applyBannerStyle();
     };
     // =======================
     // NON SVG
@@ -2356,6 +2424,7 @@
       }
     };
     startAnalogClock();
+    applyBannerStyle();
   };
 
   const toggleAnalogClock = () => {
@@ -2955,16 +3024,12 @@
       stroke: #aeb7c0;
     }
     :root {
-      --banner-top: rgba(255, 250, 210, .6);
-      --banner-bottom: rgba(120, 90, 0, .6);
       --numeral-top: rgba(0, 0, 0, 1);
       --numeral-bottom: rgba(0, 0, 0, 1);
       --tick-hourmark: rgba(0, 0, 0, .7);
       --tick-secondmark: rgba(0, 0, 0, .3);
     }
     .dark-theme {
-      --banner-top: rgba(90, 90 ,90, .45);
-      --banner-bottom: rgba(15, 15, 15, .45);
       --numeral-top: rgba(0, 0, 0, 1);
       --numeral-bottom: rgba(0, 0, 0, 1);
       --tick-hourmark: rgba(0, 0, 0, .7);
@@ -2972,18 +3037,13 @@
     }
     #dayBannerBg {
       filter: drop-shadow(1px 1px 4px #000);
-      stroke: #996600;
       stroke-width: .1;
     }
     #dayBannerText {
-      fill: #000;
       font: 600 5px "Segoe UI", sans-serif;
-      text-shadow: 1px 1px 1px rgba(255, 250, 210, .5);
     }
     .Analog-Bigclock.dark #dayBannerText {
-      fill: #fff;
-      font: 400 5px "Segoe UI", sans-serif;
-      text-shadow: 1px 1px #000;
+      font: 600 5px "Segoe UI", sans-serif;
     }
     .Analog-MonthDateText {
       color: #000;
