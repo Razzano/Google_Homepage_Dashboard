@@ -45,9 +45,9 @@
   // ===========================================================================
 
   const LANGUAGE_COUNTRY = [
-    'ar-SA', 'bn-BD', 'cs-CZ', 'da-DK', 'de-DE', 'el-GR', 'en-US', 'es-ES', 'fi-FI', 'fr-FR',
-    'he-IL', 'hi-IN', 'hu-HU', 'it-IT', 'ja-JP', 'ko-KR', 'nl-NL', 'no-NO', 'pl-PL', 'pt-BR',
-    'ro-RO', 'ru-RU', 'sk-SK', 'sv-SE', 'tr-TR', 'uk-UA', 'zh-CN', 'zh-TW'
+    'ar-SA', 'bn-BD', 'cs-CZ', 'da-DK', 'de-DE', 'el-GR', 'en-US', 'es-ES', 'es-MX', 'fi-FI', 'fr-CA',
+    'fr-FR', 'he-IL', 'hi-IN', 'hu-HU', 'it-IT', 'ja-JP', 'ko-KR', 'nl-NL', 'no-NO', 'pl-PL', 'pt-BR',
+    'pt-PT', 'ro-RO', 'ru-RU', 'sk-SK', 'sv-SE', 'tr-TR', 'uk-UA', 'zh-CN', 'zh-TW'
   ];
   // For testing locales i.e. 'xxxx' returns 'xx-XX'.
   const TEST_LOCALE = null; // Set to null for normal browser detection.
@@ -282,23 +282,26 @@
     classic: {
       background: 'url(#bannerGradientClassic)',
       border: '#666',
+      font: '500 5px "Segoe UI", sans-serif',
+      text: '#fff',
       highlight: '#fff',
-      highlightOpacity: 0.35,
-      text: '#fff'
+      highlightOpacity: 0.35
     },
     dark: {
       background: 'url(#bannerGradientDark)',
       border: '#222',
+      font: '400 5px "Segoe UI", sans-serif',
+      text: '#fff',
       highlight: '#fff',
-      highlightOpacity: 0.15,
-      text: '#fff'
+      highlightOpacity: 0.15
     },
     gold: {
       background: 'url(#bannerGradientGold)',
       border: '#666',
+      font: '600 5px "Segoe UI", sans-serif',
+      text: '#000',
       highlight: '#fff',
-      highlightOpacity: 0.35,
-      text: '#000'
+      highlightOpacity: 0.35
     }
   };
 
@@ -307,7 +310,7 @@
   let bannerStyle = BANNER_STYLES[savedBannerStyle] ? savedBannerStyle : 'classic';
 
   const ICONS = {
-    banner74: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEoAAABKCAYAAAAc0MJxAAAEwklEQVR4AeycvW8cRRTA3xsHEQgEgkACJxby2iR8CEhHA0Hio0QiDfwD0NGASMoQOnI2TUooaSnoKUJEQRokKoyUxBT4zgWKLUWOYtm6e3lvdmdvM9nxjmfPXm92RjM7N2/evI+f1zOnPfsUTKjM9QY/JguDf5Jef4N7arRJDL3BUrLQ/2BC6UFtUMn3KyeTS/2rhPAZB3UKEI9w32yVGBBeBsBf5xZWfkt6/70ENUstULOLgzMwUtdA4ZmacezZcgL1LsDUtdne4J06TmqBQoJfAOAYt4NdEZ5BAIkVQkstUOz04EPiIHVlWLoPvNQFFei2fcuCQc0u9j9sW7p88LwfGnMwKBzip6FOm1pHQ/VJqO9gUKDg7VCnTa3jDT34dA4GRUDHm0o41C8hnQhdGwwKAZ8IddrUujoxB4NqKtmm/EZQnuQ7BMqTiEMtgnKAscURlE3EMY6gHGBscQRlE3GMIygHGFscQdlEHOMIygHGFkdQNhHHOIJygLHFEZRNxDGOoBxgbHEEZRNxjCMoBxhb3CpQdvD7OY6gPGlHUBGUJwFPNZUsDLz/RMfTZmvUdpO7QoCl1mTWUKDCSBHiHw35b41bYaQIRhFUxY9MGCkc4l8Vep2fFkZq65HhcudJVAAQRmrlyxPrFXqdnxZGChAJ48nnvBk0G2akRIM8T775y7eOir40BBxI36pG0DfxFnMxsrLesElB+Z58m5vzxhgB/GRet6ZXhZgLuewUv5x4Mq9Bya4ug6o2QvWR0Tl8Z+3C7u8qs3r/e4n18Mb6N8ZzMRcjK+sNGw1KdnWM+9QDnISJsJEJDUp2df5VekUEOzUi+sLM/33xta2b5144vnxuGtvQJFaJ2cRfzMXI7F6YCBuRa1C+Jx8iPAsXKV0jq9vaOAedS0X8ckcJG1HLkybPky85svpz8t3aU7K4jU1ilxx8Yi8yGYPyPfkAzpLavJEsrl44den/J30cHgQdiVViltg5nrPcKqs58UQxB2V2dxFWNX3bEn27rbZvJ7t4nmV0q+xXzRs7u+klVuCYdexVDrL5IpMclNndM53YMYEikxyU2d15PtaMQJFJDsrs7plO7IQAIr9DkBcAY1DpOF4dBHJQciqwTnzkwhCyup4x0cMc1DZuPs+S9vyjIge7x/VYxkS7yUEhTM2BLhTvKkgZYM6ksEcRwquQlsfTrvzaEalmUGAy3sx5e38zhYCPpn2XrymDMZPCHYWAp7uMpix3LDDJ9ygAeqNMuduyMRMNav7y9fjr5rgjDBsNCu4+9pxDL4ozNhoUIb4YiZQTMGw0qBHKF76UK3ZdathoUAAYN3JwlZSNBoUA8a0BlBfDRoNilQiKITiqZqPgCh1ihfyjcn4d6/0EjgojdfLP1afvl8eRTUAYqa3RKPhrOGyDPmOE0VUfvZ10JmFjJ/vZXN4JI4UwVfv73+AhL8iMFCC9DvtVCNb4o+zP67rTNthWXTve65kR31God3XvRaGKnBg/tvh4+fzM9VATZp3YEFvANo1sL3vkpwiKnxrsPSiEK3ho+Na/56d/n1RCYktsAtuelE23HTrNoGDGrRA+Q0AbCLREBD8sfz393s2vZm6EWytfKTbFtvjQvthnuWZt6cw9AAAA///9HI0zAAAABklEQVQDANyXQPkWpMaHAAAAAElFTkSuQmCC',
+    banner74: 'data:image/png;base64,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',
     calendar32: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAABUklEQVR4AcySMU7DQBBFBx+Ag3CGINwhUdCAaJGg4xxcAyRaBA0FUjpHSZEmKXKU5ACJ/2ZHsXa8Ixcz60TZ/fYfa/7zeirq+TVNs++xg2VdEwAcwBpS48Yea7SDsMcazLixxxrtIAIguAW3E8D7ek9Y3XDcd5dlLfY6AiAkGsUkZlbirVuCenHZ7v1/01oLcTyB/qwirgDgN2TtUrDHalETAN2mJa7HB2gmW9q9XY2ykD3+CZT4zlqG2Qn8/H7T3f0tQdNAeLmaGcDn1wfNFzOCpgDwcjUzgJfnV7qe3BA0BYCXq5kBPD480f/flKApALxczQwgDR16f34A2sR61MQJaBPrURMA2sR61ASANrEeNQEwdHqtnjs/AI9J13qKE/CYdK2nAPCYdK2nAPCYdK2nALCa7qF9qrquL1ab5dDnzZ5DJrLDCeAChsfK9UQm3uYAAAD//6SULkcAAAAGSURBVAMAnK6TNOnKaHQAAAAASUVORK5CYII=',
     calendarDaily32: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABYAAAAWCAYAAADEtGw7AAABJElEQVR4AbSUPRIBQRCFe+YQikgu2IwjOIBAqMTIpII9gBCJRAkFAscg20DkAFMOIB3ztmraGD87+6c80/1af1v7amsleZ+7UtqzuM0zewPbRXsy0RTfPGOnXzuzJ0x5WyzmSRTpmEjD2DSbpPp9gmflzqxnT3dm98CRj9NpiaJK4aJvUQA+UYqOSYLyQ3lmDB5EURoBbge1S0UPH0IdMpN6u6U6JFvtNtUhjsK9vSrqIHDDPIKuQi4cBAZIa00Qamg0jul8uaJM5ffB4HTb+ZlNh7RaH9jx+2CwEIKEEAzqdTu038U/+yCweQeQK6b9KRjsZ1S2Z7CfUdmewVmZ5Z0z+E9chUYMLpupv8/gspn6+wzOm2HW/6V5B7ye+kJpfi6B+QQAAP//ZMuhpAAAAAZJREFUAwApJROw/1D9zwAAAABJRU5ErkJggg==',
     calendarMonthly32: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAABWklEQVR4AeyXsW3DMBBF72uIwKm8gVJ6Aw+QMdKmdZEBUqfxDik8iuoMQGQAt7Q/gQN4pGTQokQ3NvBB3j+R90QeDKiTid+/c34iJUvmRgG0gI4xyJinec3pqD5H9XSkR3V/h8Pn0Pde9SUS3vxnsxG334v6HOMc41hx7ta6NNedT6dvkjxKo1dAmA/n5HcYOM20ZC4DeO/7cPQ8Ks7j6ozpU5wvkev88SiPVPe63cq9etvtZAmxbnYF8bG2mFcBeO+FSkHpUSV+FUBaYE5cBQBAAGR1ART7VQBZ5RlGAHi5/u3eoxl1JpcEgMlsg4QBYOdSaV161Bq+AUgLtIgNAFDevYQD6p83ANy0tZ4A5gTY6VR6DfSoNXwDkBZoERsAoL6rCQ2U72MAuLi1ngDmBNjpVHoN9Kg1fAOQFmgRGwCgvHsJB9Q/bwC4aWsFgOsXKz+5V9GtvfmyFwAAAP//r2BSKgAAAAZJREFUAwCNOZlwcm2b+AAAAABJRU5ErkJggg==',
@@ -761,10 +764,10 @@
 
   const TITLE_TRANSLATIONS = {
     ar: {
-      bannerImgTitle: '',
       anaCalImgTitle: 'إظهار/إخفاء معلومات التاريخ والوقت على وجه الساعة',
       analogClockBtnHideTitle: 'إخفاء الساعة التناظرية',
       analogClockBtnShowTitle: 'إظهار الساعة التناظرية',
+      bannerImgTitle: 'تبديل أنماط الشريط',
       calBtnTitle: 'إظهار/إخفاء حاوية التاريخ والوقت',
       changeLogoTitle: 'انقر بالزر الأيسر لتغيير الشعارات',
       changeWallpaperTitle: 'انقر بالزر الأيسر لتغيير الخلفية',
@@ -788,10 +791,10 @@
       wallpaperMonthlyTitle: 'تغيير الخلفية شهريًا',
     },
     bn: {
-      bannerImgTitle: '',
       anaCalImgTitle: 'ঘড়ির মুখে তারিখ ও সময়ের তথ্য দেখান/লুকান',
       analogClockBtnHideTitle: 'অ্যানালগ ঘড়ি লুকান',
       analogClockBtnShowTitle: 'অ্যানালগ ঘড়ি দেখান',
+      bannerImgTitle: 'ব্যানার স্টাইল পরিবর্তন করুন',
       calBtnTitle: 'তারিখ-সময় কন্টেইনার দেখান/লুকান',
       changeLogoTitle: 'লোগো পরিবর্তন করতে বাম-ক্লিক করুন',
       changeWallpaperTitle: 'ওয়ালপেপার পরিবর্তন করতে বাম-ক্লিক করুন',
@@ -815,10 +818,10 @@
       wallpaperMonthlyTitle: 'মাসিক ওয়ালপেপার পরিবর্তন করুন',
     },
     cs: {
-      bannerImgTitle: '',
       anaCalImgTitle: 'Zobrazit/skrýt informace o datu a čase na ciferníku',
       analogClockBtnHideTitle: 'Skrýt analogové hodiny',
       analogClockBtnShowTitle: 'Zobrazit analogové hodiny',
+      bannerImgTitle: 'Přepnout styly banneru',
       calBtnTitle: 'Zobrazit/skrýt kontejner data a času',
       changeLogoTitle: 'Levé kliknutí pro změnu log',
       changeWallpaperTitle: 'Levé kliknutí pro změnu tapety',
@@ -842,10 +845,10 @@
       wallpaperMonthlyTitle: 'Měnit tapetu měsíčně',
     },
     da: {
-      bannerImgTitle: '',
       anaCalImgTitle: 'Vis/skjul dato- og tidsinfo på urskiven',
       analogClockBtnHideTitle: 'Skjul analogt ur',
       analogClockBtnShowTitle: 'Vis analogt ur',
+      bannerImgTitle: 'Skift bannerstile',
       calBtnTitle: 'Vis/skjul datoTid-beholder',
       changeLogoTitle: 'Venstreklik for at skifte logoer',
       changeWallpaperTitle: 'Venstreklik for at skifte tapet',
@@ -869,10 +872,10 @@
       wallpaperMonthlyTitle: 'Skift tapet månedligt',
     },
     de: {
-      bannerImgTitle: '',
       anaCalImgTitle: 'Datums- und Uhrzeitinformationen auf dem Zifferblatt ein-/ausblenden',
       analogClockBtnHideTitle: 'Analoguhr ausblenden',
       analogClockBtnShowTitle: 'Analoguhr anzeigen',
+      bannerImgTitle: 'Bannerstile wechseln',
       calBtnTitle: 'dateTime-Container ein-/ausblenden',
       changeLogoTitle: 'Linksklick zum Ändern der Logos',
       changeWallpaperTitle: 'Linksklick zum Ändern des Hintergrundbilds',
@@ -896,10 +899,10 @@
       wallpaperMonthlyTitle: 'Hintergrundbild monatlich ändern',
     },
     el: {
-      bannerImgTitle: '',
       anaCalImgTitle: 'Εμφάνιση/Απόκρυψη πληροφοριών ημερομηνίας και ώρας στο καντράν του ρολογιού',
       analogClockBtnHideTitle: 'Απόκρυψη αναλογικού ρολογιού',
       analogClockBtnShowTitle: 'Εμφάνιση αναλογικού ρολογιού',
+      bannerImgTitle: 'Εναλλαγή στυλ banner',
       calBtnTitle: 'Εμφάνιση/Απόκρυψη του κοντέινερ ημερομηνίας και ώρας',
       changeLogoTitle: 'Αριστερό κλικ για αλλαγή λογότυπων',
       changeWallpaperTitle: 'Αριστερό κλικ για αλλαγή ταπετσαρίας',
@@ -923,11 +926,10 @@
       wallpaperMonthlyTitle: 'Μηνιαία αλλαγή ταπετσαρίας',
     },
     en: {
-      bannerImgTitle: '',
-      bannerImgTitle: 'Toggle Banner Styles',
       anaCalImgTitle: 'Show/Hide Date and Time Info On Clock Face',
       analogClockBtnHideTitle: 'Hide Analog Clock',
       analogClockBtnShowTitle: 'Show Analog Clock',
+      bannerImgTitle: 'Toggle Banner Styles',
       calBtnTitle: 'Show/Hide dateTime Container',
       changeLogoTitle: 'Left-click To Change Logos',
       changeWallpaperTitle: 'Left-click To Change Wallpaper',
@@ -951,10 +953,10 @@
       wallpaperMonthlyTitle: 'Monthly Change Wallpaper',
     },
     es: {
-      bannerImgTitle: '',
       anaCalImgTitle: 'Mostrar/Ocultar información de fecha y hora en la esfera del reloj',
       analogClockBtnHideTitle: 'Ocultar reloj analógico',
       analogClockBtnShowTitle: 'Mostrar reloj analógico',
+      bannerImgTitle: 'Cambiar estilos del banner',
       calBtnTitle: 'Mostrar/Ocultar contenedor dateTime',
       changeLogoTitle: 'Clic izquierdo para cambiar logotipos',
       changeWallpaperTitle: 'Clic izquierdo para cambiar fondo de pantalla',
@@ -978,7 +980,6 @@
       wallpaperMonthlyTitle: 'Cambiar el fondo de pantalla mensualmente',
     },
     'es-MX': {
-      bannerImgTitle: '',
       calBtnTitle: 'Mostrar/Ocultar contenedor de fecha y hora',
       changeLogoTitle: 'Clic izquierdo para cambiar logotipos',
       githubTitle: 'Este es el sitio host de GitHub\nCambia al sitio host de ImgBB',
@@ -994,10 +995,10 @@
       wallpaperMonthlyTitle: 'Cambiar fondo mensualmente',
     },
     fi: {
-      bannerImgTitle: '',
       anaCalImgTitle: 'Näytä/Piilota päivämäärä- ja aikatiedot kellotaulussa',
       analogClockBtnHideTitle: 'Piilota analoginen kello',
       analogClockBtnShowTitle: 'Näytä analoginen kello',
+      bannerImgTitle: 'Vaihda bannerin tyylejä',
       calBtnTitle: 'Näytä/Piilota päivämäärä- ja aikasäiliö',
       changeLogoTitle: 'Vasen napsautus vaihtaa logon',
       changeWallpaperTitle: 'Vasen napsautus vaihtaa taustakuvan',
@@ -1021,10 +1022,10 @@
       wallpaperMonthlyTitle: 'Vaihda taustakuva kuukausittain',
     },
     fr: {
-      bannerImgTitle: '',
       anaCalImgTitle: 'Afficher/Masquer les informations de date et heure sur le cadran',
       analogClockBtnHideTitle: 'Masquer l’horloge analogique',
       analogClockBtnShowTitle: 'Afficher l’horloge analogique',
+      bannerImgTitle: 'Changer les styles de bannière',
       calBtnTitle: 'Afficher/Masquer le conteneur dateTime',
       changeLogoTitle: 'Clic gauche pour changer les logos',
       changeWallpaperTitle: 'Clic gauche pour changer le fond d’écran',
@@ -1048,7 +1049,6 @@
       wallpaperMonthlyTitle: 'Changer le fond d’écran chaque mois',
     },
     'fr-CA': {
-      bannerImgTitle: '',
       anaCalImgTitle: 'Afficher/Masquer la date et l’heure sur le cadran',
       calBtnTitle: 'Afficher/Masquer le conteneur de la date et de l’heure',
       changeLogoTitle: 'Clic gauche pour changer de logo',
@@ -1062,10 +1062,10 @@
       wallpaperDailyTitle: 'Changer le fond d’écran quotidiennement',
     },
     he: {
-      bannerImgTitle: '',
       anaCalImgTitle: 'הצג/הסתר מידע על תאריך ושעה על פני השעון',
       analogClockBtnHideTitle: 'הסתר שעון אנלוגי',
       analogClockBtnShowTitle: 'הצג שעון אנלוגי',
+      bannerImgTitle: 'החלף סגנונות באנר',
       calBtnTitle: 'הצג/הסתר את מכל התאריך והשעה',
       changeLogoTitle: 'לחיצה שמאלית להחלפת סמלים',
       changeWallpaperTitle: 'לחיצה שמאלית להחלפת טפט',
@@ -1089,10 +1089,10 @@
       wallpaperMonthlyTitle: 'שנה טפט מדי חודש',
     },
     hi: {
-      bannerImgTitle: '',
       anaCalImgTitle: 'घड़ी के डायल पर दिनांक और समय जानकारी दिखाएँ/छिपाएँ',
       analogClockBtnHideTitle: 'एनालॉग घड़ी छिपाएँ',
       analogClockBtnShowTitle: 'एनालॉग घड़ी दिखाएँ',
+      bannerImgTitle: 'बैनर शैलियाँ बदलें',
       calBtnTitle: 'दिनांक/समय कंटेनर दिखाएँ/छिपाएँ',
       changeLogoTitle: 'लोगो बदलने के लिए बायाँ-क्लिक करें',
       changeWallpaperTitle: 'वॉलपेपर बदलने के लिए बायाँ-क्लिक करें',
@@ -1116,10 +1116,10 @@
       wallpaperMonthlyTitle: 'प्रति माह वॉलपेपर बदलें',
     },
     hu: {
-      bannerImgTitle: '',
       anaCalImgTitle: 'Dátum- és időinformációk megjelenítése/elrejtése az óralapon',
       analogClockBtnHideTitle: 'Analóg óra elrejtése',
       analogClockBtnShowTitle: 'Analóg óra megjelenítése',
+      bannerImgTitle: 'Bannerstílusok váltása',
       calBtnTitle: 'Dátum- és időtároló megjelenítése/elrejtése',
       changeLogoTitle: 'Bal kattintás a logók váltásához',
       changeWallpaperTitle: 'Bal kattintás a háttérkép váltásához',
@@ -1143,10 +1143,10 @@
       wallpaperMonthlyTitle: 'Háttérkép váltása havonta',
     },
     it: {
-      bannerImgTitle: '',
       anaCalImgTitle: 'Mostra/Nascondi informazioni di data e ora sul quadrante',
       analogClockBtnHideTitle: 'Nascondi orologio analogico',
       analogClockBtnShowTitle: 'Mostra orologio analogico',
+      bannerImgTitle: 'Cambia gli stili del banner',
       calBtnTitle: 'Mostra/Nascondi contenitore data e ora',
       changeLogoTitle: 'Clic sinistro per cambiare logo',
       changeWallpaperTitle: 'Clic sinistro per cambiare sfondo',
@@ -1170,10 +1170,10 @@
       wallpaperMonthlyTitle: 'Cambia sfondo ogni mese',
     },
     ja: {
-      bannerImgTitle: '',
       anaCalImgTitle: '文字盤の日付と時刻情報を表示/非表示',
       analogClockBtnHideTitle: 'アナログ時計を非表示',
       analogClockBtnShowTitle: 'アナログ時計を表示',
+      bannerImgTitle: 'バナースタイルを切り替える',
       calBtnTitle: '日付と時刻コンテナを表示/非表示',
       changeLogoTitle: '左クリックでロゴを変更',
       changeWallpaperTitle: '左クリックで壁紙を変更',
@@ -1197,10 +1197,10 @@
       wallpaperMonthlyTitle: '毎月壁紙を変更',
     },
     ko: {
-      bannerImgTitle: '',
       anaCalImgTitle: '시계 화면의 날짜 및 시간 정보 표시/숨기기',
       analogClockBtnHideTitle: '아날로그 시계 숨기기',
       analogClockBtnShowTitle: '아날로그 시계 표시',
+      bannerImgTitle: '배너 스타일 전환',
       calBtnTitle: '날짜 및 시간 컨테이너 표시/숨기기',
       changeLogoTitle: '왼쪽 클릭하여 로고 변경',
       changeWallpaperTitle: '왼쪽 클릭하여 배경화면 변경',
@@ -1224,10 +1224,10 @@
       wallpaperMonthlyTitle: '매월 배경화면 변경',
     },
     nl: {
-      bannerImgTitle: '',
       anaCalImgTitle: 'Datum- en tijdinformatie op wijzerplaat tonen/verbergen',
       analogClockBtnHideTitle: 'Analoge klok verbergen',
       analogClockBtnShowTitle: 'Analoge klok tonen',
+      bannerImgTitle: 'Bannermodellen wisselen',
       calBtnTitle: 'Datum- en tijdcontainer tonen/verbergen',
       changeLogoTitle: 'Linksklik om logo te wijzigen',
       changeWallpaperTitle: 'Linksklik om achtergrond te wijzigen',
@@ -1251,10 +1251,10 @@
       wallpaperMonthlyTitle: 'Achtergrond maandelijks wijzigen',
     },
     no: {
-      bannerImgTitle: '',
       anaCalImgTitle: 'Vis/skjul dato- og tidsinformasjon på urskiven',
       analogClockBtnHideTitle: 'Skjul analog klokke',
       analogClockBtnShowTitle: 'Vis analog klokke',
+      bannerImgTitle: 'Bytt bannerstiler',
       calBtnTitle: 'Vis/skjul dato- og tidsbeholder',
       changeLogoTitle: 'Venstreklikk for å bytte logo',
       changeWallpaperTitle: 'Venstreklikk for å bytte bakgrunn',
@@ -1278,10 +1278,10 @@
       wallpaperMonthlyTitle: 'Bytt bakgrunn månedlig',
     },
     pl: {
-      bannerImgTitle: '',
       anaCalImgTitle: 'Pokaż/Ukryj informacje o dacie i godzinie na tarczy zegara',
       analogClockBtnHideTitle: 'Ukryj zegar analogowy',
       analogClockBtnShowTitle: 'Pokaż zegar analogowy',
+      bannerImgTitle: 'Przełącz style banera',
       calBtnTitle: 'Pokaż/Ukryj kontener daty i godziny',
       changeLogoTitle: 'Kliknij lewym przyciskiem, aby zmienić logo',
       changeWallpaperTitle: 'Kliknij lewym przyciskiem, aby zmienić tapetę',
@@ -1305,10 +1305,10 @@
       wallpaperMonthlyTitle: 'Zmieniaj tapetę co miesiąc',
     },
     pt: {
-      bannerImgTitle: '',
       anaCalImgTitle: 'Mostrar/Ocultar Informações de Data e Hora no Mostrador do Relógio',
       analogClockBtnHideTitle: 'Ocultar Relógio Analógico',
       analogClockBtnShowTitle: 'Mostrar Relógio Analógico',
+      bannerImgTitle: 'Alternar estilos do banner',
       calBtnTitle: 'Mostrar/Ocultar Contêiner de Data e Hora',
       changeLogoTitle: 'Clique com o Botão Esquerdo para Alterar os Logotipos',
       changeWallpaperTitle: 'Clique com o Botão Esquerdo para Alterar o Papel de Parede',
@@ -1332,7 +1332,6 @@
       wallpaperMonthlyTitle: 'Alterar Papel de Parede Mensalmente',
     },
     'pt-PT': {
-      bannerImgTitle: '',
       anaCalImgTitle: 'Mostrar/Ocultar a data e hora no mostrador do relógio',
       analogClockBtnHideTitle: 'Ocultar relógio analógico',
       analogClockBtnShowTitle: 'Mostrar relógio analógico',
@@ -1356,10 +1355,10 @@
       wallpaperMonthlyTitle: 'Alterar o fundo mensalmente',
     },
     ro: {
-      bannerImgTitle: '',
       anaCalImgTitle: 'Afișează/Ascunde Informațiile de Dată și Oră pe Cadranul Ceasului',
       analogClockBtnHideTitle: 'Ascunde Ceasul Analogic',
       analogClockBtnShowTitle: 'Afișează Ceasul Analogic',
+      bannerImgTitle: 'Schimbă stilurile bannerului',
       calBtnTitle: 'Afișează/Ascunde Containerul pentru Dată și Oră',
       changeLogoTitle: 'Clic Stânga pentru a Schimba Siglele',
       changeWallpaperTitle: 'Clic Stânga pentru a Schimba Fundalul',
@@ -1383,10 +1382,10 @@
       wallpaperMonthlyTitle: 'Schimbă Fundalul Lunar',
     },
     ru: {
-      bannerImgTitle: '',
       anaCalImgTitle: 'Показать/Скрыть Информацию о Дате и Времени на Циферблате',
       analogClockBtnHideTitle: 'Скрыть Аналоговые Часы',
       analogClockBtnShowTitle: 'Показать Аналоговые Часы',
+      bannerImgTitle: 'Переключить стили баннера',
       calBtnTitle: 'Показать/Скрыть Контейнер Даты и Времени',
       changeLogoTitle: 'Щелкните Левой Кнопкой, Чтобы Сменить Логотип',
       changeWallpaperTitle: 'Щелкните Левой Кнопкой, Чтобы Сменить Обои',
@@ -1410,10 +1409,10 @@
       wallpaperMonthlyTitle: 'Сменить Обои Ежемесячно',
     },
     sk: {
-      bannerImgTitle: '',
       anaCalImgTitle: 'Zobraziť/Skryť Informácie o Dátume a Čase na Ciferníku',
       analogClockBtnHideTitle: 'Skryť Analógové Hodiny',
       analogClockBtnShowTitle: 'Zobraziť Analógové Hodiny',
+      bannerImgTitle: 'Prepínať štýly bannera',
       calBtnTitle: 'Zobraziť/Skryť Kontajner Dátumu a Času',
       changeLogoTitle: 'Kliknutím Ľavým Tlačidlom Zmeňte Logá',
       changeWallpaperTitle: 'Kliknutím Ľavým Tlačidlom Zmeňte Tapetu',
@@ -1437,10 +1436,10 @@
       wallpaperMonthlyTitle: 'Meniť Tapetu Mesačne',
     },
     sv: {
-      bannerImgTitle: '',
       anaCalImgTitle: 'Visa/Dölj Datum- och Tidsinformation på Klockans Urtavla',
       analogClockBtnHideTitle: 'Dölj Analog Klocka',
       analogClockBtnShowTitle: 'Visa Analog Klocka',
+      bannerImgTitle: 'Byt bannerstilar',
       calBtnTitle: 'Visa/Dölj Datum- och Tidsbehållare',
       changeLogoTitle: 'Vänsterklicka för att Byta Logotyper',
       changeWallpaperTitle: 'Vänsterklicka för att Byta Bakgrund',
@@ -1464,10 +1463,10 @@
       wallpaperMonthlyTitle: 'Byt Bakgrund Månadsvis',
     },
     tr: {
-      bannerImgTitle: '',
       anaCalImgTitle: 'Saat Kadranındaki Tarih ve Saat Bilgilerini Göster/Gizle',
       analogClockBtnHideTitle: 'Analog Saati Gizle',
       analogClockBtnShowTitle: 'Analog Saati Göster',
+      bannerImgTitle: 'Banner stillerini değiştir',
       calBtnTitle: 'Tarih ve Saat Kapsayıcısını Göster/Gizle',
       changeLogoTitle: 'Logoları Değiştirmek İçin Sol Tıklayın',
       changeWallpaperTitle: 'Duvar Kağıdını Değiştirmek İçin Sol Tıklayın',
@@ -1491,10 +1490,10 @@
       wallpaperMonthlyTitle: 'Duvar Kağıdını Aylık Değiştir',
     },
     uk: {
-      bannerImgTitle: '',
       anaCalImgTitle: 'Показати/Приховати Інформацію про Дату та Час на Циферблаті',
       analogClockBtnHideTitle: 'Приховати Аналоговий Годинник',
       analogClockBtnShowTitle: 'Показати Аналоговий Годинник',
+      bannerImgTitle: 'Перемикнути стилі банера',
       calBtnTitle: 'Показати/Приховати Контейнер Дати та Часу',
       changeLogoTitle: 'Клацніть Лівою Кнопкою, Щоб Змінити Логотипи',
       changeWallpaperTitle: 'Клацніть Лівою Кнопкою, Щоб Змінити Шпалери',
@@ -1518,10 +1517,10 @@
       wallpaperMonthlyTitle: 'Змінювати Шпалери Щомісяця',
     },
     zh: {
-      bannerImgTitle: '',
       anaCalImgTitle: '显示/隐藏时钟表盘上的日期和时间信息',
       analogClockBtnHideTitle: '隐藏模拟时钟',
       analogClockBtnShowTitle: '显示模拟时钟',
+      bannerImgTitle: '切换横幅样式',
       calBtnTitle: '显示/隐藏日期和时间容器',
       changeLogoTitle: '左键单击以切换徽标',
       changeWallpaperTitle: '左键单击以切换壁纸',
@@ -1545,7 +1544,6 @@
       wallpaperMonthlyTitle: '每月更换壁纸',
     },
     'zh-TW': {
-      bannerImgTitle: '',
       anaCalImgTitle: '顯示/隱藏時鐘錶盤上的日期和時間資訊',
       analogClockBtnHideTitle: '隱藏類比時鐘',
       analogClockBtnShowTitle: '顯示類比時鐘',
@@ -1597,7 +1595,7 @@
         return `${this.github}${num}.jpg`;
       }
       const image = this.images[num];
-      return image ? this[host] + image + '/image' + num + '.jpg' : '';
+      return image ? `${this[host]}${image}/image${num}.jpg` : '';
     }
   };
 
@@ -1778,9 +1776,7 @@
   const scheduleWallpaperUpdate = () => {
     clearTimeout(State.wallpaper.timer);
     const mode = Settings.get('wallpaperMode', WALLPAPER_MANUAL);
-    if (mode === WALLPAPER_MANUAL) {
-      return;
-    }
+    if (mode === WALLPAPER_MANUAL) return;
     const now = new Date();
     const next = new Date(now);
     switch (mode) {
@@ -1802,7 +1798,6 @@
       case WALLPAPER_MONTHLY:
         next.setMonth(next.getMonth() + 1, 1);
         next.setHours(0, 0, 0, 0);
-        break;
     }
     State.wallpaper.timer = setTimeout(() => {
       applyCurrentWallpaper();
@@ -2249,6 +2244,7 @@
       dayBannerHighlight.setAttribute('fill', style.highlight);
       dayBannerHighlight.setAttribute('fill-opacity', style.highlightOpacity);
       dayBannerText.setAttribute('fill', style.text);
+      dayBannerText.style.font = style.font;
     };
     const toggleBannerStyle = () => {
       const styles = Object.keys(BANNER_STYLES);
@@ -2501,9 +2497,7 @@
       hour12: true
     }).format(now);
     const secView = Settings.get('secondsView', false);
-    digitalClock.textContent = secView
-      ? `${date} 🕑 ${time}`
-      : `${date} 🕑 ${timeNoSeconds}`;
+    digitalClock.textContent = secView ? `${date} 🕑 ${time}` : `${date} 🕑 ${timeNoSeconds}`;
   };
 
   const startDigitalClock = () => {
@@ -3030,10 +3024,6 @@
       stroke-width: .1;
     }
     #dayBannerText {
-      font: 600 5px "Segoe UI", sans-serif;
-    }
-    .Analog-Bigclock.dark #dayBannerText {
-      font: 600 5px "Segoe UI", sans-serif;
     }
     .Analog-MonthDateText {
       color: #000;
