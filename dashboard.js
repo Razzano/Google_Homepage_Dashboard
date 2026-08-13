@@ -50,7 +50,7 @@
     'ro-RO', 'ru-RU', 'sk-SK', 'sv-SE', 'tr-TR', 'uk-UA', 'zh-CN', 'zh-TW'
   ];
   // For testing locales i.e. 'xxxx' returns 'xx-XX'.
-  const TEST_LOCALE = null; // Set to null for normal browser detection.
+  const TEST_LOCALE = 'dede'; // Set to null for normal browser detection.
   const stringUC = s => {
     if (s === null) return null;
     s = s.trim().toLowerCase();
@@ -299,14 +299,7 @@
       highlight: '#fff',
       highlightOpacity: 0.35,
       text: '#000'
-    },
-    /*metal: {
-      background: 'url(#bannerGradientMetal)',
-      border: '#555',
-      highlight: '#fff',
-      highlightOpacity: 0.5,
-      text: '#222'
-    }*/
+    }
   };
 
   const savedBannerStyle = Settings.get('bannerStyle', 'classic');
@@ -1977,28 +1970,21 @@
         gradientTransform: 'rotate(90)'
         },
         $el('stop', { offset: '0%', 'stop-color': 'rgba(255, 255, 255, .6)' }),
-        $el('stop', { offset: '100%', 'stop-color': 'rgba(0, 0, 0, .6)' })
+        $el('stop', { offset: '100%', 'stop-color': 'rgba(0, 0, 0, .3)' })
       ),
       $el('linearGradient', {
         id: 'bannerGradientDark',
         gradientTransform: 'rotate(90)'
         },
-        $el('stop', { offset: '0%', 'stop-color': 'rgba(0, 0 ,0, .6)' }),
-        $el('stop', { offset: '100%', 'stop-color': 'rgba(0, 0, 0, .6)' })
+        $el('stop', { offset: '0%', 'stop-color': 'rgba(0, 0 ,0, .5)' }),
+        $el('stop', { offset: '100%', 'stop-color': 'rgba(0, 0, 0, .8)' })
       ),
       $el('linearGradient', {
         id: 'bannerGradientGold',
         gradientTransform: 'rotate(90)'
         },
         $el('stop', { offset: '0%', 'stop-color': 'rgba(255, 250, 210, .6)' }),
-        $el('stop', { offset: '100%', 'stop-color': 'rgba(120, 90, 0, .6)' })
-      ),
-      $el('linearGradient', {
-        id: 'bannerGradientMetal',
-        gradientTransform: 'rotate(90)'
-        },
-        $el('stop', { offset: '0%', 'stop-color': 'rgba(255, 250, 210, .6)' }),
-        $el('stop', { offset: '100%', 'stop-color': 'rgba(120, 90, 0, .6)' })
+        $el('stop', { offset: '100%', 'stop-color': 'rgba(160, 125, 30, .6)' })
       ),
       $el('linearGradient', {
         id: 'panelGradient',
@@ -2354,7 +2340,7 @@
       const padding = DAY_BANNER_HEIGHT_PADDING;
       if (isShortDay) {
         dayBannerText.textContent = DAY_BANNER_FMT.format(now);
-        if (['ja-JP', 'ko-KR', 'zh-CN', 'zh-TW', 'cs-CZ', 'ro-RO', 'sk-SK'].includes(LANG_LONG)) { // 'cs-CZ',
+        if (['ja-JP', 'ko-KR', 'zh-CN', 'zh-TW', 'cs-CZ', 'ro-RO', 'sk-SK'].includes(LANG_LONG)) {
           dayBannerText.setAttribute('y', 23.1 + (marginTop));
         } else {
           dayBannerText.setAttribute('y', 22.6 + marginTop);
@@ -2369,17 +2355,21 @@
         }
         if (LANG_LONG === 'el-GR') {
           dayBannerText.setAttribute('y', 22.6 + marginTop);
+        } else if (LANG_LONG === 'uk-UA') {
+          dayBannerText.setAttribute('y', 22.2 + marginTop);
         } else {
           dayBannerText.setAttribute('y', 23 + marginTop);
         }
         dayBannerBg.setAttribute('y', 18 - (padding / 2));
         dateText.setAttribute('y', 31 + (padding / 2) + DATE_TEXT_TOP);
-      } else  if (isLongDay) {
+      } else if (isLongDay) {
         dayBannerText.textContent = DAY_BANNER_FMT.format(now);
-        if (LANG_LONG === 'de-DE') {
-          dayBannerText.setAttribute('y', 26);
-        } else {
+        if (LANG_LONG === 'ru-RU') {
           dayBannerText.setAttribute('y', 25.5);
+        } else if (LANG_LONG === 'bn-BD') {
+          dayBannerText.setAttribute('y', 26.2);
+        } else {
+          dayBannerText.setAttribute('y', 26);
         }
         dayBannerBg.setAttribute('y', 21 - (padding / 2));
         dateText.setAttribute('y', 34 + (padding / 2) + DATE_TEXT_TOP);
