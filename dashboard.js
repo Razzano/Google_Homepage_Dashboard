@@ -302,6 +302,9 @@
       text: '#000',
       highlight: '#fff',
       highlightOpacity: 0.35
+    },
+    none: {
+      display: 'none',
     }
   };
 
@@ -2239,6 +2242,15 @@
     };
     const applyBannerStyle = () => {
       const style = BANNER_STYLES[bannerStyle];
+      if (bannerStyle === 'none') {
+        dayBannerBg.style.display = style.display;
+        dayBannerHighlight.style.display = style.display;
+        dayBannerText.style.display = style.display;
+        return;
+      }
+      dayBannerBg.style.display = '';
+      dayBannerHighlight.style.display = '';
+      dayBannerText.style.display = '';
       dayBannerBg.setAttribute('fill', style.background);
       dayBannerBg.setAttribute('stroke', style.border);
       dayBannerHighlight.setAttribute('fill', style.highlight);
