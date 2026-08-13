@@ -50,7 +50,7 @@
     'ro-RO', 'ru-RU', 'sk-SK', 'sv-SE', 'tr-TR', 'uk-UA', 'zh-CN', 'zh-TW'
   ];
   // For testing locales i.e. 'xxxx' returns 'xx-XX'.
-  const TEST_LOCALE = 'dede'; // Set to null for normal browser detection.
+  const TEST_LOCALE = null; // Set to null for normal browser detection.
   const stringUC = s => {
     if (s === null) return null;
     s = s.trim().toLowerCase();
