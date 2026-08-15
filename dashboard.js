@@ -276,50 +276,56 @@
     gold: {
       background: 'url(#bannerGradientGold)',
       border: '#666',
+      highlight: '#fff',
+      highlightOpacity: 0.35,
       font: '600 5px "Segoe UI", sans-serif',
       text: '#000',
-      highlight: '#fff',
-      highlightOpacity: 0.35
+      textShadow: '1px 1px #fff'
     },
     red: {
       background: 'url(#bannerGradientRed)',
       border: '#666',
+      highlight: '#fff',
+      highlightOpacity: 0.35,
       font: '400 5px "Segoe UI", sans-serif',
       text: '#fff',
-      highlight: '#fff',
-      highlightOpacity: 0.35
+      textShadow: '1px 1px #000'
     },
     green: {
       background: 'url(#bannerGradientGreen)',
       border: '#666',
+      highlight: '#fff',
+      highlightOpacity: 0.35,
       font: '400 5px "Segoe UI", sans-serif',
       text: '#fff',
-      highlight: '#fff',
-      highlightOpacity: 0.35
+      textShadow: '1px 1px #000'
     },
     blue: {
       background: 'url(#bannerGradientBlue)',
       border: '#666',
+      highlight: '#fff',
+      highlightOpacity: 0.35,
       font: '400 5px "Segoe UI", sans-serif',
       text: '#fff',
-      highlight: '#fff',
-      highlightOpacity: 0.35
+      textShadow: '1px 1px #000'
     },
     classic: {
       background: 'url(#bannerGradientClassic)',
       border: '#666',
+      highlight: '#fff',
+      highlightOpacity: 0.35,
       font: '600 5px "Segoe UI", sans-serif',
       text: '#000',
-      highlight: '#fff',
-      highlightOpacity: 0.35
+      textShadow: '1px 1px #fff'
     },
     dark: {
       background: 'url(#bannerGradientDark)',
       border: '#666',
+      highlight: '#fff',
+      highlightOpacity: 0.35,
       font: '400 5px "Segoe UI", sans-serif',
       text: '#fff',
-      highlight: '#fff',
-      highlightOpacity: 0.35
+      textShadow: '1px 1px #000'
     },
     none: {
       display: 'none',
@@ -1944,24 +1950,6 @@
       $el('stop', { offset: '55%', 'stop-color': '#8c8c8c' }),
       $el('stop', { offset: '100%', 'stop-color': '#4e4e4e' })
     ),
-    $el('radialGradient', {
-      id: 'faceGradient',
-      cx: '50%', cy: '50%', r: '50%',
-      gradientUnits: 'objectBoundingBox'
-      },
-      $el('stop', {
-        offset: '0%',
-        'stop-color': 'var(--face-inner)'
-      }),
-      $el('stop', {
-        offset: '70%',
-        'stop-color': '#f7f7f7'
-      }),
-      $el('stop', {
-        offset: '100%',
-        'stop-color': 'var(--face-outer)'
-      })
-    ),
     $el('linearGradient', {
       id: 'numeralGradient',
       gradientTransform: 'rotate(90)'
@@ -2017,6 +2005,24 @@
       },
       $el('stop', { offset: '0%', 'stop-color': '#fff' }),
       $el('stop', { offset: '100%', 'stop-color': '#4f4f4f' })
+    ),
+    $el('radialGradient', {
+      id: 'faceGradient',
+      cx: '50%', cy: '50%', r: '50%',
+      gradientUnits: 'objectBoundingBox'
+      },
+      $el('stop', {
+        offset: '0%',
+        'stop-color': 'var(--face-inner)'
+      }),
+      $el('stop', {
+        offset: '70%',
+        'stop-color': '#f7f7f7'
+      }),
+      $el('stop', {
+        offset: '100%',
+        'stop-color': 'var(--face-outer)'
+      })
     )
   );
 
@@ -2208,6 +2214,7 @@
       dayBannerHighlight.setAttribute('fill-opacity', style.highlightOpacity);
       dayBannerText.setAttribute('fill', style.text);
       dayBannerText.style.font = style.font;
+      dayBannerText.style.textShadow = style.textShadow;
     };
     const toggleBannerStyle = (e) => {
       const styles = Object.keys(BANNER_STYLES);
