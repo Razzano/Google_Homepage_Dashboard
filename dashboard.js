@@ -49,7 +49,7 @@
     'fr-FR', 'he-IL', 'hi-IN', 'hu-HU', 'it-IT', 'ja-JP', 'ko-KR', 'nl-NL', 'no-NO', 'pl-PL', 'pt-BR',
     'pt-PT', 'ro-RO', 'ru-RU', 'sk-SK', 'sv-SE', 'tr-TR', 'uk-UA', 'zh-CN', 'zh-TW'
   ];
-  // For testing locales i.e. 'xxxx' returns 'xx-XX'.
+  // For testing locales i.e. 'xxxx' returns 'xx-XX'. ==========================
   const TEST_LOCALE = null; // Set to null for normal browser detection.
   const stringUC = s => {
     if (s === null) return null;
@@ -62,7 +62,7 @@
     if (!LANGUAGE_COUNTRY.includes(s)) return console.log(`${s} is undefined`);
     return s;
   })();
-
+  // ===========================================================================
   const USER_LOCALE = Intl.DateTimeFormat().resolvedOptions().locale;
   const LANG_LONG = (LOCALE ?? USER_LOCALE);
   const LANG_SHORT = (LOCALE ?? USER_LOCALE).split('-')[0];
@@ -81,13 +81,9 @@
   const AMPM_FMT = new Intl.DateTimeFormat(LOCALE, {
     hour: 'numeric', hour12: true
   });
-  const SHORT_DAY_LOCALES = [
-    'ar', 'cs', 'da', 'el', 'en', 'es', 'fi', 'fr', 'he', 'hi', 'hu', 'it',
-    'ja', 'ko', 'nl', 'no', 'pl', 'pt', 'ro', 'sk', 'sv', 'tr', 'uk', 'zh'
-  ];
-  const LONG_DAY_LOCALES = [
-    'bn', 'de', 'ru'
-  ];
+  const SHORT_DAY_LOCALES = ['ar', 'cs', 'da', 'el', 'en', 'es', 'fi', 'fr', 'he', 'hi',
+    'hu', 'it', 'ja', 'ko', 'nl', 'no', 'pl', 'pt', 'ro', 'sk', 'sv', 'tr', 'uk', 'zh'];
+  const LONG_DAY_LOCALES = ['bn', 'de', 'ru'];
 
   const DAY_ABBR = ['Sun.','Mon.','Tue.','Wed.','Thu.','Fri.','Sat.'];
   const DAY_FULL = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
@@ -312,8 +308,8 @@
     classic: {
       background: 'url(#bannerGradientClassic)',
       border: '#666',
-      font: '400 5px "Segoe UI", sans-serif',
-      text: '#fff',
+      font: '600 5px "Segoe UI", sans-serif',
+      text: '#000',
       highlight: '#fff',
       highlightOpacity: 0.35
     },
@@ -1921,123 +1917,114 @@
     }
   };
 
-  const applyAnalogClock = () => {
-    if (!Settings.get('analogClock', true)) return;
-    let currentDay = -1;
-    let displayedSecondDeg = 0;
-    const date = new Date();
-    const smoothSecondHand = Settings.get('smoothSecondHand', true);
+  const createClockDefs = () => $el('defs', {
+    },
+    $el('linearGradient', {
+      id: 'bezelOuterGradient',
+      x1: '0%', y1: '0%',
+      x2: '0%', y2: '100%'
+      },
+      $el('stop', { offset: '0%', 'stop-color': '#ffffff' }),
+      $el('stop', { offset: '8%', 'stop-color': '#f3f3f3' }),
+      $el('stop', { offset: '18%', 'stop-color': '#c9c9c9' }),
+      $el('stop', { offset: '32%', 'stop-color': '#7a7a7a' }),
+      $el('stop', { offset: '50%', 'stop-color': '#4f4f4f' }),
+      $el('stop', { offset: '68%', 'stop-color': '#8d8d8d' }),
+      $el('stop', { offset: '84%', 'stop-color': '#d9d9d9' }),
+      $el('stop', { offset: '94%', 'stop-color': '#f5f5f5' }),
+      $el('stop', { offset: '100%', 'stop-color': '#7a7a7a' })
+    ),
+    $el('linearGradient', {
+      id: 'bezelInnerGradient',
+      x1: '0%', y1: '0%',
+      x2: '0%', y2: '100%'
+      },
+      $el('stop', { offset: '0%', 'stop-color': '#ffffff' }),
+      $el('stop', { offset: '20%', 'stop-color': '#d8d8d8' }),
+      $el('stop', { offset: '55%', 'stop-color': '#8c8c8c' }),
+      $el('stop', { offset: '100%', 'stop-color': '#4e4e4e' })
+    ),
+    $el('radialGradient', {
+      id: 'faceGradient',
+      cx: '50%', cy: '50%', r: '50%',
+      gradientUnits: 'objectBoundingBox'
+      },
+      $el('stop', {
+        offset: '0%',
+        'stop-color': 'var(--face-inner)'
+      }),
+      $el('stop', {
+        offset: '70%',
+        'stop-color': '#f7f7f7'
+      }),
+      $el('stop', {
+        offset: '100%',
+        'stop-color': 'var(--face-outer)'
+      })
+    ),
+    $el('linearGradient', {
+      id: 'numeralGradient',
+      gradientTransform: 'rotate(90)'
+      },
+      $el('stop', { offset: '0%', 'stop-color': 'var(--numeral-top)' }),
+      $el('stop', { offset: '100%', 'stop-color': 'var(--numeral-bottom)' })
+    ),
+    $el('linearGradient', {
+      id: 'bannerGradientClassic',
+      gradientTransform: 'rotate(90)'
+      },
+      $el('stop', { offset: '0%', 'stop-color': 'rgba(255, 255, 255, .3)' }),
+      $el('stop', { offset: '100%', 'stop-color': 'rgba(0, 0, 0, .3)' })
+    ),
+    $el('linearGradient', {
+      id: 'bannerGradientDark',
+      gradientTransform: 'rotate(90)'
+      },
+      $el('stop', { offset: '0%', 'stop-color': 'rgba(0, 0 ,0, .3)' }),
+      $el('stop', { offset: '100%', 'stop-color': 'rgba(0, 0, 0, .3)' })
+    ),
+    $el('linearGradient', {
+      id: 'bannerGradientGold',
+      gradientTransform: 'rotate(90)'
+      },
+      $el('stop', { offset: '0%', 'stop-color': 'rgba(255, 250, 210, .5)' }),
+      $el('stop', { offset: '100%', 'stop-color': 'rgba(160, 125, 30, .5)' })
+    ),
+    $el('linearGradient', {
+      id: 'bannerGradientRed',
+      gradientTransform: 'rotate(90)'
+      },
+      $el('stop', { offset: '0%', 'stop-color': 'rgba(250, 0, 0, .75' }),
+      $el('stop', { offset: '100%', 'stop-color': 'rgba(100, 0, 0, .75)' })
+    ),
+    $el('linearGradient', {
+      id: 'bannerGradientGreen',
+      gradientTransform: 'rotate(90)'
+      },
+      $el('stop', { offset: '0%', 'stop-color': 'rgba(0, 250, 0, .75' }),
+      $el('stop', { offset: '100%', 'stop-color': 'rgba(0, 100, 0, .75' })
+    ),
+    $el('linearGradient', {
+      id: 'bannerGradientBlue',
+      gradientTransform: 'rotate(90)'
+      },
+      $el('stop', { offset: '0%', 'stop-color': 'rgba(0, 0, 250, .75' }),
+      $el('stop', { offset: '100%', 'stop-color': 'rgba(0, 0, 100, .75' })
+    ),
+    $el('linearGradient', {
+      id: 'panelGradient',
+      gradientTransform: 'rotate(90)'
+      },
+      $el('stop', { offset: '0%', 'stop-color': '#fff' }),
+      $el('stop', { offset: '100%', 'stop-color': '#4f4f4f' })
+    )
+  );
+
+  const defs = createClockDefs();
+
+  const createClockFace = () => {
     const ticks = [];
     const hourNumbers = [];
-    const spacer3 = $el('span', {id: 'spacer3', class: 'spacerX', textContent: localizedString.spacerXText});
-    // =======================
-    // GRAPHICAL OBJECTS
-    // =======================
-    const defs = $el('defs', {
-      },
-      $el('linearGradient', {
-        id: 'bezelOuterGradient',
-        x1: '0%', y1: '0%',
-        x2: '0%', y2: '100%'
-        },
-        $el('stop', { offset: '0%', 'stop-color': '#ffffff' }),
-        $el('stop', { offset: '8%', 'stop-color': '#f3f3f3' }),
-        $el('stop', { offset: '18%', 'stop-color': '#c9c9c9' }),
-        $el('stop', { offset: '32%', 'stop-color': '#7a7a7a' }),
-        $el('stop', { offset: '50%', 'stop-color': '#4f4f4f' }),
-        $el('stop', { offset: '68%', 'stop-color': '#8d8d8d' }),
-        $el('stop', { offset: '84%', 'stop-color': '#d9d9d9' }),
-        $el('stop', { offset: '94%', 'stop-color': '#f5f5f5' }),
-        $el('stop', { offset: '100%', 'stop-color': '#7a7a7a' })
-      ),
-      $el('linearGradient', {
-        id: 'bezelInnerGradient',
-        x1: '0%', y1: '0%',
-        x2: '0%', y2: '100%'
-        },
-        $el('stop', { offset: '0%', 'stop-color': '#ffffff' }),
-        $el('stop', { offset: '20%', 'stop-color': '#d8d8d8' }),
-        $el('stop', { offset: '55%', 'stop-color': '#8c8c8c' }),
-        $el('stop', { offset: '100%', 'stop-color': '#4e4e4e' })
-      ),
-      $el('radialGradient', {
-        id: 'faceGradient',
-        cx: '50%', cy: '50%', r: '50%',
-        gradientUnits: 'objectBoundingBox'
-        },
-        $el('stop', {
-          offset: '0%',
-          'stop-color': 'var(--face-inner)'
-        }),
-        $el('stop', {
-          offset: '70%',
-          'stop-color': '#f7f7f7'
-        }),
-        $el('stop', {
-          offset: '100%',
-          'stop-color': 'var(--face-outer)'
-        })
-      ),
-      $el('linearGradient', {
-        id: 'numeralGradient',
-        gradientTransform: 'rotate(90)'
-        },
-        $el('stop', { offset: '0%', 'stop-color': 'var(--numeral-top)' }),
-        $el('stop', { offset: '100%', 'stop-color': 'var(--numeral-bottom)' })
-      ),
-      $el('linearGradient', {
-        id: 'bannerGradientClassic',
-        gradientTransform: 'rotate(90)'
-        },
-        $el('stop', { offset: '0%', 'stop-color': 'rgba(255, 255, 255, .6)' }),
-        $el('stop', { offset: '100%', 'stop-color': 'rgba(0, 0, 0, .3)' })
-      ),
-      $el('linearGradient', {
-        id: 'bannerGradientDark',
-        gradientTransform: 'rotate(90)'
-        },
-        $el('stop', { offset: '0%', 'stop-color': 'rgba(0, 0 ,0, .5)' }),
-        $el('stop', { offset: '100%', 'stop-color': 'rgba(0, 0, 0, .8)' })
-      ),
-      $el('linearGradient', {
-        id: 'bannerGradientGold',
-        gradientTransform: 'rotate(90)'
-        },
-        $el('stop', { offset: '0%', 'stop-color': 'rgba(255, 250, 210, .6)' }),
-        $el('stop', { offset: '100%', 'stop-color': 'rgba(160, 125, 30, .6)' })
-      ),
-      $el('linearGradient', {
-        id: 'bannerGradientRed',
-        gradientTransform: 'rotate(90)'
-        },
-        $el('stop', { offset: '0%', 'stop-color': '#cc0000' }),
-        $el('stop', { offset: '100%', 'stop-color': '#330000' })
-      ),
-      $el('linearGradient', {
-        id: 'bannerGradientGreen',
-        gradientTransform: 'rotate(90)'
-        },
-        $el('stop', { offset: '0%', 'stop-color': '#007f3f' }),
-        $el('stop', { offset: '100%', 'stop-color': '#004523' })
-      ),
-      $el('linearGradient', {
-        id: 'bannerGradientBlue',
-        gradientTransform: 'rotate(90)'
-        },
-        $el('stop', { offset: '0%', 'stop-color': '#008bd0' }),
-        $el('stop', { offset: '100%', 'stop-color': '#02549f' })
-      ),
-      $el('linearGradient', {
-        id: 'panelGradient',
-        gradientTransform: 'rotate(90)'
-        },
-        $el('stop', { offset: '0%', 'stop-color': '#fff' }),
-        $el('stop', { offset: '100%', 'stop-color': '#4f4f4f' })
-      )
-    );
-    // =======================
-    // CREATE SVG ELEMENTS
-    // =======================
     const bezelGroup = $el('g', {
       className: 'Analog-Bezel'
       },
@@ -2109,6 +2096,22 @@
         'dominant-baseline': 'middle'
       }));
     }
+    return {
+      bezelGroup,
+      clockFace,
+      ticks,
+      hourNumbers
+    };
+  };
+
+  const {
+    bezelGroup,
+    clockFace,
+    ticks,
+    hourNumbers
+  } = createClockFace();
+
+  const createClockHands = () => {
     const hourHand = $el('path', {
       className: 'Analog-Hour-Hand',
       d: `M 50 50 L 49.0 48 L 48.8 30 L 50 26 L 51.2 30 L 51.0 48 Z`
@@ -2134,6 +2137,16 @@
         points: `50,61 49.2,60.4 49.2,56.8 50,56 50.8,56.8 50.8,60.4`
       })
     );
+    return { hourHand, minuteHand, secondHand };
+  };
+
+  const {
+	   hourHand,
+	   minuteHand,
+	   secondHand
+  } = createClockHands();
+
+  const createHub = () => {
     const hubOuter = $el('circle', {
       className: 'Analog-HubOuter',
       cx: 50, cy: 50, r: 2.6
@@ -2150,6 +2163,17 @@
       className: 'Analog-HubHighlight',
       cx: 49.2, cy: 49.1, r: 0.32
     });
+    return { hubOuter, hubInner, hubPin, hubHighlight };
+  };
+
+  const {
+    hubOuter,
+    hubInner,
+    hubPin,
+    hubHighlight
+  } = createHub();
+
+  const createDayBanner = () => {
     const dayBannerBg = $el('rect', {
       id: 'dayBannerBg',
       rx: 2, ry: 2
@@ -2166,6 +2190,63 @@
       'text-anchor': 'middle',
       'dominant-baseline': 'middle'
     });
+	   const applyBannerStyle = () => {
+      const style = BANNER_STYLES[bannerStyle];
+      if (bannerStyle === 'none') {
+        dayBannerBg.style.display = style.display;
+        dayBannerBorder.style.display = style.display;
+        dayBannerHighlight.style.display = style.display;
+        dayBannerText.style.display = style.display;
+        return;
+      }
+      dayBannerBg.style.display = '';
+      dayBannerHighlight.style.display = '';
+      dayBannerText.style.display = '';
+      dayBannerBg.setAttribute('fill', style.background);
+      dayBannerBg.setAttribute('stroke', style.border);
+      dayBannerHighlight.setAttribute('fill', style.highlight);
+      dayBannerHighlight.setAttribute('fill-opacity', style.highlightOpacity);
+      dayBannerText.setAttribute('fill', style.text);
+      dayBannerText.style.font = style.font;
+    };
+    const toggleBannerStyle = (e) => {
+      const styles = Object.keys(BANNER_STYLES);
+      const currentIndex = styles.indexOf(bannerStyle);
+      if (e.button === 0 && e.ctrlKey) {
+        bannerStyle = styles[(currentIndex - 1 + styles.length) % styles.length];
+      } else if (e.button === 0 && e.shiftKey) {
+        bannerStyle = styles[(currentIndex - 1 + styles.length) % styles.length];
+      } else if (e.button === 0) {
+        bannerStyle = styles[(currentIndex + 1) % styles.length];
+      }
+      applyBannerStyle();
+    };
+    return {
+      dayBannerBg,
+      dayBannerBorder,
+      dayBannerHighlight,
+      dayBannerText,
+      applyBannerStyle,
+      toggleBannerStyle
+    }
+  };
+
+  const {
+    dayBannerBg,
+    dayBannerBorder,
+    dayBannerHighlight,
+    dayBannerText,
+    applyBannerStyle,
+    toggleBannerStyle
+  } = createDayBanner();
+
+  const applyAnalogClock = () => {
+    if (!Settings.get('analogClock', true)) return;
+    let currentDay = -1;
+    let displayedSecondDeg = 0;
+    const date = new Date();
+    const smoothSecondHand = Settings.get('smoothSecondHand', true);
+    const spacer3 = $el('span', {id: 'spacer3', class: 'spacerX', textContent: localizedString.spacerXText});
     const dateText = $el('text', {
       id: 'dateText',
       className: 'Analog-MonthDateText',
@@ -2225,15 +2306,7 @@
       x: 61.6, y: 106,
       width: 10, height: 10,
       title: localizedTitle.bannerImgTitle,
-      onclick: (e) => {
-        if (e.button === 0 && e.ctrlKey) {
-          toggleBannerStyle(e);
-        } else if (e.button === 0 && e.shiftKey) {
-          toggleBannerStyle(e);
-        } else if (e.button === 0) {
-          toggleBannerStyle(e);
-        }
-      }
+      onclick: (e) => toggleBannerStyle(e)
     });
     const panelRect = $el('rect', {
       x: 27, y: 105,
@@ -2252,6 +2325,7 @@
       anaCalImg,
       bannerImg
     );
+
     // =======================
     // ATTACH TO SVG
     // =======================
@@ -2290,37 +2364,6 @@
       const hidden = clockInfo.classList.toggle('hidden');
       dateTimeGroup.classList.toggle('hidden', !hidden);
       Settings.set('calendarInfo', !hidden);
-    };
-    const applyBannerStyle = () => {
-      const style = BANNER_STYLES[bannerStyle];
-      if (bannerStyle === 'none') {
-        dayBannerBg.style.display = style.display;
-        dayBannerBorder.style.display = style.display;
-        dayBannerHighlight.style.display = style.display;
-        dayBannerText.style.display = style.display;
-        return;
-      }
-      dayBannerBg.style.display = '';
-      dayBannerHighlight.style.display = '';
-      dayBannerText.style.display = '';
-      dayBannerBg.setAttribute('fill', style.background);
-      dayBannerBg.setAttribute('stroke', style.border);
-      dayBannerHighlight.setAttribute('fill', style.highlight);
-      dayBannerHighlight.setAttribute('fill-opacity', style.highlightOpacity);
-      dayBannerText.setAttribute('fill', style.text);
-      dayBannerText.style.font = style.font;
-    };
-    const toggleBannerStyle = (e) => {
-      const styles = Object.keys(BANNER_STYLES);
-      const currentIndex = styles.indexOf(bannerStyle);
-      if (e.button === 0 && e.ctrlKey) {
-        bannerStyle = styles[(currentIndex - 1 + styles.length) % styles.length];
-      } else if (e.button === 0 && e.shiftKey) {
-        bannerStyle = styles[(currentIndex - 1 + styles.length) % styles.length];
-      } else if (e.button === 0) {
-        bannerStyle = styles[(currentIndex + 1) % styles.length];
-      }
-      applyBannerStyle();
     };
     // =======================
     // NON SVG
@@ -2386,7 +2429,6 @@
       if (!$id('analogClockContainer')) return;
       const smoothSecondHand = Settings.get('smoothSecondHand', true);
       const now = new Date();
-      const day = now.getDay();
       const seconds = smoothSecondHand ? now.getSeconds() + now.getMilliseconds() / 1000 : now.getSeconds();
       const secondDeg = seconds * 6;
       const minuteDeg = now.getMinutes() * 6 + seconds * 0.1;
@@ -2407,13 +2449,10 @@
         } else {
           dayBannerText.textContent = DAY_BANNER_FMT.format(now);
         }
-        if (['ja-JP', 'ko-KR', 'zh-CN', 'zh-TW', 'cs-CZ', 'ro-RO', 'sk-SK'].includes(LANG_LONG)) {
-          dayBannerText.setAttribute('y', 23.1 + (marginTop));
-        } else {
-          dayBannerText.setAttribute('y', 22.6 + marginTop);
-        }
         if (LANG_LONG === 'el-GR') {
           dayBannerText.setAttribute('y', 22.6 + marginTop);
+        } else if (LANG_LONG === 'hi-IN') {
+          dayBannerText.setAttribute('y', 23.3);
         } else {
           dayBannerText.setAttribute('y', 23 + marginTop);
         }
@@ -2424,7 +2463,7 @@
         if (LANG_LONG === 'ru-RU') {
           dayBannerText.setAttribute('y', 25.5);
         } else if (LANG_LONG === 'bn-BD') {
-          dayBannerText.setAttribute('y', 26.2);
+          dayBannerText.setAttribute('y', 26.4);
         } else {
           dayBannerText.setAttribute('y', 26);
         }
@@ -2436,7 +2475,7 @@
       const bgX = (100 - bgWidth) / 2;
       dayBannerBg.setAttribute('width', bgWidth + 1);
       dayBannerBg.setAttribute('x', bgX);
-      dayBannerBg.setAttribute('height', (8.5 + padding));
+      dayBannerBg.setAttribute('height', 8.5 + padding);
       dateText.textContent = DATE_FMT.format(now);
       const parts = TIME_FMT.formatToParts(now);
       timeText.textContent = parts
