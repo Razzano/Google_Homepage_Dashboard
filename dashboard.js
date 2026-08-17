@@ -60,12 +60,25 @@
     }
   };
 
+  const localeTestingUnlocked = Settings.get('localeTestingUnlocked', false);
+
   const USER_LOCALE = Intl.DateTimeFormat().resolvedOptions().locale;
-  const testingLocale = Settings.get('testingLocale', false);
+
   let testLocaleIndex = Settings.get('testLocaleIndex', 0);
-  const LOCALE = testingLocale
+
+  const LOCALE = localeTestingUnlocked
     ? LANGUAGE_COUNTRY[testLocaleIndex]
     : USER_LOCALE;
+
+  const TESTING_LOCALE_PIN_HASH = '9d1247a5806e85493ef1eef4e88fff16a16ccbfd5aee1bf18293930de1393778';
+
+  const hashPIN = async (pin) => {
+    const data = new TextEncoder().encode(pin);
+    const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+    return Array.from(new Uint8Array(hashBuffer))
+      .map(b => b.toString(16).padStart(2, '0'))
+      .join('');
+  };
 
   const getLocaleName = (locale) => {
     const [lang, region] = locale.split('-');
@@ -79,7 +92,7 @@
   const toggleTestLocale = (e) => {
     if (e.button !== 0) return;
     const currentIndex = testLocaleIndex;
-    if (e.ctrlKey || e.shiftKey) {
+    if (e.shiftKey) {
       testLocaleIndex =
         (currentIndex - 1 + LANGUAGE_COUNTRY.length) % LANGUAGE_COUNTRY.length;
     } else {
@@ -87,14 +100,73 @@
         (currentIndex + 1) % LANGUAGE_COUNTRY.length;
     }
     Settings.set('testLocaleIndex', testLocaleIndex);
-    Settings.set('testingLocale', true);
     location.reload();
   };
 
-  const toggleTestingLocale = () => {
-    const testing = Settings.get('testingLocale', false);
-    Settings.set('testingLocale', !testing);
-    location.reload();
+  const showTestingLocalePIN = () => {
+    if ($id('testingLocalePINPopup')) return;
+    const overlay = document.createElement('div');
+    overlay.id = 'testingLocalePINPopup';
+    overlay.innerHTML = `
+      <div class="testing-locale-pin-box">
+        <div class="testing-locale-pin-title">Testing Locale</div>
+        <input
+          id="testingLocalePINInput"
+          type="password"
+          inputmode="numeric"
+          maxlength="20"
+          autocomplete="off"
+          placeholder="Enter PIN"
+        >
+        <div id="testingLocalePINError" class="testing-locale-pin-error"></div>
+        <div class="testing-locale-pin-buttons">
+          <button id="testingLocalePINCancel">Cancel</button>
+          <button id="testingLocalePINOK">OK</button>
+        </div>
+      </div>
+    `;
+    document.body.appendChild(overlay);
+    const input = $id('testingLocalePINInput');
+    const error = $id('testingLocalePINError');
+    const ok = $id('testingLocalePINOK');
+    const cancel = $id('testingLocalePINCancel');
+    const close = () => {
+      overlay.remove();
+    };
+    const verifyPIN = async () => {
+      const pin = input.value.trim();
+      if (!pin) {
+        error.textContent = 'Enter PIN';
+        input.focus();
+        return;
+      }
+      const enteredHash = await hashPIN(pin);
+      if (enteredHash === TESTING_LOCALE_PIN_HASH) {
+        Settings.set('localeTestingUnlocked', true);
+        close();
+        location.reload();
+      } else {
+        error.textContent = 'Incorrect PIN';
+        input.select();
+        input.focus();
+      }
+    };
+    ok.addEventListener('click', verifyPIN);
+    cancel.addEventListener('click', close);
+    input.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        verifyPIN();
+      } else if (e.key === 'Escape') {
+        close();
+      }
+    });
+    // Clicking outside the box closes it
+    overlay.addEventListener('click', (e) => {
+      if (e.target === overlay) {
+        close();
+      }
+    });
+    input.focus();
   };
 
   // ===========================================================================
@@ -2312,14 +2384,14 @@
       id: 'themeImg',
       className: 'ClockThemeToggle',
       href: ICONS.sun74,
-      x: 26, y: 106,
+      x: 21, y: 106,
       width: 10, height: 10,
       title: localizedTitle.themeImgTitle
     });
     const secondHandImg = $el('image', {
       id: 'clockImg',
       href: ICONS.clock74,
-      x: 38.2, y: 106,
+      x: 33.2, y: 106,
       width: 10, height: 10,
       title: localizedTitle.secondHandImgTitle
     });
@@ -2327,7 +2399,7 @@
       id: 'anaCalImg',
       className: 'scaler-info',
       href: ICONS.face74,
-      x: 50.4, y: 106,
+      x: 45.4, y: 106,
       width: 10, height: 10,
       title: localizedTitle.anaCalImgTitle,
       onclick: () => toggleCalendarInfo()
@@ -2336,36 +2408,35 @@
       id: 'bannerImg',
       className: 'scaler-info',
       href: ICONS.banner74,
-      x: 62.6, y: 106,
+      x: 57.6, y: 106,
       width: 10, height: 10,
       title: localizedTitle.bannerImgTitle,
       onclick: (e) => toggleBannerStyle(e)
     });
-	   const testingImg = $el('image', {
-      id: 'testingImg',
-      className: 'scaler-info',
-      href: ICONS.testing74,
-      x: 77, y: 106,
-      width: 10, height: 10,
-      title: 'Testing Mode',
-      onclick: (e) => toggleTestingLocale(e)
-    });
     const localeImg = $el('image', {
       id: 'localeImg',
-      className: 'scaler-info',
+      className: 'LocaleToggle',
       href: ICONS.search74,
-      x: 89.2, y: 106,
+      x: 69.8, y: 106,
       width: 10, height: 10,
-      title: getLocaleName(LOCALE),
-      onclick: (e) => toggleTestLocale(e)
+      title: localeTestingUnlocked ? getLocaleName(LOCALE) : 'Testing Only',
+      onclick: (e) => {
+        if (!localeTestingUnlocked) {
+          showTestingLocalePIN();
+          return;
+        }
+        if (e.ctrlKey) {
+          Settings.set('localeTestingUnlocked', false);
+          Settings.set('testLocaleIndex', 0);
+          location.reload();
+          return;
+        }
+        toggleTestLocale(e);
+      }
     });
-    localeImg.classList.toggle(
-      'disabled',
-      !Settings.get('testingLocale', false)
-    );
     const panelRect = $el('rect', {
-      x: 25, y: 105,
-      width: 49, height: 12,
+      x: 19, y: 105,
+      width: 62.5, height: 12,
       rx: 2,
       fill: 'url(#panelGradient)',
       stroke: '#555',
@@ -2379,10 +2450,8 @@
       secondHandImg,
       anaCalImg,
       bannerImg,
-      //testingImg,
-      //localeImg
+      localeImg
     );
-
     // =======================
     // ATTACH TO SVG
     // =======================
@@ -3544,6 +3613,68 @@
       position: absolute;
       top: 0px;
       z-index: 99;
+    }
+  `);
+
+  GM_addStyle(`
+    #testingLocalePINPopup {
+      position: fixed;
+      inset: 0;
+      z-index: 999999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0, 0, 0, 0.45);
+    }
+    .testing-locale-pin-box {
+      width: 220px;
+      padding: 16px;
+      border-radius: 10px;
+      background: #eee;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.45);
+      font-family: Arial, sans-serif;
+      text-align: center;
+      color: #000;
+    }
+    .testing-locale-pin-title {
+      margin-bottom: 12px;
+      font-size: 15px;
+      font-weight: bold;
+      color: #000;
+    }
+    #testingLocalePINInput {
+      box-sizing: border-box;
+      width: 100%;
+      padding: 7px 9px;
+      border: 1px solid #aaa;
+      border-radius: 5px;
+      outline: none;
+      text-align: center;
+      font-size: 15px;
+      letter-spacing: 3px;
+    }
+    #testingLocalePINInput:focus {
+      border-color: #666;
+    }
+    .testing-locale-pin-error {
+      height: 18px;
+      margin-top: 5px;
+      font-size: 11px;
+      color: #c00;
+    }
+    .testing-locale-pin-buttons {
+      display: flex;
+      justify-content: flex-end;
+      gap: 7px;
+      margin-top: 5px;
+      color: #000;
+    }
+    .testing-locale-pin-buttons button {
+      padding: 5px 12px;
+      border: 1px solid #aaa;
+      border-radius: 5px;
+      cursor: pointer;
+      color: #000;
     }
   `);
 
