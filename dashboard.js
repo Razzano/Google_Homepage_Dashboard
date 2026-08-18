@@ -1759,7 +1759,7 @@
       transform: 'translateX(-50%)'
     };
     GM_addStyle(`
-      img[alt='Google'], #hplogo, #logo, .k1zIA img, .k1zIA svg,
+      img[alt='Google'], #hplogo, #logo, .k1zIA img, .k1zIA svg, svg.ESTs9d,
       #${STRING_ID.bodyIdText} #LS8OJ img,
       #${STRING_ID.bodyIdText} #LS8OJ .k1zIA {
         display: ${num === 0 ? 'block' : 'none'} !important;
