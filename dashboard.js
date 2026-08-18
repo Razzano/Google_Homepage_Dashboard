@@ -3082,7 +3082,8 @@
     #${STRING_ID.bodyIdText} #gbqfbb,
     #${STRING_ID.bodyIdText} div.k1zIA.kKvsb > div.IzOpfd,
     #${STRING_ID.bodyIdText} div.o3j99.qarstb > div:nth-child(2),
-    #${STRING_ID.bodyIdText} a.w5hRs {
+    #${STRING_ID.bodyIdText} a.w5hRs,
+    #${STRING_ID.bodyIdText} div.g55egf > a {
       display: none !important;
     }
     #${STRING_ID.bodyIdText} #gb > div.gb_Q.gb_6.gb_Vf.gb_3f {
@@ -3095,7 +3096,8 @@
     #${STRING_ID.bodyIdText} header a > svg {
       fill: #FFF !important;
     }
-    #${STRING_ID.bodyIdText} > div.L3eUgb > div:nth-child(13) > div {
+    #${STRING_ID.bodyIdText} > div.L3eUgb > div:nth-child(13) > div,
+    #${STRING_ID.bodyIdText} div.Ij8KCd {
       background: transparent !important;
     }
     #${STRING_ID.bodyIdText} div.KxwPGc.SSwjIe {
