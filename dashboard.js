@@ -2374,7 +2374,7 @@
     ]);
     const themeImg = $el('image', {
       id: 'themeImg',
-      className: 'ClockThemeToggle',
+      className: 'controls-img',
       href: ICONS.onbulb74,
       x: 21, y: 106,
       width: 10, height: 10,
@@ -2382,6 +2382,7 @@
     });
     const secondHandImg = $el('image', {
       id: 'clockImg',
+      className: 'controls-img',
       href: ICONS.clock74,
       x: 33.2, y: 106,
       width: 10, height: 10,
@@ -2389,7 +2390,7 @@
     });
     const anaCalImg = $el('image', {
       id: 'anaCalImg',
-      className: 'scaler-info',
+      className: 'controls-img',
       href: ICONS.face74,
       x: 45.4, y: 106,
       width: 10, height: 10,
@@ -2398,7 +2399,7 @@
     });
     const bannerImg = $el('image', {
       id: 'bannerImg',
-      className: 'scaler-info',
+      className: 'controls-img',
       href: ICONS.banner74,
       x: 57.6, y: 106,
       width: 10, height: 10,
@@ -2407,7 +2408,7 @@
     });
     const localeImg = $el('image', {
       id: 'localeImg',
-      className: 'LocaleToggle',
+      className: 'controls-img',
       href: ICONS.test74,
       x: 69.8, y: 106,
       width: 10, height: 10,
@@ -2427,6 +2428,8 @@
       }
     });
     const panelRect = $el('rect', {
+      id: 'controlsPanel',
+      className: 'controls-panel',
       x: 19, y: 105,
       width: 62.5, height: 12,
       rx: 2,
@@ -2570,7 +2573,7 @@
         if (LANG_LONG === 'ar-SA' || LANG_LONG === 'el-GR') {
           dayBannerText.setAttribute('y', 22.6 + marginTop);
         } else if (LANG_LONG === 'hi-IN') {
-          dayBannerText.setAttribute('y', 23.3);
+          dayBannerText.setAttribute('y', 23);
         } else {
           dayBannerText.setAttribute('y', 23 + marginTop);
         }
@@ -2581,7 +2584,7 @@
         if (LANG_LONG === 'ru-RU') {
           dayBannerText.setAttribute('y', 25.5);
         } else if (LANG_LONG === 'bn-BD') {
-          dayBannerText.setAttribute('y', 26.4);
+          dayBannerText.setAttribute('y', 25.6);
         } else {
           dayBannerText.setAttribute('y', 26);
         }
@@ -3322,6 +3325,9 @@
     #controlsGroup > image:hover {
       opacity: 1;
       filter: drop-shadow(1px 1px 3px #000);
+    }
+    .controls-img {
+      opacity: 1;
     }
   `);
 
