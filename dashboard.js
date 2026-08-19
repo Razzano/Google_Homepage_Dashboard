@@ -156,7 +156,7 @@
         close();
       }
     });
-    input.focus();
+    $id('testingLocalePINInput').focus();
   };
 
   // ===========================================================================
@@ -3139,7 +3139,7 @@
       align-items: center;
       display: flex;
       flex-direction: column;
-      font-family: system-ui, sans-serif;
+      font-family: "Segoe UI", sans-serif;
       left: 50px;
       position: absolute;
       top: 100px;
@@ -3170,7 +3170,7 @@
       filter: drop-shadow(0px 0px 2px #000);
     }
     .Analog-Number {
-      font-family: system-ui, sans-serif;
+      font-family: "Segoe UI", sans-serif;
       font-size: 8px;
       font-weight: 500;
       paint-order: stroke fill;
@@ -3457,7 +3457,7 @@
     }
     #controlContainer > button,
     #controlContainer > input {
-      font-family: system-ui, sans-serif;
+      font-family: "Segoe UI", sans-serif;
       font-size: 18px;
     }
     #controlContainer > button:not(#analogClockBtn):not(#hostToggler):not(#wallpaperToggler):not(#panelToggler):not(#digitalCalBtn):hover {
@@ -3566,7 +3566,7 @@
       align-items: center;
       box-sizing: border-box;
       display: flex;
-      font-family: system-ui, sans-serif;
+      font-family: "Segoe UI", sans-serif;
       font-size: 18px;
       pointer-events: auto;
       user-select: none;
@@ -3618,69 +3618,69 @@
 
   GM_addStyle(`
     #testingLocalePINPopup {
-      position: fixed;
-      inset: 0;
-      z-index: 999999;
-      display: flex;
       align-items: center;
-      justify-content: center;
       background: rgba(0, 0, 0, 0.45);
+      display: flex;
+      inset: 0;
+      justify-content: center;
+      position: fixed;
+      z-index: 999999;
     }
     .testing-locale-pin-box {
-      width: 220px;
-      padding: 16px;
-      border-radius: 10px;
       background: #eee;
+      border-radius: 10px;
       box-shadow: 0 4px 20px rgba(0, 0, 0, 0.45);
-      font-family: Arial, sans-serif;
-      text-align: center;
       color: #000;
+      font-family: "Segoe UI", sans-serif;
+      padding: 16px;
+      text-align: center;
+      width: 220px;
     }
     .testing-locale-pin-title {
-      background: url('${ICONS.test32}') no-repeat;
       align-content: center;
-      margin-bottom: 12px;
-      height: 32px;
-      font-size: 15px;
-      font-weight: bold;
+      background: url('${ICONS.test32}') no-repeat;
       color: #000;
+      font-size: 16px;
+      font-weight: bold;
+      height: 32px;
+      margin-bottom: 8px;
     }
     #testingLocalePINInput {
       background: #3b3b3b;
-      box-sizing: border-box;
-      width: 100%;
-      padding: 7px 9px;
       border: 1px solid #aaa;
       border-radius: 5px;
-      outline: none;
-      text-align: center;
+      box-sizing: border-box;
+      color: #fff;
       font-size: 15px;
       letter-spacing: 3px;
-      color: #fff;
+      outline: none;
+      padding: 7px 9px;
+      text-align: center;
+      width: 100%;
     }
     #testingLocalePINInput:focus {
       border-color: #666;
     }
     .testing-locale-pin-error {
-      height: 20px;
-      margin-top: 5px;
+      color: #c00;
       font-size: 14px;
       font-weight: 600;
-      color: #c00;
+      height: 20px;
+      margin-top: 5px;
     }
     .testing-locale-pin-buttons {
-      display: flex;
-      justify-content: flex-end;
-      gap: 7px;
-      margin-top: 5px;
       color: #000;
+      display: flex;
+      gap: 7px;
+      justify-content: flex-end;
+      margin-top: 5px;
     }
     .testing-locale-pin-buttons button {
-      padding: 5px 12px;
       border: 1px solid #aaa;
       border-radius: 5px;
       cursor: pointer;
       color: #000;
+      padding: 5px 12px;
     }
     .testing-locale-pin-buttons button:hover {
       background: #3b3b3b;
