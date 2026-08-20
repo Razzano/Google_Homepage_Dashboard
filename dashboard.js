@@ -117,7 +117,7 @@
       </div>
     `;
     document.body.appendChild(overlay);
-    const input = $id('testingLocalePINInput');
+    const inp = $id('testingLocalePINInput');
     const error = $id('testingLocalePINError');
     const ok = $id('testingLocalePINOK');
     const cancel = $id('testingLocalePINCancel');
@@ -125,10 +125,10 @@
       overlay.remove();
     };
     const verifyPIN = async () => {
-      const pin = input.value.trim();
+      const pin = inp.value.trim();
       if (!pin) {
         error.textContent = 'Enter PIN';
-        input.focus();
+        inp.focus();
         return;
       }
       const enteredHash = await hashPIN(pin);
@@ -138,13 +138,13 @@
         location.reload();
       } else {
         error.textContent = 'Incorrect PIN';
-        input.select();
-        input.focus();
+        inp.select();
+        inp.focus();
       }
     };
     ok.addEventListener('click', verifyPIN);
     cancel.addEventListener('click', close);
-    input.addEventListener('keydown', (e) => {
+    inp.addEventListener('keydown', (e) => {
       if (e.key === 'Enter') {
         verifyPIN();
       } else if (e.key === 'Escape') {
@@ -156,7 +156,7 @@
         close();
       }
     });
-    $id('testingLocalePINInput').focus();
+    inp.focus();
   };
 
   // ===========================================================================
@@ -2584,7 +2584,7 @@
         if (LANG_LONG === 'ru-RU') {
           dayBannerText.setAttribute('y', 25.5);
         } else if (LANG_LONG === 'bn-BD') {
-          dayBannerText.setAttribute('y', 25.6);
+          dayBannerText.setAttribute('y', 25.8);
         } else {
           dayBannerText.setAttribute('y', 26);
         }
@@ -3110,7 +3110,7 @@
       float: right !important;
     }
     #${STRING_ID.bodyIdText} g-popup > div.CcNe6e > div {
-      background: #2A3A4B !important;
+      background: rgba(0, 0, 0, .2) !important;
       border-radius: 6px !important;
       padding: 8px 16px !important;
     }
@@ -3118,7 +3118,9 @@
       fill: #FFF !important;
     }
     #${STRING_ID.bodyIdText} > div.plsC5e.RqyYHe > div.acUsEb.Q6KTif.KEY6ib > form > div:nth-child(1) > div > div.RNNXgb,
-    #${STRING_ID.bodyIdText} div.L3eUgb input.gNO89b {
+    #${STRING_ID.bodyIdText} div.L3eUgb input.gNO89b,
+    #${STRING_ID.bodyIdText} form center > input[type="submit"],
+    #${STRING_ID.bodyIdText} > div.plsC5e.RqyYHe div.RNNXgb div.bvUkz {
       background: rgba(0, 0, 0, .2) !important;
     }
     #${STRING_ID.bodyIdText} #APjFqb {
