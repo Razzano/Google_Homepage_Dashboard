@@ -35,20 +35,14 @@
   // ===========================================================================
 
   // Adjust Positioning of Clock Elements ======================================
-  const BASE_SIZE = 360; // Clock Diameter
-  const DAY_BANNER_WIDTH_PADDING = 2; // 0 default, 2 move left 2 & right 2
-  const DAY_BANNER_HEIGHT_PADDING = 0; // 0 default, 2 move top 2 & bottom 2
-  const DAY_BANNER_TEXT_TOP = 0; // 0 default, 2 move down 2, -2 move up 2
-  const DATE_TEXT_TOP = 0; // 0 default, 2 move down 2, -2 move up 2
-  const TIME_TEXT_TOP = 0; // 0 default, 2 move down 2, -2 move up 2
-  const AMPM_TEXT_TOP = 0; // 0 default, 2 move down 2, -2 move up 2
+  const BASE_SIZE = 360;                // Clock diameter
+  const DAY_BANNER_WIDTH_PADDING = 2;   // 0 default, +2 expands left/right
+  const DAY_BANNER_HEIGHT_PADDING = 0;  // 0 default, +2 expands top/bottom
+  const DAY_BANNER_TEXT_TOP = 0;        // +2 down, -2 up
+  const DATE_TEXT_TOP = 0;              // +2 down, -2 up
+  const TIME_TEXT_TOP = 0;              // +2 down, -2 up
+  const AMPM_TEXT_TOP = 0;              // +2 down, -2 up
   // ===========================================================================
-
-  const LANGUAGE_COUNTRY = [
-    'ar-SA', 'bn-BD', 'cs-CZ', 'da-DK', 'de-DE', 'el-GR', 'en-US', 'es-ES', 'es-MX', 'fi-FI', 'fr-CA',
-    'fr-FR', 'he-IL', 'hi-IN', 'hu-HU', 'it-IT', 'ja-JP', 'ko-KR', 'nl-NL', 'no-NO', 'pl-PL', 'pt-BR',
-    'pt-PT', 'ro-RO', 'ru-RU', 'sk-SK', 'sv-SE', 'tr-TR', 'uk-UA', 'zh-CN', 'zh-TW'
-  ];
 
   const Settings = {
     get(key, fallback) {
@@ -59,6 +53,12 @@
       return value;
     }
   };
+
+  const LANGUAGE_COUNTRY = [
+    'ar-SA', 'bn-BD', 'cs-CZ', 'da-DK', 'de-DE', 'el-GR', 'en-US', 'es-ES', 'es-MX', 'fi-FI', 'fr-CA',
+    'fr-FR', 'he-IL', 'hi-IN', 'hu-HU', 'it-IT', 'ja-JP', 'ko-KR', 'nl-NL', 'no-NO', 'pl-PL', 'pt-BR',
+    'pt-PT', 'ro-RO', 'ru-RU', 'sk-SK', 'sv-SE', 'tr-TR', 'uk-UA', 'zh-CN', 'zh-TW'
+  ];
 
   const localeTestingUnlocked = Settings.get('localeTestingUnlocked', false);
   const USER_LOCALE = Intl.DateTimeFormat().resolvedOptions().locale;
@@ -179,8 +179,8 @@
     hour: 'numeric', hour12: true
   });
   const SHORT_DAY_LOCALES = ['ar', 'cs', 'da', 'el', 'en', 'es', 'fi', 'fr', 'he', 'hi',
-    'hu', 'it', 'ja', 'ko', 'nl', 'no', 'pl', 'pt', 'ro', 'sk', 'sv', 'tr', 'uk', 'zh'];
-  const LONG_DAY_LOCALES = ['bn', 'de', 'ru'];
+    'hu', 'it', 'ja', 'ko', 'nl', 'no', 'pl', 'ro', 'sk', 'sv', 'tr', 'uk', 'zh'];
+  const LONG_DAY_LOCALES = ['bn', 'de', 'pt', 'ru'];
   const DAY_ABBR = ['Sun.','Mon.','Tue.','Wed.','Thu.','Fri.','Sat.'];
   const DAY_FULL = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
   const MONTH_ABBR = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
@@ -343,14 +343,14 @@
     analog: {
       animationId: null,
       intervalId: null,
-      running: false
+      running: false,
     },
     wallpaper: {
       timer: null,
-      style: null
+      style: null,
     },
     digital: {
-      interval: null
+      interval: null,
     }
   };
 
@@ -366,7 +366,7 @@
       highlightOpacity: 0.35,
       font: '600 5px "Segoe UI", sans-serif',
       text: '#000',
-      textShadow: '1px 1px #ddd'
+      textShadow: '1px 1px #ddd',
     },
     red: {
       background: 'url(#bannerGradientRed)',
@@ -375,7 +375,7 @@
       highlightOpacity: 0.35,
       font: '400 5px "Segoe UI", sans-serif',
       text: '#fff',
-      textShadow: '1px 1px #000'
+      textShadow: '1px 1px #000',
     },
     green: {
       background: 'url(#bannerGradientGreen)',
@@ -384,7 +384,7 @@
       highlightOpacity: 0.35,
       font: '400 5px "Segoe UI", sans-serif',
       text: '#fff',
-      textShadow: '1px 1px #000'
+      textShadow: '1px 1px #000',
     },
     blue: {
       background: 'url(#bannerGradientBlue)',
@@ -393,7 +393,7 @@
       highlightOpacity: 0.35,
       font: '400 5px "Segoe UI", sans-serif',
       text: '#fff',
-      textShadow: '1px 1px #000'
+      textShadow: '1px 1px #000',
     },
     classic: {
       background: 'url(#bannerGradientClassic)',
@@ -402,7 +402,7 @@
       highlightOpacity: 0.35,
       font: '600 5px "Segoe UI", sans-serif',
       text: '#000',
-      textShadow: '1px 1px #fff'
+      textShadow: '1px 1px #fff',
     },
     dark: {
       background: 'url(#bannerGradientDark)',
@@ -411,7 +411,7 @@
       highlightOpacity: 0.35,
       font: '400 5px "Segoe UI", sans-serif',
       text: '#fff',
-      textShadow: '1px 1px #000'
+      textShadow: '1px 1px #000',
     },
     none: {
       display: 'none',
@@ -444,7 +444,7 @@
     panel32: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACEAAAAgCAYAAACcuBHKAAAB1klEQVR4AbxXbbKDIAzM9kavd2lP05+epr2LPZJvFwQRPwYt0skCCTG7pNqxNwuf7vuwrh/agXwjtxfR9W+zgRijTSbyOV6zm6kDZg/H+7qbBbhANoQ9zdmWcxUPcIFsCHua/Ra7/32wE1TkA24chsHNW0P9/eFNEVt07eJehNojkBcAR5p8gcurzYsgi9qcg+EmFkX8xKaOCSwCHO9kHREkz7son+EiiyIAGDBHUYUKSV5E15sJLBhPIF9g7GrzIiqwAPMuAiiuWiZCN53AssBYXL7AmOvi2LUznSwTQSIVz8FwmUmswGxgeYhiEbz+J8sPID8UbCYiEK7NxSIAXPYIl4nQTSfwGLGN8gXGSgzYPkSZiBKWvRyJFZizdog2Iki+ZwsRAPby3X2xlwAcv34uQi0LWGMKe5or7s9FrBVuENsXoV+5HBeI2hYhchLqbg6g69/G3aLeMIkQaQpyiJxTtOineWfXsarxf0fiiCQgCS+WIefsnBecOsEdAO4RBEBv2wDEPOD4Oq88idBjl4KZADhOBox+mnd2PZXV14Fn4k9LFacHIJ6abnwNdOsqA543e/19WEvglJmE5MhSit31xI/4/dfxurMbGx1Zv7hClHyO1+wfAAD//wq8t+QAAAAGSURBVAMAVWZkK6vGdI8AAAAASUVORK5CYII=',
     sun74: 'data:image/png;base64,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',
     test32: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAACNklEQVR4AayUQU4CQRREEWNkwW08B+xw5128Dzu4AKdw5ylmQwgJzjPWpLrnd08zaKz831X1fxcDmeVixt9ms7lFmLFqMSvAnItKMw8FOBwOC1Ba3sIXA/CI8wVwIOd1RgM6q0actDCABlQx931HdWy32wVwjt69fX/7434rvWMUQAMycQb9ed2j9X/NDPCB/IyWBHAD3y3A9AjYAbTD74BLAhyPxyfIKeCLMDWHzhxVSAJAysB3C+CE77ePV+nivKLhcY4dAA6d6hgFcNF7hr8+3y/ORT0evJEWcaMA+XfEULQQXwT8oDSD5kgCsNBF+vyRwoHoAnjfEc26jj8JAJGDR5pzOk+FqM1qx5JEgkjV0gXSqSUPO0s6mjD5BFgCGKBGKIWIvDk3BOBlAXKDn2sh3FfruQPIMwQQMVWjEBE3tUf6EICXBZBQq36h97UZadwBdB4CiGitXAxa/SXfkh+QkJv+44J8J2fdR21+ApgZvgf6ALXZJEBk1BIujnT4GjSvWVXNJAEgu657oTq0BI4FgL4Vmo92jwKcTqdry2JCRCjNEiLaPQqAkSW8LAA9gAf0NRCqpEfzSYDIkC/DA+B3u90zoHfcEyIJ4IO8LIAv9p4Q5/P5Cugd+HwXZwdenZMAkPkgZ4DWCl1Qm5NnFIBLNKgKt1qtXqkOfiPAOXr3+g40/ICeEGEAxHxwv99f4AB6BDSA13U4P3tfDOCmUs9vBJR05xUCP5D2UAAtqVXXFEIc5x8AAAD//z/KxQUAAAAGSURBVAMAoWhxZpeEA0wAAAAASUVORK5CYII=',
-    test74: 'data:image/png;base64,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'
+    test74: 'data:image/png;base64,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',
   };
 
   const IMAGES = {
@@ -1688,9 +1688,12 @@
     ...(TITLE_TRANSLATIONS[LANG_LONG] ?? {}),
   };
 
+  const _gURL = 'https://raw.githubusercontent.com/Razzano/My_Wallpaper_Images/master/image';
+  const _iURL = 'https://i.ibb.co/';
+;
   const WALLPAPERS = {
-    github: 'https://raw.githubusercontent.com/Razzano/My_Wallpaper_Images/master/image',
-    ibb: 'https://i.ibb.co/',
+    github: _gURL,
+    ibb: _iURL,
     images: {
       1: 'nqqpD5vV', 2: 'N2ghpbyg', 3: 'hJrcmcSL', 4: 'x8zpWT0N',
       5: 'wh14qStz', 6: 'NdCZSVzs', 7: 'yBpwcNQ1', 8: 'Xr37SNBV',
@@ -1717,8 +1720,8 @@
   };
 
   const WALLPAPER_HOSTS = {
-    ibb:    'https://i.ibb.co/',
-    github: 'https://raw.githubusercontent.com/Razzano/My_Wallpaper_Images/master/image'
+    github: _gURL,
+    ibb:    _iURL,
   };
 
   const WALLPAPER_MODES = [
@@ -1729,19 +1732,19 @@
     { src: ICONS.calendarMonthly32, key: 'wallpaperMonthlyTitle' },
   ].map(mode => ({
     src: mode.src,
-    title: localizedTitle[mode.key]
+    title: localizedTitle[mode.key],
   }));
 
   const WALLPAPER_SITES = [
     {
       host: 'ibb',
       icon: ICONS.ibb32,
-      titleKey: 'ibbTitle'
+      titleKey: 'ibbTitle',
     },
     {
       host: 'github',
       icon: ICONS.github32,
-      titleKey: 'githubTitle'
+      titleKey: 'githubTitle',
     }
   ];
 
@@ -1824,16 +1827,11 @@
 
   const getCurrentWallpaperNumber = () => {
     switch (Settings.get('wallpaperMode', WALLPAPER_MANUAL)) {
-      case WALLPAPER_HOURLY:
-        return getHourlyWallpaper();
-      case WALLPAPER_DAILY:
-        return getDailyWallpaper();
-      case WALLPAPER_WEEKLY:
-        return getWeeklyWallpaper();
-      case WALLPAPER_MONTHLY:
-        return getMonthlyWallpaper();
-      default:
-        return Settings.get('wallpaperImage', 0);
+      case WALLPAPER_HOURLY: return getHourlyWallpaper();
+      case WALLPAPER_DAILY: return getDailyWallpaper();
+      case WALLPAPER_WEEKLY: return getWeeklyWallpaper();
+      case WALLPAPER_MONTHLY: return getMonthlyWallpaper();
+      default: return Settings.get('wallpaperImage', 0);
     }
   };
 
@@ -2028,90 +2026,90 @@
       $el('stop', { offset: '68%', 'stop-color': '#8d8d8d' }),
       $el('stop', { offset: '84%', 'stop-color': '#d9d9d9' }),
       $el('stop', { offset: '94%', 'stop-color': '#f5f5f5' }),
-      $el('stop', { offset: '100%', 'stop-color': '#7a7a7a' })
+      $el('stop', { offset: '100%', 'stop-color': '#7a7a7a' }),
     ),
     $el('linearGradient', {
       id: 'bezelInnerGradient',
       x1: '0%', y1: '0%',
-      x2: '0%', y2: '100%'
+      x2: '0%', y2: '100%',
       },
       $el('stop', { offset: '0%', 'stop-color': '#ffffff' }),
       $el('stop', { offset: '20%', 'stop-color': '#d8d8d8' }),
       $el('stop', { offset: '55%', 'stop-color': '#8c8c8c' }),
-      $el('stop', { offset: '100%', 'stop-color': '#4e4e4e' })
+      $el('stop', { offset: '100%', 'stop-color': '#4e4e4e' }),
     ),
     $el('linearGradient', {
       id: 'numeralGradient',
-      gradientTransform: 'rotate(90)'
+      gradientTransform: 'rotate(90)',
       },
       $el('stop', { offset: '0%', 'stop-color': 'var(--numeral-top)' }),
-      $el('stop', { offset: '100%', 'stop-color': 'var(--numeral-bottom)' })
+      $el('stop', { offset: '100%', 'stop-color': 'var(--numeral-bottom)' }),
     ),
     $el('linearGradient', {
       id: 'bannerGradientClassic',
-      gradientTransform: 'rotate(90)'
+      gradientTransform: 'rotate(90)',
       },
       $el('stop', { offset: '0%', 'stop-color': 'rgba(255, 255, 255, .5)' }),
-      $el('stop', { offset: '100%', 'stop-color': 'rgba(0, 0, 0, .5)' })
+      $el('stop', { offset: '100%', 'stop-color': 'rgba(0, 0, 0, .5)' }),
     ),
     $el('linearGradient', {
       id: 'bannerGradientDark',
-      gradientTransform: 'rotate(90)'
+      gradientTransform: 'rotate(90)',
       },
       $el('stop', { offset: '0%', 'stop-color': 'rgba(0, 0 ,0, .5)' }),
-      $el('stop', { offset: '100%', 'stop-color': 'rgba(0, 0, 0, .5)' })
+      $el('stop', { offset: '100%', 'stop-color': 'rgba(0, 0, 0, .5)' }),
     ),
     $el('linearGradient', {
       id: 'bannerGradientGold',
-      gradientTransform: 'rotate(90)'
+      gradientTransform: 'rotate(90)',
       },
       $el('stop', { offset: '0%', 'stop-color': 'rgba(255, 250, 210, .6)' }),
-      $el('stop', { offset: '100%', 'stop-color': 'rgba(160, 125, 30, .6)' })
+      $el('stop', { offset: '100%', 'stop-color': 'rgba(160, 125, 30, .6)' }),
     ),
     $el('linearGradient', {
       id: 'bannerGradientRed',
-      gradientTransform: 'rotate(90)'
+      gradientTransform: 'rotate(90)',
       },
       $el('stop', { offset: '0%', 'stop-color': 'rgba(250, 0, 0, .6' }),
-      $el('stop', { offset: '100%', 'stop-color': 'rgba(100, 0, 0, .6)' })
+      $el('stop', { offset: '100%', 'stop-color': 'rgba(100, 0, 0, .6)' }),
     ),
     $el('linearGradient', {
       id: 'bannerGradientGreen',
-      gradientTransform: 'rotate(90)'
+      gradientTransform: 'rotate(90)',
       },
       $el('stop', { offset: '0%', 'stop-color': 'rgba(145, 255, 200, .6' }),
-      $el('stop', { offset: '100%', 'stop-color': 'rgba(0, 117, 58, .6' })
+      $el('stop', { offset: '100%', 'stop-color': 'rgba(0, 117, 58, .6' }),
     ),
     $el('linearGradient', {
       id: 'bannerGradientBlue',
-      gradientTransform: 'rotate(90)'
+      gradientTransform: 'rotate(90)',
       },
       $el('stop', { offset: '0%', 'stop-color': 'rgba(168, 211, 255, .6' }),
-      $el('stop', { offset: '100%', 'stop-color': 'rgba(0, 88, 176, .6' })
+      $el('stop', { offset: '100%', 'stop-color': 'rgba(0, 88, 176, .6' }),
     ),
     $el('linearGradient', {
       id: 'panelGradient',
-      gradientTransform: 'rotate(90)'
+      gradientTransform: 'rotate(90)',
       },
       $el('stop', { offset: '0%', 'stop-color': '#fff' }),
-      $el('stop', { offset: '100%', 'stop-color': '#4f4f4f' })
+      $el('stop', { offset: '100%', 'stop-color': '#4f4f4f' }),
     ),
     $el('radialGradient', {
       id: 'faceGradient',
       cx: '50%', cy: '50%', r: '50%',
-      gradientUnits: 'objectBoundingBox'
+      gradientUnits: 'objectBoundingBox',
       },
       $el('stop', {
         offset: '0%',
-        'stop-color': 'var(--face-inner)'
+        'stop-color': 'var(--face-inner)',
       }),
       $el('stop', {
         offset: '70%',
-        'stop-color': '#f7f7f7'
+        'stop-color': '#f7f7f7',
       }),
       $el('stop', {
         offset: '100%',
-        'stop-color': 'var(--face-outer)'
+        'stop-color': 'var(--face-outer)',
       })
     )
   );
@@ -2122,41 +2120,41 @@
     const ticks = [];
     const hourNumbers = [];
     const bezelGroup = $el('g', {
-      className: 'Analog-Bezel'
+      className: 'Analog-Bezel',
       },
       $el('circle', {
         className: 'Analog-BezelOuter',
         cx: 50, cy: 50, r: 48.8,
         fill: 'none',
-        stroke: 'url(#bezelOuterGradient)', 'stroke-width': 7.5
+        stroke: 'url(#bezelOuterGradient)', 'stroke-width': 7.5,
       }),
       $el('circle', {
         className: 'Analog-BezelInner',
         cx: 50, cy: 50, r: 48.8,
         fill: 'none',
-        stroke: 'url(#bezelInnerGradient)', 'stroke-width': 1.0
+        stroke: 'url(#bezelInnerGradient)', 'stroke-width': 1.0,
       }),
       $el('circle', {
         className: 'Analog-BezelShadow',
         cx: 50, cy: 50, r: 49,
-        fill: 'none'
+        fill: 'none',
       }),
       $el('circle', {
         className: 'Analog-BezelHighlight',
         cx: 50, cy: 50, r: 48.1,
-        fill: 'none'
+        fill: 'none',
       }),
       $el('circle', {
         className: 'Analog-BezelFinish',
         cx: 50, cy: 50, r: 47,
         fill: 'none',
-        stroke: 'rgba(0, 0, 0, .3)', 'stroke-width': .5
+        stroke: 'rgba(0, 0, 0, .3)', 'stroke-width': .5,
       })
     );
     const clockFace = $el('circle', {
       className: 'Analog-Face',
       cx: 50, cy: 50, r: 47,
-      fill: 'url(#faceGradient)'
+      fill: 'url(#faceGradient)',
     });
     for (let i = 0; i < 60; i++) {
       const angleDeg = i * 6 - 90;
@@ -2173,7 +2171,7 @@
           y2: 50 + outerRadius * Math.sin(rad),
           stroke: isHourMark ? 'var(--tick-hourmark)' : 'var(--tick-secondmark)',
           strokeWidth: isHourMark ? '1.5' : '0.75',
-          strokeLinecap: 'round'
+          strokeLinecap: 'round',
         })
       );
     }
@@ -2189,14 +2187,14 @@
         textContent: hour,
         fill: 'url(#numeralGradient)',
         'text-anchor': 'middle',
-        'dominant-baseline': 'middle'
+        'dominant-baseline': 'middle',
       }));
     }
     return {
       bezelGroup,
       clockFace,
       ticks,
-      hourNumbers
+      hourNumbers,
     };
   };
 
@@ -2204,33 +2202,33 @@
     bezelGroup,
     clockFace,
     ticks,
-    hourNumbers
+    hourNumbers,
   } = createClockFace();
 
   const createClockHands = () => {
     const hourHand = $el('path', {
       className: 'Analog-Hour-Hand',
-      d: `M 50 50 L 49.0 48 L 48.8 30 L 50 26 L 51.2 30 L 51.0 48 Z`
+      d: `M 50 50 L 49.0 48 L 48.8 30 L 50 26 L 51.2 30 L 51.0 48 Z`,
     });
     const minuteHand = $el('path', {
       className: 'Analog-Minute-Hand',
-      d: `M 50 50 L 49.4 48 L 49.15 30 L 49.0 24 L 50 18 L 51.0 24 L 50.85 30 L 50.6 48 Z`
+      d: `M 50 50 L 49.4 48 L 49.15 30 L 49.0 24 L 50 18 L 51.0 24 L 50.85 30 L 50.6 48 Z`,
     });
     const secondHand = $el('g', {
-      className: 'Analog-Second-Hand'
+      className: 'Analog-Second-Hand',
       },
       $el('path', {
         className: 'Analog-Second-Needle',
-        d: `M 49.8 55 L 50.2 55 L 50.2 17 L 50 14 L 49.8 17 Z`
+        d: `M 49.8 55 L 50.2 55 L 50.2 17 L 50 14 L 49.8 17 Z`,
       }),
       $el('line', {
         className: 'Analog-Second-Tail',
         x1: 50, y1: 55,
-        x2: 50, y2: 56
+        x2: 50, y2: 56,
       }),
       $el('polygon', {
         className: 'Analog-Second-Counter',
-        points: `50,61 49.2,60.4 49.2,56.8 50,56 50.8,56.8 50.8,60.4`
+        points: `50,61 49.2,60.4 49.2,56.8 50,56 50.8,56.8 50.8,60.4`,
       })
     );
     return { hourHand, minuteHand, secondHand };
@@ -2239,25 +2237,25 @@
   const {
 	   hourHand,
 	   minuteHand,
-	   secondHand
+	   secondHand,
   } = createClockHands();
 
   const createHub = () => {
     const hubOuter = $el('circle', {
       className: 'Analog-HubOuter',
-      cx: 50, cy: 50, r: 2.6
+      cx: 50, cy: 50, r: 2.6,
     });
     const hubInner = $el('circle', {
       className: 'Analog-HubInner',
-      cx: 50, cy: 50, r: 1.55
+      cx: 50, cy: 50, r: 1.55,
     });
     const hubPin = $el('circle', {
       className: 'Analog-HubPin',
-      cx: 50, cy: 50, r: 0.58
+      cx: 50, cy: 50, r: 0.58,
     });
     const hubHighlight = $el('circle', {
       className: 'Analog-HubHighlight',
-      cx: 49.2, cy: 49.1, r: 0.32
+      cx: 49.2, cy: 49.1, r: 0.32,
     });
     return { hubOuter, hubInner, hubPin, hubHighlight };
   };
@@ -2266,13 +2264,13 @@
     hubOuter,
     hubInner,
     hubPin,
-    hubHighlight
+    hubHighlight,
   } = createHub();
 
   const createDayBanner = () => {
     const dayBannerBg = $el('rect', {
       id: 'dayBannerBg',
-      rx: 2, ry: 2
+      rx: 2, ry: 2,
     });
     const dayBannerBorder = $el('rect', {
       id: 'dayBannerBorder',
@@ -2284,7 +2282,7 @@
       id: 'dayBannerText',
       x: 50.5,
       'text-anchor': 'middle',
-      'dominant-baseline': 'middle'
+      'dominant-baseline': 'middle',
     });
 	   const applyBannerStyle = () => {
       const style = BANNER_STYLES[bannerStyle];
@@ -2325,7 +2323,7 @@
       dayBannerHighlight,
       dayBannerText,
       applyBannerStyle,
-      toggleBannerStyle
+      toggleBannerStyle,
     }
   };
 
@@ -2335,7 +2333,7 @@
     dayBannerHighlight,
     dayBannerText,
     applyBannerStyle,
-    toggleBannerStyle
+    toggleBannerStyle,
   } = createDayBanner();
 
   const applyAnalogClock = () => {
@@ -2350,7 +2348,7 @@
       className: 'Analog-MonthDateText',
       x: 50.5,
       'text-anchor': 'middle',
-      'dominant-baseline': 'middle'
+      'dominant-baseline': 'middle',
     });
     const timeText = $el('text', {
       id: 'timeText',
@@ -2358,20 +2356,20 @@
       x: 50.5,
       'text-anchor': 'middle',
       'dominant-baseline': 'middle',
-      'xml:space': 'preserve'
+      'xml:space': 'preserve',
     });
     const ampmText = $el('text', {
       className: 'Analog-AMPMText',
       x: 50.5,
       'text-anchor': 'middle',
-      'dominant-baseline': 'middle'
+      'dominant-baseline': 'middle',
     });
     const dateTimeGroup = $el('g', {
-      id: 'dateTimeGroup'
+      id: 'dateTimeGroup',
     }, [
       dateText,
       timeText,
-      ampmText
+      ampmText,
     ]);
     const themeImg = $el('image', {
       id: 'themeImg',
@@ -2379,7 +2377,7 @@
       href: ICONS.onbulb74,
       x: 21, y: 106,
       width: 10, height: 10,
-      title: localizedTitle.themeImgTitle
+      title: localizedTitle.themeImgTitle,
     });
     const secondHandImg = $el('image', {
       id: 'clockImg',
@@ -2387,7 +2385,7 @@
       href: ICONS.clock74,
       x: 33.2, y: 106,
       width: 10, height: 10,
-      title: localizedTitle.secondHandImgTitle
+      title: localizedTitle.secondHandImgTitle,
     });
     const anaCalImg = $el('image', {
       id: 'anaCalImg',
@@ -2396,7 +2394,7 @@
       x: 45.4, y: 106,
       width: 10, height: 10,
       title: localizedTitle.anaCalImgTitle,
-      onclick: () => toggleCalendarInfo()
+      onclick: () => toggleCalendarInfo(),
     });
     const bannerImg = $el('image', {
       id: 'bannerImg',
@@ -2405,7 +2403,7 @@
       x: 57.6, y: 106,
       width: 10, height: 10,
       title: localizedTitle.bannerImgTitle,
-      onclick: (e) => toggleBannerStyle(e)
+      onclick: (e) => toggleBannerStyle(e),
     });
     const localeImg = $el('image', {
       id: 'localeImg',
@@ -2436,7 +2434,7 @@
       rx: 2,
       fill: 'url(#panelGradient)',
       stroke: '#555',
-      'stroke-width': .6
+      'stroke-width': .6,
     });
     const controlsGroup = $el('g', {
       id: 'controlsGroup'
@@ -2446,14 +2444,14 @@
       secondHandImg,
       anaCalImg,
       bannerImg,
-      localeImg
+      localeImg,
     );
     // =======================
     // ATTACH TO SVG
     // =======================
     const svg = $el('svg', {
       className: 'Analog',
-      viewBox: '0 0 100 100'
+      viewBox: '0 0 100 100',
       },
       defs,
       bezelGroup,
@@ -2472,7 +2470,7 @@
       dayBannerHighlight,
       dayBannerText,
       dateTimeGroup,
-      controlsGroup
+      controlsGroup,
     );
     const setSecondMode = (smooth) => {
       Settings.set('smoothSecondHand', smooth);
@@ -2705,18 +2703,18 @@
       weekday: 'long',
       month: 'long',
       day: 'numeric',
-      year: 'numeric'
+      year: 'numeric',
     }).format(now);
     const time = new Intl.DateTimeFormat(LOCALE, {
       hour: 'numeric',
       minute: '2-digit',
       second: '2-digit',
-      hour12: true
+      hour12: true,
     }).format(now);
     const timeNoSeconds = new Intl.DateTimeFormat(LOCALE, {
       hour: 'numeric',
       minute: '2-digit',
-      hour12: true
+      hour12: true,
     }).format(now);
     const secView = Settings.get('secondsView', false);
     digitalClock.textContent = secView ? `${date} 🕑 ${time}` : `${date} 🕑 ${timeNoSeconds}`;
@@ -2776,12 +2774,12 @@
     });
     const hostToggler = $el('button', {
       id: 'hostToggler',
-      onclick: toggleWallpaperHost
+      onclick: toggleWallpaperHost,
       }, hostImg
     );
     const toggleImg = $el('img', {
       id: 'toggleImg',
-      src: ICONS.hand
+      src: ICONS.hand32,
     });
     const wallpaperToggler = $el('button', {
       id: 'wallpaperToggler',
@@ -2791,47 +2789,47 @@
       id: 'buttonThemer',
       textContent: localizedString.buttonThemerText,
       title: localizedTitle.changeWallpaperTitle,
-      onclick: wallpaperButtonChanger
+      onclick: wallpaperButtonChanger,
     });
     const inputThemer = $el('input', {
       id: 'inputThemer',
       type: 'number',
       value: Settings.get('wallpaperImage', 0),
       title: localizedTitle.inputThemerTitle,
-      oninput: wallpaperInputChanger
+      oninput: wallpaperInputChanger,
     });
     const downThemer = $el('button', {
       id: 'downThemer',
       textContent: localizedString.downThemerText,
       title: localizedTitle.changeWallpaperTitle,
-      onclick: wallpaperButtonChanger
+      onclick: wallpaperButtonChanger,
     });
     const spacer1 = $el('span', {
       id: 'spacer1',
       class: 'spacerX',
-      textContent: localizedString.spacerXText
+      textContent: localizedString.spacerXText,
     });
     const buttonLogo = $el('button', {
       id: 'buttonLogo',
       textContent: localizedString.buttonLogoText,
       title: localizedTitle.changeLogoTitle,
-      onclick: e => logoClick(e.target.id)
+      onclick: e => logoClick(e.target.id),
     });
     const inputLogo = $el('input', {
       id: 'inputLogo',
       type: 'number',
       value: Settings.get('logoImageNum', 1),
       title: localizedTitle.inputLogoTitle,
-      oninput: handleLogoInput
+      oninput: handleLogoInput,
     });
     const downLogo = $el('button', {
       id: 'downLogo',
       textContent: localizedString.downLogoText,
       title: localizedTitle.changeLogoTitle,
-      onclick: e => logoClick(e.target.id)
+      onclick: e => logoClick(e.target.id),
     });
     const scalerContainer = $el('div', {
-      id: 'scalerContainer'
+      id: 'scalerContainer',
     });
     let currentPercent = Settings.get('clockSizePercent', 100);
     const setClockPercentage = (percent) => {
@@ -2862,24 +2860,24 @@
       id: 'analogClockBtn',
       className: 'toggler analog-clock-btn',
       title: tip,
-      onclick: toggleAnalogClock
+      onclick: toggleAnalogClock,
       },
       $el('img', {
         id: 'clock32Img',
         className: 'image',
-        src: pref
+        src: pref,
       })
     );
     const panelToggler = $el('button', {
       id: 'panelToggler',
       className: 'toggler',
       title: localizedTitle.controlsBtnTitle,
-      onclick: toggleControls
+      onclick: toggleControls,
       },
       $el('img', {
         id: 'panel32Img',
         className: 'image',
-        src: ICONS.panel32
+        src: ICONS.panel32,
       })
     );
     const scalerReset = $el('button', {
@@ -2887,14 +2885,14 @@
       className: 'scaler scaler-reset',
       textContent: localizedString.scalerBtnResetText,
       title: localizedTitle.scalerResetTitle,
-      onclick: () => setClockPercentage(100)
+      onclick: () => setClockPercentage(100),
     });
     const scalerMinus = $el('button', {
       id: 'scalerMinus',
       className: 'scaler scaler-btn',
       textContent: localizedString.scalerBtnMinusText,
       title: localizedTitle.scalerBtnDownTitle,
-      onclick: () => setClockPercentage(currentPercent - 5)
+      onclick: () => setClockPercentage(currentPercent - 5),
     });
     const percentageDisplay = $el('input', {
       id: 'scalerInput',
@@ -2918,18 +2916,18 @@
       className: 'scaler scaler-btn',
       textContent: localizedString.scalerBtnPlusText,
       title: localizedTitle.scalerBtnUpTitle,
-      onclick: () => setClockPercentage(currentPercent + 5)
+      onclick: () => setClockPercentage(currentPercent + 5),
     });
     const digitalCalBtn = $el('button', {
       id: 'digitalCalBtn',
       className: 'toggler digital-cal-btn',
       title: localizedTitle.calBtnTitle,
-      onclick: dateTimeToggle
+      onclick: dateTimeToggle,
       },
       $el('img', {
         id: 'calendar32Img',
         className: 'image',
-        src: ICONS.calendar32
+        src: ICONS.calendar32,
       })
     );
     setClockPercentage(savedPercent);
@@ -2942,7 +2940,7 @@
       spacer1,
       buttonLogo,
       inputLogo,
-      downLogo
+      downLogo,
     );
     scalerContainer.append(
       analogClockBtn,
@@ -2951,7 +2949,7 @@
       scalerMinus,
       percentageDisplay,
       scalerPlus,
-      digitalCalBtn
+      digitalCalBtn,
     );
     body.prepend(controlContainer);
     body.prepend(scalerContainer);
@@ -3351,7 +3349,7 @@
       pointer-events: auto;
       text-shadow: 1px 1px 2px #000;
       user-select: none;
-      z-index: 3;
+      z-index: 2;
     }
     #controlContainer.dragged {
       transform: none;
@@ -3499,7 +3497,7 @@
       text-shadow: 1px 1px 2px #000;
       user-select: none;
       width: auto;
-      z-index: 4;
+      z-index: 2;
     }
     #scalerReset {
       padding: 2px 8px;
@@ -3574,7 +3572,7 @@
       font-size: 18px;
       pointer-events: auto;
       user-select: none;
-      z-index: 3;
+      z-index: 2;
     }
     #dateTimeContainer.dragged {
       transform: none;
