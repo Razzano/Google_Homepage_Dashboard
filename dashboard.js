@@ -3061,22 +3061,6 @@
   // CSS (Section 8)
   // ===========================================================================
 
-  // GLOBAL
-  GM_addStyle(`
-    /*${STRING_HTML.main} > body .themer.disabled {
-      cursor: default;
-      opacity: 0.3;
-      pointer-events: none;
-    }
-    ${STRING_HTML.main} .hidden {
-      display: none;
-    }
-    ${STRING_HTML.main} ::-webkit-inner-spin-button,
-    ${STRING_HTML.main} ::-webkit-outer-spin-button {
-      display: none;
-    }*/
-  `);
-
   // GOOGLE PAGE
   GM_addStyle(`
     ${STRING_HTML.main} div.o3j99.n1xJcf.CoM3Df > a.w5hRs,
@@ -3540,7 +3524,6 @@
       justify-content: center;
       margin: 0px 5px;
       opacity: .6;
-      padding: 2px 0px;
       position: relative;
       text-align: center;
       top: -7px;
@@ -3715,6 +3698,9 @@
     body#gsr #logoContainer {
       display: none !important;
     }
+    body#gsr #cnt {
+      background: rgba(0 0 0 / .5);
+    }
     body#gsr > span.LoygGf,
     body#gsr > span.LoygGf.VHFyob {
       height: 62px !important;
@@ -3778,9 +3764,6 @@
     body#gsr .RNNXgb {
       border-radius: 24px !important;
       margin: 0 !important;
-    }
-    body#gsr #cnt {
-      background: rgba(0 0 0 / .5);
     }
     body#gsr .jOAHU {
       border-left: none !important;
