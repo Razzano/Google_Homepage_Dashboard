@@ -106,7 +106,7 @@
           maxlength="20"
           autocomplete="off"
           placeholder="Enter PIN"
-        >
+        ></input>
         <div id="testingLocalePINError" class="testing-locale-pin-error"></div>
         <div class="testing-locale-pin-buttons">
           <button id="testingLocalePINCancel">Cancel</button>
