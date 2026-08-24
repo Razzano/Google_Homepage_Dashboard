@@ -2974,6 +2974,67 @@
     restorePosition(scalerContainer, 'scalerContainer');
   };
 
+  const SEARCH_RESULTS_BG_OPACITY_DEFAULT = 50;
+  const SEARCH_RESULTS_BG_OPACITY_MIN = 0;
+  const SEARCH_RESULTS_BG_OPACITY_MAX = 100;
+  const SEARCH_RESULTS_BG_OPACITY_STEP = 5;
+
+  let searchResultsBgOpacity = Settings.get('searchResultsBgOpacity', SEARCH_RESULTS_BG_OPACITY_DEFAULT);
+  const applySearchResultsBgOpacity = () => {
+    document.documentElement.style.setProperty('--search-results-bg-opacity', searchResultsBgOpacity / 100);
+    Settings.set('searchResultsBgOpacity', searchResultsBgOpacity);
+  };
+
+  const increaseSearchResultsBgOpacity = () => {
+    searchResultsBgOpacity = Math.min(
+      SEARCH_RESULTS_BG_OPACITY_MAX,
+      searchResultsBgOpacity + SEARCH_RESULTS_BG_OPACITY_STEP
+    );
+    applySearchResultsBgOpacity();
+  };
+
+  const decreaseSearchResultsBgOpacity = () => {
+    searchResultsBgOpacity = Math.max(
+      SEARCH_RESULTS_BG_OPACITY_MIN,
+      searchResultsBgOpacity - SEARCH_RESULTS_BG_OPACITY_STEP
+    );
+    applySearchResultsBgOpacity();
+  };
+
+  const initiate = () => {
+    const resultsDiv = $el('div', {
+      id: 'resultsDiv',
+    });
+    const resultsMinus = $el('button', {
+      id: 'resultsMinus',
+      className: 'results minus',
+      textContent: '–',
+      title: 'Decrease Transparency',
+      onclick: () => decreaseSearchResultsBgOpacity(),
+    });
+    const resultsText = $el('span', {
+      id: 'resultsText',
+      className: 'results text',
+      textContent: 'BG Transparency',
+      title: '',
+    });
+    const resultsPlus = $el('button', {
+      id: 'resultsPlus',
+      className: 'results plus',
+      textContent: '+',
+      title: 'Increase Transparency',
+      onclick: () => increaseSearchResultsBgOpacity(),
+    });
+    resultsDiv.append(
+      resultsMinus,
+      resultsText,
+      resultsPlus,
+    );
+    makeDraggable(resultsDiv, 'resultsDiv');
+    restorePosition(resultsDiv, 'resultsDiv');
+    STRING_HTML.search > body.prepend(resultsDiv);
+  }
+
   // ===========================================================================
   // UI MANAGER (Section 6)
   // ===========================================================================
@@ -3031,6 +3092,8 @@
     } else {
       panelImg.src = ICONS.nopanel32;
     }
+    applySearchResultsBgOpacity();
+    initiate();
   };
 
   // ===========================================================================
@@ -3063,6 +3126,7 @@
 
   // GOOGLE PAGE
   GM_addStyle(`
+    ${STRING_HTML.main} #resultsDiv,
     ${STRING_HTML.main} div.o3j99.n1xJcf.CoM3Df > a.w5hRs,
     ${STRING_HTML.main} #gb > div.gb_Q.gb_6.gb_Vf.gb_3f > div:nth-child(2) > a,
     ${STRING_HTML.main} #gb > div.gb_Ad.gb_6.gb_L,
@@ -3698,8 +3762,19 @@
     body#gsr #logoContainer {
       display: none !important;
     }
+    body#gsr #resultsDiv {
+      left: 50%;
+      padding: 0px 10px;
+      position: fixed;
+      top: 60px;
+      transform: translateX(-50%);
+      z-index: 99999;
+    }
+    #resultsText {
+      margin: 0 10px;
+    }
     body#gsr #cnt {
-      background: rgba(0 0 0 / .5);
+      background: rgba(0 0 0 / var(--search-results-bg-opacity));
     }
     body#gsr > span.LoygGf,
     body#gsr > span.LoygGf.VHFyob {
