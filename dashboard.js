@@ -3496,6 +3496,10 @@
 
   // SCALER CONTAINER
   GM_addStyle(`
+    #scalerContainer ::-webkit-inner-spin-button,
+    #scalerContainer ::-webkit-outer-spin-button {
+      display: none;
+    }
     #scalerContainer {
       align-items: center;
       background: rgba(0, 0, 0, .2);
