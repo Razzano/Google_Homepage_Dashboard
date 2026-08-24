@@ -14,10 +14,7 @@
 // ==/UserScript==
 
 (() => {
-/*
-// @exclude      https://www.google.com/search*
-// @exclude      https://google.com/search*
-*/
+
   'use strict';
 
   // ===========================================================================
