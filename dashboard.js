@@ -3760,7 +3760,7 @@
   // SEARCH RESULTS PAGE
   GM_addStyle(`
     body#gsr * {
-      text-shadow: 2px 2px #000;
+      text-shadow: 2px 2px 2px #000;
     }
     body#gsr #analogClockContainer,
     body#gsr #dateTimeContainer,
@@ -3777,11 +3777,19 @@
       top: 0px;
       z-index: 99999;
     }
+    body#gsr #resultsDiv > .button {
+      align-items: center;
+      border: 1px solid transparent;
+      border-radius: 14px;
+      font-size: 16px;
+      height: 28px;
+      width: 28px;
+    }
     body#gsr #resultsDiv > .button:hover {
       background-color: #fff;
       color: #000;
       font-weight: bold;
-      text-shadow: 1px 1px #000 !important;
+      text-shadow: none !important;
     }
     body#gsr #resultsText {
       margin: 0 10px;
