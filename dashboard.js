@@ -2526,8 +2526,8 @@
     restorePosition(analogClockContainer, 'analogClockContainer');
     const rect = analogClockContainer.getBoundingClientRect();
     if (rect.right < 0 || rect.bottom < 0 || rect.left > window.innerWidth || rect.top > window.innerHeight) {
-      analogClockContainer.style.left = '20px';
-      analogClockContainer.style.top = '20px';
+      analogClockContainer.style.left = '27px';
+      analogClockContainer.style.top = '69px';
     }
     STRING_HTML.main > body.prepend(analogClockContainer);
     const updateAnalogClock = () => {
@@ -2665,9 +2665,8 @@
     dtContainer.append(dateTime);
     STRING_HTML.main > body.prepend(dtContainer);
     dtContainer.style.position = 'fixed';
-    dtContainer.style.top = '590px';
-    dtContainer.style.left = '50%';
-    dtContainer.style.transform = 'translateX(-50%)';
+    dtContainer.style.top = '0px';
+    dtContainer.style.left = '338px';
     makeDraggable(dtContainer, 'dtContainer');
     restorePosition(dtContainer, 'dtContainer');
   };
@@ -2943,13 +2942,11 @@
     STRING_HTML.main > body.prepend(controlContainer);
     STRING_HTML.main > body.prepend(scalerContainer);
     controlContainer.style.position = 'fixed';
-    controlContainer.style.top = '516px';
-    controlContainer.style.left = '50%';
-    controlContainer.style.transform = 'translateX(-50%)';
+    controlContainer.style.top = '0px';
+    controlContainer.style.left = '700px';
     scalerContainer.style.position = 'fixed';
-    scalerContainer.style.top = '566px';
-    scalerContainer.style.left = '50%';
-    scalerContainer.style.transform = 'translateX(-50%)';
+    scalerContainer.style.top = '0px';
+    scalerContainer.style.left = '0px';
     makeDraggable(controlContainer, 'controlContainer');
     restorePosition(controlContainer, 'controlContainer');
     makeDraggable(scalerContainer, 'scalerContainer');
@@ -2985,30 +2982,30 @@
     const resultsDiv = $el('div', {
       id: 'resultsDiv',
     });
-    const resultsMinus = $el('button', {
-      id: 'resultsMinus',
-      className: 'results minus button',
-      textContent: '–',
-      title: 'Decrease Transparency',
+    const resultsPlus = $el('button', {
+      id: 'resultsPlus',
+      className: 'results plus button',
+      textContent: '+',
+      title: 'Background Brighter',
       onclick: decreaseSearchResultsBgOpacity,
     });
     const resultsText = $el('span', {
       id: 'resultsText',
       className: 'results text span',
-      textContent: 'BG Transparency',
+      textContent: 'BG Brightness',
       title: '',
     });
-    const resultsPlus = $el('button', {
-      id: 'resultsPlus',
-      className: 'results plus button',
-      textContent: '+',
-      title: 'Increase Transparency',
+    const resultsMinus = $el('button', {
+      id: 'resultsMinus',
+      className: 'results minus button',
+      textContent: '–',
+      title: 'Background Darker',
       onclick: increaseSearchResultsBgOpacity,
     });
     resultsDiv.append(
-      resultsMinus,
-      resultsText,
       resultsPlus,
+      resultsText,
+      resultsMinus,
     );
     makeDraggable(resultsDiv, 'resultsDiv');
     restorePosition(resultsDiv, 'resultsDiv');
@@ -3750,7 +3747,7 @@
       padding: 0px 10px;
       pointer-events: auto;
       position: fixed;
-      top: 0px;
+      top: 12px;
       z-index: 99999;
     }
     body#gsr #resultsDiv > .button {
