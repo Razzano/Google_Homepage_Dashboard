@@ -66,9 +66,7 @@
   const hashPIN = async (pin) => {
     const data = new TextEncoder().encode(pin);
     const hashBuffer = await crypto.subtle.digest('SHA-256', data);
-    return Array.from(new Uint8Array(hashBuffer))
-      .map(b => b.toString(16).padStart(2, '0'))
-      .join('');
+    return Array.from(new Uint8Array(hashBuffer)).map(b => b.toString(16).padStart(2, '0')).join('');
   };
 
   const getLocaleName = (locale) => {
@@ -82,11 +80,9 @@
     if (e.button !== 0) return;
     const currentIndex = testLocaleIndex;
     if (e.shiftKey) {
-      testLocaleIndex =
-        (currentIndex - 1 + LANGUAGE_COUNTRY.length) % LANGUAGE_COUNTRY.length;
+      testLocaleIndex = (currentIndex - 1 + LANGUAGE_COUNTRY.length) % LANGUAGE_COUNTRY.length;
     } else {
-      testLocaleIndex =
-        (currentIndex + 1) % LANGUAGE_COUNTRY.length;
+      testLocaleIndex = (currentIndex + 1) % LANGUAGE_COUNTRY.length;
     }
     Settings.set('testLocaleIndex', testLocaleIndex);
     location.reload();
@@ -211,9 +207,7 @@
 
   const $el = (tag, props = {}, ...children) => {
     const isSVG = SVG_TAGS.has(tag);
-    const el = isSVG
-      ? document.createElementNS(SVG_NS, tag)
-      : document.createElement(tag);
+    const el = isSVG ? document.createElementNS(SVG_NS, tag) : document.createElement(tag);
     for (const [key, value] of Object.entries(props)) {
       if (value == null) continue;
       if (key.startsWith('on') && typeof value === 'function') {
@@ -1689,7 +1683,7 @@
 
   const _gURL = 'https://raw.githubusercontent.com/Razzano/My_Wallpaper_Images/master/image';
   const _iURL = 'https://i.ibb.co/';
-;
+
   const WALLPAPERS = {
     github: _gURL,
     ibb: _iURL,
@@ -1807,9 +1801,7 @@
 
   const logoClick = (id) => {
     let current = Settings.get('logoImageNum', 1);
-    const next = (id.includes('up') || id === 'buttonLogo')
-      ? (current + 1) % IMAGE_COUNT
-      : (current - 1 + IMAGE_COUNT) % IMAGE_COUNT;
+    const next = (id.includes('up') || id === 'buttonLogo') ? (current + 1) % IMAGE_COUNT : (current - 1 + IMAGE_COUNT) % IMAGE_COUNT;
     applyLogo(next);
   };
 
@@ -1844,9 +1836,7 @@
     const image = WALLPAPERS.url(num);
     if (!image) return;
     const css = `
-      body {
-        background: url('${image}') no-repeat center center / cover fixed !important;
-      }
+      body { background: url('${image}') no-repeat center center / cover fixed !important; }
     `;
     State.wallpaper.style = GM_addStyle(css);
   };
@@ -1873,8 +1863,7 @@
 
   const getMonthlyWallpaper = () => {
     const today = new Date();
-    const months = (today.getFullYear() - WALLPAPER_START_DATE.getFullYear()) * 12 +
-      (today.getMonth() - WALLPAPER_START_DATE.getMonth());
+    const months = (today.getFullYear() - WALLPAPER_START_DATE.getFullYear()) * 12 + (today.getMonth() - WALLPAPER_START_DATE.getMonth());
     return ((months % WALLPAPER_COUNT + WALLPAPER_COUNT) % WALLPAPER_COUNT) + 1;
   };
 
@@ -2164,10 +2153,8 @@
       ticks.push(
         $el('line', {
           className: 'Analog-Ticks',
-          x1: 50 + innerRadius * Math.cos(rad),
-          y1: 50 + innerRadius * Math.sin(rad),
-          x2: 50 + outerRadius * Math.cos(rad),
-          y2: 50 + outerRadius * Math.sin(rad),
+          x1: 50 + innerRadius * Math.cos(rad), y1: 50 + innerRadius * Math.sin(rad),
+          x2: 50 + outerRadius * Math.cos(rad), y2: 50 + outerRadius * Math.sin(rad),
           stroke: isHourMark ? 'var(--tick-hourmark)' : 'var(--tick-secondmark)',
           strokeWidth: isHourMark ? '1.5' : '0.75',
           strokeLinecap: 'round',
@@ -2181,8 +2168,7 @@
       const radius = 38;
       hourNumbers.push($el('text', {
         className: 'Analog-Number',
-        x: 50 + radius * Math.cos(rad),
-        y: 50.5 + radius * Math.sin(rad),
+        x: 50 + radius * Math.cos(rad), y: 50.5 + radius * Math.sin(rad),
         textContent: hour,
         fill: 'url(#numeralGradient)',
         'text-anchor': 'middle',
@@ -2597,11 +2583,7 @@
       dayBannerBg.setAttribute('height', 8.5 + padding);
       dateText.textContent = DATE_FMT.format(now);
       const parts = TIME_FMT.formatToParts(now);
-      timeText.textContent = parts
-        .filter(part => part.type !== 'dayPeriod')
-        .map(part => part.value)
-        .join('')
-        .trim();
+      timeText.textContent = parts.filter(part => part.type !== 'dayPeriod').map(part => part.value).join('').trim();
       timeText.setAttribute('y', 77 + TIME_TEXT_TOP)
       ampmText.textContent = parts.find(part => part.type === 'dayPeriod')?.value ?? '';
       ampmText.setAttribute('y', 82 + AMPM_TEXT_TOP);
@@ -2990,18 +2972,12 @@
   };
 
   const increaseSearchResultsBgOpacity = () => {
-    searchResultsBgOpacity = Math.min(
-      SEARCH_RESULTS_BG_OPACITY_MAX,
-      searchResultsBgOpacity + SEARCH_RESULTS_BG_OPACITY_STEP
-    );
+    searchResultsBgOpacity = Math.min(SEARCH_RESULTS_BG_OPACITY_MAX, searchResultsBgOpacity + SEARCH_RESULTS_BG_OPACITY_STEP);
     applySearchResultsBgOpacity();
   };
 
   const decreaseSearchResultsBgOpacity = () => {
-    searchResultsBgOpacity = Math.max(
-      SEARCH_RESULTS_BG_OPACITY_MIN,
-      searchResultsBgOpacity - SEARCH_RESULTS_BG_OPACITY_STEP
-    );
+    searchResultsBgOpacity = Math.max(SEARCH_RESULTS_BG_OPACITY_MIN, searchResultsBgOpacity - SEARCH_RESULTS_BG_OPACITY_STEP);
     applySearchResultsBgOpacity();
   };
 
@@ -3108,8 +3084,7 @@
     if (!document.hidden && Settings.get('analogClock', true)) {
       if (!$id('analogClockContainer')) {
         applyAnalogClock();
-      }
-    }
+    } }
   });
 
   window.addEventListener('pageshow', () => {
@@ -3878,6 +3853,9 @@
     }
     body#gsr .zLSRge {
       border-bottom: none !important;
+    }
+    body#gsr .emcav.A8SBwf.pD4qTd {
+      transform: none !important;
     }
   `);
 
