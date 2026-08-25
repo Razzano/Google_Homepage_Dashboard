@@ -3145,7 +3145,8 @@
     ${STRING_HTML.main} div.o3j99.qarstb > div:nth-child(2),
     ${STRING_HTML.main} a.w5hRs,
     ${STRING_HTML.main} div.g55egf > a,
-    ${STRING_HTML.main} promo-middle-slot {
+    ${STRING_HTML.main} promo-middle-slot,
+    ${STRING_HTML.main} .IzOpfd {
       display: none !important;
     }
     ${STRING_HTML.mainHTML} #gb > div.gb_Q.gb_6.gb_Vf.gb_3f {
