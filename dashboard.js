@@ -1796,7 +1796,7 @@
           logoCopy.remove();
         };
         const logoContainer = $el('div', { id: 'logoContainer' }, logoCopy);
-        body.prepend(logoContainer);
+        STRING_HTML.main > body.prepend(logoContainer);
     } }
     const inp = $id('inputLogo');
     if (inp) {
@@ -2543,7 +2543,7 @@
       analogClockContainer.style.left = '20px';
       analogClockContainer.style.top = '20px';
     }
-    body.prepend(analogClockContainer);
+    STRING_HTML.main > body.prepend(analogClockContainer);
     const updateAnalogClock = () => {
       if (!$id('analogClockContainer')) return;
       const smoothSecondHand = Settings.get('smoothSecondHand', true);
@@ -2681,7 +2681,7 @@
     });
     dtContainer.append(digCalBtn, dateTime);
     dtContainer.append(dateTime);
-    body.prepend(dtContainer);
+    STRING_HTML.main > body.prepend(dtContainer);
     dtContainer.style.position = 'fixed';
     dtContainer.style.top = '590px';
     dtContainer.style.left = '50%';
@@ -2958,8 +2958,8 @@
       scalerPlus,
       digitalCalBtn,
     );
-    body.prepend(controlContainer);
-    body.prepend(scalerContainer);
+    STRING_HTML.main > body.prepend(controlContainer);
+    STRING_HTML.main > body.prepend(scalerContainer);
     controlContainer.style.position = 'fixed';
     controlContainer.style.top = '516px';
     controlContainer.style.left = '50%';
@@ -3011,23 +3011,23 @@
     });
     const resultsMinus = $el('button', {
       id: 'resultsMinus',
-      className: 'results minus',
+      className: 'results minus button',
       textContent: '–',
       title: 'Decrease Transparency',
-      onclick: () => decreaseSearchResultsBgOpacity(),
+      onclick: decreaseSearchResultsBgOpacity,
     });
     const resultsText = $el('span', {
       id: 'resultsText',
-      className: 'results text',
+      className: 'results text span',
       textContent: 'BG Transparency',
       title: '',
     });
     const resultsPlus = $el('button', {
       id: 'resultsPlus',
-      className: 'results plus',
+      className: 'results plus button',
       textContent: '+',
       title: 'Increase Transparency',
-      onclick: () => increaseSearchResultsBgOpacity(),
+      onclick: increaseSearchResultsBgOpacity,
     });
     resultsDiv.append(
       resultsMinus,
@@ -3769,6 +3769,7 @@
     body#gsr #resultsDiv {
       left: 50%;
       padding: 0px 10px;
+      pointer-events: auto;
       position: fixed;
       top: 0px;
       transform: translateX(-50%);
