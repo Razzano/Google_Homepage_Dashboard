@@ -2037,43 +2037,43 @@
       id: 'bannerGradientClassic',
       gradientTransform: 'rotate(90)',
       },
-      $el('stop', { offset: '0%', 'stop-color': 'rgba(255, 255, 255, .5)' }),
-      $el('stop', { offset: '100%', 'stop-color': 'rgba(0, 0, 0, .5)' }),
+      $el('stop', { offset: '0%', 'stop-color': 'rgba(255 255 255 / .5)' }),
+      $el('stop', { offset: '100%', 'stop-color': 'rgba(0 0 0 / .5)' }),
     ),
     $el('linearGradient', {
       id: 'bannerGradientDark',
       gradientTransform: 'rotate(90)',
       },
-      $el('stop', { offset: '0%', 'stop-color': 'rgba(0, 0 ,0, .5)' }),
-      $el('stop', { offset: '100%', 'stop-color': 'rgba(0, 0, 0, .5)' }),
+      $el('stop', { offset: '0%', 'stop-color': 'rgba(0 0 0 / .5)' }),
+      $el('stop', { offset: '100%', 'stop-color': 'rgba(0 0 0 / .5)' }),
     ),
     $el('linearGradient', {
       id: 'bannerGradientGold',
       gradientTransform: 'rotate(90)',
       },
-      $el('stop', { offset: '0%', 'stop-color': 'rgba(255, 250, 210, .6)' }),
-      $el('stop', { offset: '100%', 'stop-color': 'rgba(160, 125, 30, .6)' }),
+      $el('stop', { offset: '0%', 'stop-color': 'rgba(255 250 210 / .6)' }),
+      $el('stop', { offset: '100%', 'stop-color': 'rgba(160 125 30 / .6)' }),
     ),
     $el('linearGradient', {
       id: 'bannerGradientRed',
       gradientTransform: 'rotate(90)',
       },
-      $el('stop', { offset: '0%', 'stop-color': 'rgba(250, 0, 0, .6' }),
-      $el('stop', { offset: '100%', 'stop-color': 'rgba(100, 0, 0, .6)' }),
+      $el('stop', { offset: '0%', 'stop-color': 'rgba(250 0 0 / .6' }),
+      $el('stop', { offset: '100%', 'stop-color': 'rgba(100 0 0 / .6)' }),
     ),
     $el('linearGradient', {
       id: 'bannerGradientGreen',
       gradientTransform: 'rotate(90)',
       },
-      $el('stop', { offset: '0%', 'stop-color': 'rgba(145, 255, 200, .6' }),
-      $el('stop', { offset: '100%', 'stop-color': 'rgba(0, 117, 58, .6' }),
+      $el('stop', { offset: '0%', 'stop-color': 'rgba(145 255 200 / .6' }),
+      $el('stop', { offset: '100%', 'stop-color': 'rgba(0 117 58 / .6' }),
     ),
     $el('linearGradient', {
       id: 'bannerGradientBlue',
       gradientTransform: 'rotate(90)',
       },
-      $el('stop', { offset: '0%', 'stop-color': 'rgba(168, 211, 255, .6' }),
-      $el('stop', { offset: '100%', 'stop-color': 'rgba(0, 88, 176, .6' }),
+      $el('stop', { offset: '0%', 'stop-color': 'rgba(168 211 255 / .6' }),
+      $el('stop', { offset: '100%', 'stop-color': 'rgba(0 88 176 / .6' }),
     ),
     $el('linearGradient', {
       id: 'panelGradient',
@@ -2136,7 +2136,7 @@
         className: 'Analog-BezelFinish',
         cx: 50, cy: 50, r: 47,
         fill: 'none',
-        stroke: 'rgba(0, 0, 0, .3)', 'stroke-width': .5,
+        stroke: 'rgba(0 0 0 / .3)', 'stroke-width': .5,
       })
     );
     const clockFace = $el('circle', {
@@ -3140,7 +3140,7 @@
       float: right !important;
     }
     ${STRING_HTML.main} g-popup > div.CcNe6e > div {
-      background: rgba(0, 0, 0, .2) !important;
+      background: rgba(0 0 0 / .2) !important;
       border-radius: 6px !important;
       padding: 8px 16px !important;
     }
@@ -3151,7 +3151,7 @@
     ${STRING_HTML.main} div.L3eUgb input.gNO89b,
     ${STRING_HTML.main} form center > input[type="submit"],
     ${STRING_HTML.main} div.plsC5e.RqyYHe div.RNNXgb div.bvUkz {
-      background: rgba(0, 0, 0, .2) !important;
+      background: rgba(0 0 0 / .2) !important;
     }
     ${STRING_HTML.main} #APjFqb {
       filter: brightness(2) !important;
@@ -3266,16 +3266,16 @@
       stroke: #aeb7c0;
     }
     :root {
-      --numeral-top: rgba(0, 0, 0, 1);
-      --numeral-bottom: rgba(0, 0, 0, 1);
-      --tick-hourmark: rgba(0, 0, 0, .7);
-      --tick-secondmark: rgba(0, 0, 0, .3);
+      --numeral-top: rgba(0 0 0 / 1);
+      --numeral-bottom: rgba(0 0 0 / 1);
+      --tick-hourmark: rgba(0 0 0 / .7);
+      --tick-secondmark: rgba(0 0 0 / .3);
     }
     .dark-theme {
-      --numeral-top: rgba(0, 0, 0, 1);
-      --numeral-bottom: rgba(0, 0, 0, 1);
-      --tick-hourmark: rgba(0, 0, 0, .7);
-      --tick-secondmark: rgba(0, 0, 0, .3);
+      --numeral-top: rgba(0 0 0 / 1);
+      --numeral-bottom: rgba(0 0 0 / 1);
+      --tick-hourmark: rgba(0 0 0 / .7);
+      --tick-secondmark: rgba(0 0 0 / .3);
     }
     #dayBannerBg {
       filter: drop-shadow(1px 1px 4px #000);
@@ -3331,17 +3331,17 @@
       stroke-width: .1;
     }
     .Analog-HubHighlight {
-      fill: rgba(255, 255, 255, .75);
+      fill: rgba(255 255 255 / .75);
     }
     .Analog-BezelInner {
       filter: drop-shadow(1px 1px 3px #000);
     }
     .Analog-BezelShadow {
-      stroke: rgba(0, 0, 0, .14);
+      stroke: rgba(0 0 0 / .14);
       stroke-width: .9;
     }
     .Analog-BezelHighlight {
-      stroke: rgba(255, 255, 255, .85);
+      stroke: rgba(255 255 255 / .85);
       stroke-width: .18;
     }
   `);
@@ -3373,7 +3373,7 @@
     }
     #controlContainer {
       align-items: center;
-      background: rgba(0, 0, 0, .2);
+      background: rgba(0 0 0 / .2);
       border: none;
       border-radius: 8px;
       display: flex;
@@ -3441,7 +3441,7 @@
       width: 22px;
     }
     #inputThemer:hover {
-      background: rgba(255 ,255, 255, .9);
+      background: rgba(255 255 255 / .9);
       color: #000;
       filter: drop-shadow(0px 0px 3px #000);
       font-weight: 700;
@@ -3481,7 +3481,7 @@
       width: 30px;
     }
     #inputLogo:hover {
-      background: rgba(255 ,255, 255, .9);
+      background: rgba(255 255 255 / .9);
       color: #000;
       font-weight: 700;
       text-shadow: none;
@@ -3527,7 +3527,7 @@
     }
     #scalerContainer {
       align-items: center;
-      background: rgba(0, 0, 0, .2);
+      background: rgba(0 0 0 / .2);
       border: none;
       border-radius: 8px;
       box-sizing: border-box;
@@ -3554,7 +3554,7 @@
       width: auto;
     }
     #scalerContainer > .scaler {
-      background: rgba(255, 255, 255, .1);
+      background: rgba(255 255 255 / .1);
       border: 1px solid #000;
       border-radius: 13px;
       color: #fff;
@@ -3585,7 +3585,7 @@
     }
     #scalerContainer > .scaler:hover,
     #scalerContainer > .scaler-inp:focus-within {
-      background: rgba(255 ,255, 255, .9);
+      background: rgba(255 255 255 / .9);
       color: #000;
       cursor: pointer;
       filter: drop-shadow(0px 0px 3px #000);
@@ -3620,7 +3620,7 @@
       pointer-events: auto;
     }
     #dateTime {
-      background: rgba(0, 0, 0, .2);
+      background: rgba(0 0 0 / .2);
       border: none;
       border-radius: 8px;
       box-shadow: none;
@@ -3646,7 +3646,7 @@
   // LOGOS
   GM_addStyle(`
     #logoGoogle {
-      filter: drop-shadow(0 4px 12px rgba(0, 0, 0, .3));
+      filter: drop-shadow(0 4px 12px rgba(0 0 0 / .3));
       height: auto;
       left: 50%;
       max-width: 100%;
@@ -3661,7 +3661,7 @@
   GM_addStyle(`
     #testingLocalePINPopup {
       align-items: center;
-      background: rgba(0, 0, 0, 0.45);
+      background: rgba(0 0 0 / .45);
       display: flex;
       inset: 0;
       justify-content: center;
@@ -3671,7 +3671,7 @@
     .testing-locale-pin-box {
       background: #eee;
       border-radius: 10px;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.45);
+      box-shadow: 0 4px 20px rgba(0 0 0 / .45);
       color: #000;
       font-family: "Segoe UI", sans-serif;
       padding: 16px;
@@ -3767,6 +3767,9 @@
     body#gsr #resultsText {
       margin: 0 10px;
     }
+    body#gsr .emcav.A8SBwf.pD4qTd {
+      transform: none !important;
+    }
     body#gsr #cnt {
       background: rgba(0 0 0 / var(--search-results-bg-opacity));
     }
@@ -3850,9 +3853,6 @@
     }
     body#gsr .zLSRge {
       border-bottom: none !important;
-    }
-    body#gsr .emcav.A8SBwf.pD4qTd {
-      transform: none !important;
     }
   `);
 
