@@ -3766,7 +3766,7 @@
       left: 50%;
       padding: 0px 10px;
       position: fixed;
-      top: 60px;
+      top: 0px;
       transform: translateX(-50%);
       z-index: 99999;
     }
