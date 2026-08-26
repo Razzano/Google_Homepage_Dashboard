@@ -17,6 +17,8 @@
 
   'use strict';
 
+  if (window.top !== window.self) return;
+
   // ===========================================================================
   // NOTE 1:
   //   To prevent a lot of scrolling, go into Settings in the top right, next to
