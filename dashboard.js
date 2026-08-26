@@ -2984,20 +2984,20 @@
       },
       $el('button', {
         id: 'brightnessPlus',
-        className: 'brightness plus button',
+        className: 'brightness button',
         textContent: '+',
         title: 'Background Brighter',
         onclick: decreaseSearchResultsBgOpacity,
       }),
       $el('span', {
         id: 'brightnessText',
-        className: 'brightness text span',
+        className: 'brightness',
         textContent: 'BG Brightness',
         title: '',
       }),
       $el('button', {
         id: 'brightnessMinus',
-        className: 'brightness minus button',
+        className: 'brightness button',
         textContent: '–',
         title: 'Background Darker',
         onclick: increaseSearchResultsBgOpacity,
