@@ -2979,37 +2979,33 @@
   };
 
   const initiate = () => {
-    const resultsDiv = $el('div', {
-      id: 'resultsDiv',
-    });
-    const resultsPlus = $el('button', {
-      id: 'resultsPlus',
-      className: 'results plus button',
-      textContent: '+',
-      title: 'Background Brighter',
-      onclick: decreaseSearchResultsBgOpacity,
-    });
-    const resultsText = $el('span', {
-      id: 'resultsText',
-      className: 'results text span',
-      textContent: 'BG Brightness',
-      title: '',
-    });
-    const resultsMinus = $el('button', {
-      id: 'resultsMinus',
-      className: 'results minus button',
-      textContent: '–',
-      title: 'Background Darker',
-      onclick: increaseSearchResultsBgOpacity,
-    });
-    resultsDiv.append(
-      resultsPlus,
-      resultsText,
-      resultsMinus,
+    const brightnessContainer = $el('div', {
+      id: 'brightnessContainer',
+      },
+      $el('button', {
+        id: 'brightnessPlus',
+        className: 'brightness plus button',
+        textContent: '+',
+        title: 'Background Brighter',
+        onclick: decreaseSearchResultsBgOpacity,
+      }),
+      $el('span', {
+        id: 'brightnessText',
+        className: 'brightness text span',
+        textContent: 'BG Brightness',
+        title: '',
+      }),
+      $el('button', {
+        id: 'brightnessMinus',
+        className: 'brightness minus button',
+        textContent: '–',
+        title: 'Background Darker',
+        onclick: increaseSearchResultsBgOpacity,
+      })
     );
-    makeDraggable(resultsDiv, 'resultsDiv');
-    restorePosition(resultsDiv, 'resultsDiv');
-    STRING_HTML.search > body.prepend(resultsDiv);
+    makeDraggable(brightnessContainer, 'brightnessContainer');
+    restorePosition(brightnessContainer, 'brightnessContainer');
+    STRING_HTML.search > body.prepend(brightnessContainer);
   }
 
   // ===========================================================================
@@ -3102,7 +3098,7 @@
 
   // GOOGLE PAGE
   GM_addStyle(`
-    ${STRING_HTML.main} #resultsDiv,
+    ${STRING_HTML.main} #brightnessContainer,
     ${STRING_HTML.main} div.o3j99.n1xJcf.CoM3Df > a.w5hRs,
     ${STRING_HTML.main} #gb > div.gb_Q.gb_6.gb_Vf.gb_3f > div:nth-child(2) > a,
     ${STRING_HTML.main} #gb > div.gb_Ad.gb_6.gb_L,
@@ -3742,29 +3738,29 @@
     body#gsr #logoContainer {
       display: none !important;
     }
-    body#gsr #resultsDiv {
+    body#gsr #brightnessContainer {
       left: 0px;
       padding: 0px 10px;
       pointer-events: auto;
       position: fixed;
-      top: 12px;
+      top: 0px;
       z-index: 99999;
     }
-    body#gsr #resultsDiv > .button {
+    body#gsr #brightnessContainer > .button {
       align-items: center;
       border: 1px solid transparent;
-      border-radius: 14px;
+      border-radius: 12px;
       font-size: 16px;
-      height: 28px;
-      width: 28px;
+      height: 24px;
+      width: 24px;
     }
-    body#gsr #resultsDiv > .button:hover {
+    body#gsr #brightnessContainer > .button:hover {
       background-color: #fff;
       color: #000;
       font-weight: bold;
       text-shadow: none !important;
     }
-    body#gsr #resultsText {
+    body#gsr #brightnessText {
       margin: 0 10px;
     }
     body#gsr .emcav.A8SBwf.pD4qTd {
