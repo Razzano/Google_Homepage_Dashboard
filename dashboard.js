@@ -2980,7 +2980,7 @@
     applySearchResultsBgOpacity();
   };
 
-  const initiate = () => {
+  const buildBrightnessContainer = () => {
     const brightnessContainer = $el('div', {
       id: 'brightnessContainer',
       },
@@ -3075,7 +3075,7 @@
       panelImg.src = ICONS.nopanel32;
     }
     applySearchResultsBgOpacity();
-    initiate();
+    buildBrightnessContainer();
   };
 
   // =====================================================================================
