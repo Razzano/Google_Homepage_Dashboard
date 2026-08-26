@@ -19,22 +19,22 @@
 
   if (window.top !== window.self) return;
 
-  // ===========================================================================
+  // =====================================================================================
   // NOTE 1:
   //   To prevent a lot of scrolling, go into Settings in the top right, next to
   //   Installed Userscripts, and scroll down to Editor and uncheck Word wrap checkbox.
-  // ===========================================================================
-  // ===========================================================================
+  // =====================================================================================
+  // =====================================================================================
   // NOTE 2:
   //   To open all Google App Links in new tabs, download Tampermonkey script:
   //   https://github.com/Razzano/Google_App_Links/blob/main/Open_in_New_Tab.js
-  // ===========================================================================
+  // =====================================================================================
 
-  // ===========================================================================
+  // =====================================================================================
   // GLOBAL CONSTANTS
-  // ===========================================================================
+  // =====================================================================================
 
-  // Adjust Positioning of Clock Elements ======================================
+  // Adjust Positioning of Clock Elements ================================================
   const BASE_SIZE = 360;                // Clock diameter
   const DAY_BANNER_WIDTH_PADDING = 2;   // 0 default, +2 expands left/right
   const DAY_BANNER_HEIGHT_PADDING = 0;  // 0 default, +2 expands top/bottom
@@ -42,7 +42,7 @@
   const DATE_TEXT_TOP = 0;              // +2 down, -2 up
   const TIME_TEXT_TOP = 0;              // +2 down, -2 up
   const AMPM_TEXT_TOP = 0;              // +2 down, -2 up
-  // ===========================================================================
+  // =====================================================================================
 
   const Settings = {
     get(key, fallback) {
@@ -155,7 +155,7 @@
     inp.focus();
   };
 
-  // ===========================================================================
+  // =====================================================================================
 
   const LANG_LONG = (LOCALE ?? USER_LOCALE);
   const LANG_SHORT = (LOCALE ?? USER_LOCALE).split('-')[0];
@@ -195,9 +195,9 @@
   const body = document.body;
   WALLPAPER_START_DATE.setHours(0, 0, 0, 0);
 
-  // ===========================================================================
+  // =====================================================================================
   // DOM HELPERS
-  // ===========================================================================
+  // =====================================================================================
 
   const SVG_NS = 'http://www.w3.org/2000/svg';
   const SVG_TAGS = new Set([
@@ -348,9 +348,9 @@
     }
   };
 
-  // ===========================================================================
+  // =====================================================================================
   // OBJECT GROUPS
-  // ===========================================================================
+  // =====================================================================================
 
   const BANNER_STYLES = {
     gold: {
@@ -1743,9 +1743,9 @@
     }
   ];
 
-  // ===========================================================================
+  // =====================================================================================
   // LOGO MANAGER (Section 1)
-  // ===========================================================================
+  // =====================================================================================
 
   const applyLogo = (num) => {
     const logoContainer = $el('div', { id: 'logoContainer' });
@@ -1814,9 +1814,9 @@
     applyLogo(val);
   };
 
-  // ===========================================================================
+  // =====================================================================================
   // WALLPAPER MANAGER (Section 2)
-  // ===========================================================================
+  // =====================================================================================
 
   const getCurrentWallpaperNumber = () => {
     switch (Settings.get('wallpaperMode', WALLPAPER_MANUAL)) {
@@ -1985,9 +1985,9 @@
     }
   };
 
-  // ===========================================================================
+  // =====================================================================================
   // CLOCK MANAGER (Section 3)
-  // ===========================================================================
+  // =====================================================================================
 
   const stopAnalogClock = () => {
     State.analog.running = false;
@@ -2645,9 +2645,9 @@
     );
   };
 
-  // ===========================================================================
+  // =====================================================================================
   // DATE/TIME MANAGER (Section 4)
-  // ===========================================================================
+  // =====================================================================================
 
   const applyDateTime = () => {
     const dtContainer = $el('div', {
@@ -2741,9 +2741,9 @@
     startDigitalClock();
   };
 
-  // ===========================================================================
+  // =====================================================================================
   // CONTROL MANAGER (Section 5)
-  // ===========================================================================
+  // =====================================================================================
 
   const applyControlContainer = () => {
     const controlContainer = $el('div', {
@@ -2955,9 +2955,9 @@
     restorePosition(scalerContainer, 'scalerContainer');
   };
 
-  // ===========================================================================
+  // =====================================================================================
   // SEARCH RESULTS (Section 6)
-  // ===========================================================================
+  // =====================================================================================
 
   const SEARCH_RESULTS_BG_OPACITY_DEFAULT = 50;
   const SEARCH_RESULTS_BG_OPACITY_MIN = 0;
@@ -2981,7 +2981,7 @@
   };
 
   const initiate = () => {
-    const brightnessContainer = $el('div', {
+    /*const brightnessContainer = $el('div', {
       id: 'brightnessContainer',
       },
       $el('button', {
@@ -3004,15 +3004,46 @@
         title: 'Background Darker',
         onclick: increaseSearchResultsBgOpacity,
       })
+    );*/
+    const brightnessContainer = $el('div', {
+      id: 'brightnessContainer',
+      },
+      $el('svg', {
+        id: 'brightnessPlus',
+        className: 'brightness button',
+        title: 'Background Brighter',
+        viewBox: '0 0 16 16',
+        onclick: decreaseSearchResultsBgOpacity,
+      },
+        $el('path', {
+          d: 'M 7 2 H 9 V 7 H 14 V 9 H 9 V 14 H 7 V 9 H 2 V 7 H 7 Z',
+          })
+        ),
+        $el('span', {
+          id: 'brightnessText',
+          className: 'brightness',
+          textContent: 'BG Brightness',
+        }),
+        $el('svg', {
+          id: 'brightnessMinus',
+          className: 'brightness button',
+          title: 'Background Darker',
+          viewBox: '0 0 16 16',
+          onclick: increaseSearchResultsBgOpacity,
+        },
+        $el('path', {
+          d: 'M 2 7 H 14 V 9 H 2 Z',
+        })
+      )
     );
     makeDraggable(brightnessContainer, 'brightnessContainer');
     restorePosition(brightnessContainer, 'brightnessContainer');
     STRING_HTML.search > body.prepend(brightnessContainer);
   }
 
-  // ===========================================================================
+  // =====================================================================================
   // UI MANAGER (Section 7)
-  // ===========================================================================
+  // =====================================================================================
 
   const init = () => {
     const textArea = $id('ti6dpd');
@@ -3071,9 +3102,9 @@
     initiate();
   };
 
-  // ===========================================================================
+  // =====================================================================================
   // EVENT LISTENERS (Section 8)
-  // ===========================================================================
+  // =====================================================================================
 
   document.addEventListener('visibilitychange', () => {
     if (!document.hidden && Settings.get('analogClock', true)) {
@@ -3094,9 +3125,9 @@
     init();
   }
 
-  // ===========================================================================
+  // =====================================================================================
   // CSS (Section 9)
-  // ===========================================================================
+  // =====================================================================================
 
   // GOOGLE PAGE
   GM_addStyle(`
@@ -3730,17 +3761,19 @@
 
   // SEARCH RESULTS PAGE
   GM_addStyle(`
-    body#gsr * {
-      text-shadow: 2px 2px 2px #000;
-    }
-    body#gsr #analogClockContainer,
-    body#gsr #dateTimeContainer,
-    body#gsr #scalerContainer,
-    body#gsr #controlContainer,
-    body#gsr #logoContainer {
+    ${STRING_HTML.search} > body#gsr #analogClockContainer,
+    ${STRING_HTML.search} > body#gsr #dateTimeContainer,
+    ${STRING_HTML.search} > body#gsr #scalerContainer,
+    ${STRING_HTML.search} > body#gsr #controlContainer,
+    ${STRING_HTML.search} > body#gsr #logoContainer {
       display: none !important;
     }
+    body#gsr * {
+      text-shadow: 2px 2px 3px #000;
+    }
     body#gsr #brightnessContainer {
+      align-items: center;
+      display: inline-flex;
       left: 0px;
       padding: 0px 10px;
       pointer-events: auto;
@@ -3749,21 +3782,22 @@
       z-index: 99999;
     }
     body#gsr #brightnessContainer > .button {
-      align-items: center;
-      border: 1px solid transparent;
+      background: #4d5156;
+      border: none;
       border-radius: 12px;
-      font-size: 16px;
-      height: 24px;
-      width: 24px;
+      cursor: pointer;
+      fill: #fff;
+      height: 16px;
+      padding: 4px;
+      width: 16px;
     }
     body#gsr #brightnessContainer > .button:hover {
-      background-color: #fff;
-      color: #000;
-      font-weight: bold;
-      text-shadow: none !important;
+      background: #fff;
+      fill: #000;
     }
     body#gsr #brightnessText {
-      margin: 0 10px;
+      cursor: default;
+      margin: 0px 10px;
     }
     body#gsr .emcav.A8SBwf.pD4qTd {
       transform: none !important;
