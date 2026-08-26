@@ -2981,30 +2981,6 @@
   };
 
   const initiate = () => {
-    /*const brightnessContainer = $el('div', {
-      id: 'brightnessContainer',
-      },
-      $el('button', {
-        id: 'brightnessPlus',
-        className: 'brightness button',
-        textContent: '+',
-        title: 'Background Brighter',
-        onclick: decreaseSearchResultsBgOpacity,
-      }),
-      $el('span', {
-        id: 'brightnessText',
-        className: 'brightness',
-        textContent: 'BG Brightness',
-        title: '',
-      }),
-      $el('button', {
-        id: 'brightnessMinus',
-        className: 'brightness button',
-        textContent: '–',
-        title: 'Background Darker',
-        onclick: increaseSearchResultsBgOpacity,
-      })
-    );*/
     const brightnessContainer = $el('div', {
       id: 'brightnessContainer',
       },
@@ -3014,22 +2990,22 @@
         title: 'Background Brighter',
         viewBox: '0 0 16 16',
         onclick: decreaseSearchResultsBgOpacity,
-      },
+        },
         $el('path', {
           d: 'M 7 2 H 9 V 7 H 14 V 9 H 9 V 14 H 7 V 9 H 2 V 7 H 7 Z',
-          })
-        ),
-        $el('span', {
-          id: 'brightnessText',
-          className: 'brightness',
-          textContent: 'BG Brightness',
-        }),
-        $el('svg', {
-          id: 'brightnessMinus',
-          className: 'brightness button',
-          title: 'Background Darker',
-          viewBox: '0 0 16 16',
-          onclick: increaseSearchResultsBgOpacity,
+        })
+      ),
+      $el('span', {
+        id: 'brightnessText',
+        className: 'brightness',
+        textContent: 'BG Brightness',
+      }),
+      $el('svg', {
+        id: 'brightnessMinus',
+        className: 'brightness button',
+        title: 'Background Darker',
+        viewBox: '0 0 16 16',
+        onclick: increaseSearchResultsBgOpacity,
         },
         $el('path', {
           d: 'M 2 7 H 14 V 9 H 2 Z',
