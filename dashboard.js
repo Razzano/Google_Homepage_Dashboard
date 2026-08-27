@@ -2,8 +2,9 @@
 // @name         Google Homepage Dashboard
 // @namespace    srazzano
 // @version      2.6.0
-// @description  Google with centered logo, wallpaper, date/digital time, resizeable analog clock + draggable containers
+// @description  Google with centered logo, wallpaper, date/digital time, resizable analog clock + draggable containers
 // @author       Sonny Razzano a.k.a. srazzano
+// @license      MIT
 // @match        https://www.google.com/*
 // @match        https://google.com/*
 // @exclude      https://www.google.com/maps*
@@ -36,7 +37,7 @@
 
   // Adjust Positioning of Clock Elements ================================================
   const BASE_SIZE = 360;                // Clock diameter
-  const DAY_BANNER_WIDTH_PADDING = 2;   // 0 default, +2 expands left/right
+  const DAY_BANNER_WIDTH_PADDING = 1;   // 0 default, +2 expands left/right
   const DAY_BANNER_HEIGHT_PADDING = 0;  // 0 default, +2 expands top/bottom
   const DAY_BANNER_TEXT_TOP = 0;        // +2 down, -2 up
   const DATE_TEXT_TOP = 0;              // +2 down, -2 up
@@ -2036,20 +2037,6 @@
       $el('stop', { offset: '100%', 'stop-color': 'var(--numeral-bottom)' }),
     ),
     $el('linearGradient', {
-      id: 'bannerGradientClassic',
-      gradientTransform: 'rotate(90)',
-      },
-      $el('stop', { offset: '0%', 'stop-color': 'rgba(255 255 255 / .5)' }),
-      $el('stop', { offset: '100%', 'stop-color': 'rgba(0 0 0 / .5)' }),
-    ),
-    $el('linearGradient', {
-      id: 'bannerGradientDark',
-      gradientTransform: 'rotate(90)',
-      },
-      $el('stop', { offset: '0%', 'stop-color': 'rgba(0 0 0 / .5)' }),
-      $el('stop', { offset: '100%', 'stop-color': 'rgba(0 0 0 / .5)' }),
-    ),
-    $el('linearGradient', {
       id: 'bannerGradientGold',
       gradientTransform: 'rotate(90)',
       },
@@ -2076,6 +2063,20 @@
       },
       $el('stop', { offset: '0%', 'stop-color': 'rgba(168 211 255 / .6' }),
       $el('stop', { offset: '100%', 'stop-color': 'rgba(0 88 176 / .6' }),
+    ),
+    $el('linearGradient', {
+      id: 'bannerGradientClassic',
+      gradientTransform: 'rotate(90)',
+      },
+      $el('stop', { offset: '0%', 'stop-color': 'rgba(186 188 189 / .5)' }),
+      $el('stop', { offset: '100%', 'stop-color': 'rgba(0 0 0 / .75)' }),
+    ),
+    $el('linearGradient', {
+      id: 'bannerGradientDark',
+      gradientTransform: 'rotate(90)',
+      },
+      $el('stop', { offset: '0%', 'stop-color': 'rgba(0 0 0 / .5)' }),
+      $el('stop', { offset: '100%', 'stop-color': 'rgba(0 0 0 / .5)' }),
     ),
     $el('linearGradient', {
       id: 'panelGradient',
@@ -3583,7 +3584,7 @@
       top: 3px;
       width: 32px;
     }
-    #scalerContainer > .toggler[disabled] {
+    #scalerContainer > .toggler.disabled {
       opacity: .3;
       pointer-events: none;
       position: relative;
