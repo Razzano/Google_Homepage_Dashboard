@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Google Homepage Dashboard
 // @namespace    srazzano
-// @version      2.6.0
+// @version      2.6.2
 // @description  Google with centered logo, wallpaper, date/digital time, resizable analog clock + draggable containers
 // @author       Sonny Razzano a.k.a. srazzano
 // @license      MIT
@@ -484,14 +484,22 @@
   };
 
   const LOGO_CONFIG = {
-    3: { marginTop: '15px', transform: 'translateX(-50%)' },
-    4: { marginTop: '64px', transform: 'translateX(-50%)' },
-    5: { marginTop: '5px', transform: 'translateX(-50%)' },
-    7: { marginTop: '25px', transform: 'translateX(-50%)' },
-    8: { marginTop: '60px', transform: 'translateX(-180%)' },
-    12: { marginTop: '5px', transform: 'translateX(-50%)' },
-    13: { marginTop: '15px', transform: 'translateX(-50%)' },
-    15: { marginTop: '25px', transform: 'translateX(-50%)' },
+    1: { top: '100px', transform: 'translateX(-50%)' },
+    2: { top: '100px', transform: 'translateX(-50%)' },
+    3: { top: '45px', transform: 'translateX(-50%)' },
+    4: { top: '128px', transform: 'translateX(-50%)' },
+    5: { top: '30px', transform: 'translateX(-50%)' },
+    6: { top: '60px', transform: 'translateX(-50%)' },
+    7: { top: '60px', transform: 'translateX(-50%)' },
+    8: { top: '120px', transform: 'translateX(-180%)' },
+    9: { top: '70px', transform: 'translateX(-50%)' },
+    10: { top: '80px', transform: 'translateX(-50%)' },
+    11: { top: '75px', transform: 'translateX(-50%)' },
+    12: { top: '30px', transform: 'translateX(-50%)' },
+    13: { top: '45px', transform: 'translateX(-50%)' },
+    14: { top: '75px', transform: 'translateX(-50%)' },
+    15: { top: '65px', transform: 'translateX(-50%)' },
+    16: { top: '80px', transform: 'translateX(-50%)' },
   };
 
   const STRING_HTML = {
@@ -1749,7 +1757,6 @@
   // =====================================================================================
 
   const applyLogo = (num) => {
-    const logoContainer = $el('div', { id: 'logoContainer' });
     const existing = $id('logoGoogle');
     if (existing) existing.remove();
     num = parseInt(num, 10);
@@ -1757,7 +1764,7 @@
       num = 0;
     }
     const config = LOGO_CONFIG[num] || {
-      marginTop: '40px',
+      top: '40px',
       transform: 'translateX(-50%)'
     };
     GM_addStyle(`
@@ -1771,7 +1778,7 @@
         display: ${num === 0 ? 'block' : 'none'} !important;
       }
       ${STRING_HTML.main} #logoGoogle {
-        margin-top: ${config.marginTop} !important;
+        top: ${config.top} !important;
       }
     `);
     if (num !== 0) {
@@ -1783,17 +1790,14 @@
           src
         });
         logoCopy.style.cssText = `
-          left: 50%;
-          position: absolute;
-          top: ${config.marginTop};
+          top: ${config.top};
           transform: ${config.transform};
         `;
         logoCopy.onerror = () => {
           console.warn(`Logo #${num} not found`);
           logoCopy.remove();
         };
-        const logoContainer = $el('div', { id: 'logoContainer' }, logoCopy);
-        STRING_HTML.main > body.prepend(logoContainer);
+        STRING_HTML.main > body.prepend(logoCopy);
     } }
     const inp = $id('inputLogo');
     if (inp) {
@@ -3124,7 +3128,8 @@
     ${STRING_HTML.main} a.w5hRs,
     ${STRING_HTML.main} div.g55egf > a,
     ${STRING_HTML.main} promo-middle-slot,
-    ${STRING_HTML.main} .IzOpfd {
+    ${STRING_HTML.main} .IzOpfd,
+    ${STRING_HTML.main} div.RNNXgb > div.SDkEP > div.fM33ce.dRYYxd > div {
       display: none !important;
     }
     ${STRING_HTML.mainHTML} #gb > div.gb_Q.gb_6.gb_Vf.gb_3f {
@@ -3183,6 +3188,7 @@
       font-family: "Segoe UI", sans-serif;
       left: 50px;
       position: absolute;
+      right: auto;
       top: 100px;
       user-select: none;
       z-index: 999;
@@ -3658,8 +3664,7 @@
       max-width: 100%;
       opacity: 1;
       position: absolute;
-      top: 0px;
-      z-index: 99;
+      z-index: 9999;
     }
   `);
 
@@ -3742,11 +3747,11 @@
     ${STRING_HTML.search} > body#gsr #dateTimeContainer,
     ${STRING_HTML.search} > body#gsr #scalerContainer,
     ${STRING_HTML.search} > body#gsr #controlContainer,
-    ${STRING_HTML.search} > body#gsr #logoContainer {
+    ${STRING_HTML.search} > body#gsr #logoGoogle {
       display: none !important;
     }
-    body#gsr * {
-      text-shadow: 2px 2px 3px #000;
+    ${STRING_HTML.search} * {
+      text-shadow: 2px 2px 4px #000;
     }
     body#gsr #brightnessContainer {
       align-items: center;
@@ -3793,7 +3798,6 @@
       position: relative !important;
       top: -10px !important;
     }
-    body#gsr .logo,
     body#gsr .XDyW0e,
     body#gsr #footcnt,
     body#gsr #gb > div.gb_td.gb_0.gb_I > div,
