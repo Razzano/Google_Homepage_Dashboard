@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Google Homepage Dashboard
 // @namespace    srazzano
-// @version      2.6.2
+// @version      2.6.3
 // @description  Google with centered logo, wallpaper, date/digital time, resizable analog clock + draggable containers
 // @author       Sonny Razzano a.k.a. srazzano
 // @license      MIT
@@ -3663,7 +3663,8 @@
       left: 50%;
       max-width: 100%;
       opacity: 1;
-      position: absolute;
+      position: fixed;
+      right: auto;
       z-index: 9999;
     }
   `);
@@ -3750,6 +3751,9 @@
     ${STRING_HTML.search} > body#gsr #logoGoogle {
       display: none !important;
     }
+    ${STRING_HTML.search} > body#gsr .logo {
+      padding: 0px !important;
+    }
     ${STRING_HTML.search} * {
       text-shadow: 2px 2px 4px #000;
     }
@@ -3779,9 +3783,11 @@
     }
     body#gsr #brightnessText {
       cursor: default;
+      font-size: 16px;
       margin: 0px 10px;
     }
-    body#gsr .emcav.A8SBwf.pD4qTd {
+    body#gsr .emcav.A8SBwf.pD4qTd,
+    body#gsr #tsf > div:nth-child(1) > div {
       transform: none !important;
     }
     body#gsr #cnt {
@@ -3845,6 +3851,9 @@
     body#gsr > #searchform {
       margin-top: -2px !important;
       top: 0 !important;
+    }
+    body#gsr #tsf > div:nth-child(1) > div {
+      width: auto !important;
     }
     body#gsr .RNNXgb {
       border-radius: 24px !important;
