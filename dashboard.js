@@ -2971,7 +2971,12 @@
 
   let searchResultsBgOpacity = Settings.get('searchResultsBgOpacity', SEARCH_RESULTS_BG_OPACITY_DEFAULT);
   const applySearchResultsBgOpacity = () => {
-    document.documentElement.style.setProperty('--search-results-bg-opacity', searchResultsBgOpacity / 100);
+    document.documentElement.style.setProperty('--search-results-bg-brightness', searchResultsBgOpacity / 100);
+    let int = ((100 - searchResultsBgOpacity) / 100);
+    document.documentElement.style.setProperty('--search-results-logo-brightness',
+      int >= 0.1 ? ((100 - searchResultsBgOpacity) / 100) - 0.1 : int === 0.05
+                 ? ((100 - searchResultsBgOpacity) / 100) - 0.03 : 0
+    );
     Settings.set('searchResultsBgOpacity', searchResultsBgOpacity);
   };
 
@@ -3173,6 +3178,25 @@
     }
     ${STRING_HTML.main} #gb > div.gb_z > div:nth-child(2) {
       height: calc(-70px + 100vh) !important;
+    }
+    ${STRING_HTML.main} #gb > div.gb_R.gb_8.gb_1f.gb_8f {
+      background: rgba(0 0 0 / .2) !important;
+      border-radius: 8px !important;
+      padding: 9px 10px 0px 0px !important;
+      height: 28px !important;
+      margin-top: -4px !important;
+    }
+    ${STRING_HTML.main} #gbwa > div {
+      padding: 0 !important;
+    }
+    ${STRING_HTML.main} #gbwa > div > a {
+      height: 36px !important;
+      margin-top: -2px !important;
+      padding: 4px !important;
+      width: 36px !important;
+    }
+    ${STRING_HTML.main} #gb > div.gb_z {
+      margin-top: -8px !important;
     }
   `);
 
@@ -3665,7 +3689,7 @@
       opacity: 1;
       position: fixed;
       right: auto;
-      z-index: 9999;
+      z-index: 99999;
     }
   `);
 
@@ -3747,9 +3771,13 @@
     ${STRING_HTML.search} > body#gsr #analogClockContainer,
     ${STRING_HTML.search} > body#gsr #dateTimeContainer,
     ${STRING_HTML.search} > body#gsr #scalerContainer,
-    ${STRING_HTML.search} > body#gsr #controlContainer,
-    ${STRING_HTML.search} > body#gsr #logoGoogle {
+    ${STRING_HTML.search} > body#gsr #controlContainer/*,
+    ${STRING_HTML.search} > body#gsr #logoGoogle*/ {
       display: none !important;
+    }
+    ${STRING_HTML.search} > body#gsr #logoGoogle {
+      filter: brightness(var(--search-results-logo-brightness)) !important;
+      z-index: 0 !important;
     }
     ${STRING_HTML.search} > body#gsr .logo {
       padding: 0px !important;
@@ -3791,7 +3819,7 @@
       transform: none !important;
     }
     body#gsr #cnt {
-      background: rgba(0 0 0 / var(--search-results-bg-opacity)) !important;
+      background: rgba(0 0 0 / var(--search-results-bg-brightness)) !important;
     }
     body#gsr > span.LoygGf,
     body#gsr > span.LoygGf.VHFyob {
