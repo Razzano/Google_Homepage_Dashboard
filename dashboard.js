@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Google Homepage Dashboard
 // @namespace    srazzano
-// @version      2.6.3
+// @version      2.6.4
 // @description  Google with centered logo, wallpaper, date/digital time, resizable analog clock + draggable containers
 // @author       Sonny Razzano a.k.a. srazzano
 // @license      MIT
@@ -505,6 +505,12 @@
   const STRING_HTML = {
     main: 'html[itemtype="http://schema.org/WebPage"]',
     search: 'html[itemtype="http://schema.org/SearchResultsPage"]',
+  };
+
+  const STRING_TOOLTIP = {
+    brightnessTitle: '• Left-click for BG Brightness 50%\n• Shift+ Left-click for BG Brightness 100%\n• Ctrl+Left-click for BG Brightness 0%',
+    brightnessMinusTitle: 'Background Darker by 5%',
+    brightnessPlusTitle: 'Background Brighter by 5%',
   };
 
   const STRING_TRANSLATIONS = {
@@ -2564,7 +2570,7 @@
         if (LANG_LONG === 'ar-SA' || LANG_LONG === 'el-GR') {
           dayBannerText.setAttribute('y', 22.6 + marginTop);
         } else if (LANG_LONG === 'hi-IN') {
-          dayBannerText.setAttribute('y', 23);
+          dayBannerText.setAttribute('y', 23.2);
         } else {
           dayBannerText.setAttribute('y', 23 + marginTop);
         }
@@ -2575,7 +2581,7 @@
         if (LANG_LONG === 'ru-RU') {
           dayBannerText.setAttribute('y', 25.5);
         } else if (LANG_LONG === 'bn-BD') {
-          dayBannerText.setAttribute('y', 25.8);
+          dayBannerText.setAttribute('y', 26.2);
         } else {
           dayBannerText.setAttribute('y', 26);
         }
@@ -2974,14 +2980,27 @@
     document.documentElement.style.setProperty('--search-results-bg-brightness', searchResultsBgOpacity / 100);
     let int = ((100 - searchResultsBgOpacity) / 100);
     document.documentElement.style.setProperty('--search-results-logo-brightness',
-      int >= 0.1 ? ((100 - searchResultsBgOpacity) / 100) - 0.1 : int === 0.05
-                 ? ((100 - searchResultsBgOpacity) / 100) - 0.03 : 0
+      int > 0.1 ? ((100 - searchResultsBgOpacity) / 100) - 0.1 : int === 0.1
+                ? ((100 - searchResultsBgOpacity) / 100) - 0.05 : int === .05
+                ? ((100 - searchResultsBgOpacity) / 100) - 0.025 : 0
     );
     Settings.set('searchResultsBgOpacity', searchResultsBgOpacity);
   };
 
   const increaseSearchResultsBgOpacity = () => {
     searchResultsBgOpacity = Math.min(SEARCH_RESULTS_BG_OPACITY_MAX, searchResultsBgOpacity + SEARCH_RESULTS_BG_OPACITY_STEP);
+    applySearchResultsBgOpacity();
+  };
+
+  const defaultResultsBgOpacity = (e) => {
+    if (e.button !== 0) return;
+    if (e.button === 0 && e.shiftKey) {
+      searchResultsBgOpacity = SEARCH_RESULTS_BG_OPACITY_MIN;
+    } else if (e.button === 0 && e.ctrlKey) {
+      searchResultsBgOpacity = SEARCH_RESULTS_BG_OPACITY_MAX;
+    } else if (e.button === 0) {
+      searchResultsBgOpacity = SEARCH_RESULTS_BG_OPACITY_DEFAULT;
+    }
     applySearchResultsBgOpacity();
   };
 
@@ -2996,8 +3015,8 @@
       },
       $el('svg', {
         id: 'brightnessPlus',
-        className: 'brightness button',
-        title: 'Background Brighter',
+        className: 'button',
+        title: STRING_TOOLTIP.brightnessPlusTitle,
         viewBox: '0 0 16 16',
         onclick: decreaseSearchResultsBgOpacity,
         },
@@ -3005,15 +3024,17 @@
           d: 'M 7 2 H 9 V 7 H 14 V 9 H 9 V 14 H 7 V 9 H 2 V 7 H 7 Z',
         })
       ),
-      $el('span', {
-        id: 'brightnessText',
-        className: 'brightness',
+      $el('button', {
+        id: 'brightnessBtn',
+        className: 'brightness button',
         textContent: 'BG Brightness',
+        title: STRING_TOOLTIP.brightnessTitle,
+        onclick: (e) => defaultResultsBgOpacity(e),
       }),
       $el('svg', {
         id: 'brightnessMinus',
-        className: 'brightness button',
-        title: 'Background Darker',
+        className: 'button',
+        title: STRING_TOOLTIP.brightnessMinusTitle,
         viewBox: '0 0 16 16',
         onclick: increaseSearchResultsBgOpacity,
         },
@@ -3180,7 +3201,7 @@
       height: calc(-70px + 100vh) !important;
     }
     ${STRING_HTML.main} #gb > div.gb_R.gb_8.gb_1f.gb_8f {
-      background: rgba(0 0 0 / .2) !important;
+      background: transparent !important;
       border-radius: 8px !important;
       padding: 9px 10px 0px 0px !important;
       height: 28px !important;
@@ -3771,8 +3792,7 @@
     ${STRING_HTML.search} > body#gsr #analogClockContainer,
     ${STRING_HTML.search} > body#gsr #dateTimeContainer,
     ${STRING_HTML.search} > body#gsr #scalerContainer,
-    ${STRING_HTML.search} > body#gsr #controlContainer/*,
-    ${STRING_HTML.search} > body#gsr #logoGoogle*/ {
+    ${STRING_HTML.search} > body#gsr #controlContainer {
       display: none !important;
     }
     ${STRING_HTML.search} > body#gsr #logoGoogle {
@@ -3789,7 +3809,7 @@
       align-items: center;
       display: inline-flex;
       left: 0px;
-      padding: 0px 10px;
+      
       pointer-events: auto;
       position: fixed;
       top: 0px;
@@ -3807,12 +3827,21 @@
     }
     body#gsr #brightnessContainer > .button:hover {
       background: #fff;
+      color: #000;
       fill: #000;
     }
-    body#gsr #brightnessText {
-      cursor: default;
+    body#gsr #brightnessContainer > .brightness {
+      border: 1px solid #000;
+      border-radius: 8px;
+      color: #fff;
       font-size: 16px;
+      height: auto;
       margin: 0px 10px;
+      padding: 4px 10px;
+      width: auto;
+    }
+    body#gsr #brightnessContainer > .brightness:hover {
+      color: #000;
     }
     body#gsr .emcav.A8SBwf.pD4qTd,
     body#gsr #tsf > div:nth-child(1) > div {
