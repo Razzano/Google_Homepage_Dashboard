@@ -3904,7 +3904,8 @@
       z-index: 99999;
     }
     body#gsr #brightnessContainer > .button {
-      background: #4d5156;
+      /*background: #4d5156;*/
+      background: linear-gradient(#666, #333);
       border: none;
       border-radius: 20px;
       color: #fff;
@@ -4001,6 +4002,8 @@
       width: auto !important;
     }
     body#gsr .RNNXgb {
+      background: linear-gradient(#666, #333) !important;
+      border: none !important;
       border-radius: 24px !important;
       margin: 0 !important;
     }
