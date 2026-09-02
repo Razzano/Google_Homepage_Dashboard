@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Google Homepage Dashboard
 // @namespace    srazzano
-// @version      2.6.5
+// @version      2.6.7
 // @description  Google with centered logo, wallpaper, date/digital time, resizable analog clock + draggable containers
 // @author       Sonny Razzano a.k.a. srazzano
 // @license      MIT
@@ -2994,9 +2994,17 @@
     Settings.set('searchResultsBgOpacity', searchResultsBgOpacity);
   };
 
+  const setString = () => {
+    let searchResultsBgOpacity = Settings.get('searchResultsBgOpacity', SEARCH_RESULTS_BG_OPACITY_DEFAULT);
+    let str = 'BG Brightness ' + (100 - searchResultsBgOpacity) + '%';
+    const btn = $id('brightnessBtn');
+    btn.textContent = str;
+  };
+
   const increaseSearchResultsBgOpacity = () => {
     searchResultsBgOpacity = Math.min(SEARCH_RESULTS_BG_OPACITY_MAX, searchResultsBgOpacity + SEARCH_RESULTS_BG_OPACITY_STEP);
     applySearchResultsBgOpacity();
+    setString();
   };
 
   const defaultResultsBgOpacity = (e) => {
@@ -3009,11 +3017,13 @@
       searchResultsBgOpacity = SEARCH_RESULTS_BG_OPACITY_DEFAULT;
     }
     applySearchResultsBgOpacity();
+    setString();
   };
 
   const decreaseSearchResultsBgOpacity = () => {
     searchResultsBgOpacity = Math.max(SEARCH_RESULTS_BG_OPACITY_MIN, searchResultsBgOpacity - SEARCH_RESULTS_BG_OPACITY_STEP);
     applySearchResultsBgOpacity();
+    setString();
   };
 
   const buildBrightnessContainer = () => {
@@ -3033,8 +3043,8 @@
       ),
       $el('button', {
         id: 'brightnessBtn',
-        className: 'brightness button',
-        textContent: 'BG Brightness',
+        className: 'button',
+        textContent: '',
         title: STRING_TOOLTIP.brightnessTitle,
         onclick: (e) => defaultResultsBgOpacity(e),
       }),
@@ -3061,9 +3071,11 @@
 
   const containerView = () => {
     const enable = Settings.get('viewControls', true);
+    const scalerCtn = $id('scalerContainer');
+    const controlCtn = $id('controlContainer');
     Settings.set('viewControls', !enable);
-    $id('scalerContainer').classList.toggle('hidden', !enable);
-    $id('controlContainer').classList.toggle('hidden', !enable);
+    scalerCtn.classList.toggle('hidden', !enable);
+    controlCtn.classList.toggle('hidden', !enable);
   }
 
   const viewCnt = () => {
@@ -3099,6 +3111,7 @@
     const showClock = Settings.get('analogClock', true);
     const clock = $id('analogClockContainer');
     const scalerCtn = $id('scalerContainer');
+    const controlCtn = $id('controlContainer');
     const scaler = $qa('.scaler', scalerCtn);
     const panelTog = $id('panelToggler');
     if (showClock) {
@@ -3142,8 +3155,9 @@
     applySearchResultsBgOpacity();
     buildBrightnessContainer();
     viewCnt();
-    $id('scalerContainer').classList.toggle('hidden', Settings.get('viewControls', true));
-    $id('controlContainer').classList.toggle('hidden', Settings.get('viewControls', true));
+    setString();
+    scalerCtn.classList.toggle('hidden', Settings.get('viewControls', true));
+    controlCtn.classList.toggle('hidden', Settings.get('viewControls', true));
   };
 
   // =====================================================================================
@@ -3883,40 +3897,39 @@
     body#gsr #brightnessContainer {
       align-items: center;
       display: inline-flex;
-      left: 0px;
+      left: 1134px;
       pointer-events: auto;
       position: fixed;
-      top: 0px;
+      top: 6px;
       z-index: 99999;
     }
     body#gsr #brightnessContainer > .button {
       background: #4d5156;
       border: none;
-      border-radius: 12px;
+      border-radius: 20px;
+      color: #fff;
       cursor: pointer;
       fill: #fff;
-      height: 16px;
-      margin: 0px 8px;
-      padding: 6px;
-      width: 16px;
+      padding: 10px;
+      text-align: center;
+    }
+    body#gsr #brightnessPlus {
+      height: 20px;
+      margin: 0px 4px 0px 8px;
+      width: 20px;
+    }
+    body#gsr #brightnessMinus {
+      height: 20px;
+      margin: 0px 8px 0px 4px;
+    }
+    body#gsr #brightnessBtn {
+      font-size: 16px;
+      min-width: 170px;
     }
     body#gsr #brightnessContainer > .button:hover {
       background: #fff;
       color: #000;
       fill: #000;
-    }
-    body#gsr #brightnessContainer > .brightness {
-      border: none;
-      border-radius: 8px;
-      color: #fff;
-      font-size: 16px;
-      height: auto;
-      margin: 0px;
-      padding: 5px 10px;
-      width: auto;
-    }
-    body#gsr #brightnessContainer > .brightness:hover {
-      color: #000;
     }
     body#gsr .emcav.A8SBwf.pD4qTd,
     body#gsr #tsf > div:nth-child(1) > div {
