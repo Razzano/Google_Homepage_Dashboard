@@ -29,7 +29,7 @@
 //   OBJECT GROUPS
 //   LOGO MANAGER (Section 1)
 //   WALLPAPER MANAGER (Section 2)
-//   WALLPAPER MANAGER (Section 3)
+//   CLOCK MANAGER (Section 3)
 //   DATE/TIME MANAGER (Section 4)
 //   CONTROL MANAGER (Section 5)
 //   SEARCH RESULTS BG OPACITY MANAGER (Section 6)
