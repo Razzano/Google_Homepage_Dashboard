@@ -3904,7 +3904,6 @@
       z-index: 99999;
     }
     body#gsr #brightnessContainer > .button {
-      /*background: #4d5156;*/
       background: linear-gradient(#666, #333);
       border: none;
       border-radius: 20px;
@@ -3914,17 +3913,20 @@
       padding: 10px;
       text-align: center;
     }
-    body#gsr #brightnessPlus {
-      height: 20px;
-      margin: 0px 4px 0px 8px;
-      width: 20px;
-    }
+    body#gsr #brightnessPlus,
     body#gsr #brightnessMinus {
       height: 20px;
+      width: 20px;
+    }
+    body#gsr #brightnessPlus {
+      margin: 0px 4px 0px 8px;
+    }
+    body#gsr #brightnessMinus {
       margin: 0px 8px 0px 4px;
     }
     body#gsr #brightnessBtn {
       font-size: 16px;
+      height: 40px;
       min-width: 170px;
     }
     body#gsr #brightnessContainer > .button:hover {
