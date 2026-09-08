@@ -21,7 +21,7 @@
 // NOTE 2:
 //   • To open all Google App Links in new tabs, download Tampermonkey script:
 //     https://github.com/Razzano/Google_App_Links/blob/main/Open_in_New_Tab.js or 
-       https://raw.githubusercontent.com/Razzano/Google_App_Links/main/Open_in_New_Tab.js
+//     https://raw.githubusercontent.com/Razzano/Google_App_Links/main/Open_in_New_Tab.js
 // APPENDIX:
 //   • GLOBAL CONSTANTS
 //   • DOM HELPERS
