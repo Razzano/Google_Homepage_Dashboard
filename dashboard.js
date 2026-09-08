@@ -49,13 +49,13 @@
   // =====================================================================================
 
   // Manually Adjust Positioning of Clock Elements =======================================
-  const BASE_SIZE = 360;                // Clock diameter
-  const DAY_BANNER_WIDTH_PADDING = 1;   // 0 default, +2 expands left/right
-  const DAY_BANNER_HEIGHT_PADDING = 0;  // 0 default, +2 expands top/bottom
-  const DAY_BANNER_TEXT_TOP = 0;        // +2 down, -2 up
-  const DATE_TEXT_TOP = 0;              // +2 down, -2 up
-  const TIME_TEXT_TOP = 0;              // +2 down, -2 up
-  const AMPM_TEXT_TOP = 0;              // +2 down, -2 up
+  const BASE_SIZE = 360;                  // Clock diameter
+  const DAY_BANNER_WIDTH_PADDING = 1;     // 0 default, +2 expands left/right
+  const DAY_BANNER_HEIGHT_PADDING = 0;    // 0 default, +2 expands top/bottom
+  const DAY_BANNER_TEXT_TOP = 0;          // +2 down, -2 up
+  const DATE_TEXT_TOP = 0;                // +2 down, -2 up
+  const TIME_TEXT_TOP = 0;                // +2 down, -2 up
+  const AMPM_TEXT_TOP = 0;                // +2 down, -2 up
   // =====================================================================================
 
   const LANGUAGE_COUNTRY = [
@@ -2646,7 +2646,7 @@
       scaler.forEach(el => el.classList.toggle('disabled', !bool));
       const btn = $id('analogClockBtn');
       const pref = bool ? ICONS.clock32 : ICONS.noclock32;
-      const tip = '• Left-click: Show/Hide Analog Clock\n• Shift+Left-click: Lock Clock position\n• Ctrl+Left-click: Unlock Clock position';
+      const tip = '• Left-click: Show/Hide Analog Clock\n• Shift+Left-click: 🔒 Clock position\n• Ctrl+Left-click: 🔓 Clock position';
       btn.replaceChildren(
         $el('img', {
           src: pref,
@@ -2854,7 +2854,7 @@
     };
     const bool = Settings.get('analogClock', true);
     const pref = bool ? ICONS.clock32 : ICONS.noclock32;
-    const tip = '• Left-click: Show/Hide Analog Clock\n• Shift+Left-click: Lock Clock position\n• Ctrl+Left-click: Unlock Clock position';
+    const tip = '• Left-click: Show/Hide Analog Clock\n• Shift+Left-click: 🔒 Clock position\n• Ctrl+Left-click: 🔓 Clock position';
     const analogClockBtn = $el('button', {
       id: 'analogClockBtn',
       className: 'toggler analog-clock-btn',
@@ -3116,7 +3116,7 @@
     scaler.forEach(el => el.classList.toggle('disabled', !showClock));
     const btn = $id('analogClockBtn');
     const pref = showClock ? ICONS.clock32 : ICONS.noclock32;
-    const tip = '• Left-click: Show/Hide Analog Clock\n• Shift+Left-click: Lock Clock position\n• Ctrl+Left-click: Unlock Clock position';
+    const tip = '• Left-click: Show/Hide Analog Clock\n• Shift+Left-click: 🔒 Clock position\n• Ctrl+Left-click: 🔓 Clock position';
     btn.replaceChildren($el('img', { title: tip, src: pref }));
     const img = $id('hostImg');
     const current = Settings.get('wallpaperHost', 'ibb');
