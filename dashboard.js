@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Google Homepage Dashboard
 // @namespace    srazzano
-// @version      2.7.0
+// @version      2.7.1
 // @description  Google with centered logo, wallpaper, date/digital time, resizable analog clock + draggable containers
 // @author       Sonny Razzano a.k.a. srazzano
 // @license      MIT
@@ -20,7 +20,7 @@
 //     Installed Userscripts, and scroll down to Editor and uncheck Word wrap checkbox.
 // NOTE 2:
 //   • To open all Google App Links in new tabs, download Tampermonkey script:
-//     view code @ https://github.com/Razzano/Google_App_Links/blob/main/Open_in_New_Tab.js or 
+//     view code @ https://github.com/Razzano/Google_App_Links/blob/main/Open_in_New_Tab.js or
 //     install from https://raw.githubusercontent.com/Razzano/Google_App_Links/main/Open_in_New_Tab.js
 // APPENDIX:
 //   • GLOBAL CONSTANTS
@@ -910,8 +910,6 @@
   const TITLE_TRANSLATIONS = {
     ar: {
       anaCalImgTitle: 'إظهار/إخفاء معلومات التاريخ والوقت على وجه الساعة',
-      analogClockBtnHideTitle: 'إخفاء الساعة التناظرية',
-      analogClockBtnShowTitle: 'إظهار الساعة التناظرية',
       bannerImgTitle: 'تبديل أنماط الشريط\nLeft-click 🠊\nShift+Left-click 🠈\nCtrl+Left-click 🠈',
       calBtnTitle: 'إظهار/إخفاء حاوية التاريخ والوقت',
       changeLogoTitle: 'انقر بالزر الأيسر لتغيير الشعارات',
@@ -937,8 +935,6 @@
     },
     bn: {
       anaCalImgTitle: 'ঘড়ির মুখে তারিখ ও সময়ের তথ্য দেখান/লুকান',
-      analogClockBtnHideTitle: 'অ্যানালগ ঘড়ি লুকান',
-      analogClockBtnShowTitle: 'অ্যানালগ ঘড়ি দেখান',
       bannerImgTitle: 'ব্যানার স্টাইল পরিবর্তন করুন\nLeft-click 🠊\nShift+Left-click 🠈\nCtrl+Left-click 🠈',
       calBtnTitle: 'তারিখ-সময় কন্টেইনার দেখান/লুকান',
       changeLogoTitle: 'লোগো পরিবর্তন করতে বাম-ক্লিক করুন',
@@ -964,8 +960,6 @@
     },
     cs: {
       anaCalImgTitle: 'Zobrazit/skrýt informace o datu a čase na ciferníku',
-      analogClockBtnHideTitle: 'Skrýt analogové hodiny',
-      analogClockBtnShowTitle: 'Zobrazit analogové hodiny',
       bannerImgTitle: 'Přepnout styly banneru\nLeft-click 🠊\nShift+Left-click 🠈\nCtrl+Left-click 🠈',
       calBtnTitle: 'Zobrazit/skrýt kontejner data a času',
       changeLogoTitle: 'Levé kliknutí pro změnu log',
@@ -991,8 +985,6 @@
     },
     da: {
       anaCalImgTitle: 'Vis/skjul dato- og tidsinfo på urskiven',
-      analogClockBtnHideTitle: 'Skjul analogt ur',
-      analogClockBtnShowTitle: 'Vis analogt ur',
       bannerImgTitle: 'Skift bannerstile\nLeft-click 🠊\nShift+Left-click 🠈\nCtrl+Left-click 🠈',
       calBtnTitle: 'Vis/skjul datoTid-beholder',
       changeLogoTitle: 'Venstreklik for at skifte logoer',
@@ -1018,8 +1010,6 @@
     },
     de: {
       anaCalImgTitle: 'Datums- und Uhrzeitinformationen auf dem Zifferblatt ein-/ausblenden',
-      analogClockBtnHideTitle: 'Analoguhr ausblenden',
-      analogClockBtnShowTitle: 'Analoguhr anzeigen',
       bannerImgTitle: 'Bannerstile wechseln\nLeft-click 🠊\nShift+Left-click 🠈\nCtrl+Left-click 🠈',
       calBtnTitle: 'dateTime-Container ein-/ausblenden',
       changeLogoTitle: 'Linksklick zum Ändern der Logos',
@@ -1045,8 +1035,6 @@
     },
     el: {
       anaCalImgTitle: 'Εμφάνιση/Απόκρυψη πληροφοριών ημερομηνίας και ώρας στο καντράν του ρολογιού',
-      analogClockBtnHideTitle: 'Απόκρυψη αναλογικού ρολογιού',
-      analogClockBtnShowTitle: 'Εμφάνιση αναλογικού ρολογιού',
       bannerImgTitle: 'Εναλλαγή στυλ banner\nLeft-click 🠊\nShift+Left-click 🠈\nCtrl+Left-click 🠈',
       calBtnTitle: 'Εμφάνιση/Απόκρυψη του κοντέινερ ημερομηνίας και ώρας',
       changeLogoTitle: 'Αριστερό κλικ για αλλαγή λογότυπων',
@@ -1072,8 +1060,6 @@
     },
     en: {
       anaCalImgTitle: 'Show/Hide Date and Time Info On Clock Face',
-      analogClockBtnHideTitle: 'Hide Analog Clock',
-      analogClockBtnShowTitle: 'Show Analog Clock',
       bannerImgTitle: 'Toggle Banner Styles\nLeft-click 🠊\nShift+Left-click 🠈\nCtrl+Left-click 🠈',
       calBtnTitle: 'Show/Hide dateTime Container',
       changeLogoTitle: 'Left-click To Change Logos',
@@ -1099,8 +1085,6 @@
     },
     es: {
       anaCalImgTitle: 'Mostrar/Ocultar información de fecha y hora en la esfera del reloj',
-      analogClockBtnHideTitle: 'Ocultar reloj analógico',
-      analogClockBtnShowTitle: 'Mostrar reloj analógico',
       bannerImgTitle: 'Cambiar estilos del banner\nLeft-click 🠊\nShift+Left-click 🠈\nCtrl+Left-click 🠈',
       calBtnTitle: 'Mostrar/Ocultar contenedor dateTime',
       changeLogoTitle: 'Clic izquierdo para cambiar logotipos',
@@ -1141,8 +1125,6 @@
     },
     fi: {
       anaCalImgTitle: 'Näytä/Piilota päivämäärä- ja aikatiedot kellotaulussa',
-      analogClockBtnHideTitle: 'Piilota analoginen kello',
-      analogClockBtnShowTitle: 'Näytä analoginen kello',
       bannerImgTitle: 'Vaihda bannerin tyylejä\nLeft-click 🠊\nShift+Left-click 🠈\nCtrl+Left-click 🠈',
       calBtnTitle: 'Näytä/Piilota päivämäärä- ja aikasäiliö',
       changeLogoTitle: 'Vasen napsautus vaihtaa logon',
@@ -1168,8 +1150,6 @@
     },
     fr: {
       anaCalImgTitle: 'Afficher/Masquer les informations de date et heure sur le cadran',
-      analogClockBtnHideTitle: 'Masquer l’horloge analogique',
-      analogClockBtnShowTitle: 'Afficher l’horloge analogique',
       bannerImgTitle: 'Changer les styles de bannière\nLeft-click 🠊\nShift+Left-click 🠈\nCtrl+Left-click 🠈',
       calBtnTitle: 'Afficher/Masquer le conteneur dateTime',
       changeLogoTitle: 'Clic gauche pour changer les logos',
@@ -1208,8 +1188,6 @@
     },
     he: {
       anaCalImgTitle: 'הצג/הסתר מידע על תאריך ושעה על פני השעון',
-      analogClockBtnHideTitle: 'הסתר שעון אנלוגי',
-      analogClockBtnShowTitle: 'הצג שעון אנלוגי',
       bannerImgTitle: 'החלף סגנונות באנר\nLeft-click 🠊\nShift+Left-click 🠈\nCtrl+Left-click 🠈',
       calBtnTitle: 'הצג/הסתר את מכל התאריך והשעה',
       changeLogoTitle: 'לחיצה שמאלית להחלפת סמלים',
@@ -1235,8 +1213,6 @@
     },
     hi: {
       anaCalImgTitle: 'घड़ी के डायल पर दिनांक और समय जानकारी दिखाएँ/छिपाएँ',
-      analogClockBtnHideTitle: 'एनालॉग घड़ी छिपाएँ',
-      analogClockBtnShowTitle: 'एनालॉग घड़ी दिखाएँ',
       bannerImgTitle: 'बैनर शैलियाँ बदलें\nLeft-click 🠊\nShift+Left-click 🠈\nCtrl+Left-click 🠈',
       calBtnTitle: 'दिनांक/समय कंटेनर दिखाएँ/छिपाएँ',
       changeLogoTitle: 'लोगो बदलने के लिए बायाँ-क्लिक करें',
@@ -1262,8 +1238,6 @@
     },
     hu: {
       anaCalImgTitle: 'Dátum- és időinformációk megjelenítése/elrejtése az óralapon',
-      analogClockBtnHideTitle: 'Analóg óra elrejtése',
-      analogClockBtnShowTitle: 'Analóg óra megjelenítése',
       bannerImgTitle: 'Bannerstílusok váltása\nLeft-click 🠊\nShift+Left-click 🠈\nCtrl+Left-click 🠈',
       calBtnTitle: 'Dátum- és időtároló megjelenítése/elrejtése',
       changeLogoTitle: 'Bal kattintás a logók váltásához',
@@ -1289,8 +1263,6 @@
     },
     it: {
       anaCalImgTitle: 'Mostra/Nascondi informazioni di data e ora sul quadrante',
-      analogClockBtnHideTitle: 'Nascondi orologio analogico',
-      analogClockBtnShowTitle: 'Mostra orologio analogico',
       bannerImgTitle: 'Cambia gli stili del banner\nLeft-click 🠊\nShift+Left-click 🠈\nCtrl+Left-click 🠈',
       calBtnTitle: 'Mostra/Nascondi contenitore data e ora',
       changeLogoTitle: 'Clic sinistro per cambiare logo',
@@ -1316,8 +1288,6 @@
     },
     ja: {
       anaCalImgTitle: '文字盤の日付と時刻情報を表示/非表示',
-      analogClockBtnHideTitle: 'アナログ時計を非表示',
-      analogClockBtnShowTitle: 'アナログ時計を表示',
       bannerImgTitle: 'バナースタイルを切り替える\nLeft-click 🠊\nShift+Left-click 🠈\nCtrl+Left-click 🠈',
       calBtnTitle: '日付と時刻コンテナを表示/非表示',
       changeLogoTitle: '左クリックでロゴを変更',
@@ -1343,8 +1313,6 @@
     },
     ko: {
       anaCalImgTitle: '시계 화면의 날짜 및 시간 정보 표시/숨기기',
-      analogClockBtnHideTitle: '아날로그 시계 숨기기',
-      analogClockBtnShowTitle: '아날로그 시계 표시',
       bannerImgTitle: '배너 스타일 전환\nLeft-click 🠊\nShift+Left-click 🠈\nCtrl+Left-click 🠈',
       calBtnTitle: '날짜 및 시간 컨테이너 표시/숨기기',
       changeLogoTitle: '왼쪽 클릭하여 로고 변경',
@@ -1370,8 +1338,6 @@
     },
     nl: {
       anaCalImgTitle: 'Datum- en tijdinformatie op wijzerplaat tonen/verbergen',
-      analogClockBtnHideTitle: 'Analoge klok verbergen',
-      analogClockBtnShowTitle: 'Analoge klok tonen',
       bannerImgTitle: 'Bannermodellen wisselen\nLeft-click 🠊\nShift+Left-click 🠈\nCtrl+Left-click 🠈',
       calBtnTitle: 'Datum- en tijdcontainer tonen/verbergen',
       changeLogoTitle: 'Linksklik om logo te wijzigen',
@@ -1397,8 +1363,6 @@
     },
     no: {
       anaCalImgTitle: 'Vis/skjul dato- og tidsinformasjon på urskiven',
-      analogClockBtnHideTitle: 'Skjul analog klokke',
-      analogClockBtnShowTitle: 'Vis analog klokke',
       bannerImgTitle: 'Bytt bannerstiler\nLeft-click 🠊\nShift+Left-click 🠈\nCtrl+Left-click 🠈',
       calBtnTitle: 'Vis/skjul dato- og tidsbeholder',
       changeLogoTitle: 'Venstreklikk for å bytte logo',
@@ -1424,8 +1388,6 @@
     },
     pl: {
       anaCalImgTitle: 'Pokaż/Ukryj informacje o dacie i godzinie na tarczy zegara',
-      analogClockBtnHideTitle: 'Ukryj zegar analogowy',
-      analogClockBtnShowTitle: 'Pokaż zegar analogowy',
       bannerImgTitle: 'Przełącz style banera\nLeft-click 🠊\nShift+Left-click 🠈\nCtrl+Left-click 🠈',
       calBtnTitle: 'Pokaż/Ukryj kontener daty i godziny',
       changeLogoTitle: 'Kliknij lewym przyciskiem, aby zmienić logo',
@@ -1451,8 +1413,6 @@
     },
     pt: {
       anaCalImgTitle: 'Mostrar/Ocultar Informações de Data e Hora no Mostrador do Relógio',
-      analogClockBtnHideTitle: 'Ocultar Relógio Analógico',
-      analogClockBtnShowTitle: 'Mostrar Relógio Analógico',
       bannerImgTitle: 'Alternar estilos do banner\nLeft-click 🠊\nShift+Left-click 🠈\nCtrl+Left-click 🠈',
       calBtnTitle: 'Mostrar/Ocultar Contêiner de Data e Hora',
       changeLogoTitle: 'Clique com o Botão Esquerdo para Alterar os Logotipos',
@@ -1478,8 +1438,6 @@
     },
     'pt-PT': {
       anaCalImgTitle: 'Mostrar/Ocultar a data e hora no mostrador do relógio',
-      analogClockBtnHideTitle: 'Ocultar relógio analógico',
-      analogClockBtnShowTitle: 'Mostrar relógio analógico',
       calBtnTitle: 'Mostrar/Ocultar o contentor de data e hora',
       changeLogoTitle: 'Clique com o botão esquerdo para alterar os logótipos',
       changeWallpaperTitle: 'Clique com o botão esquerdo para alterar o fundo',
@@ -1501,8 +1459,6 @@
     },
     ro: {
       anaCalImgTitle: 'Afișează/Ascunde Informațiile de Dată și Oră pe Cadranul Ceasului',
-      analogClockBtnHideTitle: 'Ascunde Ceasul Analogic',
-      analogClockBtnShowTitle: 'Afișează Ceasul Analogic',
       bannerImgTitle: 'Schimbă stilurile bannerului\nLeft-click 🠊\nShift+Left-click 🠈\nCtrl+Left-click 🠈',
       calBtnTitle: 'Afișează/Ascunde Containerul pentru Dată și Oră',
       changeLogoTitle: 'Clic Stânga pentru a Schimba Siglele',
@@ -1528,8 +1484,6 @@
     },
     ru: {
       anaCalImgTitle: 'Показать/Скрыть Информацию о Дате и Времени на Циферблате',
-      analogClockBtnHideTitle: 'Скрыть Аналоговые Часы',
-      analogClockBtnShowTitle: 'Показать Аналоговые Часы',
       bannerImgTitle: 'Переключить стили баннера\nLeft-click 🠊\nShift+Left-click 🠈\nCtrl+Left-click 🠈',
       calBtnTitle: 'Показать/Скрыть Контейнер Даты и Времени',
       changeLogoTitle: 'Щелкните Левой Кнопкой, Чтобы Сменить Логотип',
@@ -1555,8 +1509,6 @@
     },
     sk: {
       anaCalImgTitle: 'Zobraziť/Skryť Informácie o Dátume a Čase na Ciferníku',
-      analogClockBtnHideTitle: 'Skryť Analógové Hodiny',
-      analogClockBtnShowTitle: 'Zobraziť Analógové Hodiny',
       bannerImgTitle: 'Prepínať štýly bannera\nLeft-click 🠊\nShift+Left-click 🠈\nCtrl+Left-click 🠈',
       calBtnTitle: 'Zobraziť/Skryť Kontajner Dátumu a Času',
       changeLogoTitle: 'Kliknutím Ľavým Tlačidlom Zmeňte Logá',
@@ -1582,8 +1534,6 @@
     },
     sv: {
       anaCalImgTitle: 'Visa/Dölj Datum- och Tidsinformation på Klockans Urtavla',
-      analogClockBtnHideTitle: 'Dölj Analog Klocka',
-      analogClockBtnShowTitle: 'Visa Analog Klocka',
       bannerImgTitle: 'Byt bannerstilar\nLeft-click 🠊\nShift+Left-click 🠈\nCtrl+Left-click 🠈',
       calBtnTitle: 'Visa/Dölj Datum- och Tidsbehållare',
       changeLogoTitle: 'Vänsterklicka för att Byta Logotyper',
@@ -1609,8 +1559,6 @@
     },
     tr: {
       anaCalImgTitle: 'Saat Kadranındaki Tarih ve Saat Bilgilerini Göster/Gizle',
-      analogClockBtnHideTitle: 'Analog Saati Gizle',
-      analogClockBtnShowTitle: 'Analog Saati Göster',
       bannerImgTitle: 'Banner stillerini değiştir\nLeft-click 🠊\nShift+Left-click 🠈\nCtrl+Left-click 🠈',
       calBtnTitle: 'Tarih ve Saat Kapsayıcısını Göster/Gizle',
       changeLogoTitle: 'Logoları Değiştirmek İçin Sol Tıklayın',
@@ -1636,8 +1584,6 @@
     },
     uk: {
       anaCalImgTitle: 'Показати/Приховати Інформацію про Дату та Час на Циферблаті',
-      analogClockBtnHideTitle: 'Приховати Аналоговий Годинник',
-      analogClockBtnShowTitle: 'Показати Аналоговий Годинник',
       bannerImgTitle: 'Перемикнути стилі банера\nLeft-click 🠊\nShift+Left-click 🠈\nCtrl+Left-click 🠈',
       calBtnTitle: 'Показати/Приховати Контейнер Дати та Часу',
       changeLogoTitle: 'Клацніть Лівою Кнопкою, Щоб Змінити Логотипи',
@@ -1663,8 +1609,6 @@
     },
     zh: {
       anaCalImgTitle: '显示/隐藏时钟表盘上的日期和时间信息',
-      analogClockBtnHideTitle: '隐藏模拟时钟',
-      analogClockBtnShowTitle: '显示模拟时钟',
       bannerImgTitle: '切换横幅样式\nLeft-click 🠊\nShift+Left-click 🠈\nCtrl+Left-click 🠈',
       calBtnTitle: '显示/隐藏日期和时间容器',
       changeLogoTitle: '左键单击以切换徽标',
@@ -1690,8 +1634,6 @@
     },
     'zh-TW': {
       anaCalImgTitle: '顯示/隱藏時鐘錶盤上的日期和時間資訊',
-      analogClockBtnHideTitle: '隱藏類比時鐘',
-      analogClockBtnShowTitle: '顯示類比時鐘',
       changeLogoTitle: '左鍵單擊以切換標誌',
       changeWallpaperTitle: '左鍵單擊以切換桌布',
       digCalBtnTitle: '左鍵單擊 🠊 顯示/隱藏日曆和數位時間',
@@ -2368,6 +2310,18 @@
     toggleBannerStyle,
   } = createDayBanner();
 
+  const applyClockPointerEvents = () => {
+    const enabled = Settings.get('clockPointerEvents', true);
+    GM_addStyle(`
+      #analogClockContainer {
+        pointer-events: ${enabled ? 'all' : 'none'} !important;
+      }
+      #analogClockContainer #controlsGroup {
+        pointer-events: all !important;
+      }
+    `);
+  };
+
   const applyAnalogClock = () => {
     if (!Settings.get('analogClock', true)) return;
     let currentDay = -1;
@@ -2659,35 +2613,48 @@
     };
     startAnalogClock();
     applyBannerStyle();
+    applyClockPointerEvents();
   };
 
-  const toggleAnalogClock = () => {
+  const toggleAnalogClock = (e) => {
     const clock = Settings.get('analogClock', true);
     const cont = $id('analogClockContainer');
     const panelTog = $id('panelToggler');
     const scalerCtn = $id('scalerContainer');
     const scaler = $qa('.scaler', scalerCtn);
-    if (clock) {
-      stopAnalogClock();
-      Settings.set('analogClock', false);
-      cont?.remove();
-    } else {
-      Settings.set('analogClock', true);
-      applyAnalogClock();
+    if (e.shiftKey) {
+      Settings.set('clockPointerEvents', false);
+      applyClockPointerEvents();
+      return;
     }
-    const btn = $id('analogClockBtn');
-    const bool = Settings.get('analogClock', true);
-    panelTog.classList.toggle('disabled', !bool);
-    scaler.forEach(el => el.classList.toggle('disabled', !bool));
-    const pref = bool ? ICONS.clock32 : ICONS.noclock32;
-    const tip = bool ? localizedTitle.analogClockBtnHideTitle : localizedTitle.analogClockBtnShowTitle;
-    btn.replaceChildren(
-      $el('img', {
-        src: pref,
-        title: tip,
-        alt: 'Clock'
-      })
-    );
+    if (e.ctrlKey) {
+      Settings.set('clockPointerEvents', true);
+      applyClockPointerEvents();
+      return;
+    }
+    if (e.button === 0) {
+      if (clock) {
+        stopAnalogClock();
+        Settings.set('analogClock', false);
+        cont?.remove();
+      } else {
+        Settings.set('analogClock', true);
+        applyAnalogClock();
+      }
+      const bool = Settings.get('analogClock', true);
+      panelTog.classList.toggle('disabled', !bool);
+      scaler.forEach(el => el.classList.toggle('disabled', !bool));
+      const btn = $id('analogClockBtn');
+      const pref = bool ? ICONS.clock32 : ICONS.noclock32;
+      const tip = '• Left-click: Show/Hide Analog Clock\n• Shift+Left-click: Lock Clock position\n• Ctrl+Left-click: Unlock Clock position';
+      btn.replaceChildren(
+        $el('img', {
+          src: pref,
+          title: tip,
+          alt: 'Clock'
+        })
+      );
+    }
   };
 
   // =====================================================================================
@@ -2887,12 +2854,12 @@
     };
     const bool = Settings.get('analogClock', true);
     const pref = bool ? ICONS.clock32 : ICONS.noclock32;
-    const tip = bool ? localizedTitle.analogClockBtnHideTitle : localizedTitle.analogClockBtnShowTitle;
+    const tip = '• Left-click: Show/Hide Analog Clock\n• Shift+Left-click: Lock Clock position\n• Ctrl+Left-click: Unlock Clock position';
     const analogClockBtn = $el('button', {
       id: 'analogClockBtn',
       className: 'toggler analog-clock-btn',
       title: tip,
-      onclick: toggleAnalogClock,
+      onclick: (e) => toggleAnalogClock(e),
       },
       $el('img', {
         id: 'clock32Img',
@@ -3111,7 +3078,7 @@
       $el('img', {
         id: 'viewContainersImg',
         src: ICONS.mask32R,
-        title: '• Left-click: Show/Hide Containers\n• Shift+Left-click: Toggle Images red, green, blue, yellow',
+        title: '• Left-click: Show/Hide Containers\n• Shift/Ctrl/Alt+Left-click: Toggle Images red, green, blue, yellow',
         onclick: (e) => containerView(e),
       })
     );
@@ -3149,7 +3116,7 @@
     scaler.forEach(el => el.classList.toggle('disabled', !showClock));
     const btn = $id('analogClockBtn');
     const pref = showClock ? ICONS.clock32 : ICONS.noclock32;
-    const tip = showClock ? localizedTitle.analogClockBtnHideTitle : localizedTitle.analogClockBtnShowTitle;
+    const tip = '• Left-click: Show/Hide Analog Clock\n• Shift+Left-click: Lock Clock position\n• Ctrl+Left-click: Unlock Clock position';
     btn.replaceChildren($el('img', { title: tip, src: pref }));
     const img = $id('hostImg');
     const current = Settings.get('wallpaperHost', 'ibb');
