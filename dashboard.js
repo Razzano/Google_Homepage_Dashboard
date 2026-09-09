@@ -4022,7 +4022,6 @@
     }
     body#gsr .bzXtMb {
       max-width: 100vw !important;
-      width: 1330px !important;
     }
     body#gsr .zLSRge {
       border-bottom: none !important;
