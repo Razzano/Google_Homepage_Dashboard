@@ -3277,7 +3277,7 @@
       padding: 0 10px;
       position: fixed;
       right: auto;
-      top: 0;
+      top: 4px;
       z-index: 99999;
     }
     #viewContainersImg {
@@ -3296,8 +3296,7 @@
     #analogClockContainer {
       left: 22px;
       position: fixed;
-      right: auto;
-      top: 104px;
+      top: 110px;
     }
     #analogClockContainer .hidden {
       display: none;
@@ -3512,14 +3511,14 @@
       display: flex;
       height: 38px;
       justify-content: center;
-      left: 0px;
+      left: 400px;
       min-width: 380px;
       padding: 0px 10px;
       box-sizing: border-box;
       pointer-events: auto;
       position: fixed;
       text-shadow: 1px 1px 2px #000;
-      top: 44px;
+      top: 0px;
       user-select: none;
       z-index: 2;
     }
@@ -3748,10 +3747,10 @@
       display: flex;
       font-family: "Segoe UI", sans-serif;
       font-size: 18px;
-      left: 396px;
+      left: 0px;
       pointer-events: auto;
       position: fixed;
-      top: 0px;
+      top: 44px;
       user-select: none;
       z-index: 2;
     }
