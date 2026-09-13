@@ -8,6 +8,7 @@
 // @match        https://www.google.com/*
 // @match        https://google.com/*
 // @exclude      https://www.google.com/maps*
+// @require      https://raw.githubusercontent.com/Razzano/Google_Homepage_Dashboard/main/Dashboard_Translations.js
 // @icon         https://raw.githubusercontent.com/Razzano/Images/master/googleicon64.png
 // @grant        GM_addStyle
 // @grant        GM_getValue
