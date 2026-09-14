@@ -59,7 +59,6 @@
   const AMPM_TEXT_TOP = 0; // +2 down, -2 up
   // =====================================================================================
 
-  const USER_LOCALE = Intl.DateTimeFormat().resolvedOptions().locale;
   const LANGUAGE_COUNTRY = ['ar-SA','bn-BD','cs-CZ','da-DK','de-DE','el-GR','en-US','es-ES','es-MX',
     'fi-FI','fr-CA','fr-FR','he-IL','hi-IN','hu-HU','it-IT','ja-JP','ko-KR','nl-NL','no-NO','pl-PL',
     'pt-BR','pt-PT','ro-RO','ru-RU','sk-SK','sv-SE','tr-TR','uk-UA','zh-CN','zh-TW'];
@@ -80,7 +79,6 @@
   const WALLPAPER_START_DATE = new Date(2026, 0, 1);
   const _SECOND = 1000;
   const _SECONDS = 5000;
-  const _aURL = 'https://raw.githubusercontent.com/Razzano/My_Images/master/';
   const body = document.body;
   WALLPAPER_START_DATE.setHours(0, 0, 0, 0);
 
@@ -94,6 +92,7 @@
     }
   };
 
+  const USER_LOCALE = Intl.DateTimeFormat().resolvedOptions().locale;
   const localeTestingUnlocked = Settings.get('localeTestingUnlocked', false);
   let testLocaleIndex = Settings.get('testLocaleIndex', 0);
   const LOCALE = localeTestingUnlocked ? LANGUAGE_COUNTRY[testLocaleIndex] : USER_LOCALE;
@@ -458,48 +457,37 @@
   };
 
   const IMAGES = {
+    github: 'https://raw.githubusercontent.com/Razzano/My_Images/main/',
+    ibb: 'https://i.ibb.co/',
     images: {
-    1: 'google1',
-    2: 'google2',
-    3: 'world',
-    4: 'search2',
-    5: 'google3',
-    6: 'google4',
-    7: 'bulb',
-    8: 'search1',
-    9: 'google5',
-    10: 'google6',
-    11: 'flag',
-    12: 'face',
-    13: 'eagle',
-    14: 'monkey',
-    15: 'globe',
-    16: 'eyes',
-    17: undefined,
-  },
+      1: 'google1', 2: 'google2', 3: 'world', 4: 'search2', 5: 'google3',
+      6: 'google4', 7: 'bulb', 8: 'search1', 9: 'google5', 10: 'google6',
+      11: 'flag', 12: 'face', 13: 'eagle', 14: 'monkey', 15: 'globe',
+      16: 'eyes', 17: undefined, 51: 'TMCbzH45/google1', 52: 'N8dvQ21/google2',
+      53: 'y9gns0g/world', 54: 'jvmTQX6J/search2', 55: 'YBdjTJMg/google3',
+      56: 'k2s1wg0h/google4', 57: 'nqQYvY9b/bulb', 58: '99L5BJkp/search1',
+      59: 'CKGqDHzn/google5', 60: 'TM9S5VXg/google6', 61: 'Q1WQxJ1/flag',
+      62: 'Txq5BXr2/face', 63: 'sJW6hkvw/eagle', 64: 'rKhh1VGF/monkey',
+      65: 'nsqttmjb/globe', 66: 'V0QSfJFb/eyes', 67: undefined,
+    },
     url(num) {
-      const image = 'https://raw.githubusercontent.com/Razzano/My_Images/main/' + this.images[num] + '.png';
-      return image ? `${image}` : '';
+      const host = Settings.get('wallpaperHost', 'github');
+      const image = host === 'github'
+        ? `${this.github}${this.images[num]}.png`
+        : `${this.ibb}${this.images[num + 50]}.png`;
+      return image;
     }
   };
 
   const LOGO_CONFIG = {
-    1: { top: '100px', transform: 'translateX(-50%)' },
-    2: { top: '100px', transform: 'translateX(-50%)' },
-    3: { top: '45px', transform: 'translateX(-50%)' },
-    4: { top: '128px', transform: 'translateX(-50%)' },
-    5: { top: '30px', transform: 'translateX(-50%)' },
-    6: { top: '60px', transform: 'translateX(-50%)' },
-    7: { top: '60px', transform: 'translateX(-50%)' },
-    8: { top: '120px', transform: 'translateX(-180%)' },
-    9: { top: '70px', transform: 'translateX(-50%)' },
-    10: { top: '80px', transform: 'translateX(-50%)' },
-    11: { top: '75px', transform: 'translateX(-50%)' },
-    12: { top: '15px', transform: 'translateX(-50%)' },
-    13: { top: '45px', transform: 'translateX(-50%)' },
-    14: { top: '75px', transform: 'translateX(-50%)' },
-    15: { top: '65px', transform: 'translateX(-50%)' },
-    16: { top: '80px', transform: 'translateX(-50%)' },
+    1: { top: '100px', transform: 'translateX(-50%)' }, 2: { top: '100px', transform: 'translateX(-50%)' },
+    3: { top: '45px', transform: 'translateX(-50%)' }, 4: { top: '128px', transform: 'translateX(-50%)' },
+    5: { top: '30px', transform: 'translateX(-50%)' }, 6: { top: '60px', transform: 'translateX(-50%)' },
+    7: { top: '60px', transform: 'translateX(-50%)' }, 8: { top: '120px', transform: 'translateX(-180%)' },
+    9: { top: '70px', transform: 'translateX(-50%)' }, 10: { top: '80px', transform: 'translateX(-50%)' },
+    11: { top: '75px', transform: 'translateX(-50%)' }, 12: { top: '15px', transform: 'translateX(-50%)' },
+    13: { top: '45px', transform: 'translateX(-50%)' }, 14: { top: '75px', transform: 'translateX(-50%)' },
+    15: { top: '65px', transform: 'translateX(-50%)' }, 16: { top: '80px', transform: 'translateX(-50%)' },
   };
 
   const STRING_HTML = {
@@ -555,12 +543,9 @@
     }
   };
 
-  const _gURL = 'https://raw.githubusercontent.com/Razzano/My_Wallpaper_Images/master/image';
-  const _iURL = 'https://i.ibb.co/';
-
   const WALLPAPERS = {
-    github: _gURL,
-    ibb: _iURL,
+    github: 'https://raw.githubusercontent.com/Razzano/My_Wallpaper_Images/master/image',
+    ibb: 'https://i.ibb.co/',
     images: {
       1: 'nqqpD5vV', 2: 'N2ghpbyg', 3: 'hJrcmcSL', 4: 'x8zpWT0N',
       5: 'wh14qStz', 6: 'NdCZSVzs', 7: 'yBpwcNQ1', 8: 'Xr37SNBV',
@@ -577,12 +562,11 @@
       49: '4nQs54Pf', 50: '39dXTzcj', 51: 'ch7mVBLx', 52: 'DP3KyhPK',
     },
     url(num) {
-      const host = Settings.get('wallpaperHost', 'ibb');
-      if (host === 'github') {
-        return `${this.github}${num}.jpg`;
-      }
-      const image = this.images[num];
-      return image ? `${this[host]}${image}/image${num}.jpg` : '';
+      const host = Settings.get('wallpaperHost', 'github');
+      const image = host === 'github'
+        ? `${this.github}${num}.jpg`
+        : `${this.ibb}${this.images[num]}/image${num}.jpg`;
+      return image;
     }
   };
 
@@ -821,7 +805,7 @@
   };
 
   const toggleWallpaperHost = () => {
-    const current = Settings.get('wallpaperHost', 'ibb');
+    const current = Settings.get('wallpaperHost', 'github');
     let index = WALLPAPER_SITES.findIndex(site => site.host === current);
     if (index === -1) index = 0;
     const next = WALLPAPER_SITES[(index + 1) % WALLPAPER_SITES.length];
@@ -1634,7 +1618,7 @@
     const controlContainer = $el('div', {
       id: 'controlContainer'
     });
-    const host = Settings.get('wallpaperHost', 'ibb');
+    const host = Settings.get('wallpaperHost', 'github');
     const hostImg = $el('img', {
       id: 'hostImg',
       src: ICONS.ibb32,
@@ -1997,7 +1981,7 @@
     const tip = '• Left-click: Show/Hide Analog Clock\n• Shift + Left-click: 🔒 Clock position\n• Ctrl + Left-click: 🔓 Clock position';
     btn.replaceChildren($el('img', { title: tip, src: pref }));
     const img = $id('hostImg');
-    const current = Settings.get('wallpaperHost', 'ibb');
+    const current = Settings.get('wallpaperHost', 'github');
     const currentSite = WALLPAPER_SITES.find(site => site.host === current);
     let index = WALLPAPER_SITES.findIndex(site => site.host === current);
     if (index === -1) index = 0;
