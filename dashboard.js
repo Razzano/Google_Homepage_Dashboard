@@ -2181,6 +2181,7 @@
       padding: 8px 16px !important;
     }
     ${STRING_HTML.main} g-popup > div.CcNe6e > div:hover {
+      background: #363840 !important;
       border-color: #666 !important;
       text-decoration: none !important;
     }
@@ -2194,7 +2195,8 @@
     ${STRING_HTML.main} div.plsC5e.RqyYHe div.RNNXgb div.bvUkz {
       background: rgba(0 0 0 / .05) !important;
     }
-    ${STRING_HTML.main} div.plsC5e.RqyYHe > div.acUsEb.Q6KTif.KEY6ib > form > div:nth-child(1) > div > div.RNNXgb:focus-within {
+    ${STRING_HTML.main} div.plsC5e.RqyYHe > div.acUsEb.Q6KTif.KEY6ib > form > div:nth-child(1) > div > div.RNNXgb:focus-within,
+    ${STRING_HTML.main} div.L3eUgb input.gNO89b:hover {
       background: #363840 !important;
     }
     ${STRING_HTML.main} #APjFqb {
@@ -2230,6 +2232,9 @@
     ${STRING_HTML.main} div.plsC5e.RqyYHe center > input.gNO89b {
       margin-left: -96px !important;
     }
+    ${STRING_HTML.main} div.plsC5e.RqyYHe center > input.gNO89b:hover {
+      background: #363840 !important;
+    }
     ${STRING_HTML.main} div.g55egf.rWLVme > span > span {
       font-family: var(--qR8X0);
       font-optical-sizing: none;
@@ -2261,6 +2266,7 @@
   // VIEW CONTAINERS
   GM_addStyle(`
     #viewContainersDiv {
+      height: 38px;
       left: 0px;
       margin-left: -10px;
       position: fixed;
@@ -2280,6 +2286,7 @@
       width: 38px;
     }
     #viewContainersImg:hover {
+      background: #363840;
       opacity: 1;
     }
   `);
@@ -2519,6 +2526,9 @@
       user-select: none;
       z-index: 2;
     }
+    #controlContainer:hover {
+      background: #363840;
+    }
     #controlContainer.dragged {
       transform: none;
     }
@@ -2674,6 +2684,9 @@
       width: auto;
       z-index: 2;
     }
+    #scalerContainer:hover {
+      background: #363840;
+    }
     #scalerReset {
       padding: 2px 8px;
       width: auto;
@@ -2791,6 +2804,9 @@
       text-shadow: 1px 1px 2px #000;
       user-select: none;
       width: auto;
+    }
+    #dateTime:hover {
+      background: #363840;
     }
     #dateTime[hidden] {
       background: none;
