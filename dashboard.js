@@ -2155,7 +2155,8 @@
     ${STRING_HTML.main} div.g55egf > a,
     ${STRING_HTML.main} promo-middle-slot,
     ${STRING_HTML.main} .IzOpfd,
-    ${STRING_HTML.main} div.RNNXgb > div.SDkEP > div.fM33ce.dRYYxd > div {
+    ${STRING_HTML.main} div.RNNXgb > div.SDkEP > div.fM33ce.dRYYxd > div,
+    ${STRING_HTML.main} div.RNNXgb svg.hWdRGb {
       display: none !important;
     }
     ${STRING_HTML.mainHTML} header#gb > div.gb_Q.gb_6.gb_Vf.gb_3f {
