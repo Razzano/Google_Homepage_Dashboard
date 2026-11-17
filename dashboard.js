@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Google Homepage Dashboard
 // @namespace    srazzano
-// @version      2.8.4
+// @version      2.7.8
 // @description  Google with centered logo, wallpaper, date/digital time, resizable analog clock + draggable containers
 // @author       Sonny Razzano a.k.a. srazzano
 // @license      MIT
@@ -85,7 +85,8 @@
         onclick: () => { opacity = Math.min(MAX, opacity + STEP); apply(); } },
         mk('path', { d: 'M 2 7 H 14 V 9 H 2 Z' }));
       const wrap = mk('div', { id: 'brightnessContainer' }, plus, btn, minus);
-      document.body.prepend(wrap);
+      const aDiv = document.getElementById('searchform');
+      aDiv.prepend(wrap);
       apply();
     };
 
@@ -107,7 +108,6 @@
         : 'https://i.ibb.co/' + ibb[num] + '/image' + num + '.jpg';
       GM_addStyle(`${STRING_HTML.search} { background: url('${url}') no-repeat center center / cover fixed !important; }`);
     })();
-  // SEARCH RESULTS PAGE
   GM_addStyle(`
     ${STRING_HTML.search} #logoGoogle,
     ${STRING_HTML.search} #viewContainersDiv,
@@ -126,9 +126,10 @@
       text-shadow: none;
     }
     ${STRING_HTML.search} #brightnessContainer {
-      align-items: center !important; display: inline-flex !important; height: 50px !important;
-      left: auto !important; right: 416px !important; top: 70px !important;
-      pointer-events: auto !important; position: fixed !important; z-index: 99999 !important;
+      align-items: center !important;
+      display: inline-flex !important;
+      height: 50px !important;
+      z-index: 99999 !important;
     }
     ${STRING_HTML.search} #brightnessContainer > .button {
       background: linear-gradient(#666, #333);
@@ -141,11 +142,10 @@
       stroke-width: .7;
       stroke: #000;
       text-align: center;
+      user-select: none;
     }
     ${STRING_HTML.search} #brightnessPlus,
     ${STRING_HTML.search} #brightnessMinus {
-      height: 20px;
-      width: 20px;
     }
     ${STRING_HTML.search} #brightnessPlus {
       margin: 0px 4px 0px 8px;
