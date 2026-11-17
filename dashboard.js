@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Google Homepage Dashboard
 // @namespace    srazzano
-// @version      2.7.8
+// @version      2.8.4
 // @description  Google with centered logo, wallpaper, date/digital time, resizable analog clock + draggable containers
 // @author       Sonny Razzano a.k.a. srazzano
 // @license      MIT
@@ -39,6 +39,11 @@
   'use strict';
 
   if (window.top !== window.self) return;
+
+  const STRING_HTML = {
+    main: 'html[itemtype="http://schema.org/WebPage"]',
+    search: 'html[itemtype="http://schema.org/SearchResultsPage"] > body#gsr',
+  };
 
   if (location.pathname.startsWith('/search')) {
     const DEFAULT = 50, MIN = 0, MAX = 100, STEP = 5;
@@ -100,27 +105,168 @@
       const url = host === 'github'
         ? 'https://raw.githubusercontent.com/Razzano/My_Wallpaper_Images/master/image' + num + '.jpg'
         : 'https://i.ibb.co/' + ibb[num] + '/image' + num + '.jpg';
-      GM_addStyle(`html[itemtype="http://schema.org/SearchResultsPage"] > body#gsr { background: url('${url}') no-repeat center center / cover fixed !important; }`);
+      GM_addStyle(`${STRING_HTML.search} { background: url('${url}') no-repeat center center / cover fixed !important; }`);
     })();
-    GM_addStyle(`
-      html[itemtype="http://schema.org/SearchResultsPage"] > body#gsr #cnt {
-        background: rgba(0 0 0 / var(--search-results-bg-brightness)) !important;
-      }
-      html[itemtype="http://schema.org/SearchResultsPage"] > body#gsr #brightnessContainer {
-        align-items: center; display: inline-flex; height: 50px;
-        left: 1134px; pointer-events: auto; position: fixed; top: 6px; z-index: 99999;
-      }
-      html[itemtype="http://schema.org/SearchResultsPage"] > body#gsr #brightnessContainer > .button {
-        background: linear-gradient(#666, #333); border: none; border-radius: 20px;
-        color: #fff; cursor: pointer; fill: #fff; padding: 10px; stroke-width: .7; stroke: #000; text-align: center;
-      }
-      html[itemtype="http://schema.org/SearchResultsPage"] > body#gsr #brightnessPlus,
-      html[itemtype="http://schema.org/SearchResultsPage"] > body#gsr #brightnessMinus { height: 20px; width: 20px; }
-      html[itemtype="http://schema.org/SearchResultsPage"] > body#gsr #brightnessPlus { margin: 0 4px 0 8px; }
-      html[itemtype="http://schema.org/SearchResultsPage"] > body#gsr #brightnessMinus { margin: 0 8px 0 4px; }
-      html[itemtype="http://schema.org/SearchResultsPage"] > body#gsr #brightnessBtn { font-size: 16px; height: 40px; min-width: 170px; }
-      html[itemtype="http://schema.org/SearchResultsPage"] > body#gsr #brightnessContainer > .button:hover { background: #fff; color: #000; fill: #000; }
-    `);
+  // SEARCH RESULTS PAGE
+  GM_addStyle(`
+    ${STRING_HTML.search} #logoGoogle,
+    ${STRING_HTML.search} #viewContainersDiv,
+    ${STRING_HTML.search} #dateTimeContainer,
+    ${STRING_HTML.search} #scalerContainer,
+    ${STRING_HTML.search} #controlContainer {
+      display: none !important;
+    }
+    ${STRING_HTML.search} *:not(#analogClockContainer):not(#analogClockContainer *) {
+      text-shadow: 2px 2px 4px #000;
+    }
+    ${STRING_HTML.search} #analogClockContainer {
+      display: ${GM_getValue('searchResultsClock', true) ? 'block' : 'none'} !important;
+      left: 1520px !important;
+      pointer-events: none;
+      text-shadow: none;
+    }
+    ${STRING_HTML.search} #brightnessContainer {
+      align-items: center !important; display: inline-flex !important; height: 50px !important;
+      left: auto !important; right: 416px !important; top: 70px !important;
+      pointer-events: auto !important; position: fixed !important; z-index: 99999 !important;
+    }
+    ${STRING_HTML.search} #brightnessContainer > .button {
+      background: linear-gradient(#666, #333);
+      border: none;
+      border-radius: 20px;
+      color: #fff;
+      cursor: pointer;
+      fill: #fff;
+      padding: 10px;
+      stroke-width: .7;
+      stroke: #000;
+      text-align: center;
+    }
+    ${STRING_HTML.search} #brightnessPlus,
+    ${STRING_HTML.search} #brightnessMinus {
+      height: 20px;
+      width: 20px;
+    }
+    ${STRING_HTML.search} #brightnessPlus {
+      margin: 0px 4px 0px 8px;
+    }
+    ${STRING_HTML.search} #brightnessMinus {
+      margin: 0px 8px 0px 4px;
+    }
+    ${STRING_HTML.search} #brightnessBtn {
+      font-size: 16px;
+      height: 40px;
+      min-width: 170px;
+    }
+    ${STRING_HTML.search} #brightnessContainer > .button:hover {
+      background: #fff;
+      color: #000;
+      fill: #000;
+    }
+    ${STRING_HTML.search} .emcav.A8SBwf.pD4qTd,
+    ${STRING_HTML.search} #tsf > div:nth-child(1) > div {
+      transform: none !important;
+    }
+    ${STRING_HTML.search} #cnt {
+      background: rgba(0 0 0 / var(--search-results-bg-brightness)) !important;
+    }
+    ${STRING_HTML.search} > span.LoygGf,
+    ${STRING_HTML.search} > span.LoygGf.VHFyob {
+      height: 62px !important;
+    }
+    ${STRING_HTML.search} .xrOgrb {
+     padding-top: 0px !important;
+    }
+    ${STRING_HTML.search} #searchform {
+      position: relative !important;
+      top: -10px !important;
+    }
+    ${STRING_HTML.search} .XDyW0e,
+    ${STRING_HTML.search} #footcnt,
+    ${STRING_HTML.search} #gb > div.gb_td.gb_0.gb_I > div,
+    ${STRING_HTML.search} div.logo,
+    ${STRING_HTML.search} picture > img,
+    ${STRING_HTML.search} #gb > div.gb_Ad.gb_6.gb_L > div,
+    ${STRING_HTML.search} #gb > div.gb_cd.gb_0.gb_I > div {
+      display: none !important;
+    }
+    ${STRING_HTML.search} #cnt > div.JryvJ > div,
+    ${STRING_HTML.search} .GLcBOb {
+      border-bottom: none !important;
+    }
+    ${STRING_HTML.search} #searchform,
+    ${STRING_HTML.search} #searchform > div.NDnoQ.P3mIxe {
+      background: #000 !important;
+    }
+    ${STRING_HTML.search} #hdtb-sc {
+      margin-top: 30px !important;
+    }
+    ${STRING_HTML.search} #gbwa > div,
+    ${STRING_HTML.search} #gb > div.gb_z {
+      padding: 0 !important;
+    }
+    ${STRING_HTML.search} #gbwa > div > a:hover {
+      background-color: #181A1B !important;
+      border: 1px solid #333 !important;
+      color: #FFF !important;
+    }
+    ${STRING_HTML.search} .gb_Aa {
+      height: 40px !important;
+      position: relative !important;
+      top: -4px !important;
+      width: 40px !important;
+    }
+    ${STRING_HTML.search} .sfbg {
+      opacity: 0 !important;
+    }
+    ${STRING_HTML.search} .sfbg,
+    ${STRING_HTML.search} #pTwnEc,
+    ${STRING_HTML.search} .appbar {
+      background: transparent !important;
+    }
+    ${STRING_HTML.search} > #searchform {
+      margin-top: -2px !important;
+      top: 0 !important;
+    }
+    ${STRING_HTML.search} #tsf > div:nth-child(1) > div {
+      width: auto !important;
+    }
+    ${STRING_HTML.search} .RNNXgb {
+      background: linear-gradient(#666, #333) !important;
+      border: none !important;
+      border-radius: 24px !important;
+      margin: 0 !important;
+    }
+    ${STRING_HTML.search} .RNNXgb:focus-within {
+      border-radius: 24px 24px 0px 0px !important;
+    }
+    ${STRING_HTML.search} .jOAHU {
+      border-left: none !important;
+    }
+    ${STRING_HTML.search} div.dodTBe {
+      height: auto !important;
+      min-height: 0 !important;
+    }
+    ${STRING_HTML.search} .bzXtMb {
+      max-width: 100vw !important;
+    }
+    ${STRING_HTML.search} .zLSRge {
+      border-bottom: none !important;
+    }
+    ${STRING_HTML.search} div.RDmXvc.Jzkafd.LrrQLb {
+      margin: 0px !important;
+      padding: 0px !important;
+    }
+    ${STRING_HTML.search} #searchClockBtn {
+      background: transparent !important;
+      border: none !important;
+      display: ${GM_getValue('analogClock', true) ? 'block' : 'none'} !important;
+      opacity: .6 !important;
+    }
+    ${STRING_HTML.search} #searchClockBtn:hover {
+      opacity: 1 !important;
+    }
+  `);
     if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', build);
     else build();
     return;
@@ -463,10 +609,6 @@
     15: { top: '65px', transform: 'translateX(-50%)' }, 16: { top: '80px', transform: 'translateX(-50%)' },
   };
 
-  const STRING_HTML = {
-    main: 'html[itemtype="http://schema.org/WebPage"]',
-    search: 'html[itemtype="http://schema.org/SearchResultsPage"] > body#gsr',
-  };
 
   const STRING_TOOLTIP = {
     brightnessTitle: '• Left-click for BG Brightness 50%\n• Shift + Left-click for BG Brightness 100%\n• Ctrl + Left-click for BG Brightness 0%',
@@ -2976,171 +3118,6 @@
     }
   `);
 
-  // SEARCH RESULTS PAGE
-  GM_addStyle(`
-    ${STRING_HTML.search} #logoGoogle,
-    ${STRING_HTML.search} #viewContainersDiv,
-    ${STRING_HTML.search} #dateTimeContainer,
-    ${STRING_HTML.search} #scalerContainer,
-    ${STRING_HTML.search} #controlContainer {
-      display: none !important;
-    }
-    ${STRING_HTML.search} *:not(#analogClockContainer):not(#analogClockContainer *) {
-      text-shadow: 2px 2px 4px #000;
-    }
-    ${STRING_HTML.search} #analogClockContainer {
-      display: ${Settings.get('searchResultsClock', true) ? 'block' : 'none'} !important;
-      left: 1520px !important;
-      pointer-events: none;
-      text-shadow: none;
-    }
-    ${STRING_HTML.search} #brightnessContainer {
-      align-items: center;
-      display: inline-flex;
-      height: 50px;
-      left: 1134px;
-      pointer-events: auto;
-      position: fixed;
-      top: 6px;
-      z-index: 99999;
-    }
-    ${STRING_HTML.search} #brightnessContainer > .button {
-      background: linear-gradient(#666, #333);
-      border: none;
-      border-radius: 20px;
-      color: #fff;
-      cursor: pointer;
-      fill: #fff;
-      padding: 10px;
-      stroke-width: .7;
-      stroke: #000;
-      text-align: center;
-    }
-    ${STRING_HTML.search} #brightnessPlus,
-    ${STRING_HTML.search} #brightnessMinus {
-      height: 20px;
-      width: 20px;
-    }
-    ${STRING_HTML.search} #brightnessPlus {
-      margin: 0px 4px 0px 8px;
-    }
-    ${STRING_HTML.search} #brightnessMinus {
-      margin: 0px 8px 0px 4px;
-    }
-    ${STRING_HTML.search} #brightnessBtn {
-      font-size: 16px;
-      height: 40px;
-      min-width: 170px;
-    }
-    ${STRING_HTML.search} #brightnessContainer > .button:hover {
-      background: #fff;
-      color: #000;
-      fill: #000;
-    }
-    ${STRING_HTML.search} .emcav.A8SBwf.pD4qTd,
-    ${STRING_HTML.search} #tsf > div:nth-child(1) > div {
-      transform: none !important;
-    }
-    ${STRING_HTML.search} #cnt {
-      background: rgba(0 0 0 / var(--search-results-bg-brightness)) !important;
-    }
-    ${STRING_HTML.search} > span.LoygGf,
-    ${STRING_HTML.search} > span.LoygGf.VHFyob {
-      height: 62px !important;
-    }
-    ${STRING_HTML.search} .xrOgrb {
-     padding-top: 0px !important;
-    }
-    ${STRING_HTML.search} #searchform {
-      position: relative !important;
-      top: -10px !important;
-    }
-    ${STRING_HTML.search} .XDyW0e,
-    ${STRING_HTML.search} #footcnt,
-    ${STRING_HTML.search} #gb > div.gb_td.gb_0.gb_I > div,
-    ${STRING_HTML.search} div.logo,
-    ${STRING_HTML.search} picture > img,
-    ${STRING_HTML.search} #gb > div.gb_Ad.gb_6.gb_L > div,
-    ${STRING_HTML.search} #gb > div.gb_cd.gb_0.gb_I > div {
-      display: none !important;
-    }
-    ${STRING_HTML.search} #cnt > div.JryvJ > div,
-    ${STRING_HTML.search} .GLcBOb {
-      border-bottom: none !important;
-    }
-    ${STRING_HTML.search} #searchform,
-    ${STRING_HTML.search} #searchform > div.NDnoQ.P3mIxe {
-      background: #000 !important;
-    }
-    ${STRING_HTML.search} #hdtb-sc {
-      margin-top: 30px !important;
-    }
-    ${STRING_HTML.search} #gbwa > div,
-    ${STRING_HTML.search} #gb > div.gb_z {
-      padding: 0 !important;
-    }
-    ${STRING_HTML.search} #gbwa > div > a:hover {
-      background-color: #181A1B !important;
-      border: 1px solid #333 !important;
-      color: #FFF !important;
-    }
-    ${STRING_HTML.search} .gb_Aa {
-      height: 40px !important;
-      position: relative !important;
-      top: -4px !important;
-      width: 40px !important;
-    }
-    ${STRING_HTML.search} .sfbg {
-      opacity: 0 !important;
-    }
-    ${STRING_HTML.search} .sfbg,
-    ${STRING_HTML.search} #pTwnEc,
-    ${STRING_HTML.search} .appbar {
-      background: transparent !important;
-    }
-    ${STRING_HTML.search} > #searchform {
-      margin-top: -2px !important;
-      top: 0 !important;
-    }
-    ${STRING_HTML.search} #tsf > div:nth-child(1) > div {
-      width: auto !important;
-    }
-    ${STRING_HTML.search} .RNNXgb {
-      background: linear-gradient(#666, #333) !important;
-      border: none !important;
-      border-radius: 24px !important;
-      margin: 0 !important;
-    }
-    ${STRING_HTML.search} .RNNXgb:focus-within {
-      border-radius: 24px 24px 0px 0px !important;
-    }
-    ${STRING_HTML.search} .jOAHU {
-      border-left: none !important;
-    }
-    ${STRING_HTML.search} div.dodTBe {
-      height: auto !important;
-      min-height: 0 !important;
-    }
-    ${STRING_HTML.search} .bzXtMb {
-      max-width: 100vw !important;
-    }
-    ${STRING_HTML.search} .zLSRge {
-      border-bottom: none !important;
-    }
-    ${STRING_HTML.search} div.RDmXvc.Jzkafd.LrrQLb {
-      margin: 0px !important;
-      padding: 0px !important;
-    }
-    ${STRING_HTML.search} #searchClockBtn {
-      background: transparent !important;
-      border: none !important;
-      display: ${Settings.get('analogClock', true) ? 'block' : 'none'} !important;
-      opacity: .6 !important;
-    }
-    ${STRING_HTML.search} #searchClockBtn:hover {
-      opacity: 1 !important;
-    }
-  `);
   GM_addStyle(`
     ${STRING_HTML.main} #viewContainersImg:hover,
     ${STRING_HTML.main} #controlContainer:hover,
