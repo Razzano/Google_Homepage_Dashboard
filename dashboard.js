@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Google Homepage Dashboard
 // @namespace    srazzano
-// @version      2.7.7
+// @version      2.7.8
 // @description  Google with centered logo, wallpaper, date/digital time, resizable analog clock + draggable containers
 // @author       Sonny Razzano a.k.a. srazzano
 // @license      MIT
@@ -11,15 +11,14 @@
 // @grant        GM_addStyle
 // @grant        GM_getValue
 // @grant        GM_setValue
+// @grant        GM_openInTab
 // ==/UserScript==
 
 // =====================================================================================
 // NOTE:
 //   • To open all Google App Links in new tabs, download Tampermonkey script:
-//     view code at ↓
-//     https://github.com/Razzano/Google_App_Links/blob/main/Open_in_New_Tab.js
-//     or install from ↓
-//     https://raw.githubusercontent.com/Razzano/Google_App_Links/main/Open_in_New_Tab.js
+//     (view code) https://github.com/Razzano/Google_App_Links/blob/main/Open_in_New_Tab.js
+//     (install code) https://raw.githubusercontent.com/Razzano/Google_App_Links/main/Open_in_New_Tab.js
 // APPENDIX:
 //   • GLOBAL CONSTANTS • DOM HELPERS • OBJECT GROUPS • FORCE GOOGLE DARK THEME ON
 //   • HASH PIN LOCALE TESTING POPUP      (Section 0)
@@ -37,16 +36,101 @@
 // =====================================================================================
 
 (() => {
-
   'use strict';
 
   if (window.top !== window.self) return;
+
+  if (location.pathname.startsWith('/search')) {
+    const DEFAULT = 50, MIN = 0, MAX = 100, STEP = 5;
+    let opacity = GM_getValue('searchResultsBgOpacity', DEFAULT);
+    const apply = () => {
+      document.documentElement.style.setProperty('--search-results-bg-brightness', opacity / 100);
+      const inv = (100 - opacity) / 100;
+      document.documentElement.style.setProperty('--search-results-logo-brightness',
+        inv > 0.1 ? inv - 0.1 : inv === 0.1 ? inv - 0.05 : inv === 0.05 ? inv - 0.025 : 0);
+      GM_setValue('searchResultsBgOpacity', opacity);
+      const btn = document.getElementById('brightnessBtn');
+      if (btn) btn.textContent = 'BG Brightness ' + (100 - opacity) + '%';
+    };
+    const build = () => {
+      if (document.getElementById('brightnessContainer')) { apply(); return; }
+      const mk = (tag, props, ...kids) => {
+        const el = tag === 'svg' || tag === 'path'
+          ? document.createElementNS('http://www.w3.org/2000/svg', tag)
+          : document.createElement(tag);
+        for (const [k, v] of Object.entries(props || {})) {
+          if (k === 'textContent') el.textContent = v;
+          else if (k === 'title') el.title = v;
+          else if (k.startsWith('on') && typeof v === 'function') el.addEventListener(k.slice(2).toLowerCase(), v);
+          else el.setAttribute(k, v);
+        }
+        kids.forEach(c => c && el.append(c));
+        return el;
+      };
+      const plus = mk('svg', { id: 'brightnessPlus', class: 'button', title: 'Background Brighter by 5%', viewBox: '0 0 16 16',
+        onclick: () => { opacity = Math.max(MIN, opacity - STEP); apply(); } },
+        mk('path', { d: 'M 7 2 H 9 V 7 H 14 V 9 H 9 V 14 H 7 V 9 H 2 V 7 H 7 Z' }));
+      const btn = mk('button', { id: 'brightnessBtn', class: 'button',
+        title: '• Left-click for BG Brightness 50%\n• Shift + Left-click for BG Brightness 100%\n• Ctrl + Left-click for BG Brightness 0%',
+        onclick: (e) => {
+          if (e.shiftKey) opacity = MIN; else if (e.ctrlKey) opacity = MAX; else opacity = DEFAULT;
+          apply();
+        } });
+      const minus = mk('svg', { id: 'brightnessMinus', class: 'button', title: 'Background Darker by 5%', viewBox: '0 0 16 16',
+        onclick: () => { opacity = Math.min(MAX, opacity + STEP); apply(); } },
+        mk('path', { d: 'M 2 7 H 14 V 9 H 2 Z' }));
+      const wrap = mk('div', { id: 'brightnessContainer' }, plus, btn, minus);
+      document.body.prepend(wrap);
+      apply();
+    };
+
+    (() => {
+      const COUNT = 52, START = new Date(2026, 0, 1); START.setHours(0, 0, 0, 0);
+      const mode = GM_getValue('wallpaperMode', 0);
+      let num = 0;
+      if (mode === 1) num = ((Math.floor((Date.now() - START) / 3600000) % COUNT) + COUNT) % COUNT + 1;
+      else if (mode === 2) { const d = new Date(); d.setHours(0,0,0,0); num = ((Math.floor((d - START) / 86400000) % COUNT) + COUNT) % COUNT + 1; }
+      else if (mode === 3) { const d = new Date(); d.setHours(0,0,0,0); num = ((Math.floor((d - START) / (7 * 86400000)) % COUNT) + COUNT) % COUNT + 1; }
+      else if (mode === 4) { const d = new Date(); num = (((d.getFullYear() - 2026) * 12 + d.getMonth()) % COUNT + COUNT) % COUNT + 1; }
+      else num = GM_getValue('wallpaperImage', 0);
+      num = parseInt(num, 10) || 0;
+      if (!num) return;
+      const host = GM_getValue('wallpaperHost', 'github');
+      const ibb = { 1:'nqqpD5vV',2:'N2ghpbyg',3:'hJrcmcSL',4:'x8zpWT0N',5:'wh14qStz',6:'NdCZSVzs',7:'yBpwcNQ1',8:'Xr37SNBV',9:'C3Zgc08Y',10:'PG2c2dT9',11:'nMbj7YxK',12:'Lzgbj01N',13:'GfMvNb1M',14:'hhQrGPj',15:'SXrbZ6q9',16:'HpXF12Wq',17:'G4m6ww4B',18:'Dx73gtB',19:'hxRzvG2Z',20:'nWhq1DM',21:'v4p4rZcf',22:'tTftHJ1b',23:'N6tR4Xxb',24:'XfdYrwHQ',25:'wZffdgsV',26:'mVYG75vH',27:'TxVSfQ60',28:'B5Y2f9W2',29:'DDQFgxR5',30:'V0TTMQx7',31:'yBWP54Rt',32:'8gt1zNfT',33:'x8qbLzcT',34:'tT5S5617',35:'6JYJYyyL',36:'kgsQRF2d',37:'qL2kZ9Cx',38:'LhzMW50z',39:'jvnXbbzK',40:'JJPQTnr',41:'PzGzxJKS',42:'LzStYHY7',43:'yFzWRFvd',44:'1f0ZXrcj',45:'5Xq48R9x',46:'wrdMKcwP',47:'Z6RtCxvz',48:'v82SrWg',49:'4nQs54Pf',50:'39dXTzcj',51:'ch7mVBLx',52:'DP3KyhPK' };
+      const url = host === 'github'
+        ? 'https://raw.githubusercontent.com/Razzano/My_Wallpaper_Images/master/image' + num + '.jpg'
+        : 'https://i.ibb.co/' + ibb[num] + '/image' + num + '.jpg';
+      GM_addStyle(`html[itemtype="http://schema.org/SearchResultsPage"] > body#gsr { background: url('${url}') no-repeat center center / cover fixed !important; }`);
+    })();
+    GM_addStyle(`
+      html[itemtype="http://schema.org/SearchResultsPage"] > body#gsr #cnt {
+        background: rgba(0 0 0 / var(--search-results-bg-brightness)) !important;
+      }
+      html[itemtype="http://schema.org/SearchResultsPage"] > body#gsr #brightnessContainer {
+        align-items: center; display: inline-flex; height: 50px;
+        left: 1134px; pointer-events: auto; position: fixed; top: 6px; z-index: 99999;
+      }
+      html[itemtype="http://schema.org/SearchResultsPage"] > body#gsr #brightnessContainer > .button {
+        background: linear-gradient(#666, #333); border: none; border-radius: 20px;
+        color: #fff; cursor: pointer; fill: #fff; padding: 10px; stroke-width: .7; stroke: #000; text-align: center;
+      }
+      html[itemtype="http://schema.org/SearchResultsPage"] > body#gsr #brightnessPlus,
+      html[itemtype="http://schema.org/SearchResultsPage"] > body#gsr #brightnessMinus { height: 20px; width: 20px; }
+      html[itemtype="http://schema.org/SearchResultsPage"] > body#gsr #brightnessPlus { margin: 0 4px 0 8px; }
+      html[itemtype="http://schema.org/SearchResultsPage"] > body#gsr #brightnessMinus { margin: 0 8px 0 4px; }
+      html[itemtype="http://schema.org/SearchResultsPage"] > body#gsr #brightnessBtn { font-size: 16px; height: 40px; min-width: 170px; }
+      html[itemtype="http://schema.org/SearchResultsPage"] > body#gsr #brightnessContainer > .button:hover { background: #fff; color: #000; fill: #000; }
+    `);
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', build);
+    else build();
+    return;
+  }
+
 
 // =====================================================================================
 // MANUAL DEFAULT SETTINGS
 // =====================================================================================
 
-  // Enable forcing of Google Dark Theme: On ==============================================
   const ENABLE_GOOGLE_DARK_THEME = true; // 1 OR true, 0 OR false
 
   // Adjust Positioning of Clock Elements =================================================
@@ -75,7 +159,7 @@
   const MONTH_FULL = ['January','February','March','April','May','June','July','August','September','October','November','December'];
   const _SECOND_MS = 1000;
   const _SECONDS_MS = 5000;
-  const IMAGE_COUNT = 18; // 0 - 17
+  const IMAGE_COUNT = 18; // logos 0 (default) to 17
   const LOG = '🌙 [Force Dark Theme]';
   const MAX_ATTEMPTS = 40;
   const INTERVAL_MS = 200;
@@ -493,6 +577,8 @@
           clearInterval(timer);
         }
       });
+      // Observe DOM changes so we can react when the Dark Theme menu appears
+      observer.observe(document.documentElement, { childList: true, subtree: true, attributes: true });
     })();
   }
 
@@ -605,7 +691,7 @@
     const existing = $id('logoGoogle');
     if (existing) existing.remove();
     num = parseInt(num, 10);
-    if (isNaN(num) || num < 0 || num > (IMAGE_COUNT + 1)) {
+    if (isNaN(num) || num < 0 || num > IMAGE_COUNT) {
       num = 0;
     }
     const config = LOGO_CONFIG[num] || {
@@ -642,7 +728,7 @@
           console.warn(`Logo #${num} not found`);
           logoCopy.remove();
         };
-        STRING_HTML.main > BODY.prepend(logoCopy);
+        BODY.prepend(logoCopy);
     } }
     const inp = $id('inputLogo');
     if (inp) {
@@ -660,7 +746,7 @@
   const handleLogoInput = (e) => {
     let val = parseInt(e.target.value);
     if (isNaN(val)) return;
-    val = Math.max(0, Math.min((IMAGE_COUNT + 1), val));
+    val = Math.max(0, Math.min(IMAGE_COUNT, val));
     applyLogo(val);
   };
 
@@ -1417,7 +1503,7 @@
       analogClockContainer.style.left = '16px';
       analogClockContainer.style.top = '100px';
     }
-    STRING_HTML.main > BODY.prepend(analogClockContainer);
+    BODY.prepend(analogClockContainer);
     const updateAnalogClock = () => {
       if (!$id('analogClockContainer')) return;
       const smoothSecondHand = Settings.get('smoothSecondHand', true);
@@ -1564,7 +1650,7 @@
     });
     dtContainer.append(digCalBtn, dateTime);
     dtContainer.append(dateTime);
-    STRING_HTML.main > BODY.prepend(dtContainer);
+    BODY.prepend(dtContainer);
     makeDraggable(dtContainer, 'dtContainer');
     restorePosition(dtContainer, 'dtContainer');
   };
@@ -1869,8 +1955,8 @@
       scalerPlus,
       digitalCalBtn,
     );
-    STRING_HTML.main > BODY.prepend(controlContainer);
-    STRING_HTML.main > BODY.prepend(scalerContainer);
+    BODY.prepend(controlContainer);
+    BODY.prepend(scalerContainer);
     makeDraggable(controlContainer, 'controlContainer');
     restorePosition(controlContainer, 'controlContainer');
     makeDraggable(scalerContainer, 'scalerContainer');
@@ -1992,7 +2078,7 @@
     );
     makeDraggable(brightnessContainer, 'brightnessContainer');
     restorePosition(brightnessContainer, 'brightnessContainer');
-    STRING_HTML.search > BODY.prepend(brightnessContainer);
+    BODY.prepend(brightnessContainer);
   };
 
 // =====================================================================================
@@ -2024,7 +2110,7 @@
       $el('img', {
         id: 'viewContainersImg',
         src: ICONS.mask32R,
-        title: '• Left-click: Show/Hide Containers\n• Shift/Ctrl/Alt + Left-click: Toggle Images red, green, blue, yellow',
+        title: '• Left-click: Show/Hide Containers\n• Shift/Ctrl/Alt + Left-click: Toggle Images red, green, blue, yellow, white',
         onclick: (e) => containerView(e),
       })
     );
@@ -2145,7 +2231,6 @@
     ${STRING_HTML.main} div.KxwPGc.SSwjIe > div.KxwPGc.AghGtd,
     ${STRING_HTML.main} div.KxwPGc.SSwjIe > div.KxwPGc.ssOUyb,
     ${STRING_HTML.main} div.KxwPGc.SSwjIe > div.KxwPGc.iTjxkf > a,
-    ${STRING_HTML.main} div.RNNXgb div.fzj3ad,
     ${STRING_HTML.main} div.o3j99.qarstb > div:nth-child(3),
     ${STRING_HTML.main} #EUjKDc,
     ${STRING_HTML.main} #gbqfbb,
@@ -2155,7 +2240,8 @@
     ${STRING_HTML.main} div.g55egf > a,
     ${STRING_HTML.main} promo-middle-slot,
     ${STRING_HTML.main} .IzOpfd,
-    ${STRING_HTML.main} div.RNNXgb > div.SDkEP > div.fM33ce.dRYYxd > div,
+    ${STRING_HTML.main} div.plsC5e.RqyYHe > div.acUsEb.Q6KTif.KEY6ib > form > div:nth-child(1) > div > div.RNNXgb > div.SDkEP > div.dRYYxd > button,
+    ${STRING_HTML.main} div.RNNXgb div.y1yadf + div.y1yadf > span,
     ${STRING_HTML.main} div.RNNXgb svg.hWdRGb {
       display: none !important;
     }
@@ -2192,14 +2278,12 @@
     ${STRING_HTML.main} div.plsC5e.RqyYHe div.RNNXgb div.bvUkz {
       background: rgba(0 0 0 / .05) !important;
     }
-    ${STRING_HTML.main} g-popup > div.CcNe6e > div:hover {
+    ${STRING_HTML.main} div.plsC5e.RqyYHe > div.acUsEb.Q6KTif.KEY6ib > form > div:nth-child(1) > div > div.RNNXgb > div.SDkEP > div.dRYYxd > button:hover div.bvUkz {
       background: #363840 !important;
+    }
+    ${STRING_HTML.main} g-popup > div.CcNe6e > div:hover {
       border-color: #666 !important;
       text-decoration: none !important;
-    }
-    ${STRING_HTML.main} div.plsC5e.RqyYHe > div.acUsEb.Q6KTif.KEY6ib > form > div:nth-child(1) > div > div.RNNXgb:focus-within,
-    ${STRING_HTML.main} div.L3eUgb input.gNO89b:hover {
-      background: #363840 !important;
     }
     ${STRING_HTML.main} #APjFqb {
       filter: brightness(2) !important;
@@ -2233,9 +2317,6 @@
     }
     ${STRING_HTML.main} div.plsC5e.RqyYHe center > input.gNO89b {
       margin-left: -96px !important;
-    }
-    ${STRING_HTML.main} div.plsC5e.RqyYHe center > input.gNO89b:hover {
-      background: #363840 !important;
     }
     ${STRING_HTML.main} div.g55egf.rWLVme > span > span {
       font-family: var(--qR8X0);
@@ -2279,17 +2360,15 @@
       z-index: 99999;
     }
     #viewContainersImg {
-      background: rgba(0 0 0 / .2);
-      border: none;
+      background-color: rgba(0 0 0 / .2);
       border-radius: 8px;
       cursor: pointer;
       height: 32px;
-      padding:3px 10px;
+      padding: 3px 10px;
       opacity: .7;
       width: 38px;
     }
     #viewContainersImg:hover {
-      background: #363840;
       opacity: 1;
     }
   `);
@@ -2529,9 +2608,6 @@
       user-select: none;
       z-index: 2;
     }
-    #controlContainer:hover {
-      background: #363840;
-    }
     #controlContainer.dragged {
       transform: none;
     }
@@ -2687,9 +2763,6 @@
       width: auto;
       z-index: 2;
     }
-    #scalerContainer:hover {
-      background: #363840;
-    }
     #scalerReset {
       padding: 2px 8px;
       width: auto;
@@ -2794,22 +2867,20 @@
       pointer-events: auto;
     }
     #dateTime {
+      align-content: center;
       background: rgba(0 0 0 / .2);
       border: none;
       border-radius: 8px;
       box-shadow: none;
       color: #FFF;
       cursor: pointer;
-      height: auto;
+      height: 38px;
       margin: 0px 8px;
-      padding: 7px 10px 6px 10px;
       pointer-events: auto;
+      text-align: center;
       text-shadow: 1px 1px 2px #000;
       user-select: none;
-      width: auto;
-    }
-    #dateTime:hover {
-      background: #363840;
+      width: 400px;
     }
     #dateTime[hidden] {
       background: none;
@@ -2865,7 +2936,6 @@
       margin-bottom: 8px;
     }
     #testingLocalePINInput {
-      background: #3b3b3b;
       border: 1px solid #aaa;
       border-radius: 5px;
       box-sizing: border-box;
@@ -2902,7 +2972,6 @@
       padding: 5px 12px;
     }
     .testing-locale-pin-buttons button:hover {
-      background: #3b3b3b;
       color: #fff;
     }
   `);
@@ -3043,7 +3112,6 @@
       margin: 0 !important;
     }
     ${STRING_HTML.search} .RNNXgb:focus-within {
-      background: #303134 !important;
       border-radius: 24px 24px 0px 0px !important;
     }
     ${STRING_HTML.search} .jOAHU {
@@ -3073,6 +3141,26 @@
       opacity: 1 !important;
     }
   `);
+  GM_addStyle(`
+    ${STRING_HTML.main} #viewContainersImg:hover,
+    ${STRING_HTML.main} #controlContainer:hover,
+    ${STRING_HTML.main} #scalerContainer:hover,
+    ${STRING_HTML.main} #dateTime:hover,
+    ${STRING_HTML.main} #testingLocalePINInput,
+    ${STRING_HTML.main} .testing-locale-pin-buttons button:hover,
+    ${STRING_HTML.main} div.plsC5e.RqyYHe > div.acUsEb.Q6KTif.KEY6ib > form > div:nth-child(1) > div > div.RNNXgb:hover,
+    ${STRING_HTML.main} div.plsC5e.RqyYHe > div.acUsEb.Q6KTif.KEY6ib > form > div:nth-child(1) > div > div.RNNXgb:focus-within,
+    ${STRING_HTML.main} div.L3eUgb input.gNO89b:hover,
+    ${STRING_HTML.main} div.plsC5e.RqyYHe center > input.gNO89b:hover,
+    ${STRING_HTML.main} div.aajZCb,
+    ${STRING_HTML.main} g-popup > div.CcNe6e > div:hover,
+    ${STRING_HTML.search} div.RNNXgb:hover,
+    ${STRING_HTML.search} div.RNNXgb:focus-within,
+    ${STRING_HTML.search} div.aajZCb {
+      background: #22242A !important;
+    }
+  `);
+// #2F343D
 
 // =====================================================================================
 // STRING AND TITLE TRANSLATIONS (Section 11)
