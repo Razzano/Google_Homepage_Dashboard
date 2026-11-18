@@ -2382,7 +2382,7 @@
     ${STRING_HTML.main} div.g55egf > a,
     ${STRING_HTML.main} promo-middle-slot,
     ${STRING_HTML.main} .IzOpfd,
-    ${STRING_HTML.main} div.plsC5e.RqyYHe > div.acUsEb.Q6KTif.KEY6ib > form > div:nth-child(1) > div > div.RNNXgb > div.SDkEP > div.dRYYxd > button,
+    /*${STRING_HTML.main} div.plsC5e.RqyYHe > div.acUsEb.Q6KTif.KEY6ib > form > div:nth-child(1) > div > div.RNNXgb > div.SDkEP > div.dRYYxd > button,*/
     ${STRING_HTML.main} div.RNNXgb div.y1yadf + div.y1yadf > span,
     ${STRING_HTML.main} div.RNNXgb svg.hWdRGb {
       display: none !important;
@@ -2419,6 +2419,8 @@
     ${STRING_HTML.main} form center > input[type="submit"],
     ${STRING_HTML.main} div.plsC5e.RqyYHe div.RNNXgb div.bvUkz {
       background: rgba(0 0 0 / .05) !important;
+      box-shadow: 0 4px 12px rgba(23, 23, 23, .9) !important;
+      text-shadow: 2px 2px #000 !important;
     }
     ${STRING_HTML.main} div.plsC5e.RqyYHe > div.acUsEb.Q6KTif.KEY6ib > form > div:nth-child(1) > div > div.RNNXgb > div.SDkEP > div.dRYYxd > button:hover div.bvUkz {
       background: #363840 !important;
@@ -2485,6 +2487,16 @@
     }
     ${STRING_HTML.main} #toggleLinksInNewTabBtn:hover {
       border-color: #666;
+    }
+    ${STRING_HTML.main} #sI1XGe {
+      z-index: 9999999 !important;
+    }
+    ${STRING_HTML.main} #sI1XGe > div.naW5gc.mL3MVc.DYz2A > span {
+      background: #22242a !important;
+      border-radius: 16px !important;
+      padding: 16px !important;;
+      position: relative !important;
+      z-index: 999999 !important;
     }
   `);
 
@@ -3022,7 +3034,7 @@
       text-align: center;
       text-shadow: 1px 1px 2px #000;
       user-select: none;
-      width: 400px;
+      width: 406px;
     }
     #dateTime[hidden] {
       background: none;
@@ -3137,7 +3149,6 @@
       background: #22242A !important;
     }
   `);
-// #2F343D
 
 // =====================================================================================
 // STRING AND TITLE TRANSLATIONS (Section 11)
