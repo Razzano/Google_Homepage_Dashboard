@@ -2488,15 +2488,15 @@
     ${STRING_HTML.main} #toggleLinksInNewTabBtn:hover {
       border-color: #666;
     }
-    ${STRING_HTML.main} #sI1XGe {
-      z-index: 9999999 !important;
-    }
     ${STRING_HTML.main} #sI1XGe > div.naW5gc.mL3MVc.DYz2A > span {
       background: #22242a !important;
       border-radius: 16px !important;
       padding: 16px !important;;
       position: relative !important;
-      z-index: 999999 !important;
+      top: -256px !important;
+    }
+    ${STRING_HTML.main} div.plsC5e.RqyYHe.fLC3uf > div:nth-child(6) > div {
+      z-index: 99999 !important;
     }
   `);
 
