@@ -3034,7 +3034,7 @@
       text-align: center;
       text-shadow: 1px 1px 2px #000;
       user-select: none;
-      width: 406px;
+      width: 414px;
     }
     #dateTime[hidden] {
       background: none;
