@@ -2434,6 +2434,7 @@
       filter: brightness(2) !important;
       text-shadow: 1px 1px 2px #000 !important;
     }
+    ${STRING_HTML.main} div.plsC5e.RqyYHe > div.acUsEb.Q6KTif.KEY6ib > form > div:nth-child(1) > div > div.RNNXgb > div.SDkEP > div.dRYYxd,
     ${STRING_HTML.main} div.fM33ce.dRYYxd > div.ywK6Rd,
     ${STRING_HTML.main} div.RNNXgb div.fM33ce.dRYYxd {
       background: none !important;
