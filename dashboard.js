@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Google Homepage Dashboard
 // @namespace    srazzano
-// @version      2.7.9
+// @version      2.8.0
 // @description  Google with centered logo, wallpaper, date/digital time, resizable analog clock + draggable containers
 // @author       Sonny Razzano a.k.a. srazzano
 // @license      MIT
@@ -12,6 +12,8 @@
 // @grant        GM_getValue
 // @grant        GM_setValue
 // @grant        GM_openInTab
+// @downloadURL https://update.greasyfork.org/scripts/593080/Google%20Homepage%20Dashboard.user.js
+// @updateURL https://update.greasyfork.org/scripts/593080/Google%20Homepage%20Dashboard.meta.js
 // ==/UserScript==
 
 // =====================================================================================
@@ -2382,7 +2384,6 @@
     ${STRING_HTML.main} div.g55egf > a,
     ${STRING_HTML.main} promo-middle-slot,
     ${STRING_HTML.main} .IzOpfd,
-    /*${STRING_HTML.main} div.plsC5e.RqyYHe > div.acUsEb.Q6KTif.KEY6ib > form > div:nth-child(1) > div > div.RNNXgb > div.SDkEP > div.dRYYxd > button,*/
     ${STRING_HTML.main} div.RNNXgb div.y1yadf + div.y1yadf > span,
     ${STRING_HTML.main} div.RNNXgb svg.hWdRGb {
       display: none !important;
@@ -2488,15 +2489,17 @@
     ${STRING_HTML.main} #toggleLinksInNewTabBtn:hover {
       border-color: #666;
     }
-    ${STRING_HTML.main} #sI1XGe > div.naW5gc.mL3MVc.DYz2A > span {
+    ${STRING_HTML.main} div.plsC5e.RqyYHe > div.acUsEb.Q6KTif.KEY6ib > form > div:nth-child(1) > div > div.RNNXgb > div.SDkEP > div.dRYYxd > button {
+      margin: 0 !important;
+    }
+    ${STRING_HTML.main} div.plsC5e.RqyYHe.fLC3uf > div:nth-child(6) > div,
+    ${STRING_HTML.main}  #sI1XGe > div.naW5gc.mL3MVc.DYz2A {
+      z-index: 99999 !important;
+    }
+    {STRING_HTML.main}  #sI1XGe > div.naW5gc.mL3MVc.DYz2A > span {
       background: #22242a !important;
       border-radius: 16px !important;
-      padding: 16px !important;;
-      position: relative !important;
-      top: -256px !important;
-    }
-    ${STRING_HTML.main} div.plsC5e.RqyYHe.fLC3uf > div:nth-child(6) > div {
-      z-index: 99999 !important;
+      padding: 16px !important;
     }
   `);
 
@@ -3034,7 +3037,7 @@
       text-align: center;
       text-shadow: 1px 1px 2px #000;
       user-select: none;
-      width: 414px;
+      width: 406px;
     }
     #dateTime[hidden] {
       background: none;
