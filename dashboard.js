@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Google Homepage Dashboard
 // @namespace    srazzano
-// @version      2.8.5
+// @version      2.8.6
 // @description  Google with centered logo, wallpaper, date/digital time, resizable analog clock + draggable containers
 // @author       Sonny Razzano a.k.a. srazzano
 // @license      MIT
@@ -539,7 +539,7 @@
   };
 
   const State = {
-    analog: { animationId: null, intervalId: null, running: false },
+    analog: { animationId: null, intervalId: null, running: false, lastUpdate: 0 },
     wallpaper: { timer: null },
     digital: { interval: null },
   };
@@ -1878,6 +1878,10 @@
 
   const applyAnalogClock = () => {
     if (!Settings.get('analogClock', true)) return;
+    // Rebuild path (used by the stale-clock restart): stop the old rAF /
+    // interval loop and drop the old container, or two clocks would pile up.
+    stopAnalogClock();
+    $id('analogClockContainer')?.remove();
 
     let smooth = Settings.get('smoothSecondHand', true);
     let lastSecond = -1;
@@ -2003,6 +2007,7 @@
 
     const update = () => {
       if (!analogClockContainer.isConnected) return;
+      State.analog.lastUpdate = Date.now();
       const now = new Date();
       const whole = now.getSeconds();
       const seconds = smooth ? whole + now.getMilliseconds() / 1000 : whole;
@@ -2326,17 +2331,23 @@
 // EVENT LISTENERS (Section 8)
 // =====================================================================================
 
+  // FIX: rAF stops while the tab is hidden (e.g. this tab was loaded in the
+  // background behind a Lens result tab opened by the Open-in-New-Tab script).
+  // The old handlers only recreated the clock when its container was missing,
+  // so a container whose rAF loop never started / had stalled stayed frozen.
+  // Rebuild only if the clock has actually gone stale, so normal focus events
+  // do not rebuild it.
+  const restartAnalogClockIfStale = () => {
+    if (!Settings.get('analogClock', true)) return;
+    if (!$id('analogClockContainer')) { applyAnalogClock(); return; }
+    const last = State.analog.lastUpdate || 0;
+    if (Date.now() - last > 2000) applyAnalogClock();
+  };
   document.addEventListener('visibilitychange', () => {
-    if (!document.hidden && Settings.get('analogClock', true) && !$id('analogClockContainer')) {
-      applyAnalogClock();
-    }
+    if (!document.hidden) restartAnalogClockIfStale();
   });
-
-  window.addEventListener('pageshow', () => {
-    if (Settings.get('analogClock', true) && !$id('analogClockContainer')) {
-      applyAnalogClock();
-    }
-  });
+  window.addEventListener('pageshow', restartAnalogClockIfStale);
+  window.addEventListener('focus', restartAnalogClockIfStale);
 
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', init);
