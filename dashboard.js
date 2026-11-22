@@ -236,6 +236,7 @@
         background: #363840;
         border-radius: 24px;
         display: inline-flex;
+        width: 250px;
         z-index: 99999;
       }
       ${STRING_HTML.search} #brightnessContainer > .button {
@@ -342,7 +343,6 @@
         background: #363840 !important;
         border: none !important;
         border-radius: 24px !important;
-        margin: 0px 0px 0px 4px !important;
       }
       ${STRING_HTML.search} .RNNXgb:focus-within {
         border-radius: 24px 24px 0px 0px !important;
@@ -374,7 +374,7 @@
         opacity: 1 !important;
       }
       ${STRING_HTML.search} div.aajZCb {
-        margin: 0px -4px 0px 4px !important;
+        border: none !important;
       }
       ${STRING_HTML.search} div.RNNXgb:hover,
       ${STRING_HTML.search} div.RNNXgb:focus-within,
