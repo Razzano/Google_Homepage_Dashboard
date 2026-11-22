@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Google Homepage Dashboard
 // @namespace    srazzano
-// @version      2.8.1
+// @version      2.8.2
 // @description  Google with centered logo, wallpaper, date/digital time, resizable analog clock + draggable containers
 // @author       Sonny Razzano a.k.a. srazzano
 // @license      MIT
@@ -11,7 +11,6 @@
 // @grant        GM_addStyle
 // @grant        GM_getValue
 // @grant        GM_setValue
-// @grant        GM_openInTab
 // @downloadURL https://update.greasyfork.org/scripts/593080/Google%20Homepage%20Dashboard.user.js
 // @updateURL https://update.greasyfork.org/scripts/593080/Google%20Homepage%20Dashboard.meta.js
 // ==/UserScript==
@@ -21,20 +20,15 @@
 //   • To open all Google App Links in new tabs, download Tampermonkey script:
 //     (view code) https://github.com/Razzano/Google_App_Links/blob/main/Open_in_New_Tab.js
 //     (install code) https://raw.githubusercontent.com/Razzano/Google_App_Links/main/Open_in_New_Tab.js
+//
+// THIS FILE HAS NO ICONS/TRANSLATIONS. Paste your three functions back at the very bottom
+// (just above the closing "})();"):  getICONS(), STRING_TRANSLATIONS(), TITLE_TRANSLATIONS()
+//
 // APPENDIX:
-//   • GLOBAL CONSTANTS • DOM HELPERS • OBJECT GROUPS • FORCE GOOGLE DARK THEME ON
-//   • HASH PIN LOCALE TESTING POPUP      (Section 0)
-//   • LOGO MANAGER                       (Section 1)
-//   • WALLPAPER MANAGER                  (Section 2)
-//   • CLOCK MANAGER                      (Section 3)
-//   • DATE/TIME MANAGER                  (Section 4)
-//   • CONTROL MANAGER                    (Section 5)
-//   • SEARCH RESULTS BG OPACITY MANAGER  (Section 6)
-//   • VIEW CONTAINERS                    (Section 7)
-//   • UI MANAGER                         (Section 8)
-//   • EVENT LISTENERS                    (Section 9)
-//   • CSS                                (Section 10)
-//   • TRANSLATIONS • ICONS               (Section 11)
+//   • SHARED (Settings, wallpaper math, $el)  • SEARCH PAGE
+//   • MANUAL SETTINGS • CONSTANTS • HELPERS • OBJECT GROUPS • CSS • FORCE DARK THEME
+//   • LOCALE PIN POPUP (0) • LOGO (1) • WALLPAPER (2) • CLOCK (3) • DATE/TIME (4)
+//   • CONTROLS (5) • VIEW CONTAINERS (6) • INIT (7) • EVENTS (8)
 // =====================================================================================
 
 (() => {
@@ -42,253 +36,368 @@
 
   if (window.top !== window.self) return;
 
+// =====================================================================================
+// SHARED  (used by the home page AND the /search page)
+// =====================================================================================
+
   const STRING_HTML = {
     main: 'html[itemtype="http://schema.org/WebPage"]',
     search: 'html[itemtype="http://schema.org/SearchResultsPage"] > body#gsr',
   };
 
-  if (location.pathname.startsWith('/search')) {
+  const settingsCache = new Map();
+  const Settings = {
+    get(key, fallback) {
+      if (!settingsCache.has(key)) settingsCache.set(key, GM_getValue(key));
+      const value = settingsCache.get(key);
+      return value === undefined ? fallback : value;
+    },
+    set(key, value) {
+      settingsCache.set(key, value);
+      GM_setValue(key, value);
+      return value;
+    }
+  };
+
+  const makeStyle = () => {
+    let el = null;
+    return (css) => {
+      if (el) el.textContent = css;
+      else el = GM_addStyle(css);
+    };
+  };
+
+  const WALLPAPER_COUNT = 52;
+  const WALLPAPER_MANUAL = 0;
+  const WALLPAPER_HOURLY = 1;
+  const WALLPAPER_DAILY = 2;
+  const WALLPAPER_WEEKLY = 3;
+  const WALLPAPER_MONTHLY = 4;
+  const WALLPAPER_START_DATE = new Date(2026, 0, 1);
+
+  const wallpaperIndex = (n) => ((n % WALLPAPER_COUNT) + WALLPAPER_COUNT) % WALLPAPER_COUNT + 1;
+
+  const getCurrentWallpaperNumber = () => {
+    const mode = Settings.get('wallpaperMode', WALLPAPER_MANUAL);
+    const now = new Date();
+    const midnight = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    switch (mode) {
+      case WALLPAPER_HOURLY: return wallpaperIndex(Math.floor((now - WALLPAPER_START_DATE) / 3600000));
+      case WALLPAPER_DAILY: return wallpaperIndex(Math.floor((midnight - WALLPAPER_START_DATE) / 86400000));
+      case WALLPAPER_WEEKLY: return wallpaperIndex(Math.floor((midnight - WALLPAPER_START_DATE) / (7 * 86400000)));
+      case WALLPAPER_MONTHLY: return wallpaperIndex(
+        (now.getFullYear() - WALLPAPER_START_DATE.getFullYear()) * 12 + (now.getMonth() - WALLPAPER_START_DATE.getMonth()));
+      default: return parseInt(Settings.get('wallpaperImage', 0), 10) || 0;
+    }
+  };
+
+  const WALLPAPERS = {
+    github: 'https://raw.githubusercontent.com/Razzano/My_Wallpaper_Images/master/image',
+    ibb: 'https://i.ibb.co/',
+    images: {
+      1: 'nqqpD5vV', 2: 'N2ghpbyg', 3: 'hJrcmcSL', 4: 'x8zpWT0N', 5: 'wh14qStz', 6: 'NdCZSVzs', 7: 'yBpwcNQ1', 8: 'Xr37SNBV',
+      9: 'C3Zgc08Y', 10: 'PG2c2dT9', 11: 'nMbj7YxK', 12: 'Lzgbj01N', 13: 'GfMvNb1M', 14: 'hhQrGPj', 15: 'SXrbZ6q9', 16: 'HpXF12Wq',
+      17: 'G4m6ww4B', 18: 'Dx73gtB', 19: 'hxRzvG2Z', 20: 'nWhq1DM', 21: 'v4p4rZcf', 22: 'tTftHJ1b', 23: 'N6tR4Xxb', 24: 'XfdYrwHQ',
+      25: 'wZffdgsV', 26: 'mVYG75vH', 27: 'TxVSfQ60', 28: 'B5Y2f9W2', 29: 'DDQFgxR5', 30: 'V0TTMQx7', 31: 'yBWP54Rt', 32: '8gt1zNfT',
+      33: 'x8qbLzcT', 34: 'tT5S5617', 35: '6JYJYyyL', 36: 'kgsQRF2d', 37: 'qL2kZ9Cx', 38: 'LhzMW50z', 39: 'jvnXbbzK', 40: 'JJPQTnr',
+      41: 'PzGzxJKS', 42: 'LzStYHY7', 43: 'yFzWRFvd', 44: '1f0ZXrcj', 45: '5Xq48R9x', 46: 'wrdMKcwP', 47: 'Z6RtCxvz', 48: 'v82SrWg',
+      49: '4nQs54Pf', 50: '39dXTzcj', 51: 'ch7mVBLx', 52: 'DP3KyhPK',
+    },
+    url(num) {
+      const host = Settings.get('wallpaperHost', 'github');
+      return host === 'github' ? `${this.github}${num}.jpg` : `${this.ibb}${this.images[num]}/image${num}.jpg`;
+    }
+  };
+
+  // ---- DOM helpers ----
+  const SVG_NS = 'http://www.w3.org/2000/svg';
+  const SVG_TAGS = new Set([
+    'circle', 'defs', 'g', 'image', 'line', 'linearGradient', 'path', 'polygon', 'radialGradient', 'rect', 'stop', 'svg', 'text', 'title'
+  ]);
+
+  const $el = (tag, props = {}, ...children) => {
+    const isSVG = SVG_TAGS.has(tag);
+    const el = isSVG ? document.createElementNS(SVG_NS, tag) : document.createElement(tag);
+    for (const [key, value] of Object.entries(props)) {
+      if (value == null) continue;
+      if (key.startsWith('on') && typeof value === 'function') {
+        el.addEventListener(key.slice(2).toLowerCase(), value);
+      } else if (key === 'className' || key === 'class') {
+        el.setAttribute('class', Array.isArray(value) ? value.join(' ') : value);
+      } else if (key === 'style' && typeof value === 'object') {
+        Object.assign(el.style, value);
+      } else if (key === 'textContent') {
+        el.textContent = value;
+      } else if (key === 'title') {
+        if (isSVG) {
+          el.querySelector(':scope > title')?.remove();
+          const titleEl = document.createElementNS(SVG_NS, 'title');
+          titleEl.textContent = value;
+          el.prepend(titleEl);
+        } else {
+          el.title = value;
+        }
+      } else if (isSVG) {
+        el.setAttribute(key, value);
+      } else if (key in el) {
+        el[key] = value;
+      } else {
+        el.setAttribute(key, value);
+      }
+    }
+    children.flat(Infinity).forEach(child => { if (child != null) el.append(child); });
+    return el;
+  };
+
+  const $id = (id) => document.getElementById(id);
+  const $qa = (sel, ctx = document) => Array.from(ctx?.querySelectorAll(sel) ?? []);
+
+// =====================================================================================
+// SEARCH PAGE
+// =====================================================================================
+
+  const initSearchPage = () => {
     const DEFAULT = 50, MIN = 0, MAX = 100, STEP = 5;
-    let opacity = GM_getValue('searchResultsBgOpacity', DEFAULT);
+    let opacity = Settings.get('searchResultsBgOpacity', DEFAULT);
+    const rootStyle = document.documentElement.style;
+
     const apply = () => {
-      document.documentElement.style.setProperty('--search-results-bg-brightness', opacity / 100);
+      rootStyle.setProperty('--search-results-bg-brightness', opacity / 100);
       const inv = (100 - opacity) / 100;
-      document.documentElement.style.setProperty('--search-results-logo-brightness',
+      rootStyle.setProperty('--search-results-logo-brightness',
         inv > 0.1 ? inv - 0.1 : inv === 0.1 ? inv - 0.05 : inv === 0.05 ? inv - 0.025 : 0);
-      GM_setValue('searchResultsBgOpacity', opacity);
-      const btn = document.getElementById('brightnessBtn');
+      Settings.set('searchResultsBgOpacity', opacity);
+      const btn = $id('brightnessBtn');
       if (btn) btn.textContent = 'BG Brightness ' + (100 - opacity) + '%';
     };
-    const build = () => {
-      if (document.getElementById('brightnessContainer')) { apply(); return; }
-      const mk = (tag, props, ...kids) => {
-        const el = tag === 'svg' || tag === 'path'
-          ? document.createElementNS('http://www.w3.org/2000/svg', tag)
-          : document.createElement(tag);
-        for (const [k, v] of Object.entries(props || {})) {
-          if (k === 'textContent') el.textContent = v;
-          else if (k === 'title') el.title = v;
-          else if (k.startsWith('on') && typeof v === 'function') el.addEventListener(k.slice(2).toLowerCase(), v);
-          else el.setAttribute(k, v);
-        }
-        kids.forEach(c => c && el.append(c));
-        return el;
-      };
-      const plus = mk('svg', { id: 'brightnessPlus', class: 'button', title: 'Background Brighter by 5%', viewBox: '0 0 16 16',
-        onclick: () => { opacity = Math.max(MIN, opacity - STEP); apply(); } },
-        mk('path', { d: 'M 7 2 H 9 V 7 H 14 V 9 H 9 V 14 H 7 V 9 H 2 V 7 H 7 Z' }));
-      const btn = mk('button', { id: 'brightnessBtn', class: 'button',
-        title: '• Left-click for BG Brightness 50%\n• Shift + Left-click for BG Brightness 100%\n• Ctrl + Left-click for BG Brightness 0%',
-        onclick: (e) => {
-          if (e.shiftKey) opacity = MIN; else if (e.ctrlKey) opacity = MAX; else opacity = DEFAULT;
-          apply();
-        } });
-      const minus = mk('svg', { id: 'brightnessMinus', class: 'button', title: 'Background Darker by 5%', viewBox: '0 0 16 16',
-        onclick: () => { opacity = Math.min(MAX, opacity + STEP); apply(); } },
-        mk('path', { d: 'M 2 7 H 14 V 9 H 2 Z' }));
-      const wrap = mk('div', { id: 'brightnessContainer' }, plus, btn, minus);
-      const aDiv = document.getElementById('searchform');
-      aDiv.prepend(wrap);
+
+    const setOpacity = (value) => {
+      opacity = Math.max(MIN, Math.min(MAX, value));
       apply();
     };
 
-    (() => {
-      const COUNT = 52, START = new Date(2026, 0, 1); START.setHours(0, 0, 0, 0);
-      const mode = GM_getValue('wallpaperMode', 0);
-      let num = 0;
-      if (mode === 1) num = ((Math.floor((Date.now() - START) / 3600000) % COUNT) + COUNT) % COUNT + 1;
-      else if (mode === 2) { const d = new Date(); d.setHours(0,0,0,0); num = ((Math.floor((d - START) / 86400000) % COUNT) + COUNT) % COUNT + 1; }
-      else if (mode === 3) { const d = new Date(); d.setHours(0,0,0,0); num = ((Math.floor((d - START) / (7 * 86400000)) % COUNT) + COUNT) % COUNT + 1; }
-      else if (mode === 4) { const d = new Date(); num = (((d.getFullYear() - 2026) * 12 + d.getMonth()) % COUNT + COUNT) % COUNT + 1; }
-      else num = GM_getValue('wallpaperImage', 0);
-      num = parseInt(num, 10) || 0;
-      if (!num) return;
-      const host = GM_getValue('wallpaperHost', 'github');
-      const ibb = { 1:'nqqpD5vV',2:'N2ghpbyg',3:'hJrcmcSL',4:'x8zpWT0N',5:'wh14qStz',6:'NdCZSVzs',7:'yBpwcNQ1',8:'Xr37SNBV',9:'C3Zgc08Y',10:'PG2c2dT9',11:'nMbj7YxK',12:'Lzgbj01N',13:'GfMvNb1M',14:'hhQrGPj',15:'SXrbZ6q9',16:'HpXF12Wq',17:'G4m6ww4B',18:'Dx73gtB',19:'hxRzvG2Z',20:'nWhq1DM',21:'v4p4rZcf',22:'tTftHJ1b',23:'N6tR4Xxb',24:'XfdYrwHQ',25:'wZffdgsV',26:'mVYG75vH',27:'TxVSfQ60',28:'B5Y2f9W2',29:'DDQFgxR5',30:'V0TTMQx7',31:'yBWP54Rt',32:'8gt1zNfT',33:'x8qbLzcT',34:'tT5S5617',35:'6JYJYyyL',36:'kgsQRF2d',37:'qL2kZ9Cx',38:'LhzMW50z',39:'jvnXbbzK',40:'JJPQTnr',41:'PzGzxJKS',42:'LzStYHY7',43:'yFzWRFvd',44:'1f0ZXrcj',45:'5Xq48R9x',46:'wrdMKcwP',47:'Z6RtCxvz',48:'v82SrWg',49:'4nQs54Pf',50:'39dXTzcj',51:'ch7mVBLx',52:'DP3KyhPK' };
-      const url = host === 'github'
-        ? 'https://raw.githubusercontent.com/Razzano/My_Wallpaper_Images/master/image' + num + '.jpg'
-        : 'https://i.ibb.co/' + ibb[num] + '/image' + num + '.jpg';
-      GM_addStyle(`${STRING_HTML.search} { background: url('${url}') no-repeat center center / cover fixed !important; }`);
-    })();
-  GM_addStyle(`
-    ${STRING_HTML.search} #logoGoogle,
-    ${STRING_HTML.search} #viewContainersDiv,
-    ${STRING_HTML.search} #dateTimeContainer,
-    ${STRING_HTML.search} #scalerContainer,
-    ${STRING_HTML.search} #controlContainer {
-      display: none !important;
+    const build = (form) => {
+      if ($id('brightnessContainer')) { apply(); return; }
+      form.prepend($el('div', { id: 'brightnessContainer' },
+        $el('svg', {
+          id: 'brightnessPlus', class: 'button', title: 'Background Brighter by 5%', viewBox: '0 0 16 16',
+          onclick: () => setOpacity(opacity - STEP),
+        }, $el('path', { d: 'M 7 2 H 9 V 7 H 14 V 9 H 9 V 14 H 7 V 9 H 2 V 7 H 7 Z' })),
+        $el('button', {
+          id: 'brightnessBtn', class: 'button',
+          title: '• Left-click for BG Brightness 50%\n• Shift + Left-click for BG Brightness 100%\n• Ctrl + Left-click for BG Brightness 0%',
+          onclick: (e) => setOpacity(e.shiftKey ? MIN : e.ctrlKey ? MAX : DEFAULT),
+        }),
+        $el('svg', {
+          id: 'brightnessMinus', class: 'button', title: 'Background Darker by 5%', viewBox: '0 0 16 16',
+          onclick: () => setOpacity(opacity + STEP),
+        }, $el('path', { d: 'M 2 7 H 14 V 9 H 2 Z' }))
+      ));
+      apply();
+    };
+
+    const waitFor = (selector, cb) => {
+      const found = document.querySelector(selector);
+      if (found) { cb(found); return; }
+      const observer = new MutationObserver(() => {
+        const el = document.querySelector(selector);
+        if (!el) return;
+        observer.disconnect();
+        cb(el);
+      });
+      observer.observe(document.documentElement, { childList: true, subtree: true });
+      setTimeout(() => observer.disconnect(), 10000);
+    };
+
+    const wallpaper = getCurrentWallpaperNumber();
+    if (wallpaper) {
+      GM_addStyle(`${STRING_HTML.search} { background: url('${WALLPAPERS.url(wallpaper)}') no-repeat center center / cover fixed !important; }`);
     }
-    ${STRING_HTML.search} *:not(#analogClockContainer):not(#analogClockContainer *) {
-      text-shadow: 2px 2px 4px #000;
-    }
-    ${STRING_HTML.search} #analogClockContainer {
-      display: ${GM_getValue('searchResultsClock', true) ? 'block' : 'none'} !important;
-      left: 1520px !important;
-      pointer-events: none;
-      text-shadow: none;
-    }
-    ${STRING_HTML.search} #brightnessContainer {
-      align-items: center;
-      background: #363840;
-      border-radius: 24px;
-      display: inline-flex;
-      z-index: 99999;
-    }
-    ${STRING_HTML.search} #brightnessContainer > .button {
-      background: none;
-      border: none;
-      border-radius: 24px;
-      color: #fff;
-      cursor: pointer;
-      fill: #fff;
-      padding: 8px;
-      stroke-width: .7;
-      stroke: #000;
-      text-align: center;
-      user-select: none;
-    }
-    ${STRING_HTML.search} #brightnessContainer > #brightnessBtn {
-      height: 50px;
-    }
-    ${STRING_HTML.search} #brightnessPlus,
-    ${STRING_HTML.search} #brightnessMinus {
-    }
-    ${STRING_HTML.search} #brightnessPlus {
-      margin: 0px 4px 0px 8px;
-    }
-    ${STRING_HTML.search} #brightnessMinus {
-      margin: 0px 8px 0px 4px;
-    }
-    ${STRING_HTML.search} #brightnessBtn {
-      font-size: 16px;
-      height: 40px;
-      min-width: 170px;
-    }
-    ${STRING_HTML.search} #brightnessContainer > .button:hover {
-      background: #fff;
-      color: #000;
-      fill: #000;
-    }
-    ${STRING_HTML.search} .emcav.A8SBwf.pD4qTd,
-    ${STRING_HTML.search} #tsf > div:nth-child(1) > div {
-      transform: none !important;
-    }
-    ${STRING_HTML.search} #cnt {
-      background: rgba(0 0 0 / var(--search-results-bg-brightness)) !important;
-    }
-    ${STRING_HTML.search} > span.LoygGf,
-    ${STRING_HTML.search} > span.LoygGf.VHFyob {
-      height: 62px !important;
-    }
-    ${STRING_HTML.search} .xrOgrb {
-     padding-top: 0px !important;
-    }
-    ${STRING_HTML.search} #searchform {
-      position: relative !important;
-      top: -10px !important;
-    }
-    ${STRING_HTML.search} .XDyW0e,
-    ${STRING_HTML.search} #footcnt,
-    ${STRING_HTML.search} #gb > div.gb_td.gb_0.gb_I > div,
-    ${STRING_HTML.search} div.logo,
-    ${STRING_HTML.search} picture > img,
-    ${STRING_HTML.search} #gb > div.gb_Ad.gb_6.gb_L > div,
-    ${STRING_HTML.search} #gb > div.gb_cd.gb_0.gb_I > div {
-      display: none !important;
-    }
-    ${STRING_HTML.search} #cnt > div.JryvJ > div,
-    ${STRING_HTML.search} .GLcBOb {
-      border-bottom: none !important;
-    }
-    ${STRING_HTML.search} #searchform,
-    ${STRING_HTML.search} #searchform > div.NDnoQ.P3mIxe {
-      background: #000 !important;
-    }
-    ${STRING_HTML.search} #hdtb-sc {
-      margin-top: 30px !important;
-    }
-    ${STRING_HTML.search} #gbwa > div,
-    ${STRING_HTML.search} #gb > div.gb_z {
-      padding: 0 !important;
-    }
-    ${STRING_HTML.search} #gbwa > div > a:hover {
-      background-color: #181A1B !important;
-      border: 1px solid #333 !important;
-      color: #FFF !important;
-    }
-    ${STRING_HTML.search} .gb_Aa {
-      height: 40px !important;
-      position: relative !important;
-      top: -4px !important;
-      width: 40px !important;
-    }
-    ${STRING_HTML.search} .sfbg {
-      opacity: 0 !important;
-    }
-    ${STRING_HTML.search} .sfbg,
-    ${STRING_HTML.search} #pTwnEc,
-    ${STRING_HTML.search} .appbar {
-      background: transparent !important;
-    }
-    ${STRING_HTML.search} > #searchform {
-      margin-top: -2px !important;
-      top: 0 !important;
-    }
-    ${STRING_HTML.search} #tsf > div:nth-child(1) > div {
-      width: auto !important;
-    }
-    ${STRING_HTML.search} .RNNXgb {
-      background: #363840 !important;
-      border: none !important;
-      border-radius: 24px !important;
-      margin: 0px 0px 0px 4px !important;
-    }
-    ${STRING_HTML.search} .RNNXgb:focus-within {
-      border-radius: 24px 24px 0px 0px !important;
-    }
-    ${STRING_HTML.search} .jOAHU {
-      border-left: none !important;
-    }
-    ${STRING_HTML.search} div.dodTBe {
-      height: auto !important;
-      min-height: 0 !important;
-    }
-    ${STRING_HTML.search} .bzXtMb {
-      max-width: 100vw !important;
-    }
-    ${STRING_HTML.search} .zLSRge {
-      border-bottom: none !important;
-    }
-    ${STRING_HTML.search} div.RDmXvc.Jzkafd.LrrQLb {
-      margin: 0px !important;
-      padding: 0px !important;
-    }
-    ${STRING_HTML.search} #searchClockBtn {
-      background: transparent !important;
-      border: none !important;
-      display: ${GM_getValue('analogClock', true) ? 'block' : 'none'} !important;
-      opacity: .6 !important;
-    }
-    ${STRING_HTML.search} #searchClockBtn:hover {
-      opacity: 1 !important;
-    }
-    ${STRING_HTML.search} div.aajZCb {
-      margin: 0px -4px 0px 4px !important;
-    }
-  `);
-    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', build);
-    else build();
+
+    GM_addStyle(`
+      ${STRING_HTML.search} #logoGoogle,
+      ${STRING_HTML.search} #viewContainersDiv,
+      ${STRING_HTML.search} #dateTimeContainer,
+      ${STRING_HTML.search} #scalerContainer,
+      ${STRING_HTML.search} #controlContainer {
+        display: none !important;
+      }
+      ${STRING_HTML.search} *:not(#analogClockContainer):not(#analogClockContainer *) {
+        text-shadow: 2px 2px 4px #000;
+      }
+      ${STRING_HTML.search} #analogClockContainer {
+        display: ${Settings.get('searchResultsClock', true) ? 'block' : 'none'} !important;
+        left: 1520px !important;
+        pointer-events: none;
+        text-shadow: none;
+      }
+      ${STRING_HTML.search} #brightnessContainer {
+        align-items: center;
+        background: #363840;
+        border-radius: 24px;
+        display: inline-flex;
+        z-index: 99999;
+      }
+      ${STRING_HTML.search} #brightnessContainer > .button {
+        background: none;
+        border: none;
+        border-radius: 24px;
+        color: #fff;
+        cursor: pointer;
+        fill: #fff;
+        padding: 6px;
+        stroke-width: .7;
+        stroke: #000;
+        text-align: center;
+        user-select: none;
+      }
+      ${STRING_HTML.search} #brightnessContainer > #brightnessBtn {
+        height: 28px;
+      }
+      ${STRING_HTML.search} #brightnessPlus {
+        margin: 0px 4px 0px 8px;
+      }
+      ${STRING_HTML.search} #brightnessMinus {
+        margin: 0px 8px 0px 4px;
+      }
+      ${STRING_HTML.search} #brightnessBtn {
+        font-size: 16px;
+        height: 40px;
+        min-width: 170px;
+      }
+      ${STRING_HTML.search} #brightnessContainer > .button:hover {
+        background: #fff;
+        color: #000;
+        fill: #000;
+      }
+      ${STRING_HTML.search} .emcav.A8SBwf.pD4qTd,
+      ${STRING_HTML.search} #tsf > div:nth-child(1) > div {
+        transform: none !important;
+      }
+      ${STRING_HTML.search} #cnt {
+        background: rgba(0 0 0 / var(--search-results-bg-brightness)) !important;
+      }
+      ${STRING_HTML.search} > span.LoygGf,
+      ${STRING_HTML.search} > span.LoygGf.VHFyob {
+        height: 62px !important;
+      }
+      ${STRING_HTML.search} .xrOgrb {
+        padding-top: 0px !important;
+      }
+      ${STRING_HTML.search} #searchform {
+        position: relative !important;
+        top: -10px !important;
+      }
+      ${STRING_HTML.search} .XDyW0e,
+      ${STRING_HTML.search} #footcnt,
+      ${STRING_HTML.search} #gb > div.gb_td.gb_0.gb_I > div,
+      ${STRING_HTML.search} div.logo,
+      ${STRING_HTML.search} picture > img,
+      ${STRING_HTML.search} #gb > div.gb_Ad.gb_6.gb_L > div,
+      ${STRING_HTML.search} #gb > div.gb_cd.gb_0.gb_I > div {
+        display: none !important;
+      }
+      ${STRING_HTML.search} #cnt > div.JryvJ > div,
+      ${STRING_HTML.search} .GLcBOb {
+        border-bottom: none !important;
+      }
+      ${STRING_HTML.search} #searchform,
+      ${STRING_HTML.search} #searchform > div.NDnoQ.P3mIxe {
+        background: #000 !important;
+      }
+      ${STRING_HTML.search} #hdtb-sc {
+        margin-top: 30px !important;
+      }
+      ${STRING_HTML.search} #gbwa > div,
+      ${STRING_HTML.search} #gb > div.gb_z {
+        padding: 0 !important;
+      }
+      ${STRING_HTML.search} #gbwa > div > a:hover {
+        background-color: #181A1B !important;
+        border: 1px solid #333 !important;
+        color: #FFF !important;
+      }
+      ${STRING_HTML.search} .gb_Aa {
+        height: 40px !important;
+        position: relative !important;
+        top: -4px !important;
+        width: 40px !important;
+      }
+      ${STRING_HTML.search} .sfbg {
+        opacity: 0 !important;
+      }
+      ${STRING_HTML.search} .sfbg,
+      ${STRING_HTML.search} #pTwnEc,
+      ${STRING_HTML.search} .appbar {
+        background: transparent !important;
+      }
+      ${STRING_HTML.search} > #searchform {
+        margin-top: -2px !important;
+        top: 0 !important;
+      }
+      ${STRING_HTML.search} #tsf > div:nth-child(1) > div {
+        width: auto !important;
+      }
+      ${STRING_HTML.search} .RNNXgb {
+        background: #363840 !important;
+        border: none !important;
+        border-radius: 24px !important;
+        margin: 0px 0px 0px 4px !important;
+      }
+      ${STRING_HTML.search} .RNNXgb:focus-within {
+        border-radius: 24px 24px 0px 0px !important;
+      }
+      ${STRING_HTML.search} .jOAHU {
+        border-left: none !important;
+      }
+      ${STRING_HTML.search} div.dodTBe {
+        height: auto !important;
+        min-height: 0 !important;
+      }
+      ${STRING_HTML.search} .bzXtMb {
+        max-width: 100vw !important;
+      }
+      ${STRING_HTML.search} .zLSRge {
+        border-bottom: none !important;
+      }
+      ${STRING_HTML.search} div.RDmXvc.Jzkafd.LrrQLb {
+        margin: 0px !important;
+        padding: 0px !important;
+      }
+      ${STRING_HTML.search} #searchClockBtn {
+        background: transparent !important;
+        border: none !important;
+        display: ${Settings.get('analogClock', true) ? 'block' : 'none'} !important;
+        opacity: .6 !important;
+      }
+      ${STRING_HTML.search} #searchClockBtn:hover {
+        opacity: 1 !important;
+      }
+      ${STRING_HTML.search} div.aajZCb {
+        margin: 0px -4px 0px 4px !important;
+      }
+      ${STRING_HTML.search} div.RNNXgb:hover,
+      ${STRING_HTML.search} div.RNNXgb:focus-within,
+      ${STRING_HTML.search} div.aajZCb {
+        background: #22242A !important;
+      }
+    `);
+
+    waitFor('#searchform', build);
+  };
+
+  if (location.pathname.startsWith('/search')) {
+    initSearchPage();
     return;
   }
 
-
 // =====================================================================================
-// MANUAL DEFAULT SETTINGS
+// MANUAL DEFAULT SETTINGS  (home page)
 // =====================================================================================
 
   const ENABLE_GOOGLE_DARK_THEME = true; // 1 OR true, 0 OR false
 
-  // Adjust Positioning of Clock Elements =================================================
+  // Adjust Positioning of Clock Elements
   const BASE_SIZE = 360; // Clock diameter
   const DAY_BANNER_WIDTH_PADDING = 1; // 0 default, +2 expands left/right
   const DAY_BANNER_HEIGHT_PADDING = -1; // 0 default, +2 expands top/bottom
@@ -296,9 +405,10 @@
   const DATE_TEXT_TOP = 0; // +2 down, -2 up
   const TIME_TEXT_TOP = 0; // +2 down, -2 up
   const AMPM_TEXT_TOP = 0; // +2 down, -2 up
+  const SECOND_HAND_FRAME_MS = 33; // smooth second hand redraw interval (33 ≈ 30fps, 0 = every frame)
 
 // =====================================================================================
-// GLOBAL CONSTANTS
+// CONSTANTS
 // =====================================================================================
 
   const BODY = document.body;
@@ -308,56 +418,39 @@
   const SHORT_DAY_LOCALES = ['ar','cs','da','el','en','es','fi','fr','he',
     'hi','hu','it','ja','ko','nl','no','pl','ro','sk','sv','tr','uk','zh'];
   const LONG_DAY_LOCALES = ['bn','de','pt','ru'];
-  const DAY_ABBR = ['Sun.','Mon.','Tue.','Wed.','Thu.','Fri.','Sat.'];
-  const DAY_FULL = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
-  const MONTH_ABBR = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-  const MONTH_FULL = ['January','February','March','April','May','June','July','August','September','October','November','December'];
   const _SECOND_MS = 1000;
   const _SECONDS_MS = 5000;
   const IMAGE_COUNT = 18; // logos 0 (default) to 17
-  const LOG = '🌙 [Force Dark Theme]';
   const MAX_ATTEMPTS = 40;
   const INTERVAL_MS = 200;
-  const WALLPAPER_COUNT = 52;
-  const WALLPAPER_MANUAL = 0;
-  const WALLPAPER_HOURLY = 1;
-  const WALLPAPER_DAILY = 2;
-  const WALLPAPER_WEEKLY = 3;
-  const WALLPAPER_MONTHLY = 4;
-  const WALLPAPER_START_DATE = new Date(2026, 0, 1);
-  WALLPAPER_START_DATE.setHours(0, 0, 0, 0);
-
-  const Settings = {
-    get(key, fallback) {
-      return GM_getValue(key, fallback);
-    },
-    set(key, value) {
-      GM_setValue(key, value);
-      return value;
-    }
-  };
+  const CLOCK_BTN_TIP = '• Left-click: Show/Hide Analog Clock\n• Shift + Left-click: 🔒 Clock position\n• Ctrl + Left-click: 🔓 Clock position';
 
   const USER_LOCALE = Intl.DateTimeFormat().resolvedOptions().locale;
   const localeTestingUnlocked = Settings.get('localeTestingUnlocked', false);
   let testLocaleIndex = Settings.get('testLocaleIndex', 0);
   const LOCALE = localeTestingUnlocked ? LANGUAGE_COUNTRY[testLocaleIndex] : USER_LOCALE;
-  const LANG_LONG = (LOCALE ?? USER_LOCALE);
-  const LANG_SHORT = (LOCALE ?? USER_LOCALE).split('-')[0];
-  const DAY_BANNER_FMT = new Intl.DateTimeFormat(LOCALE, {
-    weekday: 'long'
-  });
-  const DATE_FMT = new Intl.DateTimeFormat(LOCALE, {
-    month: 'short', day: '2-digit'
-  });
-  const TIME_FMT = new Intl.DateTimeFormat(LOCALE, { // with am/pm
-    hour: 'numeric', minute: '2-digit', hour12: true
-  });
-  const TIME_ONLY_FMT = new Intl.DateTimeFormat(LOCALE, { // w/o am/pm
-    hour: 'numeric', minute: '2-digit'
-  });
-  const AMPM_FMT = new Intl.DateTimeFormat(LOCALE, {
-    hour: 'numeric', hour12: true
-  });
+  const LANG_LONG = LOCALE;
+  const LANG_SHORT = LOCALE.split('-')[0];
+
+  const DAY_BANNER_FMT = new Intl.DateTimeFormat(LOCALE, { weekday: 'long' });
+  const DATE_FMT = new Intl.DateTimeFormat(LOCALE, { month: 'short', day: '2-digit' });
+  const TIME_FMT = new Intl.DateTimeFormat(LOCALE, { hour: 'numeric', minute: '2-digit', hour12: true });
+  const DIGITAL_DATE_FMT = new Intl.DateTimeFormat(LOCALE, { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' });
+  const DIGITAL_TIME_SEC_FMT = new Intl.DateTimeFormat(LOCALE, { hour: 'numeric', minute: '2-digit', second: '2-digit', hour12: true });
+
+  const DAY_LAYOUT = (() => {
+    const pad = DAY_BANNER_HEIGHT_PADDING;
+    if (SHORT_DAY_LOCALES.includes(LANG_SHORT)) {
+      const textY = (LANG_LONG === 'ar-SA' || LANG_LONG === 'el-GR') ? 22.6 + DAY_BANNER_TEXT_TOP
+        : LANG_LONG === 'hi-IN' ? 23.2 : 23 + DAY_BANNER_TEXT_TOP;
+      return { upper: LANG_LONG === 'en-US', textY, bgY: 18 - pad / 2, dateY: 31 + pad / 2 + DATE_TEXT_TOP };
+    }
+    if (LONG_DAY_LOCALES.includes(LANG_SHORT)) {
+      const textY = LANG_LONG === 'ru-RU' ? 25.5 : LANG_LONG === 'bn-BD' ? 26.2 : 26;
+      return { upper: false, textY, bgY: 21 - pad / 2, dateY: 34 + pad / 2 + DATE_TEXT_TOP };
+    }
+    return null;
+  })();
 
   const hashPIN = async (pin) => {
     const data = new TextEncoder().encode(pin);
@@ -368,82 +461,14 @@
   const TESTING_LOCALE_PIN_HASH = '9d1247a5806e85493ef1eef4e88fff16a16ccbfd5aee1bf18293930de1393778';
 
 // =====================================================================================
-// DOM HELPERS
+// HELPERS
 // =====================================================================================
-
-  const SVG_NS = 'http://www.w3.org/2000/svg';
-  const SVG_TAGS = new Set([
-    'circle','clipPath','defs','desc','feBlend','feComposite','feColorMatrix','feDistantLight','feDropShadow','feFlood','feFuncA',
-    'feFuncB','feFuncG','feFuncR','feGaussianBlur','feImage','feMerge','feMergeNode','feMorphology','feOffset','feSpecularLighting',
-    'feSpotLight','filter','foreignObject','g','image','line','linearGradient','marker','mask','path','pattern','polyline','polygon',
-    'radialGradient','rect','script','stop','style','svg','symbol','text','textPath','title','tspan','use'
-  ]);
-
-  const $el = (tag, props = {}, ...children) => {
-    const isSVG = SVG_TAGS.has(tag);
-    const el = isSVG ? document.createElementNS(SVG_NS, tag) : document.createElement(tag);
-    for (const [key, value] of Object.entries(props)) {
-      if (value == null) continue;
-      if (key.startsWith('on') && typeof value === 'function') {
-        el.addEventListener(key.slice(2).toLowerCase(), value);
-        continue;
-      }
-      if (key === 'className' || key === 'class') {
-        el.setAttribute('class', Array.isArray(value) ? value.join(' ') : value);
-        continue;
-      }
-      if (key === 'style' && typeof value === 'object') {
-        Object.assign(el.style, value);
-        continue;
-      }
-      if (key === 'textContent') {
-        el.textContent = value;
-        continue;
-      }
-      if (key === 'title') {
-        if (isSVG) {
-          el.querySelector(':scope > title')?.remove();
-          const titleEl = document.createElementNS(SVG_NS, 'title');
-          titleEl.textContent = value;
-          el.prepend(titleEl);
-        } else {
-          el.title = value;
-        }
-        continue;
-      }
-      if (isSVG) {
-        el.setAttribute(key, value);
-        continue;
-      }
-      if (key in el) {
-        el[key] = value;
-      } else {
-        el.setAttribute(key, value);
-    } }
-    children.flat(Infinity).forEach(child => {
-      if (child != null) el.append(child);
-    });
-    return el;
-  };
-
-  const $id = (id) => document.getElementById(id);
-  const $q = (sel, ctx = document) => ctx?.querySelector(sel) ?? null;
-  const $qa = (sel, ctx = document) => Array.from(ctx?.querySelectorAll(sel) ?? []);
 
   const getLocaleName = (locale) => {
     const [lang, region] = locale.split('-');
     const languageName = new Intl.DisplayNames('en', { type: 'language' }).of(lang);
     const regionName = new Intl.DisplayNames('en', { type: 'region' }).of(region);
     return `${locale} ${languageName}-${regionName}`;
-  };
-
-  const insertAfter = (newEl, refEl) => {
-    if (!refEl || !refEl.parentNode) {
-      console.warn('insertAfter: refEl is null or has no parentNode', refEl);
-      return null;
-    }
-    refEl.after(newEl);
-    return newEl;
   };
 
   const makeDraggable = (elmnt, storageKey, dragSelector = null) => {
@@ -454,7 +479,7 @@
       if (dragSelector) {
         if (!e.target.closest(dragSelector)) return;
       } else {
-        if (e.target.closest('button,image,image,img,input,select,span,textarea')) return;
+        if (e.target.closest('button,image,img,input,select,span,textarea')) return;
         if (e.target !== elmnt) return;
       }
       e.preventDefault();
@@ -478,12 +503,8 @@
     const elementDrag = (e) => {
       if (!isDragging) return;
       e.preventDefault();
-      const dx = e.clientX - startX;
-      const dy = e.clientY - startY;
-      let newLeft = startLeft + dx;
-      let newTop = startTop + dy;
-      newLeft = Math.max(0, Math.min(newLeft, window.innerWidth - elmnt.offsetWidth));
-      newTop = Math.max(0, Math.min(newTop, window.innerHeight - elmnt.offsetHeight));
+      const newLeft = Math.max(0, Math.min(startLeft + e.clientX - startX, window.innerWidth - elmnt.offsetWidth));
+      const newTop = Math.max(0, Math.min(startTop + e.clientY - startY, window.innerHeight - elmnt.offsetHeight));
       elmnt.style.left = `${newLeft}px`;
       elmnt.style.top = `${newTop}px`;
     };
@@ -498,11 +519,6 @@
     elmnt.addEventListener('mousedown', dragMouseDown);
   };
 
-  const removeDupes = (className) => {
-    const [first, ...dupes] = document.querySelectorAll('.' + className);
-    dupes.forEach(el => el.remove());
-  };
-
   const restorePosition = (el, key) => {
     const savedTop = Settings.get(key + '_top');
     const savedLeft = Settings.get(key + '_left');
@@ -513,11 +529,28 @@
     }
   };
 
-  const State = {
-    analog: { animationId: null, intervalId: null, running: false, },
-    wallpaper: { timer: null, style: null, },
-    digital: { interval: null, }
+  const clampPercent = (p) => Math.max(30, Math.min(200, p));
+  const clockPx = (percent) => Math.round((percent / 100) * BASE_SIZE) + 'px';
+
+  const formatOpacity = (v) => (v === 0 || v === 100)
+    ? String(v / 100)
+    : (v / 100).toFixed(2).replace(/^0/, '').replace(/0+$/, '');
+
+  const setClockOpacity = (v) => {
+    const badge = $id('opacityBadge');
+    if (badge) badge.textContent = formatOpacity(v);
+    document.documentElement.style.setProperty('--analog-clock-opacity', v / 100);
   };
+
+  const State = {
+    analog: { animationId: null, intervalId: null, running: false },
+    wallpaper: { timer: null },
+    digital: { interval: null },
+  };
+
+  const setLogoCss = makeStyle();
+  const setWallpaperCss = makeStyle();
+  const setPointerCss = makeStyle();
 
 // =====================================================================================
 // OBJECT GROUPS
@@ -525,66 +558,33 @@
 
   const BANNER_STYLES = {
     gold: {
-      background: 'url(#bannerGradientGold)',
-      border: '#666',
-      highlight: '#fff',
-      highlightOpacity: 0.35,
-      font: '600 5px "Segoe UI", sans-serif',
-      text: '#000',
-      textShadow: '1px 1px #aaa',
+      background: 'url(#bannerGradientGold)', border: '#666', highlight: '#fff', highlightOpacity: 0.35,
+      font: '600 5px "Segoe UI", sans-serif', text: '#000', textShadow: '1px 1px #aaa',
     },
     red: {
-      background: 'url(#bannerGradientRed)',
-      border: '#666',
-      highlight: '#fff',
-      highlightOpacity: 0.35,
-      font: '400 5px "Segoe UI", sans-serif',
-      text: '#fff',
-      textShadow: '1px 1px #000',
+      background: 'url(#bannerGradientRed)', border: '#666', highlight: '#fff', highlightOpacity: 0.35,
+      font: '400 5px "Segoe UI", sans-serif', text: '#fff', textShadow: '1px 1px #000',
     },
     green: {
-      background: 'url(#bannerGradientGreen)',
-      border: '#666',
-      highlight: '#fff',
-      highlightOpacity: 0.35,
-      font: '400 5px "Segoe UI", sans-serif',
-      text: '#fff',
-      textShadow: '1px 1px #000',
+      background: 'url(#bannerGradientGreen)', border: '#666', highlight: '#fff', highlightOpacity: 0.35,
+      font: '400 5px "Segoe UI", sans-serif', text: '#fff', textShadow: '1px 1px #000',
     },
     blue: {
-      background: 'url(#bannerGradientBlue)',
-      border: '#666',
-      highlight: '#fff',
-      highlightOpacity: 0.35,
-      font: '400 5px "Segoe UI", sans-serif',
-      text: '#fff',
-      textShadow: '1px 1px #000',
+      background: 'url(#bannerGradientBlue)', border: '#666', highlight: '#fff', highlightOpacity: 0.35,
+      font: '400 5px "Segoe UI", sans-serif', text: '#fff', textShadow: '1px 1px #000',
     },
     classic: {
-      background: 'url(#bannerGradientClassic)',
-      border: '#666',
-      highlight: '#fff',
-      highlightOpacity: 0.35,
-      font: '600 5px "Segoe UI", sans-serif',
-      text: '#999',
-      textShadow: '1px 1px #000',
+      background: 'url(#bannerGradientClassic)', border: '#666', highlight: '#fff', highlightOpacity: 0.35,
+      font: '600 5px "Segoe UI", sans-serif', text: '#999', textShadow: '1px 1px #000',
     },
     dark: {
-      background: 'url(#bannerGradientDark)',
-      border: '#666',
-      highlight: '#fff',
-      highlightOpacity: 0.35,
-      font: '400 5px "Segoe UI", sans-serif',
-      text: '#fff',
-      textShadow: 'none',
+      background: 'url(#bannerGradientDark)', border: '#666', highlight: '#fff', highlightOpacity: 0.35,
+      font: '400 5px "Segoe UI", sans-serif', text: '#fff', textShadow: 'none',
     },
-    none: {
-      display: 'none',
-    }
+    none: { display: 'none' },
   };
 
   const savedBannerStyle = Settings.get('bannerStyle', 'gold');
-
   let bannerStyle = BANNER_STYLES[savedBannerStyle] ? savedBannerStyle : 'gold';
 
   const ICONS = getICONS();
@@ -602,8 +602,7 @@
     },
     url(num) {
       const host = Settings.get('wallpaperHost', 'github');
-      const image = host === 'github' ? `${this.github}${this.images[num]}.png` : `${this.ibb}${this.images[num + 50]}.png`;
-      return image;
+      return host === 'github' ? `${this.github}${this.images[num]}.png` : `${this.ibb}${this.images[num + 50]}.png`;
     }
   };
 
@@ -618,18 +617,11 @@
     15: { top: '65px', transform: 'translateX(-50%)' }, 16: { top: '80px', transform: 'translateX(-50%)' },
   };
 
-
-  const STRING_TOOLTIP = {
-    brightnessTitle: '• Left-click for BG Brightness 50%\n• Shift + Left-click for BG Brightness 100%\n• Ctrl + Left-click for BG Brightness 0%',
-    brightnessMinusTitle: 'Background Darker by 5%',
-    brightnessPlusTitle: 'Background Brighter by 5%',
-  };
-
   const strings = STRING_TRANSLATIONS();
-  const localizedString = { ...(strings.en ?? {}), ...(strings[LANG_SHORT] ?? {}), ...(strings[LANG_LONG] ?? {}), };
+  const localizedString = { ...(strings.en ?? {}), ...(strings[LANG_SHORT] ?? {}), ...(strings[LANG_LONG] ?? {}) };
 
   const titles = TITLE_TRANSLATIONS();
-  const localizedTitle = { ...(titles.en ?? {}), ...(titles[LANG_SHORT] ?? {}), ...(titles[LANG_LONG] ?? {}), };
+  const localizedTitle = { ...(titles.en ?? {}), ...(titles[LANG_SHORT] ?? {}), ...(titles[LANG_LONG] ?? {}) };
 
   let viewImage = Settings.get('viewImg', 'red');
 
@@ -638,1744 +630,19 @@
     yellow: { next: 'white', src: ICONS.mask38W }, white: { next: 'red', src: ICONS.mask38R },
   };
 
-  const WALLPAPERS = {
-    github: 'https://raw.githubusercontent.com/Razzano/My_Wallpaper_Images/master/image',
-    ibb: 'https://i.ibb.co/',
-    images: {
-      1: 'nqqpD5vV', 2: 'N2ghpbyg', 3: 'hJrcmcSL', 4: 'x8zpWT0N', 5: 'wh14qStz', 6: 'NdCZSVzs', 7: 'yBpwcNQ1', 8: 'Xr37SNBV',
-      9: 'C3Zgc08Y', 10: 'PG2c2dT9', 11: 'nMbj7YxK', 12: 'Lzgbj01N', 13: 'GfMvNb1M', 14: 'hhQrGPj', 15: 'SXrbZ6q9', 16: 'HpXF12Wq',
-      17: 'G4m6ww4B', 18: 'Dx73gtB', 19: 'hxRzvG2Z', 20: 'nWhq1DM', 21: 'v4p4rZcf', 22: 'tTftHJ1b', 23: 'N6tR4Xxb', 24: 'XfdYrwHQ',
-      25: 'wZffdgsV', 26: 'mVYG75vH', 27: 'TxVSfQ60', 28: 'B5Y2f9W2', 29: 'DDQFgxR5', 30: 'V0TTMQx7', 31: 'yBWP54Rt', 32: '8gt1zNfT',
-      33: 'x8qbLzcT', 34: 'tT5S5617', 35: '6JYJYyyL', 36: 'kgsQRF2d', 37: 'qL2kZ9Cx', 38: 'LhzMW50z', 39: 'jvnXbbzK', 40: 'JJPQTnr',
-      41: 'PzGzxJKS', 42: 'LzStYHY7', 43: 'yFzWRFvd', 44: '1f0ZXrcj', 45: '5Xq48R9x', 46: 'wrdMKcwP', 47: 'Z6RtCxvz', 48: 'v82SrWg',
-      49: '4nQs54Pf', 50: '39dXTzcj', 51: 'ch7mVBLx', 52: 'DP3KyhPK',
-    },
-    url(num) {
-      const host = Settings.get('wallpaperHost', 'github');
-      const image = host === 'github' ? `${this.github}${num}.jpg` : `${this.ibb}${this.images[num]}/image${num}.jpg`;
-      return image;
-    }
-  };
-
   const WALLPAPER_MODES = [
     { src: ICONS.hand32, key: 'wallpaperManualTitle' }, { src: ICONS.hourglass32, key: 'wallpaperHourlyTitle' },
     { src: ICONS.calendarDaily32, key: 'wallpaperDailyTitle' }, { src: ICONS.calendarWeekly32, key: 'wallpaperWeeklyTitle' },
     { src: ICONS.calendarMonthly32, key: 'wallpaperMonthlyTitle' },
-  ].map(mode => ({ src: mode.src, title: localizedTitle[mode.key], }));
+  ].map(mode => ({ src: mode.src, title: localizedTitle[mode.key] }));
 
   const WALLPAPER_SITES = [
-    { host: 'ibb', icon: ICONS.ibb32, titleKey: 'ibbTitle', }, { host: 'github', icon: ICONS.github32, titleKey: 'githubTitle', }
+    { host: 'ibb', icon: ICONS.ibb32, titleKey: 'ibbTitle' }, { host: 'github', icon: ICONS.github32, titleKey: 'githubTitle' },
   ];
 
-// =====================================================================================
-// FORCES GOOGLE DARK THEME ON
-// =====================================================================================
-
-  if (ENABLE_GOOGLE_DARK_THEME) {
-    (function forceGoogleDarkTheme() {
-
-      function isAlreadyDark() {
-        const html = document.documentElement;
-        return (
-          html.hasAttribute('dark') ||
-          html.getAttribute('data-darkreader-scheme') === 'dark' ||
-          (document.body && getComputedStyle(document.body).backgroundColor === 'rgb(32, 33, 36)')
-        );
-      }
-
-      function tryForceDark() {
-        if (isAlreadyDark()) return true;
-        let el = document.querySelector('#YUIDDb [jsaction*="ok5gFc"]')
-          || document.querySelector('#YUIDDb [role="link"]')
-          || document.querySelector('#YUIDDb');
-        if (el && /dark theme:\s*off/i.test(el.textContent || el.closest('#YUIDDb')?.textContent || '')) {
-          forceClick(el);
-          return true;
-        }
-        el = [...document.querySelectorAll('[jsaction*="ok5gFc"], [role="menuitem"], [role="link"]')]
-          .find(e => /dark theme:\s*off/i.test(e.textContent));
-        if (el) {
-          forceClick(el);
-          return true;
-        }
-        return false;
-      }
-
-      function forceClick(el) {
-        el.dispatchEvent(new MouseEvent('mousedown', { bubbles: true }));
-        el.dispatchEvent(new MouseEvent('mouseup', { bubbles: true }));
-        el.dispatchEvent(new MouseEvent('click', { bubbles: true }));
-      }
-
-      let attempts = 0;
-      const timer = setInterval(() => {
-        attempts++;
-        if (tryForceDark() || attempts >= MAX_ATTEMPTS) {
-          clearInterval(timer);
-        }
-      }, INTERVAL_MS);
-
-      const observer = new MutationObserver(() => {
-        if (isAlreadyDark()) {
-          observer.disconnect();
-          clearInterval(timer);
-          return;
-        }
-        const darkThemeMenu = document.querySelector('#YUIDDb');
-        if (!darkThemeMenu) return;
-        if (tryForceDark()) {
-          observer.disconnect();
-          clearInterval(timer);
-        }
-      });
-      // Observe DOM changes so we can react when the Dark Theme menu appears
-      observer.observe(document.documentElement, { childList: true, subtree: true, attributes: true });
-    })();
-  }
-
-// =====================================================================================
-// HASH PIN LOCALE TESTING POPUP (Section 0)
-// =====================================================================================
-
-  const toggleTestLocale = (e) => {
-    if (e.button !== 0) return;
-    const currentIndex = testLocaleIndex;
-    if (e.shiftKey) testLocaleIndex = (currentIndex - 1 + LANGUAGE_COUNTRY.length) % LANGUAGE_COUNTRY.length;
-    else testLocaleIndex = (currentIndex + 1) % LANGUAGE_COUNTRY.length;
-    Settings.set('testLocaleIndex', testLocaleIndex);
-    location.replace('https://www.google.com/');
-  };
-
-  const showTestingLocalePIN = () => {
-    const popup = $id('testingLocalePINPopup');
-    if (popup) return;
-    const overlay = $el('div');
-    overlay.id = 'testingLocalePINPopup';
-    overlay.innerHTML = `
-      <div class="testing-locale-pin-box">
-        <div class="testing-locale-pin-title">Locale Testing</div>
-        <input
-          id="testingLocalePINInput"
-          type="password"
-          inputmode="numeric"
-          maxlength="20"
-          autocomplete="off"
-          placeholder="Enter PIN"
-        >
-        <div id="testingLocalePINError" class="testing-locale-pin-error"></div>
-        <div class="testing-locale-pin-buttons">
-          <button type="button" id="testingLocalePINCancel">Cancel</button>
-          <button type="button" id="testingLocalePINOK">OK</button>
-        </div>
-      </div>
-    `;
-    BODY.appendChild(overlay);
-    const inp = $id('testingLocalePINInput');
-    const error = $id('testingLocalePINError');
-    const ok = $id('testingLocalePINOK');
-    const cancel = $id('testingLocalePINCancel');
-    const pinBox = overlay.querySelector('.testing-locale-pin-box');
-    const close = () => overlay.remove();
-    const verifyPIN = async (e) => {
-      if (e) {
-        e.preventDefault();
-        e.stopPropagation();
-        e.stopImmediatePropagation();
-      }
-      const pin = inp.value.trim();
-      if (!pin) {
-        error.textContent = 'Enter PIN';
-        inp.focus();
-        return;
-      }
-      const enteredHash = await hashPIN(pin);
-      if (enteredHash === TESTING_LOCALE_PIN_HASH) {
-        Settings.set('localeTestingUnlocked', true);
-        close();
-        location.replace('https://www.google.com/');
-      } else {
-        error.textContent = 'Incorrect PIN';
-        inp.select();
-        inp.focus();
-      }
-    };
-    ok.addEventListener('click', verifyPIN, true);
-    cancel.addEventListener('click', (e) => {
-      e.preventDefault();
-      e.stopPropagation();
-      e.stopImmediatePropagation();
-      close();
-    }, true);
-    ['click', 'mousedown', 'mouseup'].forEach(type => {
-      overlay.addEventListener(type, (e) => {
-        if (pinBox.contains(e.target)) return;
-        if (e.target === overlay) close();
-        e.preventDefault();
-        e.stopPropagation();
-        e.stopImmediatePropagation();
-      }, true);
-    });
-    inp.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter') {
-        e.preventDefault();
-        e.stopPropagation();
-        e.stopImmediatePropagation();
-        verifyPIN(e);
-      } else if (e.key === 'Escape') {
-        e.preventDefault();
-        e.stopPropagation();
-        e.stopImmediatePropagation();
-        close();
-      }
-    }, true);
-    inp.addEventListener('keypress', (e) => {
-      if (e.key === 'Enter') e.preventDefault();
-    }, true);
-    inp.focus();
-  };
-
-// =====================================================================================
-// LOGO MANAGER (Section 1)
-// =====================================================================================
-
-  const applyLogo = (num) => {
-    const existing = $id('logoGoogle');
-    if (existing) existing.remove();
-    num = parseInt(num, 10);
-    if (isNaN(num) || num < 0 || num > IMAGE_COUNT) {
-      num = 0;
-    }
-    const config = LOGO_CONFIG[num] || {
-      top: '40px',
-      transform: 'translateX(-50%)'
-    };
-    GM_addStyle(`
-      img[alt='Google'], #hplogo, #logo, .k1zIA img, .k1zIA svg, svg.ESTs9d,
-      ${STRING_HTML.main} #LS8OJ img,
-      ${STRING_HTML.main} #LS8OJ .k1zIA {
-        display: ${num === 0 ? 'block' : 'none'} !important;
-        visibility: ${num === 0 ? 'visible' : 'hidden'} !important;
-      }
-      div:has(> img[alt='Google']) {
-        display: ${num === 0 ? 'block' : 'none'} !important;
-      }
-      ${STRING_HTML.main} #logoGoogle {
-        top: ${config.top} !important;
-      }
-    `);
-    if (num !== 0) {
-      const src = IMAGES.url(num);
-      if (src) {
-        const logoCopy = $el('img', {
-          id: 'logoGoogle',
-          class: 'logo',
-          src
-        });
-        logoCopy.style.cssText = `
-          top: ${config.top};
-          transform: ${config.transform};
-        `;
-        logoCopy.onerror = () => {
-          console.warn(`Logo #${num} not found`);
-          logoCopy.remove();
-        };
-        BODY.prepend(logoCopy);
-    } }
-    const inp = $id('inputLogo');
-    if (inp) {
-      inp.value = num;
-    }
-    Settings.set('logoImageNum', num);
-  };
-
-  const logoClick = (id) => {
-    let current = Settings.get('logoImageNum', 1);
-    const next = (id.includes('up') || id === 'buttonLogo') ? (current + 1) % IMAGE_COUNT : (current - 1 + IMAGE_COUNT) % IMAGE_COUNT;
-    applyLogo(next);
-  };
-
-  const handleLogoInput = (e) => {
-    let val = parseInt(e.target.value);
-    if (isNaN(val)) return;
-    val = Math.max(0, Math.min(IMAGE_COUNT, val));
-    applyLogo(val);
-  };
-
-// =====================================================================================
-// WALLPAPER MANAGER (Section 2)
-// =====================================================================================
-
-  const getCurrentWallpaperNumber = () => {
-    switch (Settings.get('wallpaperMode', WALLPAPER_MANUAL)) {
-      case WALLPAPER_HOURLY: return getHourlyWallpaper();
-      case WALLPAPER_DAILY: return getDailyWallpaper();
-      case WALLPAPER_WEEKLY: return getWeeklyWallpaper();
-      case WALLPAPER_MONTHLY: return getMonthlyWallpaper();
-      default: return Settings.get('wallpaperImage', 0);
-    }
-  };
-
-  const applyWallpaper = (num) => {
-    if (State.wallpaper.style) {
-      State.wallpaper.style.remove();
-      State.wallpaper.style = null;
-    }
-    num = parseInt(num, 10) || 0;
-    if (num === 0) return;
-    const image = WALLPAPERS.url(num);
-    if (!image) return;
-    const css = `
-      body { background: url('${image}') no-repeat center center / cover fixed !important; }
-    `;
-    State.wallpaper.style = GM_addStyle(css);
-  };
-
-  const getHourlyWallpaper = () => {
-    const now = new Date();
-    const hours = Math.floor((now - WALLPAPER_START_DATE) / 3600000);
-    return ((hours % WALLPAPER_COUNT + WALLPAPER_COUNT) % WALLPAPER_COUNT) + 1;
-  };
-
-  const getDailyWallpaper = () => {
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-    const days = Math.floor((today - WALLPAPER_START_DATE) / 86400000);
-    return ((days % WALLPAPER_COUNT + WALLPAPER_COUNT) % WALLPAPER_COUNT) + 1;
-  };
-
-  const getWeeklyWallpaper = () => {
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-    const weeks = Math.floor((today - WALLPAPER_START_DATE) / (7 * 86400000));
-    return ((weeks % WALLPAPER_COUNT + WALLPAPER_COUNT) % WALLPAPER_COUNT) + 1;
-  };
-
-  const getMonthlyWallpaper = () => {
-    const today = new Date();
-    const months = (today.getFullYear() - WALLPAPER_START_DATE.getFullYear()) * 12 + (today.getMonth() - WALLPAPER_START_DATE.getMonth());
-    return ((months % WALLPAPER_COUNT + WALLPAPER_COUNT) % WALLPAPER_COUNT) + 1;
-  };
-
-  const applyCurrentWallpaper = () => {
-    const num = getCurrentWallpaperNumber();
-    applyWallpaper(num);
-    const inp = $id('inputThemer');
-    if (inp) {
-      inp.value = num;
-    }
-  };
-
-  const scheduleWallpaperUpdate = () => {
-    clearTimeout(State.wallpaper.timer);
-    const mode = Settings.get('wallpaperMode', WALLPAPER_MANUAL);
-    if (mode === WALLPAPER_MANUAL) return;
-    const now = new Date();
-    const next = new Date(now);
-    switch (mode) {
-      case WALLPAPER_HOURLY:
-        next.setHours(next.getHours() + 1, 0, 0, 0);
-        break;
-      case WALLPAPER_DAILY:
-        next.setDate(next.getDate() + 1);
-        next.setHours(0, 0, 0, 0);
-        break;
-      case WALLPAPER_WEEKLY: {
-        const day = next.getDay();
-        let days = (8 - day) % 7;
-        if (days === 0) days = 7;
-        next.setDate(next.getDate() + days);
-        next.setHours(0, 0, 0, 0);
-        break;
-	     }
-      case WALLPAPER_MONTHLY:
-        next.setMonth(next.getMonth() + 1, 1);
-        next.setHours(0, 0, 0, 0);
-    }
-    State.wallpaper.timer = setTimeout(() => {
-      applyCurrentWallpaper();
-      scheduleWallpaperUpdate();
-    }, next - now);
-  };
-
-  const wallpaperButtonChanger = (e) => {
-    const inp = $id('inputThemer');
-    let val = parseInt(inp.value) || 0;
-    val = e.target.id.includes('down') ? val - 1 : val + 1;
-    if (val > WALLPAPER_COUNT) {
-      val = 0;
-    }
-    if (val < 0) {
-      val = WALLPAPER_COUNT;
-    }
-    inp.value = val;
-    Settings.set('wallpaperMode', WALLPAPER_MANUAL);
-    Settings.set('wallpaperImage', val);
-    applyCurrentWallpaper();
-    scheduleWallpaperUpdate();
-  };
-
-  const wallpaperInputChanger = () => {
-    const inpThemer = $id('inputThemer');
-    let val = parseInt(inpThemer.value) || 0;
-    val = Math.max(0, Math.min(WALLPAPER_COUNT, val));
-    inpThemer.value = val;
-    Settings.set('wallpaperMode', WALLPAPER_MANUAL);
-    Settings.set('wallpaperImage', val);
-    applyCurrentWallpaper();
-    scheduleWallpaperUpdate();
-  };
-
-  const setThemerState = enabled => {
-    ['buttonThemer', 'inputThemer', 'downThemer'].forEach(id => {
-      const el = $id(id);
-      if (!el) return;
-      el.classList.toggle('disabled', !enabled);
-    });
-  };
-
-  const wallpaperToggleHandler = () => {
-    const mode = (Settings.get('wallpaperMode', WALLPAPER_MANUAL) + 1) % WALLPAPER_MODES.length;
-    const tog = $id('toggleImg');
-    Settings.set('wallpaperMode', mode);
-    setThemerState(mode === 0);
-    tog.src = WALLPAPER_MODES[mode].src;
-    tog.title = WALLPAPER_MODES[mode].title;
-    applyCurrentWallpaper();
-    scheduleWallpaperUpdate();
-  };
-
-  const toggleWallpaperHost = () => {
-    const current = Settings.get('wallpaperHost', 'github');
-    let index = WALLPAPER_SITES.findIndex(site => site.host === current);
-    if (index === -1) index = 0;
-    const next = WALLPAPER_SITES[(index + 1) % WALLPAPER_SITES.length];
-    Settings.set('wallpaperHost', next.host);
-    const img = $id('hostImg');
-    if (img) {
-      img.src = next.icon;
-      img.title = localizedTitle[next.titleKey];
-    }
-    applyCurrentWallpaper();
-  };
-
-  const updateWallpaperControls = () => {
-    const mode = Settings.get('wallpaperMode', WALLPAPER_MANUAL);
-    const tog = $id('toggleImg');
-    const inp = $id('inputThemer');
-    setThemerState(mode === WALLPAPER_MANUAL);
-    if (tog) {
-      tog.src = WALLPAPER_MODES[mode].src;
-      tog.title = WALLPAPER_MODES[mode].title;
-    }
-    if (inp) {
-      inp.value = getCurrentWallpaperNumber();
-    }
-  };
-
-// =====================================================================================
-// CLOCK MANAGER (Section 3)
-// =====================================================================================
-
-  const stopAnalogClock = () => {
-    State.analog.running = false;
-    if (State.analog.animationId) {
-      cancelAnimationFrame(State.analog.animationId);
-      State.analog.animationId = null;
-    }
-    if (State.analog.intervalId) {
-      clearInterval(State.analog.intervalId);
-      State.analog.intervalId = null;
-    }
-  };
-
-  const createClockDefs = () => $el('defs', {
-    },
-    $el('linearGradient', {
-      id: 'bezelOuterGradient',
-      x1: '0%', y1: '0%',
-      x2: '0%', y2: '100%'
-      },
-      $el('stop', { offset: '0%', 'stop-color': '#ffffff' }),
-      $el('stop', { offset: '8%', 'stop-color': '#f3f3f3' }),
-      $el('stop', { offset: '18%', 'stop-color': '#c9c9c9' }),
-      $el('stop', { offset: '32%', 'stop-color': '#7a7a7a' }),
-      $el('stop', { offset: '50%', 'stop-color': '#4f4f4f' }),
-      $el('stop', { offset: '68%', 'stop-color': '#8d8d8d' }),
-      $el('stop', { offset: '84%', 'stop-color': '#d9d9d9' }),
-      $el('stop', { offset: '94%', 'stop-color': '#f5f5f5' }),
-      $el('stop', { offset: '100%', 'stop-color': '#7a7a7a' }),
-    ),
-    $el('linearGradient', {
-      id: 'bezelInnerGradient',
-      x1: '0%', y1: '0%',
-      x2: '0%', y2: '100%',
-      },
-      $el('stop', { offset: '0%', 'stop-color': '#ffffff' }),
-      $el('stop', { offset: '20%', 'stop-color': '#d8d8d8' }),
-      $el('stop', { offset: '55%', 'stop-color': '#8c8c8c' }),
-      $el('stop', { offset: '100%', 'stop-color': '#4e4e4e' }),
-    ),
-    $el('linearGradient', {
-      id: 'numeralGradient',
-      gradientTransform: 'rotate(90)',
-      },
-      $el('stop', { offset: '0%', 'stop-color': 'var(--numeral-top)' }),
-      $el('stop', { offset: '100%', 'stop-color': 'var(--numeral-bottom)' }),
-    ),
-    $el('linearGradient', {
-      id: 'bannerGradientGold',
-      gradientTransform: 'rotate(90)',
-      },
-      $el('stop', { offset: '0%', 'stop-color': 'rgba(255 250 210 / .6)' }),
-      $el('stop', { offset: '100%', 'stop-color': 'rgba(160 125 30 / .6)' }),
-    ),
-    $el('linearGradient', {
-      id: 'bannerGradientRed',
-      gradientTransform: 'rotate(90)',
-      },
-      $el('stop', { offset: '0%', 'stop-color': 'rgba(250 0 0 / .6' }),
-      $el('stop', { offset: '100%', 'stop-color': 'rgba(100 0 0 / .6)' }),
-    ),
-    $el('linearGradient', {
-      id: 'bannerGradientGreen',
-      gradientTransform: 'rotate(90)',
-      },
-      $el('stop', { offset: '0%', 'stop-color': 'rgba(145 255 200 / .6' }),
-      $el('stop', { offset: '100%', 'stop-color': 'rgba(0 117 58 / .6' }),
-    ),
-    $el('linearGradient', {
-      id: 'bannerGradientBlue',
-      gradientTransform: 'rotate(90)',
-      },
-      $el('stop', { offset: '0%', 'stop-color': 'rgba(168 211 255 / .6' }),
-      $el('stop', { offset: '100%', 'stop-color': 'rgba(0 88 176 / .6' }),
-    ),
-    $el('linearGradient', {
-      id: 'bannerGradientClassic',
-      gradientTransform: 'rotate(90)',
-      },
-      $el('stop', { offset: '0%', 'stop-color': 'rgba(186 188 189 / .5)' }),
-      $el('stop', { offset: '100%', 'stop-color': 'rgba(0 0 0 / .75)' }),
-    ),
-    $el('linearGradient', {
-      id: 'bannerGradientDark',
-      gradientTransform: 'rotate(90)',
-      },
-      $el('stop', { offset: '0%', 'stop-color': 'rgba(0 0 0 / .5)' }),
-      $el('stop', { offset: '100%', 'stop-color': 'rgba(0 0 0 / .5)' }),
-    ),
-    $el('linearGradient', {
-      id: 'panelGradient',
-      gradientTransform: 'rotate(90)',
-      },
-      $el('stop', { offset: '0%', 'stop-color': '#fff' }),
-      $el('stop', { offset: '100%', 'stop-color': '#4f4f4f' }),
-    ),
-    $el('radialGradient', {
-      id: 'faceGradient',
-      cx: '50%', cy: '50%', r: '50%',
-      gradientUnits: 'objectBoundingBox',
-      },
-      $el('stop', {
-        offset: '0%',
-        'stop-color': 'var(--face-inner)',
-      }),
-      $el('stop', {
-        offset: '70%',
-        'stop-color': '#f7f7f7',
-      }),
-      $el('stop', {
-        offset: '100%',
-        'stop-color': 'var(--face-outer)',
-      })
-    )
-  );
-
-  const defs = createClockDefs();
-
-  const createClockFace = () => {
-    const ticks = [];
-    const hourNumbers = [];
-    const bezelGroup = $el('g', {
-      className: 'Analog-Bezel clock-elem',
-      },
-      $el('circle', {
-        className: 'Analog-BezelOuter',
-        cx: 50, cy: 50, r: 48.8,
-        fill: 'none',
-        stroke: 'url(#bezelOuterGradient)', 'stroke-width': 7.5,
-      }),
-      $el('circle', {
-        className: 'Analog-BezelInner',
-        cx: 50, cy: 50, r: 48.8,
-        fill: 'none',
-        stroke: 'url(#bezelInnerGradient)', 'stroke-width': 1.0,
-      }),
-      $el('circle', {
-        className: 'Analog-BezelShadow',
-        cx: 50, cy: 50, r: 49,
-        fill: 'none',
-      }),
-      $el('circle', {
-        className: 'Analog-BezelHighlight',
-        cx: 50, cy: 50, r: 48.1,
-        fill: 'none',
-      }),
-      $el('circle', {
-        className: 'Analog-BezelFinish',
-        cx: 50, cy: 50, r: 47,
-        fill: 'none',
-        stroke: 'rgba(0 0 0 / .3)', 'stroke-width': .5,
-      })
-    );
-    const clockFace = $el('circle', {
-      className: 'Analog-Face clock-elem',
-      cx: 50, cy: 50, r: 47,
-      fill: 'url(#faceGradient)',
-    });
-    for (let i = 0; i < 60; i++) {
-      const angleDeg = i * 6 - 90;
-      const rad = angleDeg * Math.PI / 180;
-      const isHourMark = (i % 5 === 0);
-      const innerRadius = isHourMark ? 42 : 44.5;
-      const outerRadius = 47;
-      ticks.push(
-        $el('line', {
-          className: 'Analog-Ticks',
-          x1: 50 + innerRadius * Math.cos(rad), y1: 50 + innerRadius * Math.sin(rad),
-          x2: 50 + outerRadius * Math.cos(rad), y2: 50 + outerRadius * Math.sin(rad),
-          stroke: isHourMark ? 'var(--tick-hourmark)' : 'var(--tick-secondmark)',
-          strokeWidth: isHourMark ? '1.5' : '0.75',
-          strokeLinecap: 'round',
-        })
-      );
-    }
-    for (let i = 0; i < 12; i++) {
-      const hour = i === 0 ? 12 : i;
-      const angleDeg = i * 30 - 90;
-      const rad = angleDeg * Math.PI / 180;
-      const radius = 38;
-      hourNumbers.push($el('text', {
-        className: 'Analog-Number',
-        x: 50 + radius * Math.cos(rad), y: 50.5 + radius * Math.sin(rad),
-        textContent: hour,
-        fill: 'url(#numeralGradient)',
-        'text-anchor': 'middle',
-        'dominant-baseline': 'middle',
-      }));
-    }
-    return {
-      bezelGroup,
-      clockFace,
-      ticks,
-      hourNumbers,
-    };
-  };
-
-  const {
-    bezelGroup,
-    clockFace,
-    ticks,
-    hourNumbers,
-  } = createClockFace();
-
-  const createClockHands = () => {
-    const hourHand = $el('path', {
-      className: 'Analog-Hour-Hand',
-      d: `M 50 50 L 49.0 48 L 48.8 30 L 50 26 L 51.2 30 L 51.0 48 Z`,
-    });
-    const minuteHand = $el('path', {
-      className: 'Analog-Minute-Hand',
-      d: `M 50 50 L 49.4 48 L 49.15 30 L 49.0 24 L 50 18 L 51.0 24 L 50.85 30 L 50.6 48 Z`,
-    });
-    const secondHand = $el('g', {
-      className: 'Analog-Second-Hand',
-      },
-      $el('path', {
-        className: 'Analog-Second-Needle',
-        d: `M 49.8 55 L 50.2 55 L 50.2 17 L 50 14 L 49.8 17 Z`,
-      }),
-      $el('line', {
-        className: 'Analog-Second-Tail',
-        x1: 50, y1: 55,
-        x2: 50, y2: 56,
-      }),
-      $el('polygon', {
-        className: 'Analog-Second-Counter',
-        points: `50,61 49.2,60.4 49.2,56.8 50,56 50.8,56.8 50.8,60.4`,
-      })
-    );
-    return { hourHand, minuteHand, secondHand };
-  };
-
-  const {
-	   hourHand,
-	   minuteHand,
-	   secondHand,
-  } = createClockHands();
-
-  const createHub = () => {
-    const hubOuter = $el('circle', {
-      className: 'Analog-HubOuter',
-      cx: 50, cy: 50, r: 2.6,
-    });
-    const hubInner = $el('circle', {
-      className: 'Analog-HubInner',
-      cx: 50, cy: 50, r: 1.55,
-    });
-    const hubPin = $el('circle', {
-      className: 'Analog-HubPin',
-      cx: 50, cy: 50, r: 0.58,
-    });
-    const hubHighlight = $el('circle', {
-      className: 'Analog-HubHighlight',
-      cx: 49.2, cy: 49.1, r: 0.32,
-    });
-    return { hubOuter, hubInner, hubPin, hubHighlight };
-  };
-
-  const {
-    hubOuter,
-    hubInner,
-    hubPin,
-    hubHighlight,
-  } = createHub();
-
-  const createDayBanner = () => {
-    const dayBannerBg = $el('rect', {
-      id: 'dayBannerBg',
-      rx: 2, ry: 2,
-    });
-    const dayBannerBorder = $el('rect', {
-      id: 'dayBannerBorder',
-    });
-    const dayBannerHighlight = $el('rect', {
-      id: 'dayBannerHighlight',
-    });
-    const dayBannerText = $el('text', {
-      id: 'dayBannerText',
-      x: 50.5,
-      'text-anchor': 'middle',
-      'dominant-baseline': 'middle',
-    });
-	   const applyBannerStyle = () => {
-      const style = BANNER_STYLES[bannerStyle];
-      if (bannerStyle === 'none') {
-        dayBannerBg.style.display = style.display;
-        dayBannerBorder.style.display = style.display;
-        dayBannerHighlight.style.display = style.display;
-        dayBannerText.style.display = style.display;
-        return;
-      }
-      dayBannerBg.style.display = '';
-      dayBannerHighlight.style.display = '';
-      dayBannerText.style.display = '';
-      dayBannerBg.setAttribute('fill', style.background);
-      dayBannerBg.setAttribute('stroke', style.border);
-      dayBannerHighlight.setAttribute('fill', style.highlight);
-      dayBannerHighlight.setAttribute('fill-opacity', style.highlightOpacity);
-      dayBannerText.setAttribute('fill', style.text);
-      dayBannerText.style.font = style.font;
-      dayBannerText.style.textShadow = style.textShadow;
-    };
-    const toggleBannerStyle = (e) => {
-      const styles = Object.keys(BANNER_STYLES);
-      const currentIndex = styles.indexOf(bannerStyle);
-      if (e.button === 0 && e.ctrlKey) {
-        bannerStyle = styles[(currentIndex - 1 + styles.length) % styles.length];
-      } else if (e.button === 0 && e.shiftKey) {
-        bannerStyle = styles[(currentIndex - 1 + styles.length) % styles.length];
-      } else if (e.button === 0) {
-        bannerStyle = styles[(currentIndex + 1) % styles.length];
-      }
-      Settings.set('bannerStyle', bannerStyle);
-      applyBannerStyle();
-    };
-    return {
-      dayBannerBg,
-      dayBannerBorder,
-      dayBannerHighlight,
-      dayBannerText,
-      applyBannerStyle,
-      toggleBannerStyle,
-    }
-  };
-
-  const {
-    dayBannerBg,
-    dayBannerBorder,
-    dayBannerHighlight,
-    dayBannerText,
-    applyBannerStyle,
-    toggleBannerStyle,
-  } = createDayBanner();
-
-  const applyClockPointerEvents = () => {
-    const enabled = Settings.get('clockPointerEvents', true);
-    GM_addStyle(`
-      #analogClockContainer {
-        pointer-events: ${enabled ? 'all' : 'none'} !important;
-      }
-      #analogClockContainer #controlsGroup {
-        pointer-events: all !important;
-      }
-    `);
-  };
-
-  const ANALOG_CLOCK_OPACITY_DEFAULT = 50;
-  const ANALOG_CLOCK_OPACITY_MIN = 0;
-  const ANALOG_CLOCK_OPACITY_MAX = 100;
-  const ANALOG_CLOCK_OPACITY_STEP = 5;
-
-  const applyAnalogClockOpacity = (e) => {
-    let analogClockOpacity = Settings.get('analogClockOpacity', ANALOG_CLOCK_OPACITY_DEFAULT);
-    if (e.button !== 0) return;
-    if (e.shiftKey && !e.ctrlKey) {
-      analogClockOpacity = Math.min(ANALOG_CLOCK_OPACITY_MAX, analogClockOpacity + ANALOG_CLOCK_OPACITY_STEP);
-    } else if (e.ctrlKey && !e.shiftKey) {
-      analogClockOpacity = Math.max(ANALOG_CLOCK_OPACITY_MIN, analogClockOpacity - ANALOG_CLOCK_OPACITY_STEP);
-    } else if (e.shiftKey && e.ctrlKey) {
-      analogClockOpacity = ANALOG_CLOCK_OPACITY_DEFAULT;
-    } else {
-      analogClockOpacity = ANALOG_CLOCK_OPACITY_MAX;
-    }
-    Settings.set('analogClockOpacity', analogClockOpacity);
-    const badge = $id('opacityBadge');
-    badge.textContent = analogClockOpacity === 0 || analogClockOpacity === 100
-      ? String(analogClockOpacity / 100) : (analogClockOpacity / 100).toFixed(2).replace(/^0/, '').replace(/0+$/, '');
-    document.documentElement.style.setProperty('--analog-clock-opacity', analogClockOpacity / 100);
-  };
-
-  const applyAnalogClock = () => {
-    if (!Settings.get('analogClock', true)) return;
-    let currentDay = -1;
-    let displayedSecondDeg = 0;
-    const date = new Date();
-    const smoothSecondHand = Settings.get('smoothSecondHand', true);
-    const spacer3 = $el('span', {id: 'spacer3', class: 'spacerX', textContent: localizedString.spacerXText});
-    const dateText = $el('text', {
-      id: 'dateText',
-      className: 'Analog-MonthDateText',
-      x: 50.5,
-      'text-anchor': 'middle',
-      'dominant-baseline': 'middle',
-    });
-    const timeText = $el('text', {
-      id: 'timeText',
-      className: 'Analog-timeText',
-      x: 50.5,
-      'text-anchor': 'middle',
-      'dominant-baseline': 'middle',
-      'xml:space': 'preserve',
-    });
-    const ampmText = $el('text', {
-      className: 'Analog-AMPMText',
-      x: 50.5,
-      'text-anchor': 'middle',
-      'dominant-baseline': 'middle',
-    });
-    const dateTimeGroup = $el('g', {
-      id: 'dateTimeGroup',
-    }, [
-      dateText,
-      timeText,
-      ampmText,
-    ]);
-    const panelRect = $el('rect', {
-      id: 'controlsPanel',
-      className: 'controls-panel',
-      x: 19, y: 105,
-      width: 63, height: 12,
-      rx: 2,
-      fill: 'url(#panelGradient)',
-      stroke: '#555',
-      'stroke-width': .6,
-    });
-    const themeImg = $el('image', {
-      id: 'themeImg',
-      className: 'controls-img',
-      href: ICONS.onpalette74,
-      x: 21, y: 106,
-      width: 10, height: 10,
-      title: localizedTitle.themeImgTitle,
-    });
-    const secondHandImg = $el('image', {
-      id: 'clockImg',
-      className: 'controls-img',
-      href: ICONS.clock74,
-      x: 33.2, y: 106,
-      width: 10, height: 10,
-      title: localizedTitle.secondHandImgTitle,
-    });
-    const anaCalImg = $el('image', {
-      id: 'anaCalImg',
-      className: 'controls-img',
-      href: ICONS.face74,
-      x: 45.4, y: 106,
-      width: 10, height: 10,
-      title: localizedTitle.anaCalImgTitle,
-      onclick: () => toggleCalendarInfo(),
-    });
-    const bannerImg = $el('image', {
-      id: 'bannerImg',
-      className: 'controls-img',
-      href: ICONS.banner74,
-      x: 57.6, y: 106,
-      width: 10, height: 10,
-      title: localizedTitle.bannerImgTitle,
-      onclick: (e) => toggleBannerStyle(e),
-    });
-    const localeImg = $el('image', {
-      id: 'localeImg',
-      className: 'controls-img',
-      href: ICONS.test74,
-      x: 69.8, y: 106,
-      width: 10, height: 10,
-      title: localeTestingUnlocked ? getLocaleName(LOCALE) : 'Developer Testing Only',
-      onclick: (e) => {
-        if (!localeTestingUnlocked) {
-          showTestingLocalePIN();
-          return;
-        }
-        if (e.ctrlKey) {
-          Settings.set('localeTestingUnlocked', false);
-          Settings.set('testLocaleIndex', 0);
-          location.replace('https://www.google.com/');
-          return;
-        }
-        toggleTestLocale(e);
-      }
-    });
-    const controlsGroup = $el('g', {
-      id: 'controlsGroup'
-      },
-      panelRect,
-      themeImg,
-      secondHandImg,
-      anaCalImg,
-      bannerImg,
-      localeImg,
-    );
-    // =======================
-    // ATTACH TO SVG
-    // =======================
-    const svg = $el('svg', {
-      className: 'Analog',
-      viewBox: '0 0 100 100',
-      },
-      defs,
-      bezelGroup,
-      clockFace,
-      ...ticks,
-      ...hourNumbers,
-      hourHand,
-      minuteHand,
-      hubOuter,
-      secondHand,
-      hubInner,
-      hubPin,
-      hubHighlight,
-      dayBannerBg,
-      dayBannerBorder,
-      dayBannerHighlight,
-      dayBannerText,
-      dateTimeGroup,
-      controlsGroup,
-    );
-    const setSecondMode = (smooth) => {
-      Settings.set('smoothSecondHand', smooth);
-    };
-    setSecondMode(Settings.get('smoothSecondHand', true));
-    secondHandImg.onclick = () => {
-      Settings.set('smoothSecondHand', !Settings.get('smoothSecondHand', true));
-      startAnalogClock();
-    };
-    const toggleCalendarInfo = () => {
-      const hidden = clockInfo.classList.toggle('hidden');
-      dateTimeGroup.classList.toggle('hidden', !hidden);
-      Settings.set('calendarInfo', !hidden);
-    };
-    // =======================
-    // NON SVG
-    // =======================
-    const Clock = $el('div', { className: 'Analog-Bigclock' }, svg);
-    const ampmView = Settings.get('ampmView', true);
-    ampmText.style.display = ampmView ? '' : 'none';
-    let currentPercent = 100;
-    const percentageDisplay = $el('input', {
-      className: 'scaler-text',
-      type: 'number',
-      value: '100',
-      min: '30',
-      max: '200',
-      step: '1',
-      title: localizedTitle.percentageDisplayTitle,
-      oninput(e) {
-        const val = e.target.value;
-        if (val === '') return;
-        const num = parseInt(val, 10);
-        if (!isNaN(num)) {
-          setClockPercentage(num);
-      } }
-    });
-    const setClockPercentage = (percent) => {
-      currentPercent = Math.max(30, Math.min(200, percent));
-      const pixelSize = Math.round((currentPercent / 100) * BASE_SIZE);
-      Clock.style.setProperty('--clock-size', pixelSize + 'px');
-      percentageDisplay.value = String(currentPercent);
-      Settings.set('clockSizePercent', currentPercent);
-    };
-    const setTheme = (dark) => {
-      Clock.classList.toggle('dark', dark);
-      themeImg.setAttribute('href', dark ? ICONS.offpalette74 : ICONS.onpalette74);
-      Settings.set('clockDarkTheme', dark);
-    };
-    setTheme(Settings.get('clockDarkTheme', true));
-    themeImg.onclick = () => {
-      const dark = !Settings.get('clockDarkTheme', true);
-      setTheme(dark);
-    };
-    const clockInfo = $el('div', {
-      id: 'clockInfo',
-    });
-    const showControlsPref = Settings.get('controlsPanel', true);
-    controlsGroup.classList.toggle('hidden', !showControlsPref);
-    const savedPercent = Settings.get('clockSizePercent', 100);
-    setClockPercentage(savedPercent);
-    const analogClockContainer = $el('div', {
-      id: 'analogClockContainer', className: 'ClockContainer'
-      },
-      Clock
-    );
-    makeDraggable(analogClockContainer, 'analogClockContainer', '.Analog-Bigclock');
-    restorePosition(analogClockContainer, 'analogClockContainer');
-    const rect = analogClockContainer.getBoundingClientRect();
-    if (rect.right < 0 || rect.bottom < 0 || rect.left > window.innerWidth || rect.top > window.innerHeight) {
-      analogClockContainer.style.left = '16px';
-      analogClockContainer.style.top = '100px';
-    }
-    BODY.prepend(analogClockContainer);
-    const updateAnalogClock = () => {
-      if (!$id('analogClockContainer')) return;
-      const smoothSecondHand = Settings.get('smoothSecondHand', true);
-      const now = new Date();
-      const seconds = smoothSecondHand ? now.getSeconds() + now.getMilliseconds() / 1000 : now.getSeconds();
-      const secondDeg = seconds * 6;
-      const minuteDeg = now.getMinutes() * 6 + seconds * 0.1;
-      const hourDeg = (now.getHours() % 12) * 30 + now.getMinutes() * 0.5 + seconds * (0.5 / 60);
-      let targetDeg = secondDeg;
-      if (targetDeg < displayedSecondDeg - 180) targetDeg += 360;
-      displayedSecondDeg = targetDeg;
-      Clock.style.setProperty('--secondDeg', `${displayedSecondDeg}deg`);
-      Clock.style.setProperty('--minuteDeg', `${minuteDeg}deg`);
-      Clock.style.setProperty('--hourDeg', `${hourDeg}deg`);
-      const isShortDay = SHORT_DAY_LOCALES.includes(LANG_SHORT);
-      const isLongDay = LONG_DAY_LOCALES.includes(LANG_SHORT);
-      const marginTop = DAY_BANNER_TEXT_TOP;
-      const padding = DAY_BANNER_HEIGHT_PADDING;
-      if (isShortDay) {
-        if (LANG_LONG === 'en-US') {
-          dayBannerText.textContent = DAY_BANNER_FMT.format(now).toLocaleUpperCase(LANG_LONG);
-        } else {
-          dayBannerText.textContent = DAY_BANNER_FMT.format(now);
-        }
-        if (LANG_LONG === 'ar-SA' || LANG_LONG === 'el-GR') {
-          dayBannerText.setAttribute('y', 22.6 + marginTop);
-        } else if (LANG_LONG === 'hi-IN') {
-          dayBannerText.setAttribute('y', 23.2);
-        } else {
-          dayBannerText.setAttribute('y', 23 + marginTop);
-        }
-        dayBannerBg.setAttribute('y', 18 - (padding / 2));
-        dateText.setAttribute('y', 31 + (padding / 2) + DATE_TEXT_TOP);
-      } else if (isLongDay) {
-        dayBannerText.textContent = DAY_BANNER_FMT.format(now);
-        if (LANG_LONG === 'ru-RU') {
-          dayBannerText.setAttribute('y', 25.5);
-        } else if (LANG_LONG === 'bn-BD') {
-          dayBannerText.setAttribute('y', 26.2);
-        } else {
-          dayBannerText.setAttribute('y', 26);
-        }
-        dayBannerBg.setAttribute('y', 21 - (padding / 2));
-        dateText.setAttribute('y', 34 + (padding / 2) + DATE_TEXT_TOP);
-      }
-      const width = dayBannerText.getComputedTextLength();
-      const bgWidth = Math.ceil(width + DAY_BANNER_WIDTH_PADDING);
-      const bgX = (100 - bgWidth) / 2;
-      dayBannerBg.setAttribute('width', bgWidth + 1);
-      dayBannerBg.setAttribute('x', bgX);
-      dayBannerBg.setAttribute('height', 8.5 + padding);
-      dateText.textContent = DATE_FMT.format(now);
-      const parts = TIME_FMT.formatToParts(now);
-      timeText.textContent = parts.filter(part => part.type !== 'dayPeriod').map(part => part.value).join('').trim();
-      timeText.setAttribute('y', 77 + TIME_TEXT_TOP)
-      ampmText.textContent = parts.find(part => part.type === 'dayPeriod')?.value ?? '';
-      ampmText.setAttribute('y', 82 + AMPM_TEXT_TOP);
-    };
-    const showCalendarInfo = Settings.get('calendarInfo', false);
-    if (!showCalendarInfo) {
-      clockInfo.classList.add('hidden');
-    }
-    dateTimeGroup.classList.toggle('hidden', showCalendarInfo);
-    const startAnalogClock = () => {
-      stopAnalogClock();
-      State.analog.running = true;
-      displayedSecondDeg = 0;
-      const smooth = Settings.get('smoothSecondHand', true);
-      if (smooth) {
-        const tick = () => {
-          if (!State.analog.running) return;
-          updateAnalogClock();
-          State.analog.animationId = requestAnimationFrame(tick);
-        };
-        tick();
-      } else {
-        updateAnalogClock();
-        State.analog.intervalId = setInterval(updateAnalogClock, _SECOND_MS);
-      }
-    };
-    startAnalogClock();
-    applyBannerStyle();
-    applyClockPointerEvents();
-  };
-
-  const toggleAnalogClock = (e) => {
-    const clock = Settings.get('analogClock', true);
-    const cont = $id('analogClockContainer');
-    const panelTog = $id('panelToggler');
-    const scalerCtn = $id('scalerContainer');
-    const scaler = $qa('.scaler', scalerCtn);
-    if (e.shiftKey) {
-      Settings.set('clockPointerEvents', false);
-      applyClockPointerEvents();
-      return;
-    }
-    if (e.ctrlKey) {
-      Settings.set('clockPointerEvents', true);
-      applyClockPointerEvents();
-      return;
-    }
-    if (e.button === 0) {
-      if (clock) {
-        stopAnalogClock();
-        Settings.set('analogClock', false);
-        cont?.remove();
-      } else {
-        Settings.set('analogClock', true);
-        applyAnalogClock();
-      }
-      const bool = Settings.get('analogClock', true);
-      panelTog.classList.toggle('disabled', !bool);
-      scaler.forEach(el => el.classList.toggle('disabled', !bool));
-      const btn = $id('analogClockBtn');
-      const pref = bool ? ICONS.clock32 : ICONS.noclock32;
-      const tip = '• Left-click: Show/Hide Analog Clock\n• Shift + Left-click: 🔒 Clock position\n• Ctrl + Left-click: 🔓 Clock position';
-      btn.replaceChildren(
-        $el('img', {
-          src: pref,
-          title: tip,
-          alt: 'Clock'
-        })
-      );
-    }
-  };
-
-// =====================================================================================
-// DATE/TIME MANAGER (Section 4)
-// =====================================================================================
-
-  const applyDateTime = () => {
-    const dtContainer = $el('div', {
-      id: 'dateTimeContainer'
-    });
-    const digCalBtn = $el('button', {
-      id: 'digCalBtn',
-      title: localizedTitle.digCalBtnTitle,
-      onclick: dateTimeToggle}
-    );
-    const dateTime = $el('span', {
-      id: 'dateTime',
-      title: localizedTitle.dateTimeTitle,
-      onclick: dateTimeToggleSeconds
-    });
-    dtContainer.append(digCalBtn, dateTime);
-    dtContainer.append(dateTime);
-    BODY.prepend(dtContainer);
-    makeDraggable(dtContainer, 'dtContainer');
-    restorePosition(dtContainer, 'dtContainer');
-  };
-
-  const updateDigitalClock = () => {
-    const digitalClock = $id('dateTime');
-    if (!digitalClock) {
-       clearInterval(State.digital.interval);
-      State.digital.interval = null;
-      return;
-    }
-    const now = new Date();
-    const date = new Intl.DateTimeFormat(LOCALE, { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric', }).format(now);
-    const time = new Intl.DateTimeFormat(LOCALE, { hour: 'numeric', minute: '2-digit', second: '2-digit', hour12: true, }).format(now);
-    const timeNoSeconds = new Intl.DateTimeFormat(LOCALE, { hour: 'numeric', minute: '2-digit', hour12: true, }).format(now);
-    const secView = Settings.get('secondsView', false);
-    digitalClock.textContent = secView ? `${date} 🕑 ${time}` : `${date} 🕑 ${timeNoSeconds}`;
-  };
-
-  const startDigitalClock = () => {
-    clearInterval(State.digital.interval);
-    State.digital.interval = null;
-    const digitalClock = $id('dateTime');
-    const dtPref = Settings.get('dateTimeView', false);
-    if (!dtPref || digitalClock.hidden) {
-      digitalClock.hidden = !dtPref;
-      return;
-    }
-    const delay = Settings.get('secondsView', false) ? _SECOND_MS : _SECONDS_MS;
-    State.digital.interval = setInterval(updateDigitalClock, delay);
-    updateDigitalClock();
-  };
-
-  const dateTimeToggle = (e) => {
-    if (e.button !== 0 || e.shiftKey || e.ctrlKey || e.altKey) return;
-    e.preventDefault();
-    const digitalClock = $id('dateTime');
-    const calImg = $id('calendar32Img');
-    digitalClock.hidden = !digitalClock.hidden;
-    Settings.set('dateTimeView', !digitalClock.hidden);
-    if (digitalClock.hidden) {
-      clearInterval(State.digital.interval);
-      State.digital.interval = null;
-      calImg.src = ICONS.nocalendar32
-    } else {
-      calImg.src = ICONS.calendar32;
-      startDigitalClock();
-    }
-  };
-
-  const dateTimeToggleSeconds = (e) => {
-    if (e.button !== 0 || e.shiftKey || e.ctrlKey || e.altKey) return;
-    e.preventDefault();
-    const enabled = !Settings.get('secondsView', false);
-    Settings.set('secondsView', enabled);
-    startDigitalClock();
-  };
-
-// =====================================================================================
-// CONTROL MANAGER (Section 5)
-// =====================================================================================
-
-  const updateSearchClockTip = () => {
-    const btn = $id('viewSearchClockBtn');
-    const img = $id('viewSearchClockImg');
-    if (!btn) return;
-    const enabled = Settings.get('searchResultsClock', true);
-    btn.title = `View Clock in Search Results\n• Currently ${enabled ? 'TRUE' : 'FALSE'}`;
-    img.src = enabled ? ICONS.searchClock : ICONS.nosearchClock;
-  };
-  const applyControlContainer = () => {
-    const controlContainer = $el('div', {
-      id: 'controlContainer'
-    });
-    const host = Settings.get('wallpaperHost', 'github');
-    const hostImg = $el('img', {
-      id: 'hostImg',
-      src: ICONS.ibb32,
-    });
-    const hostToggler = $el('button', {
-      id: 'hostToggler',
-      className: 'toggler host-toggler',
-      onclick: toggleWallpaperHost,
-      }, hostImg
-    );
-    const toggleImg = $el('img', {
-      id: 'toggleImg',
-      src: ICONS.hand32,
-    });
-    const wallpaperToggler = $el('button', {
-      id: 'wallpaperToggler',
-      className: 'toggler wallpaper-toggler',
-      onclick: wallpaperToggleHandler
-    }, toggleImg);
-    const buttonThemer = $el('button', {
-      id: 'buttonThemer',
-      className: 'button themer',
-      textContent: localizedString.buttonThemerText,
-      title: localizedTitle.changeWallpaperTitle,
-      onclick: wallpaperButtonChanger,
-    });
-    const inputThemer = $el('input', {
-      id: 'inputThemer',
-      className: 'input themer',
-      type: 'number',
-      value: Settings.get('wallpaperImage', 0),
-      title: localizedTitle.inputThemerTitle,
-      oninput: wallpaperInputChanger,
-    });
-    const downThemer = $el('button', {
-      id: 'downThemer',
-      className: 'button themer',
-      textContent: localizedString.downThemerText,
-      title: localizedTitle.changeWallpaperTitle,
-      onclick: wallpaperButtonChanger,
-    });
-    const spacer1 = $el('span', {
-      id: 'spacer1',
-      className: 'spacerX',
-      textContent: localizedString.spacerXText,
-    });
-    const buttonLogo = $el('button', {
-      id: 'buttonLogo',
-      className: 'button logo',
-      textContent: localizedString.buttonLogoText,
-      title: localizedTitle.changeLogoTitle,
-      onclick: e => logoClick(e.target.id),
-    });
-    const inputLogo = $el('input', {
-      id: 'inputLogo',
-      className: 'input logo',
-      type: 'number',
-      value: Settings.get('logoImageNum', 1),
-      title: localizedTitle.inputLogoTitle,
-      oninput: handleLogoInput,
-    });
-    const downLogo = $el('button', {
-      id: 'downLogo',
-      className: 'button logo',
-      textContent: localizedString.downLogoText,
-      title: localizedTitle.changeLogoTitle,
-      onclick: e => logoClick(e.target.id),
-    });
-    const scalerContainer = $el('div', {
-      id: 'scalerContainer',
-    });
-    let currentPercent = Settings.get('clockSizePercent', 100);
-    const setClockPercentage = (percent) => {
-      currentPercent = Math.max(30, Math.min(200, percent));
-      const pixelSize = Math.round((currentPercent / 100) * BASE_SIZE);
-      const clock = document.querySelector('.Analog-Bigclock');
-      if (clock) {
-        clock.style.setProperty('--clock-size', `${pixelSize}px`);
-      }
-      percentageDisplay.value = String(currentPercent);
-      Settings.set('clockSizePercent', currentPercent);
-    };
-    const savedPercent = Settings.get('clockSizePercent', 100);
-    const toggleControls = () => {
-      const controlsGroup = $id('controlsGroup');
-      const hidden = controlsGroup.classList.toggle('hidden');
-      const panelImg = $id('panel32Img');
-      Settings.set('controlsPanel', !hidden);
-      if (!hidden) {
-        panelImg.src = ICONS.panel32;
-      } else {
-        panelImg.src = ICONS.nopanel32;
-      }
-    };
-    const bool = Settings.get('analogClock', true);
-    const pref = bool ? ICONS.clock32 : ICONS.noclock32;
-    const tip = '• Left-click: Show/Hide Analog Clock\n• Shift + Left-click: 🔒 Clock position\n• Ctrl ' +
-                'Left-click: 🔓 Clock position';
-    const analogClockBtn = $el('button', {
-      id: 'analogClockBtn',
-      className: 'toggler analog-clock-btn',
-      title: tip,
-      onclick: (e) => toggleAnalogClock(e),
-      },
-      $el('img', {
-        id: 'clock32Img',
-        className: 'image',
-        src: pref,
-      })
-    );
-    const setSearchClockTip = () => {
-      const enabled = !Settings.get('searchResultsClock', true);
-      Settings.set('searchResultsClock', enabled);
-      updateSearchClockTip();
-    };
-    const clockBool = Settings.get('searchResultsClock', true);
-    const viewSearchClockBtn = $el('button', {
-      id: 'viewSearchClockBtn',
-      className: 'toggler search-clock-btn',
-      title: `View Clock in Search Results\n• Currently ${clockBool ? 'TRUE' : 'FALSE'}`,
-      onclick: setSearchClockTip,
-      },
-      $el('img', {
-        id: 'viewSearchClockImg',
-        className: 'image',
-        src: bool ? ICONS.searchClock : ICONS.nosearchClock,
-      })
-    );
-    const sunImg = $el('button', {
-      id: 'opacityToggler',
-      className: 'toggler',
-      title: 'Analog Clock and Logo Opacity\n• Left-click: Opacity 1\n• Shift + Left-click: Increase Opacity ' +
-             'by .05\n• Ctrl + Left-click: Decrease Opacity by .05\n• Shift + Ctrl + Left-click Opacity .5',
-      onclick: (e) => applyAnalogClockOpacity(e),
-      },
-      $el('img', {
-        id: 'sun32',
-        className: 'image',
-        src: ICONS.sun32,
-      }),
-      $el('span', {
-        id: 'opacityBadge'
-      })
-    );
-    const panelToggler = $el('button', {
-      id: 'panelToggler',
-      className: 'toggler',
-      title: localizedTitle.controlsBtnTitle,
-      onclick: toggleControls,
-      },
-      $el('img', {
-        id: 'panel32Img',
-        className: 'image',
-        src: ICONS.panel32,
-      })
-    );
-    const scalerReset = $el('button', {
-      id: 'scalerReset',
-      className: 'scaler scaler-reset',
-      textContent: localizedString.scalerBtnResetText,
-      title: localizedTitle.scalerResetTitle,
-      onclick: () => setClockPercentage(100),
-    });
-    const scalerMinus = $el('button', {
-      id: 'scalerMinus',
-      className: 'scaler scaler-btn',
-      textContent: localizedString.scalerBtnMinusText,
-      title: localizedTitle.scalerBtnDownTitle,
-      onclick: () => setClockPercentage(currentPercent - 5),
-    });
-    const percentageDisplay = $el('input', {
-      id: 'scalerInput',
-      className: 'scaler scaler-inp',
-      type: 'number',
-      value: '100',
-      min: '30',
-      max: '200',
-      step: '1',
-      title: localizedTitle.percentageDisplayTitle,
-      oninput(e) {
-        const val = e.target.value;
-        if (val === '') return;
-        const num = parseInt(val, 10);
-        if (!isNaN(num)) {
-          setClockPercentage(num);
-      } }
-    });
-    const scalerPlus = $el('button', {
-      id: 'scalerPlus',
-      className: 'scaler scaler-btn',
-      textContent: localizedString.scalerBtnPlusText,
-      title: localizedTitle.scalerBtnUpTitle,
-      onclick: () => setClockPercentage(currentPercent + 5),
-    });
-    const digitalCalBtn = $el('button', {
-      id: 'digitalCalBtn',
-      className: 'toggler digital-cal-btn',
-      title: localizedTitle.calBtnTitle,
-      onclick: dateTimeToggle,
-      },
-      $el('img', {
-        id: 'calendar32Img',
-        className: 'image',
-        src: ICONS.calendar32,
-      })
-    );
-    setClockPercentage(savedPercent);
-    controlContainer.append(
-      hostToggler,
-      wallpaperToggler,
-      buttonThemer,
-      inputThemer,
-      downThemer,
-      spacer1,
-      buttonLogo,
-      inputLogo,
-      downLogo,
-    );
-    scalerContainer.append(
-      analogClockBtn,
-      viewSearchClockBtn,
-      sunImg,
-      panelToggler,
-      scalerReset,
-      scalerMinus,
-      percentageDisplay,
-      scalerPlus,
-      digitalCalBtn,
-    );
-    BODY.prepend(controlContainer);
-    BODY.prepend(scalerContainer);
-    makeDraggable(controlContainer, 'controlContainer');
-    restorePosition(controlContainer, 'controlContainer');
-    makeDraggable(scalerContainer, 'scalerContainer');
-    restorePosition(scalerContainer, 'scalerContainer');
-  };
-
-// =====================================================================================
-// SEARCH RESULTS BG OPACITY CONTROL (Section 6)
-// =====================================================================================
-
-  const SEARCH_RESULTS_BG_OPACITY_DEFAULT = 50;
-  const SEARCH_RESULTS_BG_OPACITY_MIN = 0;
-  const SEARCH_RESULTS_BG_OPACITY_MAX = 100;
-  const SEARCH_RESULTS_BG_OPACITY_STEP = 5;
-
-  let searchResultsBgOpacity = Settings.get('searchResultsBgOpacity', SEARCH_RESULTS_BG_OPACITY_DEFAULT);
-
-  const applySearchResultsBgOpacity = () => {
-    document.documentElement.style.setProperty('--search-results-bg-brightness', searchResultsBgOpacity / 100);
-    let int = ((100 - searchResultsBgOpacity) / 100);
-    document.documentElement.style.setProperty('--search-results-logo-brightness',
-      int > 0.1 ? ((100 - searchResultsBgOpacity) / 100) - 0.1 : int === 0.1
-                ? ((100 - searchResultsBgOpacity) / 100) - 0.05 : int === .05
-                ? ((100 - searchResultsBgOpacity) / 100) - 0.025 : 0
-    );
-    Settings.set('searchResultsBgOpacity', searchResultsBgOpacity);
-  };
-
-  const setString = () => {
-    let searchResultsBgOpacity = Settings.get('searchResultsBgOpacity', SEARCH_RESULTS_BG_OPACITY_DEFAULT);
-    let str = 'BG Brightness ' + (100 - searchResultsBgOpacity) + '%';
-    const btn = $id('brightnessBtn');
-    btn.textContent = str;
-  };
-
-  const increaseSearchResultsBgOpacity = () => {
-    searchResultsBgOpacity = Math.min(SEARCH_RESULTS_BG_OPACITY_MAX, searchResultsBgOpacity + SEARCH_RESULTS_BG_OPACITY_STEP);
-    applySearchResultsBgOpacity();
-    setString();
-  };
-
-  const defaultResultsBgOpacity = (e) => {
-    if (e.button !== 0) return;
-    if (e.button === 0 && e.shiftKey) {
-      searchResultsBgOpacity = SEARCH_RESULTS_BG_OPACITY_MIN;
-    } else if (e.button === 0 && e.ctrlKey) {
-      searchResultsBgOpacity = SEARCH_RESULTS_BG_OPACITY_MAX;
-    } else if (e.button === 0) {
-      searchResultsBgOpacity = SEARCH_RESULTS_BG_OPACITY_DEFAULT;
-    }
-    applySearchResultsBgOpacity();
-    setString();
-  };
-
-  const decreaseSearchResultsBgOpacity = () => {
-    searchResultsBgOpacity = Math.max(SEARCH_RESULTS_BG_OPACITY_MIN, searchResultsBgOpacity - SEARCH_RESULTS_BG_OPACITY_STEP);
-    applySearchResultsBgOpacity();
-    setString();
-  };
-
-  const toggleSearchResultsClock = () => {
-    const enabled = !Settings.get('searchResultsClock', true);
-    Settings.set('searchResultsClock', enabled);
-    const clock = $id('analogClockContainer');
-    if (clock) {
-      clock.style.setProperty(
-        'display',
-        enabled ? 'block' : 'none',
-        'important'
-      );
-    }
-  };
-
-  const buildBrightnessContainer = () => {
-    const brightnessContainer = $el('div', {
-      id: 'brightnessContainer',
-      },
-      $el('svg', {
-        id: 'brightnessPlus',
-        className: 'button',
-        title: STRING_TOOLTIP.brightnessPlusTitle,
-        viewBox: '0 0 16 16',
-        onclick: decreaseSearchResultsBgOpacity,
-        },
-        $el('path', {
-          d: 'M 7 2 H 9 V 7 H 14 V 9 H 9 V 14 H 7 V 9 H 2 V 7 H 7 Z',
-        })
-      ),
-      $el('button', {
-        id: 'brightnessBtn',
-        className: 'button',
-        textContent: '',
-        title: STRING_TOOLTIP.brightnessTitle,
-        onclick: (e) => defaultResultsBgOpacity(e),
-      }),
-      $el('svg', {
-        id: 'brightnessMinus',
-        className: 'button',
-        title: STRING_TOOLTIP.brightnessMinusTitle,
-        viewBox: '0 0 16 16',
-        onclick: increaseSearchResultsBgOpacity,
-        },
-        $el('path', {
-          d: 'M 2 7 H 14 V 9 H 2 Z',
-        })
-      ),
-      $el('button', {
-        id: 'searchClockBtn',
-        className: 'button search-clock-btn',
-        title: 'Show/Hide Analog Clock',
-        onclick: toggleSearchResultsClock,
-        },
-        $el('img', {
-          id: 'searchClockImg',
-          className: 'image',
-          src: ICONS.clock40,
-        })
-      )
-    );
-    makeDraggable(brightnessContainer, 'brightnessContainer');
-    restorePosition(brightnessContainer, 'brightnessContainer');
-    BODY.prepend(brightnessContainer);
-  };
-
-// =====================================================================================
-// VIEW CONTAINERS (Section 7)
-// =====================================================================================
-
-  const viewControls = Settings.get('viewControls', true);
-  const containerView = (e) => {
-    if (e.button !== 0) return;
-    if (e.shiftKey || e.ctrlKey || e.altKey) {
-      const image = $id('viewContainersImg');
-      const view = VIEW_IMAGES[viewImage];
-      viewImage = view.next;
-      image.src = VIEW_IMAGES[viewImage].src;
-      Settings.set('viewImg', viewImage);
-      return;
-    }
-    const enable = Settings.get('viewControls', true);
-    const hidden = !enable;
-    Settings.set('viewControls', hidden);
-    $id('scalerContainer').classList.toggle('hidden', hidden);
-    $id('controlContainer').classList.toggle('hidden', hidden);
-  };
-
-  const viewCnt = () => {
-    const viewContainers = $el('div', {
-      id: 'viewContainersDiv',
-      },
-      $el('img', {
-        id: 'viewContainersImg',
-        src: ICONS.mask32R,
-        title: '• Left-click: Show/Hide Containers\n• Shift/Ctrl/Alt + Left-click: Toggle Images red, green, blue, yellow, white',
-        onclick: (e) => containerView(e),
-      })
-    );
-    BODY.prepend(viewContainers);
-    const viewContainersDiv = $id('viewContainersDiv');
-    makeDraggable(viewContainersDiv, 'viewContainersDiv');
-    restorePosition(viewContainersDiv, 'viewContainersDiv');
-  };
-
-// =====================================================================================
-// UI MANAGER (Section 8)
-// =====================================================================================
-
-  const init = () => {
-    const textArea = $id('ti6dpd');
-    if (textArea) textArea.placeholder = localizedString.placeholderText;
-    applyCurrentWallpaper();
-    scheduleWallpaperUpdate();
-    applyLogo(Settings.get('logoImageNum', 1));
-    applyControlContainer();
-    updateWallpaperControls();
-    applyDateTime();
-    startDigitalClock();
-    const showClock = Settings.get('analogClock', true);
-    const clock = $id('analogClockContainer');
-    const scalerCtn = $id('scalerContainer');
-    const controlCtn = $id('controlContainer');
-    const scaler = $qa('.scaler', scalerCtn);
-    const panelTog = $id('panelToggler');
-    if (showClock) {
-      requestAnimationFrame(() => applyAnalogClock());
-    } else {
-      clock?.remove();
-    }
-    panelTog.classList.toggle('disabled', !showClock);
-    scaler.forEach(el => el.classList.toggle('disabled', !showClock));
-    const btn = $id('analogClockBtn');
-    const pref = showClock ? ICONS.clock32 : ICONS.noclock32;
-    const tip = '• Left-click: Show/Hide Analog Clock\n• Shift + Left-click: 🔒 Clock position\n• Ctrl + Left-click: 🔓 Clock position';
-    btn.replaceChildren($el('img', { title: tip, src: pref }));
-    const img = $id('hostImg');
-    const current = Settings.get('wallpaperHost', 'github');
-    const currentSite = WALLPAPER_SITES.find(site => site.host === current);
-    let index = WALLPAPER_SITES.findIndex(site => site.host === current);
-    if (index === -1) index = 0;
-    index = index % WALLPAPER_SITES.length;
-    img.src = WALLPAPER_SITES[index].icon;
-    if (currentSite) {
-      img.title = localizedTitle[currentSite.titleKey];
-    }
-    if (Settings.get('wallpaperHost') !== currentSite.host) {
-      Settings.set('wallpaperHost', currentSite.host);
-    }
-    const dtView = Settings.get('dateTimeView', false);
-    const calImg = $id('calendar32Img');
-    if (dtView) {
-      calImg.src = ICONS.calendar32
-    } else {
-      calImg.src = ICONS.nocalendar32
-    }
-    const panelImg = $id('panel32Img');
-    const imgPanel = Settings.get('controlsPanel', false);
-    if (imgPanel) {
-      panelImg.src = ICONS.panel32;
-    } else {
-      panelImg.src = ICONS.nopanel32;
-    }
-    applySearchResultsBgOpacity();
-    buildBrightnessContainer();
-    viewCnt();
-    updateSearchClockTip();
-    setString();
-    scalerCtn.classList.toggle('hidden', Settings.get('viewControls', true));
-    controlCtn.classList.toggle('hidden', Settings.get('viewControls', true));
-    const image = $id('viewContainersImg');
-    const view = VIEW_IMAGES[viewImage];
-    image.src = VIEW_IMAGES[viewImage].src;
-    const clockOpacity = Settings.get('analogClockOpacity', ANALOG_CLOCK_OPACITY_DEFAULT);
-    const badge = $id('opacityBadge');
-    badge.textContent = clockOpacity === 100 ? '1' : (clockOpacity / 100).toFixed(2).replace(/^0/, '').replace(/0+$/, '');
-    document.documentElement.style.setProperty('--analog-clock-opacity', clockOpacity / 100);
-  };
-
-// =====================================================================================
-// EVENT LISTENERS (Section 9)
-// =====================================================================================
-
-  document.addEventListener('visibilitychange', () => {
-    if (!document.hidden && Settings.get('analogClock', true)) {
-      if (!$id('analogClockContainer')) {
-        applyAnalogClock();
-    } }
-  });
-
-  window.addEventListener('pageshow', () => {
-    if (Settings.get('analogClock', true) && !$id('analogClockContainer')) {
-      applyAnalogClock();
-    }
-  });
-
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', init);
-  } else {
-    init();
-  }
-
-// =====================================================================================
-// CSS (Section 10)
-// =====================================================================================
-
-  // GOOGLE MAIN PAGE
   GM_addStyle(`
+    /* ---------- GOOGLE MAIN PAGE ---------- */
     ${STRING_HTML.main} .hidden,
-    ${STRING_HTML.main} #brightnessContainer,
     ${STRING_HTML.main} div.o3j99.n1xJcf.CoM3Df > a.w5hRs,
     ${STRING_HTML.main} header#gb > div.gb_Q.gb_6.gb_Vf.gb_3f > div:nth-child(2) > a,
     ${STRING_HTML.main} header#gb > div.gb_Ad.gb_6.gb_L,
@@ -2394,9 +661,6 @@
     ${STRING_HTML.main} div.RNNXgb div.y1yadf + div.y1yadf > span,
     ${STRING_HTML.main} div.RNNXgb svg.hWdRGb {
       display: none !important;
-    }
-    ${STRING_HTML.mainHTML} header#gb > div.gb_Q.gb_6.gb_Vf.gb_3f {
-      padding-right: 0px !important;
     }
     ${STRING_HTML.main} header#gb a {
       color: #FFF !important;
@@ -2501,22 +765,34 @@
       margin: 0 !important;
     }
     ${STRING_HTML.main} div.plsC5e.RqyYHe.fLC3uf > div:nth-child(6) > div,
-    ${STRING_HTML.main}  #sI1XGe > div.naW5gc.mL3MVc.DYz2A {
+    ${STRING_HTML.main} #sI1XGe > div.naW5gc.mL3MVc.DYz2A {
       z-index: 99999 !important;
     }
-    ${STRING_HTML.main}  #sI1XGe > div.naW5gc.mL3MVc.DYz2A {
+    ${STRING_HTML.main} #sI1XGe > div.naW5gc.mL3MVc.DYz2A {
       position: relative !important;
       top: -254px !important;
     }
-    ${STRING_HTML.main}  #sI1XGe > div.naW5gc.mL3MVc.DYz2A > span {
+    ${STRING_HTML.main} #sI1XGe > div.naW5gc.mL3MVc.DYz2A > span {
       background: #22242a !important;
       border-radius: 16px !important;
       padding: 16px !important;
     }
-  `);
+    ${STRING_HTML.main} #viewContainersImg:hover,
+    ${STRING_HTML.main} #controlContainer:hover,
+    ${STRING_HTML.main} #scalerContainer:hover,
+    ${STRING_HTML.main} #dateTime:hover,
+    ${STRING_HTML.main} #testingLocalePINInput,
+    ${STRING_HTML.main} .testing-locale-pin-buttons button:hover,
+    ${STRING_HTML.main} div.plsC5e.RqyYHe > div.acUsEb.Q6KTif.KEY6ib > form > div:nth-child(1) > div > div.RNNXgb:hover,
+    ${STRING_HTML.main} div.plsC5e.RqyYHe > div.acUsEb.Q6KTif.KEY6ib > form > div:nth-child(1) > div > div.RNNXgb:focus-within,
+    ${STRING_HTML.main} div.L3eUgb input.gNO89b:hover,
+    ${STRING_HTML.main} div.plsC5e.RqyYHe center > input.gNO89b:hover,
+    ${STRING_HTML.main} div.aajZCb,
+    ${STRING_HTML.main} g-popup > div.CcNe6e > div:hover {
+      background: #22242A !important;
+    }
 
-  // VIEW CONTAINERS
-  GM_addStyle(`
+    /* ---------- VIEW CONTAINERS ---------- */
     #viewContainersDiv {
       align-items: center;
       height: 38px;
@@ -2540,10 +816,8 @@
     #viewContainersImg:hover {
       opacity: 1;
     }
-  `);
 
-  // ANALOG CLOCK
-  GM_addStyle(`
+    /* ---------- ANALOG CLOCK ---------- */
     #analogClockContainer {
       left: 22px;
       position: fixed;
@@ -2608,7 +882,7 @@
     }
     .Analog-Second-Hand {
       fill: #b50000;
-      stroke: #maroon;
+      stroke: maroon;
       stroke-width: .25;
       transform: rotate(var(--secondDeg));
     }
@@ -2657,17 +931,9 @@
       --tick-hourmark: rgba(0 0 0 / .7);
       --tick-secondmark: rgba(0 0 0 / .3);
     }
-    .dark-theme {
-      --numeral-top: rgba(0 0 0 / 1);
-      --numeral-bottom: rgba(0 0 0 / 1);
-      --tick-hourmark: rgba(0 0 0 / .7);
-      --tick-secondmark: rgba(0 0 0 / .3);
-    }
     #dayBannerBg {
       filter: drop-shadow(1px 1px 4px #000);
       stroke-width: .1;
-    }
-    #dayBannerText {
     }
     .Analog-MonthDateText {
       color: #000;
@@ -2730,10 +996,8 @@
       stroke: rgba(255 255 255 / .85);
       stroke-width: .18;
     }
-  `);
 
-  // CONTROLS GROUP
-  GM_addStyle(`
+    /* ---------- CONTROLS GROUP ---------- */
     #analogClockContainer #controlsGroup {
       cursor: pointer;
       opacity: 1 !important;
@@ -2745,10 +1009,8 @@
     .controls-img {
       opacity: 1;
     }
-  `);
 
-  // CONTROL CONTAINER
-  GM_addStyle(`
+    /* ---------- CONTROL CONTAINER ---------- */
     #controlContainer .disabled {
       cursor: default;
       opacity: 0.3;
@@ -2900,17 +1162,8 @@
       filter: drop-shadow(0px 0px 3px #000);
       opacity: 1;
     }
-    #buttonThemer,
-    #inputThemer,
-    #downThemer,
-    #buttonLogo,
-    #inputLogo,
-    #downLogo {
-    }
-  `);
 
-  // SCALER CONTAINER
-  GM_addStyle(`
+    /* ---------- SCALER CONTAINER ---------- */
     #scalerContainer ::-webkit-inner-spin-button,
     #scalerContainer ::-webkit-outer-spin-button {
       display: none;
@@ -2989,12 +1242,6 @@
       filter: drop-shadow(0px 0px 3px #000);
       opacity: 1;
     }
-    #scalerContainer >  #viewSearchClockBtn {
-    }
-    #scalerContainer >  #viewSearchClockImg {
-    }
-    #scalerContainer > #opacityToggler {
-    }
     #opacityBadge {
       color: #000;
       display: flex;
@@ -3009,10 +1256,8 @@
       top: 5px;
       width: 24px;
     }
-  `);
 
-  // DATE/TIME CONTAINER
-  GM_addStyle(`
+    /* ---------- DATE/TIME CONTAINER ---------- */
     #digCalBtn {
       display: none;
     }
@@ -3058,10 +1303,8 @@
       padding: 0px;
       width: 0px;
     }
-  `);
 
-  // LOGOS
-  GM_addStyle(`
+    /* ---------- LOGOS ---------- */
     #logoGoogle {
       filter: drop-shadow(0 4px 12px rgba(0 0 0 / .3));
       height: auto;
@@ -3072,10 +1315,8 @@
       right: auto;
       z-index: 99999;
     }
-  `);
 
-  // DEVELOPER LOCALE TESTING
-  GM_addStyle(`
+    /* ---------- DEVELOPER LOCALE TESTING ---------- */
     #testingLocalePINPopup {
       align-items: center;
       background: rgba(0 0 0 / .45);
@@ -3145,28 +1386,989 @@
     }
   `);
 
-  GM_addStyle(`
-    ${STRING_HTML.main} #viewContainersImg:hover,
-    ${STRING_HTML.main} #controlContainer:hover,
-    ${STRING_HTML.main} #scalerContainer:hover,
-    ${STRING_HTML.main} #dateTime:hover,
-    ${STRING_HTML.main} #testingLocalePINInput,
-    ${STRING_HTML.main} .testing-locale-pin-buttons button:hover,
-    ${STRING_HTML.main} div.plsC5e.RqyYHe > div.acUsEb.Q6KTif.KEY6ib > form > div:nth-child(1) > div > div.RNNXgb:hover,
-    ${STRING_HTML.main} div.plsC5e.RqyYHe > div.acUsEb.Q6KTif.KEY6ib > form > div:nth-child(1) > div > div.RNNXgb:focus-within,
-    ${STRING_HTML.main} div.L3eUgb input.gNO89b:hover,
-    ${STRING_HTML.main} div.plsC5e.RqyYHe center > input.gNO89b:hover,
-    ${STRING_HTML.main} div.aajZCb,
-    ${STRING_HTML.main} g-popup > div.CcNe6e > div:hover,
-    ${STRING_HTML.search} div.RNNXgb:hover,
-    ${STRING_HTML.search} div.RNNXgb:focus-within,
-    ${STRING_HTML.search} div.aajZCb {
-      background: #22242A !important;
-    }
-  `);
+// =====================================================================================
+// FORCES GOOGLE DARK THEME ON
+// =====================================================================================
+
+  if (ENABLE_GOOGLE_DARK_THEME) {
+    (function forceGoogleDarkTheme() {
+      const isAlreadyDark = () => {
+        const html = document.documentElement;
+        return (
+          html.hasAttribute('dark') ||
+          html.getAttribute('data-darkreader-scheme') === 'dark' ||
+          (document.body && getComputedStyle(document.body).backgroundColor === 'rgb(32, 33, 36)')
+        );
+      };
+
+      const forceClick = (el) => {
+        el.dispatchEvent(new MouseEvent('mousedown', { bubbles: true }));
+        el.dispatchEvent(new MouseEvent('mouseup', { bubbles: true }));
+        el.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+      };
+
+      const tryForceDark = () => {
+        if (isAlreadyDark()) return true;
+        let el = document.querySelector('#YUIDDb [jsaction*="ok5gFc"]')
+          || document.querySelector('#YUIDDb [role="link"]')
+          || document.querySelector('#YUIDDb');
+        if (el && /dark theme:\s*off/i.test(el.textContent || el.closest('#YUIDDb')?.textContent || '')) {
+          forceClick(el);
+          return true;
+        }
+        el = [...document.querySelectorAll('[jsaction*="ok5gFc"], [role="menuitem"], [role="link"]')]
+          .find(e => /dark theme:\s*off/i.test(e.textContent));
+        if (el) {
+          forceClick(el);
+          return true;
+        }
+        return false;
+      };
+
+      let attempts = 0;
+      let observer = null;
+      const stop = () => {
+        clearInterval(timer);
+        observer?.disconnect();
+      };
+      const timer = setInterval(() => {
+        attempts++;
+        if (tryForceDark() || attempts >= MAX_ATTEMPTS) stop();
+      }, INTERVAL_MS);
+
+      // React as soon as the Dark Theme menu appears, but never watch longer than the polling does.
+      observer = new MutationObserver(() => {
+        if (isAlreadyDark()) { stop(); return; }
+        if (!document.querySelector('#YUIDDb')) return;
+        if (tryForceDark()) stop();
+      });
+      observer.observe(document.documentElement, { childList: true, subtree: true });
+      setTimeout(stop, MAX_ATTEMPTS * INTERVAL_MS);
+    })();
+  }
 
 // =====================================================================================
-// STRING AND TITLE TRANSLATIONS (Section 11)
+// HASH PIN LOCALE TESTING POPUP (Section 0)
+// =====================================================================================
+
+  const toggleTestLocale = (e) => {
+    if (e.button !== 0) return;
+    const step = e.shiftKey ? -1 : 1;
+    testLocaleIndex = (testLocaleIndex + step + LANGUAGE_COUNTRY.length) % LANGUAGE_COUNTRY.length;
+    Settings.set('testLocaleIndex', testLocaleIndex);
+    location.replace('https://www.google.com/');
+  };
+
+  const showTestingLocalePIN = () => {
+    if ($id('testingLocalePINPopup')) return;
+    const overlay = $el('div');
+    overlay.id = 'testingLocalePINPopup';
+    overlay.innerHTML = `
+      <div class="testing-locale-pin-box">
+        <div class="testing-locale-pin-title">Locale Testing</div>
+        <input
+          id="testingLocalePINInput"
+          type="password"
+          inputmode="numeric"
+          maxlength="20"
+          autocomplete="off"
+          placeholder="Enter PIN"
+        >
+        <div id="testingLocalePINError" class="testing-locale-pin-error"></div>
+        <div class="testing-locale-pin-buttons">
+          <button type="button" id="testingLocalePINCancel">Cancel</button>
+          <button type="button" id="testingLocalePINOK">OK</button>
+        </div>
+      </div>
+    `;
+    BODY.appendChild(overlay);
+    const inp = $id('testingLocalePINInput');
+    const error = $id('testingLocalePINError');
+    const pinBox = overlay.querySelector('.testing-locale-pin-box');
+    const close = () => overlay.remove();
+    const swallow = (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      e.stopImmediatePropagation();
+    };
+    const verifyPIN = async (e) => {
+      if (e) swallow(e);
+      const pin = inp.value.trim();
+      if (!pin) {
+        error.textContent = 'Enter PIN';
+        inp.focus();
+        return;
+      }
+      if (await hashPIN(pin) === TESTING_LOCALE_PIN_HASH) {
+        Settings.set('localeTestingUnlocked', true);
+        close();
+        location.replace('https://www.google.com/');
+      } else {
+        error.textContent = 'Incorrect PIN';
+        inp.select();
+        inp.focus();
+      }
+    };
+    $id('testingLocalePINOK').addEventListener('click', verifyPIN, true);
+    $id('testingLocalePINCancel').addEventListener('click', (e) => { swallow(e); close(); }, true);
+    ['click', 'mousedown', 'mouseup'].forEach(type => {
+      overlay.addEventListener(type, (e) => {
+        if (pinBox.contains(e.target)) return;
+        if (e.target === overlay) close();
+        swallow(e);
+      }, true);
+    });
+    inp.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') { swallow(e); verifyPIN(e); }
+      else if (e.key === 'Escape') { swallow(e); close(); }
+    }, true);
+    inp.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') e.preventDefault();
+    }, true);
+    inp.focus();
+  };
+
+// =====================================================================================
+// LOGO MANAGER (Section 1)
+// =====================================================================================
+
+  const applyLogo = (num) => {
+    $id('logoGoogle')?.remove();
+    num = parseInt(num, 10);
+    if (isNaN(num) || num < 0 || num > IMAGE_COUNT) num = 0;
+    const config = LOGO_CONFIG[num] || { top: '40px', transform: 'translateX(-50%)' };
+    const show = num === 0;
+    setLogoCss(`
+      img[alt='Google'], #hplogo, #logo, .k1zIA img, .k1zIA svg, svg.ESTs9d,
+      ${STRING_HTML.main} #LS8OJ img,
+      ${STRING_HTML.main} #LS8OJ .k1zIA {
+        display: ${show ? 'block' : 'none'} !important;
+        visibility: ${show ? 'visible' : 'hidden'} !important;
+      }
+      div:has(> img[alt='Google']) {
+        display: ${show ? 'block' : 'none'} !important;
+      }
+      ${STRING_HTML.main} #logoGoogle {
+        top: ${config.top} !important;
+      }
+    `);
+    if (num !== 0) {
+      const src = IMAGES.url(num);
+      if (src) {
+        const logoCopy = $el('img', { id: 'logoGoogle', class: 'logo', src });
+        logoCopy.style.cssText = `top: ${config.top}; transform: ${config.transform};`;
+        logoCopy.onerror = () => {
+          console.warn(`Logo #${num} not found`);
+          logoCopy.remove();
+        };
+        BODY.prepend(logoCopy);
+      }
+    }
+    const inp = $id('inputLogo');
+    if (inp) inp.value = num;
+    Settings.set('logoImageNum', num);
+  };
+
+  const logoClick = (id) => {
+    const current = Settings.get('logoImageNum', 1);
+    const next = (id.includes('up') || id === 'buttonLogo')
+      ? (current + 1) % IMAGE_COUNT
+      : (current - 1 + IMAGE_COUNT) % IMAGE_COUNT;
+    applyLogo(next);
+  };
+
+  const handleLogoInput = (e) => {
+    const val = parseInt(e.target.value, 10);
+    if (isNaN(val)) return;
+    applyLogo(Math.max(0, Math.min(IMAGE_COUNT, val)));
+  };
+
+// =====================================================================================
+// WALLPAPER MANAGER (Section 2)
+// =====================================================================================
+
+  const applyWallpaper = (num) => {
+    num = parseInt(num, 10) || 0;
+    const image = num ? WALLPAPERS.url(num) : '';
+    setWallpaperCss(image ? `body { background: url('${image}') no-repeat center center / cover fixed !important; }` : '');
+  };
+
+  const applyCurrentWallpaper = () => {
+    const num = getCurrentWallpaperNumber();
+    applyWallpaper(num);
+    const inp = $id('inputThemer');
+    if (inp) inp.value = num;
+  };
+
+  const scheduleWallpaperUpdate = () => {
+    clearTimeout(State.wallpaper.timer);
+    const mode = Settings.get('wallpaperMode', WALLPAPER_MANUAL);
+    if (mode === WALLPAPER_MANUAL) return;
+    const now = new Date();
+    const next = new Date(now);
+    switch (mode) {
+      case WALLPAPER_HOURLY:
+        next.setHours(next.getHours() + 1, 0, 0, 0);
+        break;
+      case WALLPAPER_DAILY:
+        next.setDate(next.getDate() + 1);
+        next.setHours(0, 0, 0, 0);
+        break;
+      case WALLPAPER_WEEKLY: {
+        let days = (8 - next.getDay()) % 7;
+        if (days === 0) days = 7;
+        next.setDate(next.getDate() + days);
+        next.setHours(0, 0, 0, 0);
+        break;
+      }
+      case WALLPAPER_MONTHLY:
+        next.setMonth(next.getMonth() + 1, 1);
+        next.setHours(0, 0, 0, 0);
+    }
+    State.wallpaper.timer = setTimeout(() => {
+      applyCurrentWallpaper();
+      scheduleWallpaperUpdate();
+    }, next - now);
+  };
+
+  const setManualWallpaper = (val) => {
+    Settings.set('wallpaperMode', WALLPAPER_MANUAL);
+    Settings.set('wallpaperImage', val);
+    applyCurrentWallpaper();
+    scheduleWallpaperUpdate();
+  };
+
+  const wallpaperButtonChanger = (e) => {
+    const inp = $id('inputThemer');
+    let val = (parseInt(inp.value, 10) || 0) + (e.target.id.includes('down') ? -1 : 1);
+    if (val > WALLPAPER_COUNT) val = 0;
+    if (val < 0) val = WALLPAPER_COUNT;
+    inp.value = val;
+    setManualWallpaper(val);
+  };
+
+  const wallpaperInputChanger = () => {
+    const inp = $id('inputThemer');
+    const val = Math.max(0, Math.min(WALLPAPER_COUNT, parseInt(inp.value, 10) || 0));
+    inp.value = val;
+    setManualWallpaper(val);
+  };
+
+  const setThemerState = (enabled) => {
+    ['buttonThemer', 'inputThemer', 'downThemer'].forEach(id => {
+      $id(id)?.classList.toggle('disabled', !enabled);
+    });
+  };
+
+  const wallpaperToggleHandler = () => {
+    const mode = (Settings.get('wallpaperMode', WALLPAPER_MANUAL) + 1) % WALLPAPER_MODES.length;
+    const tog = $id('toggleImg');
+    Settings.set('wallpaperMode', mode);
+    setThemerState(mode === WALLPAPER_MANUAL);
+    tog.src = WALLPAPER_MODES[mode].src;
+    tog.title = WALLPAPER_MODES[mode].title;
+    applyCurrentWallpaper();
+    scheduleWallpaperUpdate();
+  };
+
+  const toggleWallpaperHost = () => {
+    const current = Settings.get('wallpaperHost', 'github');
+    const index = Math.max(0, WALLPAPER_SITES.findIndex(site => site.host === current));
+    const next = WALLPAPER_SITES[(index + 1) % WALLPAPER_SITES.length];
+    Settings.set('wallpaperHost', next.host);
+    const img = $id('hostImg');
+    if (img) {
+      img.src = next.icon;
+      img.title = localizedTitle[next.titleKey];
+    }
+    applyCurrentWallpaper();
+  };
+
+  const updateWallpaperControls = () => {
+    const mode = Settings.get('wallpaperMode', WALLPAPER_MANUAL);
+    const tog = $id('toggleImg');
+    const inp = $id('inputThemer');
+    setThemerState(mode === WALLPAPER_MANUAL);
+    if (tog) {
+      tog.src = WALLPAPER_MODES[mode].src;
+      tog.title = WALLPAPER_MODES[mode].title;
+    }
+    if (inp) inp.value = getCurrentWallpaperNumber();
+  };
+
+// =====================================================================================
+// CLOCK MANAGER (Section 3)
+// =====================================================================================
+
+  const stopAnalogClock = () => {
+    State.analog.running = false;
+    if (State.analog.animationId) {
+      cancelAnimationFrame(State.analog.animationId);
+      State.analog.animationId = null;
+    }
+    if (State.analog.intervalId) {
+      clearInterval(State.analog.intervalId);
+      State.analog.intervalId = null;
+    }
+  };
+
+  const applyClockPointerEvents = () => {
+    const enabled = Settings.get('clockPointerEvents', true);
+    setPointerCss(`
+      #analogClockContainer {
+        pointer-events: ${enabled ? 'all' : 'none'} !important;
+      }
+      #analogClockContainer #controlsGroup {
+        pointer-events: all !important;
+      }
+    `);
+  };
+
+  const gradient = (id, stops, attrs = {}, tag = 'linearGradient') =>
+    $el(tag, { id, ...attrs }, ...stops.map(([offset, color]) => $el('stop', { offset, 'stop-color': color })));
+
+  const createClockDefs = () => {
+    const vertical = { x1: '0%', y1: '0%', x2: '0%', y2: '100%' };
+    const rotated = { gradientTransform: 'rotate(90)' };
+    return $el('defs', {},
+      gradient('bezelOuterGradient', [
+        ['0%', '#ffffff'], ['8%', '#f3f3f3'], ['18%', '#c9c9c9'], ['32%', '#7a7a7a'], ['50%', '#4f4f4f'],
+        ['68%', '#8d8d8d'], ['84%', '#d9d9d9'], ['94%', '#f5f5f5'], ['100%', '#7a7a7a'],
+      ], vertical),
+      gradient('bezelInnerGradient', [['0%', '#ffffff'], ['20%', '#d8d8d8'], ['55%', '#8c8c8c'], ['100%', '#4e4e4e']], vertical),
+      gradient('numeralGradient', [['0%', 'var(--numeral-top)'], ['100%', 'var(--numeral-bottom)']], rotated),
+      gradient('bannerGradientGold', [['0%', 'rgba(255 250 210 / .6)'], ['100%', 'rgba(160 125 30 / .6)']], rotated),
+      gradient('bannerGradientRed', [['0%', 'rgba(250 0 0 / .6)'], ['100%', 'rgba(100 0 0 / .6)']], rotated),
+      gradient('bannerGradientGreen', [['0%', 'rgba(145 255 200 / .6)'], ['100%', 'rgba(0 117 58 / .6)']], rotated),
+      gradient('bannerGradientBlue', [['0%', 'rgba(168 211 255 / .6)'], ['100%', 'rgba(0 88 176 / .6)']], rotated),
+      gradient('bannerGradientClassic', [['0%', 'rgba(186 188 189 / .5)'], ['100%', 'rgba(0 0 0 / .75)']], rotated),
+      gradient('bannerGradientDark', [['0%', 'rgba(0 0 0 / .5)'], ['100%', 'rgba(0 0 0 / .5)']], rotated),
+      gradient('panelGradient', [['0%', '#fff'], ['100%', '#4f4f4f']], rotated),
+      gradient('faceGradient', [['0%', 'var(--face-inner)'], ['70%', '#f7f7f7'], ['100%', 'var(--face-outer)']],
+        { cx: '50%', cy: '50%', r: '50%', gradientUnits: 'objectBoundingBox' }, 'radialGradient'),
+    );
+  };
+
+  const createClockFace = () => {
+    const ticks = [];
+    const hourNumbers = [];
+    const bezelGroup = $el('g', { className: 'Analog-Bezel clock-elem' },
+      $el('circle', {
+        className: 'Analog-BezelOuter', cx: 50, cy: 50, r: 48.8,
+        fill: 'none', stroke: 'url(#bezelOuterGradient)', 'stroke-width': 7.5,
+      }),
+      $el('circle', {
+        className: 'Analog-BezelInner', cx: 50, cy: 50, r: 48.8,
+        fill: 'none', stroke: 'url(#bezelInnerGradient)', 'stroke-width': 1.0,
+      }),
+      $el('circle', { className: 'Analog-BezelShadow', cx: 50, cy: 50, r: 49, fill: 'none' }),
+      $el('circle', { className: 'Analog-BezelHighlight', cx: 50, cy: 50, r: 48.1, fill: 'none' }),
+      $el('circle', {
+        className: 'Analog-BezelFinish', cx: 50, cy: 50, r: 47,
+        fill: 'none', stroke: 'rgba(0 0 0 / .3)', 'stroke-width': .5,
+      })
+    );
+    const clockFace = $el('circle', {
+      className: 'Analog-Face clock-elem', cx: 50, cy: 50, r: 47, fill: 'url(#faceGradient)',
+    });
+    for (let i = 0; i < 60; i++) {
+      const rad = (i * 6 - 90) * Math.PI / 180;
+      const isHourMark = (i % 5 === 0);
+      const innerRadius = isHourMark ? 42 : 44.5;
+      const outerRadius = 47;
+      ticks.push($el('line', {
+        className: 'Analog-Ticks',
+        x1: 50 + innerRadius * Math.cos(rad), y1: 50 + innerRadius * Math.sin(rad),
+        x2: 50 + outerRadius * Math.cos(rad), y2: 50 + outerRadius * Math.sin(rad),
+        stroke: isHourMark ? 'var(--tick-hourmark)' : 'var(--tick-secondmark)',
+        'stroke-width': isHourMark ? '1.5' : '0.75',
+        'stroke-linecap': 'round',
+      }));
+    }
+    for (let i = 0; i < 12; i++) {
+      const rad = (i * 30 - 90) * Math.PI / 180;
+      hourNumbers.push($el('text', {
+        className: 'Analog-Number',
+        x: 50 + 38 * Math.cos(rad), y: 50.5 + 38 * Math.sin(rad),
+        textContent: i === 0 ? 12 : i,
+        fill: 'url(#numeralGradient)',
+        'text-anchor': 'middle',
+        'dominant-baseline': 'middle',
+      }));
+    }
+    return { bezelGroup, clockFace, ticks, hourNumbers };
+  };
+
+  const createClockHands = () => {
+    const hourHand = $el('path', {
+      className: 'Analog-Hour-Hand', d: 'M 50 50 L 49.0 48 L 48.8 30 L 50 26 L 51.2 30 L 51.0 48 Z',
+    });
+    const minuteHand = $el('path', {
+      className: 'Analog-Minute-Hand', d: 'M 50 50 L 49.4 48 L 49.15 30 L 49.0 24 L 50 18 L 51.0 24 L 50.85 30 L 50.6 48 Z',
+    });
+    const secondHand = $el('g', { className: 'Analog-Second-Hand' },
+      $el('path', { className: 'Analog-Second-Needle', d: 'M 49.8 55 L 50.2 55 L 50.2 17 L 50 14 L 49.8 17 Z' }),
+      $el('line', { className: 'Analog-Second-Tail', x1: 50, y1: 55, x2: 50, y2: 56 }),
+      $el('polygon', { className: 'Analog-Second-Counter', points: '50,61 49.2,60.4 49.2,56.8 50,56 50.8,56.8 50.8,60.4' })
+    );
+    return { hourHand, minuteHand, secondHand };
+  };
+
+  const createHub = () => ({
+    hubOuter: $el('circle', { className: 'Analog-HubOuter', cx: 50, cy: 50, r: 2.6 }),
+    hubInner: $el('circle', { className: 'Analog-HubInner', cx: 50, cy: 50, r: 1.55 }),
+    hubPin: $el('circle', { className: 'Analog-HubPin', cx: 50, cy: 50, r: 0.58 }),
+    hubHighlight: $el('circle', { className: 'Analog-HubHighlight', cx: 49.2, cy: 49.1, r: 0.32 }),
+  });
+
+  const createDayBanner = () => {
+    // y / height never change, so they are set once here; width / x are set when the text changes.
+    const dayBannerBg = $el('rect', {
+      id: 'dayBannerBg', rx: 2, ry: 2, y: DAY_LAYOUT?.bgY, height: 8.5 + DAY_BANNER_HEIGHT_PADDING,
+    });
+    const dayBannerBorder = $el('rect', { id: 'dayBannerBorder' });
+    const dayBannerHighlight = $el('rect', { id: 'dayBannerHighlight' });
+    const dayBannerText = $el('text', {
+      id: 'dayBannerText', x: 50.5, y: DAY_LAYOUT?.textY,
+      'text-anchor': 'middle', 'dominant-baseline': 'middle',
+    });
+    const applyBannerStyle = () => {
+      const style = BANNER_STYLES[bannerStyle];
+      if (bannerStyle === 'none') {
+        dayBannerBg.style.display = style.display;
+        dayBannerBorder.style.display = style.display;
+        dayBannerHighlight.style.display = style.display;
+        dayBannerText.style.display = style.display;
+        return;
+      }
+      dayBannerBg.style.display = '';
+      dayBannerHighlight.style.display = '';
+      dayBannerText.style.display = '';
+      dayBannerBg.setAttribute('fill', style.background);
+      dayBannerBg.setAttribute('stroke', style.border);
+      dayBannerHighlight.setAttribute('fill', style.highlight);
+      dayBannerHighlight.setAttribute('fill-opacity', style.highlightOpacity);
+      dayBannerText.setAttribute('fill', style.text);
+      dayBannerText.style.font = style.font;
+      dayBannerText.style.textShadow = style.textShadow;
+    };
+    const toggleBannerStyle = (e) => {
+      if (e.button !== 0) return;
+      const styles = Object.keys(BANNER_STYLES);
+      const step = (e.ctrlKey || e.shiftKey) ? -1 : 1;
+      bannerStyle = styles[(styles.indexOf(bannerStyle) + step + styles.length) % styles.length];
+      Settings.set('bannerStyle', bannerStyle);
+      applyBannerStyle();
+    };
+    return { dayBannerBg, dayBannerBorder, dayBannerHighlight, dayBannerText, applyBannerStyle, toggleBannerStyle };
+  };
+
+  const ANALOG_CLOCK_OPACITY_DEFAULT = 50;
+  const ANALOG_CLOCK_OPACITY_MIN = 0;
+  const ANALOG_CLOCK_OPACITY_MAX = 100;
+  const ANALOG_CLOCK_OPACITY_STEP = 5;
+
+  const applyAnalogClockOpacity = (e) => {
+    if (e.button !== 0) return;
+    let v = Settings.get('analogClockOpacity', ANALOG_CLOCK_OPACITY_DEFAULT);
+    if (e.shiftKey && e.ctrlKey) v = ANALOG_CLOCK_OPACITY_DEFAULT;
+    else if (e.shiftKey) v = Math.min(ANALOG_CLOCK_OPACITY_MAX, v + ANALOG_CLOCK_OPACITY_STEP);
+    else if (e.ctrlKey) v = Math.max(ANALOG_CLOCK_OPACITY_MIN, v - ANALOG_CLOCK_OPACITY_STEP);
+    else v = ANALOG_CLOCK_OPACITY_MAX;
+    Settings.set('analogClockOpacity', v);
+    setClockOpacity(v);
+  };
+
+  const applyAnalogClock = () => {
+    if (!Settings.get('analogClock', true)) return;
+
+    let smooth = Settings.get('smoothSecondHand', true);
+    let lastSecond = -1;
+    let lastTextKey = '';
+    let lastFrame = 0;
+
+    const { bezelGroup, clockFace, ticks, hourNumbers } = createClockFace();
+    const { hourHand, minuteHand, secondHand } = createClockHands();
+    const { hubOuter, hubInner, hubPin, hubHighlight } = createHub();
+    const {
+      dayBannerBg, dayBannerBorder, dayBannerHighlight, dayBannerText, applyBannerStyle, toggleBannerStyle,
+    } = createDayBanner();
+
+    const dateText = $el('text', {
+      id: 'dateText', className: 'Analog-MonthDateText', x: 50.5, y: DAY_LAYOUT?.dateY,
+      'text-anchor': 'middle', 'dominant-baseline': 'middle',
+    });
+    const timeText = $el('text', {
+      id: 'timeText', className: 'Analog-timeText', x: 50.5, y: 77 + TIME_TEXT_TOP,
+      'text-anchor': 'middle', 'dominant-baseline': 'middle', 'xml:space': 'preserve',
+    });
+    const ampmText = $el('text', {
+      className: 'Analog-AMPMText', x: 50.5, y: 82 + AMPM_TEXT_TOP,
+      'text-anchor': 'middle', 'dominant-baseline': 'middle',
+    });
+    ampmText.style.display = Settings.get('ampmView', true) ? '' : 'none';
+    const dateTimeGroup = $el('g', { id: 'dateTimeGroup' }, dateText, timeText, ampmText);
+
+    const refreshText = (now) => {
+      const key = `${now.getDate()}|${now.getHours()}|${now.getMinutes()}`;
+      if (key === lastTextKey) return;
+      let ready = true;
+      if (DAY_LAYOUT) {
+        const day = DAY_BANNER_FMT.format(now);
+        dayBannerText.textContent = DAY_LAYOUT.upper ? day.toLocaleUpperCase(LANG_LONG) : day;
+        if (bannerStyle !== 'none') {
+          const width = dayBannerText.getComputedTextLength();
+          if (width) {
+            const bgWidth = Math.ceil(width + DAY_BANNER_WIDTH_PADDING);
+            dayBannerBg.setAttribute('width', bgWidth + 1);
+            dayBannerBg.setAttribute('x', (100 - bgWidth) / 2);
+          } else {
+            ready = false; // not rendered yet; try again next second
+          }
+        }
+      }
+      dateText.textContent = DATE_FMT.format(now);
+      const parts = TIME_FMT.formatToParts(now);
+      timeText.textContent = parts.filter(p => p.type !== 'dayPeriod').map(p => p.value).join('').trim();
+      ampmText.textContent = parts.find(p => p.type === 'dayPeriod')?.value ?? '';
+      if (ready) lastTextKey = key;
+    };
+
+    // ---- controls panel ----
+    const panelRect = $el('rect', {
+      id: 'controlsPanel', className: 'controls-panel', x: 19, y: 105, width: 63, height: 12, rx: 2,
+      fill: 'url(#panelGradient)', stroke: '#555', 'stroke-width': .6,
+    });
+    const controlImg = (id, href, x, title, onclick) => $el('image', {
+      id, className: 'controls-img', href, x, y: 106, width: 10, height: 10, title, onclick,
+    });
+
+    let calendarInfo = Settings.get('calendarInfo', false);
+    const toggleCalendarInfo = () => {
+      calendarInfo = !calendarInfo;
+      dateTimeGroup.classList.toggle('hidden', calendarInfo);
+      Settings.set('calendarInfo', calendarInfo);
+    };
+    dateTimeGroup.classList.toggle('hidden', calendarInfo);
+
+    const themeImg = controlImg('themeImg', ICONS.onpalette74, 21, localizedTitle.themeImgTitle);
+    const secondHandImg = controlImg('clockImg', ICONS.clock74, 33.2, localizedTitle.secondHandImgTitle);
+    const anaCalImg = controlImg('anaCalImg', ICONS.face74, 45.4, localizedTitle.anaCalImgTitle, toggleCalendarInfo);
+    const bannerImg = controlImg('bannerImg', ICONS.banner74, 57.6, localizedTitle.bannerImgTitle, (e) => {
+      toggleBannerStyle(e);
+      lastTextKey = '';
+      refreshText(new Date());
+    });
+    const localeImg = controlImg('localeImg', ICONS.test74, 69.8,
+      localeTestingUnlocked ? getLocaleName(LOCALE) : 'Developer Testing Only', (e) => {
+        if (!localeTestingUnlocked) {
+          showTestingLocalePIN();
+          return;
+        }
+        if (e.ctrlKey) {
+          Settings.set('localeTestingUnlocked', false);
+          Settings.set('testLocaleIndex', 0);
+          location.replace('https://www.google.com/');
+          return;
+        }
+        toggleTestLocale(e);
+      });
+    const controlsGroup = $el('g', { id: 'controlsGroup' }, panelRect, themeImg, secondHandImg, anaCalImg, bannerImg, localeImg);
+    controlsGroup.classList.toggle('hidden', !Settings.get('controlsPanel', true));
+
+    const svg = $el('svg', { className: 'Analog', viewBox: '0 0 100 100' },
+      createClockDefs(), bezelGroup, clockFace, ...ticks, ...hourNumbers,
+      hourHand, minuteHand, hubOuter, secondHand, hubInner, hubPin, hubHighlight,
+      dayBannerBg, dayBannerBorder, dayBannerHighlight, dayBannerText, dateTimeGroup, controlsGroup,
+    );
+
+    const Clock = $el('div', { className: 'Analog-Bigclock' }, svg);
+    Clock.style.setProperty('--clock-size', clockPx(clampPercent(Settings.get('clockSizePercent', 100))));
+
+    const setTheme = (dark) => {
+      Clock.classList.toggle('dark', dark);
+      themeImg.setAttribute('href', dark ? ICONS.offpalette74 : ICONS.onpalette74);
+      Settings.set('clockDarkTheme', dark);
+    };
+    setTheme(Settings.get('clockDarkTheme', true));
+    themeImg.onclick = () => setTheme(!Settings.get('clockDarkTheme', true));
+
+    const analogClockContainer = $el('div', { id: 'analogClockContainer', className: 'ClockContainer' }, Clock);
+    makeDraggable(analogClockContainer, 'analogClockContainer', '.Analog-Bigclock');
+    restorePosition(analogClockContainer, 'analogClockContainer');
+    BODY.prepend(analogClockContainer);
+
+    const rect = analogClockContainer.getBoundingClientRect();
+    if (rect.right < 0 || rect.bottom < 0 || rect.left > window.innerWidth || rect.top > window.innerHeight) {
+      analogClockContainer.style.left = '16px';
+      analogClockContainer.style.top = '100px';
+    }
+
+    const update = () => {
+      if (!analogClockContainer.isConnected) return;
+      const now = new Date();
+      const whole = now.getSeconds();
+      const seconds = smooth ? whole + now.getMilliseconds() / 1000 : whole;
+      Clock.style.setProperty('--secondDeg', `${seconds * 6}deg`);
+      if (whole !== lastSecond) {
+        lastSecond = whole;
+        const minutes = now.getMinutes();
+        Clock.style.setProperty('--minuteDeg', `${minutes * 6 + whole * 0.1}deg`);
+        Clock.style.setProperty('--hourDeg', `${(now.getHours() % 12) * 30 + minutes * 0.5 + whole * (0.5 / 60)}deg`);
+        refreshText(now);
+      }
+    };
+
+    const startAnalogClock = () => {
+      stopAnalogClock();
+      State.analog.running = true;
+      smooth = Settings.get('smoothSecondHand', true);
+      lastSecond = -1;
+      update();
+      if (smooth) {
+        const tick = (t) => {
+          if (!State.analog.running) return;
+          if (!SECOND_HAND_FRAME_MS || t - lastFrame >= SECOND_HAND_FRAME_MS) {
+            lastFrame = t;
+            update();
+          }
+          State.analog.animationId = requestAnimationFrame(tick);
+        };
+        State.analog.animationId = requestAnimationFrame(tick);
+      } else {
+        State.analog.intervalId = setInterval(update, _SECOND_MS);
+      }
+    };
+
+    secondHandImg.onclick = () => {
+      Settings.set('smoothSecondHand', !Settings.get('smoothSecondHand', true));
+      startAnalogClock();
+    };
+
+    applyBannerStyle();
+    applyClockPointerEvents();
+    startAnalogClock();
+  };
+
+  const setClockBtnIcon = (on) => {
+    $id('analogClockBtn').replaceChildren($el('img', {
+      src: on ? ICONS.clock32 : ICONS.noclock32, title: CLOCK_BTN_TIP, alt: 'Clock',
+    }));
+  };
+
+  const toggleAnalogClock = (e) => {
+    if (e.shiftKey) {
+      Settings.set('clockPointerEvents', false);
+      applyClockPointerEvents();
+      return;
+    }
+    if (e.ctrlKey) {
+      Settings.set('clockPointerEvents', true);
+      applyClockPointerEvents();
+      return;
+    }
+    if (e.button !== 0) return;
+    if (Settings.get('analogClock', true)) {
+      stopAnalogClock();
+      Settings.set('analogClock', false);
+      $id('analogClockContainer')?.remove();
+    } else {
+      Settings.set('analogClock', true);
+      applyAnalogClock();
+    }
+    const on = Settings.get('analogClock', true);
+    $id('panelToggler').classList.toggle('disabled', !on);
+    $qa('.scaler', $id('scalerContainer')).forEach(el => el.classList.toggle('disabled', !on));
+    setClockBtnIcon(on);
+  };
+
+// =====================================================================================
+// DATE/TIME MANAGER (Section 4)
+// =====================================================================================
+
+  const updateDigitalClock = () => {
+    const digitalClock = $id('dateTime');
+    if (!digitalClock) {
+      clearInterval(State.digital.interval);
+      State.digital.interval = null;
+      return;
+    }
+    const now = new Date();
+    const time = Settings.get('secondsView', false) ? DIGITAL_TIME_SEC_FMT.format(now) : TIME_FMT.format(now);
+    digitalClock.textContent = `${DIGITAL_DATE_FMT.format(now)} 🕑 ${time}`;
+  };
+
+  const startDigitalClock = () => {
+    clearInterval(State.digital.interval);
+    State.digital.interval = null;
+    const digitalClock = $id('dateTime');
+    const dtPref = Settings.get('dateTimeView', false);
+    if (!dtPref || digitalClock.hidden) {
+      digitalClock.hidden = !dtPref;
+      return;
+    }
+    const delay = Settings.get('secondsView', false) ? _SECOND_MS : _SECONDS_MS;
+    State.digital.interval = setInterval(updateDigitalClock, delay);
+    updateDigitalClock();
+  };
+
+  const dateTimeToggle = (e) => {
+    if (e.button !== 0 || e.shiftKey || e.ctrlKey || e.altKey) return;
+    e.preventDefault();
+    const digitalClock = $id('dateTime');
+    const calImg = $id('calendar32Img');
+    digitalClock.hidden = !digitalClock.hidden;
+    Settings.set('dateTimeView', !digitalClock.hidden);
+    if (digitalClock.hidden) {
+      clearInterval(State.digital.interval);
+      State.digital.interval = null;
+      calImg.src = ICONS.nocalendar32;
+    } else {
+      calImg.src = ICONS.calendar32;
+      startDigitalClock();
+    }
+  };
+
+  const dateTimeToggleSeconds = (e) => {
+    if (e.button !== 0 || e.shiftKey || e.ctrlKey || e.altKey) return;
+    e.preventDefault();
+    Settings.set('secondsView', !Settings.get('secondsView', false));
+    startDigitalClock();
+  };
+
+  const applyDateTime = () => {
+    const dtContainer = $el('div', { id: 'dateTimeContainer' });
+    const digCalBtn = $el('button', { id: 'digCalBtn', title: localizedTitle.digCalBtnTitle, onclick: dateTimeToggle });
+    const dateTime = $el('span', { id: 'dateTime', title: localizedTitle.dateTimeTitle, onclick: dateTimeToggleSeconds });
+    dtContainer.append(digCalBtn, dateTime);
+    BODY.prepend(dtContainer);
+    makeDraggable(dtContainer, 'dtContainer');
+    restorePosition(dtContainer, 'dtContainer');
+  };
+
+// =====================================================================================
+// CONTROL MANAGER (Section 5)
+// =====================================================================================
+
+  const updateSearchClockTip = () => {
+    const btn = $id('viewSearchClockBtn');
+    const img = $id('viewSearchClockImg');
+    if (!btn) return;
+    const enabled = Settings.get('searchResultsClock', true);
+    btn.title = `View Clock in Search Results\n• Currently ${enabled ? 'TRUE' : 'FALSE'}`;
+    img.src = enabled ? ICONS.searchClock : ICONS.nosearchClock;
+  };
+
+  const applyControlContainer = () => {
+    const controlContainer = $el('div', { id: 'controlContainer' });
+
+    const currentSite = WALLPAPER_SITES.find(site => site.host === Settings.get('wallpaperHost', 'github')) ?? WALLPAPER_SITES[0];
+    if (Settings.get('wallpaperHost') !== currentSite.host) Settings.set('wallpaperHost', currentSite.host);
+    const hostImg = $el('img', { id: 'hostImg', src: currentSite.icon, title: localizedTitle[currentSite.titleKey] });
+    const hostToggler = $el('button', {
+      id: 'hostToggler', className: 'toggler host-toggler', onclick: toggleWallpaperHost,
+    }, hostImg);
+
+    const toggleImg = $el('img', { id: 'toggleImg', src: ICONS.hand32 });
+    const wallpaperToggler = $el('button', {
+      id: 'wallpaperToggler', className: 'toggler wallpaper-toggler', onclick: wallpaperToggleHandler,
+    }, toggleImg);
+    const buttonThemer = $el('button', {
+      id: 'buttonThemer', className: 'button themer', textContent: localizedString.buttonThemerText,
+      title: localizedTitle.changeWallpaperTitle, onclick: wallpaperButtonChanger,
+    });
+    const inputThemer = $el('input', {
+      id: 'inputThemer', className: 'input themer', type: 'number', value: Settings.get('wallpaperImage', 0),
+      title: localizedTitle.inputThemerTitle, oninput: wallpaperInputChanger,
+    });
+    const downThemer = $el('button', {
+      id: 'downThemer', className: 'button themer', textContent: localizedString.downThemerText,
+      title: localizedTitle.changeWallpaperTitle, onclick: wallpaperButtonChanger,
+    });
+    const spacer1 = $el('span', { id: 'spacer1', className: 'spacerX', textContent: localizedString.spacerXText });
+    const buttonLogo = $el('button', {
+      id: 'buttonLogo', className: 'button logo', textContent: localizedString.buttonLogoText,
+      title: localizedTitle.changeLogoTitle, onclick: e => logoClick(e.target.id),
+    });
+    const inputLogo = $el('input', {
+      id: 'inputLogo', className: 'input logo', type: 'number', value: Settings.get('logoImageNum', 1),
+      title: localizedTitle.inputLogoTitle, oninput: handleLogoInput,
+    });
+    const downLogo = $el('button', {
+      id: 'downLogo', className: 'button logo', textContent: localizedString.downLogoText,
+      title: localizedTitle.changeLogoTitle, onclick: e => logoClick(e.target.id),
+    });
+
+    // ---- scaler container ----
+    const scalerContainer = $el('div', { id: 'scalerContainer' });
+    let currentPercent = clampPercent(Settings.get('clockSizePercent', 100));
+    const setClockPercentage = (percent) => {
+      currentPercent = clampPercent(percent);
+      document.querySelector('.Analog-Bigclock')?.style.setProperty('--clock-size', clockPx(currentPercent));
+      percentageDisplay.value = String(currentPercent);
+      Settings.set('clockSizePercent', currentPercent);
+    };
+
+    const toggleControls = () => {
+      const hidden = $id('controlsGroup').classList.toggle('hidden');
+      Settings.set('controlsPanel', !hidden);
+      $id('panel32Img').src = hidden ? ICONS.nopanel32 : ICONS.panel32;
+    };
+
+    const analogClockBtn = $el('button', {
+      id: 'analogClockBtn', className: 'toggler analog-clock-btn', title: CLOCK_BTN_TIP,
+      onclick: (e) => toggleAnalogClock(e),
+    }, $el('img', {
+      id: 'clock32Img', className: 'image', src: Settings.get('analogClock', true) ? ICONS.clock32 : ICONS.noclock32,
+    }));
+
+    const setSearchClockTip = () => {
+      Settings.set('searchResultsClock', !Settings.get('searchResultsClock', true));
+      updateSearchClockTip();
+    };
+    const viewSearchClockBtn = $el('button', {
+      id: 'viewSearchClockBtn', className: 'toggler search-clock-btn', onclick: setSearchClockTip,
+    }, $el('img', { id: 'viewSearchClockImg', className: 'image' }));
+
+    const sunImg = $el('button', {
+      id: 'opacityToggler', className: 'toggler',
+      title: 'Analog Clock and Logo Opacity\n• Left-click: Opacity 1\n• Shift + Left-click: Increase Opacity ' +
+             'by .05\n• Ctrl + Left-click: Decrease Opacity by .05\n• Shift + Ctrl + Left-click Opacity .5',
+      onclick: (e) => applyAnalogClockOpacity(e),
+    },
+      $el('img', { id: 'sun32', className: 'image', src: ICONS.sun32 }),
+      $el('span', { id: 'opacityBadge' })
+    );
+    const panelToggler = $el('button', {
+      id: 'panelToggler', className: 'toggler', title: localizedTitle.controlsBtnTitle, onclick: toggleControls,
+    }, $el('img', {
+      id: 'panel32Img', className: 'image', src: Settings.get('controlsPanel', true) ? ICONS.panel32 : ICONS.nopanel32,
+    }));
+    const scalerReset = $el('button', {
+      id: 'scalerReset', className: 'scaler scaler-reset', textContent: localizedString.scalerBtnResetText,
+      title: localizedTitle.scalerResetTitle, onclick: () => setClockPercentage(100),
+    });
+    const scalerMinus = $el('button', {
+      id: 'scalerMinus', className: 'scaler scaler-btn', textContent: localizedString.scalerBtnMinusText,
+      title: localizedTitle.scalerBtnDownTitle, onclick: () => setClockPercentage(currentPercent - 5),
+    });
+    const percentageDisplay = $el('input', {
+      id: 'scalerInput', className: 'scaler scaler-inp', type: 'number', value: '100', min: '30', max: '200', step: '1',
+      title: localizedTitle.percentageDisplayTitle,
+      oninput(e) {
+        if (e.target.value === '') return;
+        const num = parseInt(e.target.value, 10);
+        if (!isNaN(num)) setClockPercentage(num);
+      }
+    });
+    const scalerPlus = $el('button', {
+      id: 'scalerPlus', className: 'scaler scaler-btn', textContent: localizedString.scalerBtnPlusText,
+      title: localizedTitle.scalerBtnUpTitle, onclick: () => setClockPercentage(currentPercent + 5),
+    });
+    const digitalCalBtn = $el('button', {
+      id: 'digitalCalBtn', className: 'toggler digital-cal-btn', title: localizedTitle.calBtnTitle, onclick: dateTimeToggle,
+    }, $el('img', {
+      id: 'calendar32Img', className: 'image',
+      src: Settings.get('dateTimeView', false) ? ICONS.calendar32 : ICONS.nocalendar32,
+    }));
+
+    setClockPercentage(currentPercent);
+    controlContainer.append(hostToggler, wallpaperToggler, buttonThemer, inputThemer, downThemer, spacer1, buttonLogo, inputLogo, downLogo);
+    scalerContainer.append(analogClockBtn, viewSearchClockBtn, sunImg, panelToggler, scalerReset, scalerMinus, percentageDisplay, scalerPlus, digitalCalBtn);
+    BODY.prepend(controlContainer);
+    BODY.prepend(scalerContainer);
+    makeDraggable(controlContainer, 'controlContainer');
+    restorePosition(controlContainer, 'controlContainer');
+    makeDraggable(scalerContainer, 'scalerContainer');
+    restorePosition(scalerContainer, 'scalerContainer');
+  };
+
+// =====================================================================================
+// VIEW CONTAINERS (Section 6)
+// =====================================================================================
+
+  const containerView = (e) => {
+    if (e.button !== 0) return;
+    if (e.shiftKey || e.ctrlKey || e.altKey) {
+      viewImage = VIEW_IMAGES[viewImage].next;
+      $id('viewContainersImg').src = VIEW_IMAGES[viewImage].src;
+      Settings.set('viewImg', viewImage);
+      return;
+    }
+    const hidden = !Settings.get('viewControls', true);
+    Settings.set('viewControls', hidden);
+    $id('scalerContainer').classList.toggle('hidden', hidden);
+    $id('controlContainer').classList.toggle('hidden', hidden);
+  };
+
+  const viewCnt = () => {
+    const viewContainers = $el('div', { id: 'viewContainersDiv' },
+      $el('img', {
+        id: 'viewContainersImg',
+        src: VIEW_IMAGES[viewImage].src,
+        title: '• Left-click: Show/Hide Containers\n• Shift/Ctrl/Alt + Left-click: Toggle Images red, green, blue, yellow, white',
+        onclick: (e) => containerView(e),
+      })
+    );
+    BODY.prepend(viewContainers);
+    makeDraggable(viewContainers, 'viewContainersDiv');
+    restorePosition(viewContainers, 'viewContainersDiv');
+  };
+
+// =====================================================================================
+// UI MANAGER (Section 7)
+// =====================================================================================
+
+  const init = () => {
+    const textArea = $id('ti6dpd');
+    if (textArea) textArea.placeholder = localizedString.placeholderText;
+    applyCurrentWallpaper();
+    scheduleWallpaperUpdate();
+    applyLogo(Settings.get('logoImageNum', 1));
+    applyControlContainer();
+    updateWallpaperControls();
+    applyDateTime();
+    startDigitalClock();
+
+    const showClock = Settings.get('analogClock', true);
+    if (showClock) requestAnimationFrame(() => applyAnalogClock());
+    $id('panelToggler').classList.toggle('disabled', !showClock);
+    $qa('.scaler', $id('scalerContainer')).forEach(el => el.classList.toggle('disabled', !showClock));
+
+    viewCnt();
+    updateSearchClockTip();
+    const containersHidden = Settings.get('viewControls', true);
+    $id('scalerContainer').classList.toggle('hidden', containersHidden);
+    $id('controlContainer').classList.toggle('hidden', containersHidden);
+    setClockOpacity(Settings.get('analogClockOpacity', ANALOG_CLOCK_OPACITY_DEFAULT));
+  };
+
+// =====================================================================================
+// EVENT LISTENERS (Section 8)
+// =====================================================================================
+
+  document.addEventListener('visibilitychange', () => {
+    if (!document.hidden && Settings.get('analogClock', true) && !$id('analogClockContainer')) {
+      applyAnalogClock();
+    }
+  });
+
+  window.addEventListener('pageshow', () => {
+    if (Settings.get('analogClock', true) && !$id('analogClockContainer')) {
+      applyAnalogClock();
+    }
+  });
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+
+// =====================================================================================
+//   function getICONS() { ... }              // bulb32, gear32, tools32, clock40 are unused
+//
+// Also fix in TITLE_TRANSLATIONS -> hi -> githubTitle:  '...है\ImgBB...'  should be  '...है\nImgBB...'
 // =====================================================================================
 
   function STRING_TRANSLATIONS() {
@@ -3853,7 +3055,7 @@
         controlsBtnTitle: 'घड़ी विकल्प दिखाएँ/छिपाएँ',
         dateTimeTitle: 'बायाँ-क्लिक 🠊 सेकंड दिखाएँ/छिपाएँ',
         digCalBtnTitle: 'बायाँ-क्लिक 🠊 कैलेंडर और डिजिटल समय दिखाएँ/छिपाएँ',
-        githubTitle: 'यह GitHub होस्ट साइट है\ImgBB होस्ट साइट पर स्विच करता है',
+        githubTitle: 'यह GitHub होस्ट साइट है\nImgBB होस्ट साइट पर स्विच करता है',
         ibbTitle: 'यह ImgBB होस्ट साइट है\nGitHub होस्ट साइट पर स्विच करता है',
         inputLogoTitle: '0 - 17',
         inputThemerTitle: '0 - 52',
@@ -4291,16 +3493,13 @@
   function getICONS() {
     return {
       banner74: 'data:image/png;base64,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',
-      bulb32: 'data:image/png;base64,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',
       calendar32: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAABUklEQVR4AcySMU7DQBBFBx+Ag3CGINwhUdCAaJGg4xxcAyRaBA0FUjpHSZEmKXKU5ACJ/2ZHsXa8Ixcz60TZ/fYfa/7zeirq+TVNs++xg2VdEwAcwBpS48Yea7SDsMcazLixxxrtIAIguAW3E8D7ek9Y3XDcd5dlLfY6AiAkGsUkZlbirVuCenHZ7v1/01oLcTyB/qwirgDgN2TtUrDHalETAN2mJa7HB2gmW9q9XY2ykD3+CZT4zlqG2Qn8/H7T3f0tQdNAeLmaGcDn1wfNFzOCpgDwcjUzgJfnV7qe3BA0BYCXq5kBPD480f/flKApALxczQwgDR16f34A2sR61MQJaBPrURMA2sR61ASANrEeNQEwdHqtnjs/AI9J13qKE/CYdK2nAPCYdK2nAPCYdK2nALCa7qF9qrquL1ab5dDnzZ5DJrLDCeAChsfK9UQm3uYAAAD//6SULkcAAAAGSURBVAMAnK6TNOnKaHQAAAAASUVORK5CYII=',
       calendarDaily32: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAABP0lEQVR4AeyUsQ2DMBBFTx4iSio2YAwGyBhp01JkgNRp2CEFo1BnACsDpCV8pJN85kwUG0NDpC/b/8D3fOdgKPB7W9sHQrRkTAXgBDy6IJrHcY7xyD5G9niEB5lXXV+7suxZN6Lx5I/jkWxVEfsY3RjWrtzY3Ht+zHza9g6SraS2ADAXa+nZdZhOtGRsAnAuy7H0KBXmbnas4UOYLxEzfdPQljKnoqAtNWmBW9bQ/DD8QzSFnp/zowDmNvw3lgQwfFTwVZzk5Or4Ac1PAvATxKyTALQTASJUGc1PAkCyVEUB8En8MQYmCiAmUegdARDqaU5fAIQoc/oCgHvqJ8zpCwA/8RrrHUBUIOdtRzu1/QUAHlpbAiDnbcfBtP0FAB5aWzuAqIB2S9GSnL4AQLK1JQC0WwqgnL4AQLKl9Wu/LwAAAP//woGskAAAAAZJREFUAwAkmVFwmFXNUQAAAABJRU5ErkJggg==',
       calendarMonthly32: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAABWklEQVR4AeyXsW3DMBBF72uIwKm8gVJ6Aw+QMdKmdZEBUqfxDik8iuoMQGQAt7Q/gQN4pGTQokQ3NvBB3j+R90QeDKiTid+/c34iJUvmRgG0gI4xyJinec3pqD5H9XSkR3V/h8Pn0Pde9SUS3vxnsxG334v6HOMc41hx7ta6NNedT6dvkjxKo1dAmA/n5HcYOM20ZC4DeO/7cPQ8Ks7j6ozpU5wvkev88SiPVPe63cq9etvtZAmxbnYF8bG2mFcBeO+FSkHpUSV+FUBaYE5cBQBAAGR1ART7VQBZ5RlGAHi5/u3eoxl1JpcEgMlsg4QBYOdSaV161Bq+AUgLtIgNAFDevYQD6p83ANy0tZ4A5gTY6VR6DfSoNXwDkBZoERsAoL6rCQ2U72MAuLi1ngDmBNjpVHoN9Kg1fAOQFmgRGwCgvHsJB9Q/bwC4aWsFgOsXKz+5V9GtvfmyFwAAAP//r2BSKgAAAAZJREFUAwCNOZlwcm2b+AAAAABJRU5ErkJggg==',
       calendarWeekly32: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAABMklEQVR4AdSVsW3DMBBF7zhE4FTeQGN4gIyRNq2LDJA6jXdI4VFUZwAiA6Sl/QSccZBow4Vong088PQ/LB4/aTrJlc9fzuWKJWt61QZsAht9IzXNfPNsNJ3RNBvRIP3u9x/jMBTjU2Ra+fdmI3m3E9MZvcezx3u3vjf30v/x+EUnvahuAc285yw/40i5YE1v0cDbMEzRExW1n51ndKBew0vlcJCepNftVnqy2AIf6yPq527g5XxXwDwpNLhHf+4Eztcq/wvzhU4a3txAA6/HSID96gFJxEiATqCUIkDtQQOvUaMBtQcNvEaNBtRGrARUVVTVmruMqtpMj5EAv80eEHGMBOgE7C6g9rTUYyVg58CvnrqlHisBVvtoYiXQ8rSTbO39sRJoedpJoPb+5gkw8S1OAAAA//98QPg4AAAABklEQVQDAHIwmXCjuaaGAAAAAElFTkSuQmCC',
       clock32: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAJIklEQVR4AaSXfWxb1RnGn3PvdeLETpy4SdOkSb/SNi0hodCyoW1iomJlTJsY+2NMICTYGBUbDDGxDLQBgaktoysDadP+mbROE6irVMGmdWgItbS0f4xBP9KvNE3TljZ2bSd1Yjuxr+/X3uc4qQplIIbj536c876/5z3nnnuSGPgMn+P9vdcOPdv7s8Hnev518tmehMiZUYJt7GPMZ0DiUwtI9K+uHXymu49GmM6/As99OFLffHOsY3lrU9cqq2n5KivWsWwe29jHGMYyh7mfVswnFjD0XM99eWWfQ75wb6xjqbV43R29nWtvWdDe2x5uaQ8Qrx9HPDaOlnal2MY+xjCWOcwl45OK+NgCWDmnNFTX8KdI64KmJd++69qWhVGELr2LiRP7MXLgJI4fmsTRo77W8UNZ3cY+xjCWOcwlgywyP66Qqwo42b+6Ka/Kw83Lrlu3aHU35q9YACT24szhYQydtnAuXYsEluBi401It61FquVmXIyt0W3sYwxjmcNcMsgik+yPFvGhAnSVqjwwb9WXWuNzynBG3kb62AEMnw0hPRnC6MI7kbt1A0K3PYGGL38Ptd1rEb/xW2j86n26jX2MYazOkVwyyCITwtYeV1TxoQJyRvm15pXXt9aHx1G+MIBT5xswfrGEZN0aON/8NeauuQ0tLS2IR6rQGK3B9m1/RTaTQqPcs419jGEsc5hLBllkkk2PK/xxuQAulkhD87rGJsBJD2M4EUe29Sso3bMd9Wt/iKbGGGpMBcs0RRZ818Ol8Symp4qoClXpNvYxhrHMYS4ZZJFJdkQ86DVbhC6A0xIEweZwfaNuz05HoNwiam9+QN9/ngMZZJFJDj3oRU/e6wJyvv0YHKcYX9yGcuY0xidCSC2+k/1aUcuHDB4mR2+FYIkcx0Uul8d0sYjq6mrdxnbGMJY5OlkOZJFJNj3oVVDOj6Wr8giUqfrnrrqpw5g+hwtJC5PmXNTd+B2E4WgZhgHTtMTEQmimCJqm0hlMTU2juiosfaGZPgumxDJnNp8sMsmmx1zxChBs1AVw6wzKdio6px5ufgLFkjzfG+5GOGRAzfwYhglToKZhwbIqch0fxempmQKqL7czhrHMmc0nyxcm2fSgFz3pbVgKt9fMaW22ghyy4w5KoRjCbcugfAeGjJwyDUNfm6acpRBLlMvnoRSkiCJMzoq0GSKTMRJvGhI7I7LIJJse9NKeCrcbvgpujbZ2VMHOYmKqCu6862RFG5wdKENVpBQMZUAZJkwRZyFfmEJIZiNXyCPwA7Ct6sAhRLe8BB2rZnKFAflYUhjZ9KAXPeltqAA94VhE3r0Syn4VVOs1gOfI6AwIQgty5BfyUSIaTE5OwjAqM+D5Pqq2bUfdffejeO89qMQqOc1ISSCZwqYHnBLoSW/pQbNp+PC8AAFMqJoGyJAgB8jrouU4ZbmXFjEyZbojtVGkUilMyluQSCRhPPkLhHbsQGHgEFRbG5RSlXghkiqZ8vU1OxAPetFTgppZAFTgy/VMkpxoLLkwZYqp6uqwnlaDQ5bIkbMjeGvXLnQtXohH3/gnDh4+jIMbNiAjs1IqlSAI1NSEUVtbo0UWmQE7JB8SUfEEWEDG4/QYMnr4CFwZrYzALpfhOk5FrgvHdWSWXJiWgb3v7IORHMXW3Xvxn6VL8GAuh58+/jh+8OBDWP+jR9H35NPY+PwWbP3zq1pkQZhkK/FQhiksB/LJGFLVEdspwjANWIaHYPycFKzAjxd40PI9+CLX82DbNrrzOWzbvQfP9nbj9fp6RKN1mNc6D8uWdmLJkkWYP78N4bDMmsyYISIrgNJsetCLnvQ2pIK3phNjgOzn0VoFK3kQjvRIwfA9f0ZSiJh7novgL6/ghg2bsO3l32Js2Qqs+cIX8fKLL+CFTRvw1C+fwBN9j+HRR9bjJ488iLu+e6cWWWSSTQ960ZPehhvgjemxTNEPDMxpqUdVYRReaQpc2TTU8l24Yh7b8DxqXnsdo/t24Za778KvnntKzB5CW2uLzKCCLzPGNcAtekLWQ6FQAKVZwiSbHvSiJ72Na/oHjsoLEJY3A+GIgbAZAKd2wzUseU5eRbLft31/vRgEuPDHP0BWCQpTBfCxlEpFTMuOyEdTlnVTljXkypryZN24UrSWsMgkmx70oie9DT4fea9/nhk+78MromNpKyIfvAOnMAE3CKBSaXR9/Q5kv7EOyccehitgLkhXXk27bKMsZ95TrixU9mvRXB6lKyKLTLLpQS96am8eokHo91P5Kde2ZQasLOLxOtTs/51sTArxHX/Hqc0bkbn9a2LuyC+ysn4jaMj9QUuMK/dOJUbuXdkdHV2sq1lkhoVND3rRk956Btr635+Wlbk+l5lkG+rqamTNerBSR3B+/QOY6unW7f/PwUod0ywymU8PetGT97oAXix/+sjW3MUxpzhZQF08wILmWlQd34nwni0yzTJyWaSVEVVGWZY9Qo9aRuvINR8J7/VjUCZsWRvhPS+i6sROzSKTbHrQi57U5QJ4UxvUNCRPpeBkE4i3R7AgkpN9Oou63ZvgnnkXtmyjjozHkT/HuNBoTJXleTvympZhwA5MuMP7ENv7G7TUh7C4vUmzyCSbHvSa1WwBig0yLbbnhZrPD6Zhp0cQ74igo7MGnYsaMGdkJ+p2bQSO/gPlSxdg2yXY8pxtWc5luwhb2tSRv6Fu90Y0fbAbnT1daF8UQoP8dU0WmWTTg14i7TlbwOzZ6+p/f6zWC0USQ6lgYnQMSt6ZaGQCK65rQ2dnC9oKg5hz9FXE9r+E2NsbEdsjkuvmo9swv3QWy7qXo2vNUkSCU0AugezpYZBFJtli7In41Z76IHeB6PJXqpzufPqYMZbM3T948II3eS4NlT+LaHUSC5fHsOL6RehevRIrr+/Fyht65foarFi9FAu66lErxipzCJMjoxgcSHpjqfz9ZJF52aByoQuZLYC/DmevK91y5GKJIVyfzpT7hgYybmLgDEpnBhCkDsCcOIDQlKjA6/fgX/w3SkPvYZT/QR0Zc9Pjbh9zyRDU//xeacoirgpk5cufGdjc9cyR0GTR6Dl/we4bHsy+OXQ4lRw6mHS1DqeTwyeyb54fLfflSmYPY5nD3KuAH2n4LwAAAP//7vP5FgAAAAZJREFUAwCaWgZGzFGC6wAAAABJRU5ErkJggg==',
-      clock40: 'data:image/png;base64,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',
       clock74: 'data:image/png;base64,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',
       face74: 'data:image/png;base64,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',
-      gear32: 'data:image/png;base64,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',
       github32: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAClElEQVR4AcxXS27UUBCs9o4tXAPChk2ARS7BXIBECIRCIoRgAQdACJDYIi5ALjHhz4kiITJO1XvuUfvFnng+jhJ1zev36apy254kFfzn4fQBdqf1pUBajW42sDf9AMNX3LwOwW7fALY2i8TZ8CctadJEBbmpcShhzlPUpzUwI9JsMx+16CoDBBmRJrUr+JV36cjE/i1AUL4KVCvEWmnJBLUr5dcM6AIOtlDTuqBciOc0j+jaU62gc3FfubSTgZN/M5zDsyyuQ4JIhBOuOzSP8HWNvq5aQXOtRx2tJwNKhkJEjrLG1zWWe33zbIBtZq/RQl/FuutRi1zZQHxAPOfmKOH8GinQGGA2K8DpKBF1KNAY4EsqRxHcHCUKjWwg3hfPR1EnqfNr5DQbiG1R/uYOn0d2hQc2GentIDekIZC8MUCxojXcGy9ciwpXxIDuRwSdjRquRZHcASateP0XZvwF0Vpcf2JGTnJHpmzgP5+BEq/+bNSEGcXJiahDJ9mAt6QcX/7eiAkzipOLr9a5r/tsQK9EibfbSK/Li/VMmFGcHImr1Jh3wF8LH99t0yxvC8f0l9HzXyt1wozirE0czh3HTgPv72ZxbqYvDs4TweHPpUyYUZw1qTaKxpwa+RbwYuE4aAslEx/vAUTKWXRRmFGcPHNO5y5HEmUD0ZXy/R+tq5WwwPPDQzwXgWzdBlT49HvLBM8OjmT2030+xLxkcfWBjP0GVPTk28omyL2EARrtvV+Pswkz3tfEusTHIl7tkWpxB9QF4dExQJgtaUK1izDYgJOwIEZzEWkp5mlBH17XN/JMxdZPCAzC7hS2dzxH1ZPrDP/JHcI5qfBl5wiGI5q53JAmtfMz8HlHXZiM4aCTs8YE0gRwBgAA//8vS1YNAAAABklEQVQDAO6zxt0iGMONAAAAAElFTkSuQmCC',
       hand32: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAADUUlEQVR4AaxVW27TQBQ941RWf6BxygcUCdoC7YraD7qLLgTWwAcg0V+6hrIHPhCoCCEV0qotbRLbwzkTO/Vj4tiByMeee+c+jq/v3ARY4vf7XWhzLOFeculMYPg+/BA920YOyaWIHYXOBKzFXjFHVS7utVm3ItCm3G1sfIQWElCJ+9tbELT2BZE+2t1B9HwTWvts5ukWEiiWeO3Fbqn8edD+zs5MX7TP95ueXgLVchpjYAyRTPyxkhQQrDec3yfT1jxUQpVS0Dqza370GEZotvLu0rOsL5awv/V0Vtqy1f+TagSWCj2OAWEJ544EjD+Fogj+3Ubtkm6NMTtt+gmkFhBahrKJhdDSvGTmJWDZiULJskEwqz0I80x0mnS0f70Na03tJTAv0DJ6Je5vDPaiR2sIgvL/iOJ5CZg0gSCDXqnv+GmkrGLCQSRU9EoePR7A2gSWcVjYlhVIx+wBIolxb/MJwzIBCJO6v2EqZpf+lskWDkyE7OeSb6w7yXJKCk6o3IKKPBXp4EZrMoKxTBxzBBMuiJJUIL0AElYAl1xvLtKsZsDaX/y8xODlmHWQxR38BO72O62GX787e5XdLbLb8McFPwP2M7H08BOwnGwOevtbfo6Rg9EbeqB+Of/yzQXuP7zvnrpZ2ubJ1w/GR9JV4SWQMrmgANA/YEoiQkIy/CyoIH9zJTfGwLKHBJXdWPt6XnKR8RLQRlsMT8+cqUveW3Hr4i06mBwW5eraSyDgZBPArrc8O2AjCW6tptSUJHzJZWPoL1ST+WQvARvfQDCjPzATnoDJDUCYET/BLdfUQ2DE6EEIE1M/ugIIt07pQ3BqfKZJ4+Ul0OhR2IwGqwWpvByejRFY+7GsrUteAoZlFsB5YNNbWDbiFGOADQr0GEngIw2o4qSLiZndhBvgFDAnbtFw8xIAh45DMmbwCVthOpqNBlDKI5pcA0KaHU+lEtgrlr4Ccx43dT/33VUjYHhs3M4/3C4uV8DefdMmRI1ACnMyvA4/5c4BPwc4UKbgJ+AbuuqUnqxETNAuS77f5u2Vo0ZAjsz5qkhChndIuayCKl7Dq1Bv3jo5XVAjIOWMxFV4KnkRlFhg2TslV1wvAW04EhaH59fhkYI3gfbH85Jzr/H6CwAA//+awg9tAAAABklEQVQDAIAsDJVGvEoWAAAAAElFTkSuQmCC',
       hourglass32: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAABHElEQVR4AeyVMQ7CMAxFAxITMysciOOwMjJwFo7CLWBFbHQCqehVihRFcWxLUZWhlX7r2N/fv+7QdRCuz+00toIwYkqLBqbqDLd+DbyP19AKtUX2u4Ga65a1ZQP9buCw3axafGtNp7qB2Lx/nYMXmI/9xBKqBmhC5Lm7EJoBnz5Lg2oAEcQQJdYAD77Gi3WTAciIIk4sgTo8qV7Kmw3QjDhDiHOQp57ntbPLAGIMYRhxBGfy8ex5ug14xC3cxYB7A4/hO5ZWK+VL3DTnMqAN0erp4BibDVjFrTyXAa+oh69uwCMW34qnta9qwCrCwBIs/aIBS3NpaJ7TdEQD2v8/HeThpn3EogGKc6BfA8P9F1qhtsl+N1Bz7alp3D8AAAD//86YKMgAAAAGSURBVAMAIwACgNtrihwAAAAASUVORK5CYII=',
@@ -4321,7 +3520,6 @@
       sun32: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAHOklEQVR4AZxWS4xcRxU9VfVev/7MOB57PrE9EE9QYoLkyFESBATLScBCEZEiNiwRHwESQihigdiwyA6xQ6yzZssOCUfEcmKbRB5iOSMn1gwTjX/EeMbz7enu96rqcu7rmc58ejJWnvq+V1V9q+65556q9yy+wNX6+EXZOa3f2E6ffv0vBKBabWNrQG1Xs9Vt6+vYtoE9OvsC0IXUNueXbcmQpKEE0b7xkiTwiMXgpks53uvs09gXgM5P0hr8jdMSZ05L1slRrAbEtYi00wTW1xBaHRTNFprXnpb8ysti8yaqZjsjuk4/eygAjMggBYpOB6G2iNiYQmVkCu7oDLLxG8iOfQJ7aIZuBXyxCGkSMLFtDVgyt3Vgo70LgDpuNfUz+RqSQ/dRGb6OZHga6cEVRK25WQbMGmAXkDYW0HjyI2QTN7HqJtFZtmj965Q0339awuQLUsUB9Lt2Aah99bzR+rrgYeMKkuoc7JGPYepzkKQJkQADKU2MoGvg08CZBMAShsZzYHwS/1v4FOvLBUwrQVjqX5JdAMDLFIH3JaRD03CPfALjuKDxHPv8Xwg6D4gxIiYpRk8sY2hiEbfuraFZkK0+0/sD8BapijplISOYtQDMGf0uMXQgJ/QzkU/FwGcqBCGCdlyEc/PIZKDcHZvl3VyqB2DzD7n2TcmlDWlMA4ar7hUYuy+JFqwcYiDlBBKCYd9i8Im7mL5TQfFAYFc8V0xLMLpCD4B2Uh/hOck27sFIh0PMjve9f0I/gXjhOcDguWVwPkMEguMYEL2BdKoYP3oNly8soGg7CAqo1nTdHgAdENY+VldRGVzkf/sFp4t0A0YNRhNSHlg+iWmZeSQjkQmpJpBGfHksx8W/L/WCcwX0AGjHq9DcEsRS7Z8Xf6PuIM2x4EzWXDyz5RNcMpBJFAamcDA+gQkpmQAeOdLCh7O3S/q15JwJq404d1Jk6nvipEDl0LqO72ualWYo4pitg7IQSLdhGUyuY5a7gUYGlJUWq5LYAs8/cwwr003E1U4JpGTAhDokrCIP3G7Mfr/oWnNhMDUN6n2AZ9biHUIQGmCiA+iDYKkFSxZ8uZsG6ytYvD0PO5iVpbBae/P4ewaWpxta8AoCe19aZ826q3jDzEk1Uio76WUcNWiZuUHQ0rDvijraeYRDDXPN0TK4RrF6U+ukwwh5jU1yxfvOXxlY1V7SCy5M2ukamaXnhgmFhWW94SvMNuFahpkTVJEiUA++E/h/FTZLcWB9vqRfY1i9qQ4q6+tweUCCig5tM0N1Ux7QrNUQHIQZgioHKWfqMGUJDLQsCkp4FkTuiOjBeRSibzD7BEvza6ACkM4lWL/2opQirNpVnvsHYKUOJEMwxmwDAFU9oZUsEEyk2iNp9eUOcFBAnuwo3YHAymcZ2JXB1U8FG4oKVslg3eRwDcAw164Gnpw07QGPhIr+9MMCGggQGOG9AOtMIXHhSJpVImrCPig64VjMCZhUd/83CNwJkVtP1R/o4/IU6x2PzloFlz9q41t/uGPMt98yqj+LjUs7MRtA8mCYtSMT/M7hG4VssIbMJjLjwHpr9sIDSNv6FFW7pFwlYSUsNvvqr4eQsEzKirBsszeXcNDEXv3BqweAbZgkoFofwt2pKjQr3VK+IA0MIppxZC1jpStALghmrllHAgtsC7ONHA88oBwPIVcksKRc35LON3BvuYHhx/Qtp9G61gPQ4peudR6VzOGg+RoMMn7dmJJ+zVap7D4tAaiZ8ulV4bTufw4FjxLPsniWTttqPk9wZ2kAD4pB/PCnj2LrZTc7WoLsuYsmjlWQHnOYfduhIhXS2kFUhYeISBY8266ISNiOzFyDRSo+UPHKlqMWHGuu/UgdKCPz9y3euXILv/h1o9z/GgsbVw/ARr90KNudQ/BrdVTTjF11MxDdDRRqjCAYgbC+xug4XfgOAHcKqA/1U4sEFn0KmxzBSE3XUb/tZrd3P+sdPT6Iux+MYObCCFysI6cWDFkQ5bQEQcERUOC4MHt9gvTHkEEPJikyLCx63F9M8M/3ZvHUCe65z5bvtfoCkGKRn9WjGDwyhi8dewpy+1n851IVdTuBiq1TGw6BQZV+2Xz1MlsbGwDFd+uOx7lLK3jn3zmuznj89o0n8PXXRntBtzb6AjDpENxLb5nD33nb1M6cMxj3GDt4ClcvOFy/9Bjr/yiyOAR0Mn5s8CDiR6fjR8fsdI7/PhjD+SvLODw4gG+civjZ6yNlWbXualuDa7svgH6OI4fbODnhUK/W8Jc/38Sbbzbx/sUBXLk6inPv1vDXv63ig+mA67dv4uzpZ3DmjMXzr06UwTXQXtYXQD/n+tnLpvr9q+bkzy+Z3/3xWfzmR4/juy87/OCNSfPqK8P41Y+fwy9/fxw/+dOMeeH182bstesGD3E9FIB+jJikhoGzU2WQsVfeNZUTxa5s+83biemhAOycpAvHr2yfmh3/Rwlmp+9+/f8DAAD//+WVRxYAAAAGSURBVAMAKTQfm+K9gsQAAAAASUVORK5CYII=',
       test32: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAACNklEQVR4AayUQU4CQRREEWNkwW08B+xw5128Dzu4AKdw5ylmQwgJzjPWpLrnd08zaKz831X1fxcDmeVixt9ms7lFmLFqMSvAnItKMw8FOBwOC1Ba3sIXA/CI8wVwIOd1RgM6q0actDCABlQx931HdWy32wVwjt69fX/7434rvWMUQAMycQb9ed2j9X/NDPCB/IyWBHAD3y3A9AjYAbTD74BLAhyPxyfIKeCLMDWHzhxVSAJAysB3C+CE77ePV+nivKLhcY4dAA6d6hgFcNF7hr8+3y/ORT0evJEWcaMA+XfEULQQXwT8oDSD5kgCsNBF+vyRwoHoAnjfEc26jj8JAJGDR5pzOk+FqM1qx5JEgkjV0gXSqSUPO0s6mjD5BFgCGKBGKIWIvDk3BOBlAXKDn2sh3FfruQPIMwQQMVWjEBE3tUf6EICXBZBQq36h97UZadwBdB4CiGitXAxa/SXfkh+QkJv+44J8J2fdR21+ApgZvgf6ALXZJEBk1BIujnT4GjSvWVXNJAEgu657oTq0BI4FgL4Vmo92jwKcTqdry2JCRCjNEiLaPQqAkSW8LAA9gAf0NRCqpEfzSYDIkC/DA+B3u90zoHfcEyIJ4IO8LIAv9p4Q5/P5Cugd+HwXZwdenZMAkPkgZ4DWCl1Qm5NnFIBLNKgKt1qtXqkOfiPAOXr3+g40/ICeEGEAxHxwv99f4AB6BDSA13U4P3tfDOCmUs9vBJR05xUCP5D2UAAtqVXXFEIc5x8AAAD//z/KxQUAAAAGSURBVAMAoWhxZpeEA0wAAAAASUVORK5CYII=',
       test74: 'data:image/png;base64,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',
-      tools32: 'data:image/png;base64,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',
   } }
 
 })();
