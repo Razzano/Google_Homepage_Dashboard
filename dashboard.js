@@ -20,10 +20,6 @@
 //   • To open all Google App Links in new tabs, download Tampermonkey script:
 //     (view code) https://github.com/Razzano/Google_App_Links/blob/main/Open_in_New_Tab.js
 //     (install code) https://raw.githubusercontent.com/Razzano/Google_App_Links/main/Open_in_New_Tab.js
-//
-// THIS FILE HAS NO ICONS/TRANSLATIONS. Paste your three functions back at the very bottom
-// (just above the closing "})();"):  getICONS(), STRING_TRANSLATIONS(), TITLE_TRANSLATIONS()
-//
 // APPENDIX:
 //   • SHARED (Settings, wallpaper math, $el)  • SEARCH PAGE
 //   • MANUAL SETTINGS • CONSTANTS • HELPERS • OBJECT GROUPS • CSS • FORCE DARK THEME
@@ -1436,7 +1432,6 @@
         if (tryForceDark() || attempts >= MAX_ATTEMPTS) stop();
       }, INTERVAL_MS);
 
-      // React as soon as the Dark Theme menu appears, but never watch longer than the polling does.
       observer = new MutationObserver(() => {
         if (isAlreadyDark()) { stop(); return; }
         if (!document.querySelector('#YUIDDb')) return;
@@ -1822,7 +1817,6 @@
   });
 
   const createDayBanner = () => {
-    // y / height never change, so they are set once here; width / x are set when the text changes.
     const dayBannerBg = $el('rect', {
       id: 'dayBannerBg', rx: 2, ry: 2, y: DAY_LAYOUT?.bgY, height: 8.5 + DAY_BANNER_HEIGHT_PADDING,
     });
@@ -2364,12 +2358,6 @@
   } else {
     init();
   }
-
-// =====================================================================================
-//   function getICONS() { ... }              // bulb32, gear32, tools32, clock40 are unused
-//
-// Also fix in TITLE_TRANSLATIONS -> hi -> githubTitle:  '...है\ImgBB...'  should be  '...है\nImgBB...'
-// =====================================================================================
 
   function STRING_TRANSLATIONS() {
     return {
