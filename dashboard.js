@@ -128,23 +128,27 @@
       text-shadow: none;
     }
     ${STRING_HTML.search} #brightnessContainer {
-      align-items: center !important;
-      display: inline-flex !important;
-      height: 50px !important;
-      z-index: 99999 !important;
+      align-items: center;
+      background: #363840;
+      border-radius: 24px;
+      display: inline-flex;
+      z-index: 99999;
     }
     ${STRING_HTML.search} #brightnessContainer > .button {
-      background: linear-gradient(#666, #333);
+      background: none;
       border: none;
-      border-radius: 20px;
+      border-radius: 24px;
       color: #fff;
       cursor: pointer;
       fill: #fff;
-      padding: 10px;
+      padding: 8px;
       stroke-width: .7;
       stroke: #000;
       text-align: center;
       user-select: none;
+    }
+    ${STRING_HTML.search} #brightnessContainer > #brightnessBtn {
+      height: 50px;
     }
     ${STRING_HTML.search} #brightnessPlus,
     ${STRING_HTML.search} #brightnessMinus {
@@ -234,10 +238,10 @@
       width: auto !important;
     }
     ${STRING_HTML.search} .RNNXgb {
-      background: linear-gradient(#666, #333) !important;
+      background: #363840 !important;
       border: none !important;
       border-radius: 24px !important;
-      margin: 0 !important;
+      margin: 0px 0px 0px 4px !important;
     }
     ${STRING_HTML.search} .RNNXgb:focus-within {
       border-radius: 24px 24px 0px 0px !important;
@@ -267,6 +271,9 @@
     }
     ${STRING_HTML.search} #searchClockBtn:hover {
       opacity: 1 !important;
+    }
+    ${STRING_HTML.search} div.aajZCb {
+      margin: 0px -4px 0px 4px !important;
     }
   `);
     if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', build);
@@ -2497,7 +2504,11 @@
     ${STRING_HTML.main}  #sI1XGe > div.naW5gc.mL3MVc.DYz2A {
       z-index: 99999 !important;
     }
-    {STRING_HTML.main}  #sI1XGe > div.naW5gc.mL3MVc.DYz2A > span {
+    ${STRING_HTML.main}  #sI1XGe > div.naW5gc.mL3MVc.DYz2A {
+      position: relative !important;
+      top: -254px !important;
+    }
+    ${STRING_HTML.main}  #sI1XGe > div.naW5gc.mL3MVc.DYz2A > span {
       background: #22242a !important;
       border-radius: 16px !important;
       padding: 16px !important;
