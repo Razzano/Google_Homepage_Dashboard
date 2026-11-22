@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Google Homepage Dashboard
 // @namespace    srazzano
-// @version      2.8.4
+// @version      2.8.5
 // @description  Google with centered logo, wallpaper, date/digital time, resizable analog clock + draggable containers
 // @author       Sonny Razzano a.k.a. srazzano
 // @license      MIT
@@ -2209,11 +2209,6 @@
     }, $el('img', {
       id: 'clock32Img', className: 'image', src: Settings.get('analogClock', true) ? ICONS.clock32 : ICONS.noclock32,
     }));
-
-    const setSearchClockTip = () => {
-      Settings.set('searchResultsClock', !Settings.get('searchResultsClock', true));
-      updateSearchClockTip();
-    };
 
     const sunImg = $el('button', {
       id: 'opacityToggler', className: 'toggler',
