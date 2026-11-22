@@ -28,13 +28,10 @@
 // =====================================================================================
 
 (() => {
+
   'use strict';
 
   if (window.top !== window.self) return;
-
-// =====================================================================================
-// SHARED  (used by the home page AND the /search page)
-// =====================================================================================
 
   const STRING_HTML = {
     main: 'html[itemtype="http://schema.org/WebPage"]',
@@ -261,6 +258,9 @@
         font-size: 16px;
         height: 40px;
         min-width: 170px;
+      }
+      ${STRING_HTML.search} #brightnessContainer:hover {
+        background: #22242a;
       }
       ${STRING_HTML.search} #brightnessContainer > .button:hover {
         background: #fff;
@@ -2144,15 +2144,6 @@
 // CONTROL MANAGER (Section 5)
 // =====================================================================================
 
-  const updateSearchClockTip = () => {
-    const btn = $id('viewSearchClockBtn');
-    const img = $id('viewSearchClockImg');
-    if (!btn) return;
-    const enabled = Settings.get('searchResultsClock', true);
-    btn.title = `View Clock in Search Results\n• Currently ${enabled ? 'TRUE' : 'FALSE'}`;
-    img.src = enabled ? ICONS.searchClock : ICONS.nosearchClock;
-  };
-
   const applyControlContainer = () => {
     const controlContainer = $el('div', { id: 'controlContainer' });
 
@@ -2220,9 +2211,6 @@
       Settings.set('searchResultsClock', !Settings.get('searchResultsClock', true));
       updateSearchClockTip();
     };
-    const viewSearchClockBtn = $el('button', {
-      id: 'viewSearchClockBtn', className: 'toggler search-clock-btn', onclick: setSearchClockTip,
-    }, $el('img', { id: 'viewSearchClockImg', className: 'image' }));
 
     const sunImg = $el('button', {
       id: 'opacityToggler', className: 'toggler',
@@ -2268,7 +2256,7 @@
 
     setClockPercentage(currentPercent);
     controlContainer.append(hostToggler, wallpaperToggler, buttonThemer, inputThemer, downThemer, spacer1, buttonLogo, inputLogo, downLogo);
-    scalerContainer.append(analogClockBtn, viewSearchClockBtn, sunImg, panelToggler, scalerReset, scalerMinus, percentageDisplay, scalerPlus, digitalCalBtn);
+    scalerContainer.append(analogClockBtn, sunImg, panelToggler, scalerReset, scalerMinus, percentageDisplay, scalerPlus, digitalCalBtn);
     BODY.prepend(controlContainer);
     BODY.prepend(scalerContainer);
     makeDraggable(controlContainer, 'controlContainer');
