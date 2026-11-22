@@ -1779,7 +1779,7 @@
         x1: 50 + innerRadius * Math.cos(rad), y1: 50 + innerRadius * Math.sin(rad),
         x2: 50 + outerRadius * Math.cos(rad), y2: 50 + outerRadius * Math.sin(rad),
         stroke: isHourMark ? 'var(--tick-hourmark)' : 'var(--tick-secondmark)',
-        'stroke-width': isHourMark ? '1.0' : '0.5',
+        'stroke-width': isHourMark ? '.75' : '0.375',
         'stroke-linecap': 'round',
       }));
     }
