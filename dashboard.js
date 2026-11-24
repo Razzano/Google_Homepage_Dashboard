@@ -11,8 +11,8 @@
 // @grant        GM_addStyle
 // @grant        GM_getValue
 // @grant        GM_setValue
-// @downloadURL https://update.greasyfork.org/scripts/593080/Google%20Homepage%20Dashboard.user.js
-// @updateURL https://update.greasyfork.org/scripts/593080/Google%20Homepage%20Dashboard.meta.js
+// @downloadURL  https://update.greasyfork.org/scripts/593080/Google%20Homepage%20Dashboard.user.js
+// @updateURL    https://update.greasyfork.org/scripts/593080/Google%20Homepage%20Dashboard.meta.js
 // ==/UserScript==
 
 // =====================================================================================
@@ -1772,14 +1772,14 @@
     for (let i = 0; i < 60; i++) {
       const rad = (i * 6 - 90) * Math.PI / 180;
       const isHourMark = (i % 5 === 0);
-      const innerRadius = isHourMark ? 42 : 44.5;
+      const innerRadius = isHourMark ? 43 : 44.5;
       const outerRadius = 47;
       ticks.push($el('line', {
         className: 'Analog-Ticks',
         x1: 50 + innerRadius * Math.cos(rad), y1: 50 + innerRadius * Math.sin(rad),
         x2: 50 + outerRadius * Math.cos(rad), y2: 50 + outerRadius * Math.sin(rad),
         stroke: isHourMark ? 'var(--tick-hourmark)' : 'var(--tick-secondmark)',
-        'stroke-width': isHourMark ? '.75' : '0.375',
+        'stroke-width': isHourMark ? '0.75' : '0.25',
         'stroke-linecap': 'round',
       }));
     }
@@ -1787,7 +1787,8 @@
       const rad = (i * 30 - 90) * Math.PI / 180;
       hourNumbers.push($el('text', {
         className: 'Analog-Number',
-        x: 50 + 38 * Math.cos(rad), y: 50.5 + 38 * Math.sin(rad),
+        x: 50 + 39 * Math.cos(rad),
+        y: 50.5 + 39 * Math.sin(rad),
         textContent: i === 0 ? 12 : i,
         fill: 'url(#numeralGradient)',
         'text-anchor': 'middle',
