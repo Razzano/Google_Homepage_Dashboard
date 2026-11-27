@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Google Homepage Dashboard
 // @namespace    srazzano
-// @version      2.8.6
+// @version      2.8.7
 // @description  Google with centered logo, wallpaper, date/digital time, resizable analog clock + draggable containers
 // @author       Sonny Razzano a.k.a. srazzano
 // @license      MIT
@@ -39,6 +39,7 @@
   };
 
   const settingsCache = new Map();
+
   const Settings = {
     get(key, fallback) {
       if (!settingsCache.has(key)) settingsCache.set(key, GM_getValue(key));
@@ -145,6 +146,66 @@
   const $id = (id) => document.getElementById(id);
   const $qa = (sel, ctx = document) => Array.from(ctx?.querySelectorAll(sel) ?? []);
 
+  const makeDraggable = (elmnt, storageKey, dragSelector = null) => {
+    let startX, startY, startLeft, startTop;
+    let isDragging = false;
+    const dragMouseDown = (e) => {
+      if (e.target.closest('#controlsGroup')) return;
+      if (dragSelector) {
+        if (!e.target.closest(dragSelector)) return;
+      } else {
+        if (e.target.closest('button,image,img,input,select,span,textarea')) return;
+        if (e.target !== elmnt) return;
+      }
+      e.preventDefault();
+      e.stopImmediatePropagation();
+      if (elmnt.style.position !== 'fixed') {
+        const rect = elmnt.getBoundingClientRect();
+        elmnt.style.position = 'fixed';
+        elmnt.style.left = rect.left + 'px';
+        elmnt.style.top = rect.top + 'px';
+        elmnt.style.transform = 'none';
+        elmnt.classList.add('dragged');
+      }
+      startX = e.clientX;
+      startY = e.clientY;
+      startLeft = parseFloat(elmnt.style.left) || 0;
+      startTop = parseFloat(elmnt.style.top) || 0;
+      isDragging = true;
+      document.addEventListener('mousemove', elementDrag, { passive: false });
+      document.addEventListener('mouseup', closeDragElement, { once: true });
+    };
+    const elementDrag = (e) => {
+      if (!isDragging) return;
+      e.preventDefault();
+      const newLeft = Math.max(0, Math.min(startLeft + e.clientX - startX, window.innerWidth - elmnt.offsetWidth));
+      const newTop = Math.max(0, Math.min(startTop + e.clientY - startY, window.innerHeight - elmnt.offsetHeight));
+      elmnt.style.left = `${newLeft}px`;
+      elmnt.style.top = `${newTop}px`;
+    };
+    const closeDragElement = () => {
+      isDragging = false;
+      document.removeEventListener('mousemove', elementDrag);
+      Settings.set(storageKey + '_top', elmnt.style.top);
+      Settings.set(storageKey + '_left', elmnt.style.left);
+    };
+    elmnt.style.cursor = 'move';
+    elmnt.style.userSelect = 'none';
+    elmnt.addEventListener('mousedown', dragMouseDown);
+  };
+
+  const restorePosition = (el, key) => {
+    const savedTop = Settings.get(key + '_top');
+    const savedLeft = Settings.get(key + '_left');
+    if (savedTop != null && savedLeft != null) {
+      el.style.position = 'fixed';
+      el.style.top = savedTop;
+      el.style.left = savedLeft;
+      el.style.transform = 'none';
+      el.classList.add('dragged');
+    }
+  };
+
 // =====================================================================================
 // SEARCH PAGE
 // =====================================================================================
@@ -171,7 +232,16 @@
 
     const build = (form) => {
       if ($id('brightnessContainer')) { apply(); return; }
-      form.prepend($el('div', { id: 'brightnessContainer' },
+      const container = $el('div', { id: 'brightnessContainer' },
+        $el('span', {
+          id: 'brightnessGrip', title: '• Drag to move\n• Double-click to reset position', textContent: '⋮⋮',
+          ondblclick: () => {
+            ['position', 'left', 'top', 'transform'].forEach(p => container.style[p] = '');
+            container.classList.remove('dragged');
+            Settings.set('brightnessContainer_top', null);
+            Settings.set('brightnessContainer_left', null);
+          },
+        }),
         $el('svg', {
           id: 'brightnessPlus', class: 'button', title: 'Background Brighter by 5%', viewBox: '0 0 16 16',
           onclick: () => setOpacity(opacity - STEP),
@@ -185,7 +255,10 @@
           id: 'brightnessMinus', class: 'button', title: 'Background Darker by 5%', viewBox: '0 0 16 16',
           onclick: () => setOpacity(opacity + STEP),
         }, $el('path', { d: 'M 2 7 H 14 V 9 H 2 Z' }))
-      ));
+      );
+      form.prepend(container);
+      makeDraggable(container, 'brightnessContainer', '#brightnessGrip');
+      restorePosition(container, 'brightnessContainer');
       apply();
     };
 
@@ -229,24 +302,27 @@
         background: #363840;
         border-radius: 24px;
         display: inline-flex;
+        height: 50px;
         width: 250px;
         z-index: 99999;
       }
       ${STRING_HTML.search} #brightnessContainer > .button {
         background: none;
         border: none;
-        border-radius: 24px;
+        border-radius: 16px;
         color: #fff;
         cursor: pointer;
         fill: #fff;
-        padding: 6px;
+        height: 32px;
+        padding: 0px;
         stroke-width: .7;
         stroke: #000;
         text-align: center;
         user-select: none;
+        width: 32px;
       }
       ${STRING_HTML.search} #brightnessContainer > #brightnessBtn {
-        height: 28px;
+        height: 32px;
       }
       ${STRING_HTML.search} #brightnessPlus {
         margin: 0px 4px 0px 8px;
@@ -256,7 +332,7 @@
       }
       ${STRING_HTML.search} #brightnessBtn {
         font-size: 16px;
-        height: 40px;
+        height: 32px;
         min-width: 170px;
       }
       ${STRING_HTML.search} #brightnessContainer:hover {
@@ -266,6 +342,19 @@
         background: #fff;
         color: #000;
         fill: #000;
+      }
+      ${STRING_HTML.search} #brightnessGrip {
+        color: #fff;
+        cursor: move;
+        font-size: 16px;
+        letter-spacing: -2px;
+        line-height: 1;
+        opacity: .6;
+        padding: 6px 2px 6px 12px;
+        user-select: none;
+      }
+      ${STRING_HTML.search} #brightnessGrip:hover {
+        opacity: 1;
       }
       ${STRING_HTML.search} .emcav.A8SBwf.pD4qTd,
       ${STRING_HTML.search} #tsf > div:nth-child(1) > div {
@@ -465,64 +554,6 @@
     const languageName = new Intl.DisplayNames('en', { type: 'language' }).of(lang);
     const regionName = new Intl.DisplayNames('en', { type: 'region' }).of(region);
     return `${locale} ${languageName}-${regionName}`;
-  };
-
-  const makeDraggable = (elmnt, storageKey, dragSelector = null) => {
-    let startX, startY, startLeft, startTop;
-    let isDragging = false;
-    const dragMouseDown = (e) => {
-      if (e.target.closest('#controlsGroup')) return;
-      if (dragSelector) {
-        if (!e.target.closest(dragSelector)) return;
-      } else {
-        if (e.target.closest('button,image,img,input,select,span,textarea')) return;
-        if (e.target !== elmnt) return;
-      }
-      e.preventDefault();
-      e.stopImmediatePropagation();
-      if (elmnt.style.position !== 'fixed') {
-        const rect = elmnt.getBoundingClientRect();
-        elmnt.style.position = 'fixed';
-        elmnt.style.left = rect.left + 'px';
-        elmnt.style.top = rect.top + 'px';
-        elmnt.style.transform = 'none';
-        elmnt.classList.add('dragged');
-      }
-      startX = e.clientX;
-      startY = e.clientY;
-      startLeft = parseFloat(elmnt.style.left) || 0;
-      startTop = parseFloat(elmnt.style.top) || 0;
-      isDragging = true;
-      document.addEventListener('mousemove', elementDrag, { passive: false });
-      document.addEventListener('mouseup', closeDragElement, { once: true });
-    };
-    const elementDrag = (e) => {
-      if (!isDragging) return;
-      e.preventDefault();
-      const newLeft = Math.max(0, Math.min(startLeft + e.clientX - startX, window.innerWidth - elmnt.offsetWidth));
-      const newTop = Math.max(0, Math.min(startTop + e.clientY - startY, window.innerHeight - elmnt.offsetHeight));
-      elmnt.style.left = `${newLeft}px`;
-      elmnt.style.top = `${newTop}px`;
-    };
-    const closeDragElement = () => {
-      isDragging = false;
-      document.removeEventListener('mousemove', elementDrag);
-      Settings.set(storageKey + '_top', elmnt.style.top);
-      Settings.set(storageKey + '_left', elmnt.style.left);
-    };
-    elmnt.style.cursor = 'move';
-    elmnt.style.userSelect = 'none';
-    elmnt.addEventListener('mousedown', dragMouseDown);
-  };
-
-  const restorePosition = (el, key) => {
-    const savedTop = Settings.get(key + '_top');
-    const savedLeft = Settings.get(key + '_left');
-    if (savedTop != null && savedLeft != null) {
-      el.style.top = savedTop;
-      el.style.left = savedLeft;
-      el.style.transform = 'none';
-    }
   };
 
   const clampPercent = (p) => Math.max(30, Math.min(200, p));
@@ -1879,23 +1910,18 @@
 
   const applyAnalogClock = () => {
     if (!Settings.get('analogClock', true)) return;
-    // Rebuild path (used by the stale-clock restart): stop the old rAF /
-    // interval loop and drop the old container, or two clocks would pile up.
     stopAnalogClock();
     $id('analogClockContainer')?.remove();
-
     let smooth = Settings.get('smoothSecondHand', true);
     let lastSecond = -1;
     let lastTextKey = '';
     let lastFrame = 0;
-
     const { bezelGroup, clockFace, ticks, hourNumbers } = createClockFace();
     const { hourHand, minuteHand, secondHand } = createClockHands();
     const { hubOuter, hubInner, hubPin, hubHighlight } = createHub();
     const {
       dayBannerBg, dayBannerBorder, dayBannerHighlight, dayBannerText, applyBannerStyle, toggleBannerStyle,
     } = createDayBanner();
-
     const dateText = $el('text', {
       id: 'dateText', className: 'Analog-MonthDateText', x: 50.5, y: DAY_LAYOUT?.dateY,
       'text-anchor': 'middle', 'dominant-baseline': 'middle',
@@ -1925,9 +1951,8 @@
             dayBannerBg.setAttribute('width', bgWidth + 1);
             dayBannerBg.setAttribute('x', (100 - bgWidth) / 2);
           } else {
-            ready = false; // not rendered yet; try again next second
-          }
-        }
+            ready = false;
+        } }
       }
       dateText.textContent = DATE_FMT.format(now);
       const parts = TIME_FMT.formatToParts(now);
@@ -1952,7 +1977,6 @@
       Settings.set('calendarInfo', calendarInfo);
     };
     dateTimeGroup.classList.toggle('hidden', calendarInfo);
-
     const themeImg = controlImg('themeImg', ICONS.onpalette74, 21, localizedTitle.themeImgTitle);
     const secondHandImg = controlImg('clockImg', ICONS.clock74, 33.2, localizedTitle.secondHandImgTitle);
     const anaCalImg = controlImg('anaCalImg', ICONS.face74, 45.4, localizedTitle.anaCalImgTitle, toggleCalendarInfo);
@@ -2332,12 +2356,6 @@
 // EVENT LISTENERS (Section 8)
 // =====================================================================================
 
-  // FIX: rAF stops while the tab is hidden (e.g. this tab was loaded in the
-  // background behind a Lens result tab opened by the Open-in-New-Tab script).
-  // The old handlers only recreated the clock when its container was missing,
-  // so a container whose rAF loop never started / had stalled stayed frozen.
-  // Rebuild only if the clock has actually gone stale, so normal focus events
-  // do not rebuild it.
   const restartAnalogClockIfStale = () => {
     if (!Settings.get('analogClock', true)) return;
     if (!$id('analogClockContainer')) { applyAnalogClock(); return; }
