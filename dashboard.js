@@ -256,7 +256,7 @@
           onclick: () => setOpacity(opacity + STEP),
         }, $el('path', { d: 'M 2 7 H 14 V 9 H 2 Z' }))
       );
-      form.prepend(container);
+      document.body.prepend(container);
       makeDraggable(container, 'brightnessContainer', '#brightnessGrip');
       restorePosition(container, 'brightnessContainer');
       apply();
@@ -303,6 +303,8 @@
         border-radius: 24px;
         display: inline-flex;
         height: 50px;
+        left: 0px;
+        top: 0px;
         width: 250px;
         z-index: 99999;
       }
