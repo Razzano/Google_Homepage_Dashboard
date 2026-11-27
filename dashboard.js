@@ -137,8 +137,7 @@
         el[key] = value;
       } else {
         el.setAttribute(key, value);
-      }
-    }
+    } }
     children.flat(Infinity).forEach(child => { if (child != null) el.append(child); });
     return el;
   };
@@ -305,7 +304,7 @@
         height: 50px;
         left: 0px;
         top: 0px;
-        width: 250px;
+        width: 256px;
         z-index: 99999;
       }
       ${STRING_HTML.search} #brightnessContainer > .button {
@@ -315,13 +314,12 @@
         color: #fff;
         cursor: pointer;
         fill: #fff;
-        height: 32px;
-        padding: 0px;
-        stroke-width: .7;
+        height: 20px;
+        padding: 2px;
         stroke: #000;
         text-align: center;
         user-select: none;
-        width: 32px;
+        width: 20px;
       }
       ${STRING_HTML.search} #brightnessContainer > #brightnessBtn {
         height: 32px;
@@ -1593,8 +1591,7 @@
           logoCopy.remove();
         };
         BODY.prepend(logoCopy);
-      }
-    }
+    } }
     const inp = $id('inputLogo');
     if (inp) inp.value = num;
     Settings.set('logoImageNum', num);
@@ -1954,8 +1951,7 @@
             dayBannerBg.setAttribute('x', (100 - bgWidth) / 2);
           } else {
             ready = false;
-        } }
-      }
+      } } }
       dateText.textContent = DATE_FMT.format(now);
       const parts = TIME_FMT.formatToParts(now);
       timeText.textContent = parts.filter(p => p.type !== 'dayPeriod').map(p => p.value).join('').trim();
