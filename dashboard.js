@@ -11,6 +11,7 @@
 // @grant        GM_addStyle
 // @grant        GM_getValue
 // @grant        GM_setValue
+// @noframes
 // @downloadURL  https://update.greasyfork.org/scripts/593080/Google%20Homepage%20Dashboard.user.js
 // @updateURL    https://update.greasyfork.org/scripts/593080/Google%20Homepage%20Dashboard.meta.js
 // ==/UserScript==
@@ -30,8 +31,6 @@
 (() => {
 
   'use strict';
-
-  if (window.top !== window.self) return;
 
   const STRING_HTML = {
     main: 'html[itemtype="http://schema.org/WebPage"]',
