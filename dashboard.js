@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Google Homepage Dashboard
 // @namespace    srazzano
-// @version      2.8.7
+// @version      2.8.8
 // @description  Google with centered logo, wallpaper, date/digital time, resizable analog clock + draggable containers
 // @author       Sonny Razzano a.k.a. srazzano
 // @license      MIT
@@ -232,15 +232,16 @@
     const build = (form) => {
       if ($id('brightnessContainer')) { apply(); return; }
       const container = $el('div', { id: 'brightnessContainer' },
-        /*$el('span', {
-          id: 'brightnessGrip', title: '• Drag to move\n• Double-click to reset position', textContent: '⋮⋮',
+        // Grip for dragging option
+        $el('span', {
+          id: 'brightnessGrip', title: '• Drag to move\n• Double-click to reset position', textContent: '⣿', //'⋮⋮',
           ondblclick: () => {
             ['position', 'left', 'top', 'transform'].forEach(p => container.style[p] = '');
             container.classList.remove('dragged');
             Settings.set('brightnessContainer_top', null);
             Settings.set('brightnessContainer_left', null);
           },
-        }),*/
+        }),
         $el('svg', {
           id: 'brightnessPlus', class: 'button', title: 'Background Brighter by 5%', viewBox: '0 0 16 16',
           onclick: () => setOpacity(opacity - STEP),
@@ -256,8 +257,8 @@
         }, $el('path', { d: 'M 2 7 H 14 V 9 H 2 Z' }))
       );
       document.body.prepend(container);
-      //makeDraggable(container, 'brightnessContainer', '#brightnessGrip');
-      makeDraggable(container, 'brightnessContainer', '#brightnessContainer');
+      makeDraggable(container, 'brightnessContainer', '#brightnessGrip'); // Grip for dragging option
+      //makeDraggable(container, 'brightnessContainer', '#brightnessContainer');
       restorePosition(container, 'brightnessContainer');
       apply();
     };
@@ -315,22 +316,22 @@
         color: #fff;
         cursor: pointer;
         fill: #fff;
-        height: 16px;
+        height: 18px;
         margin: 0px;
         padding: 8px;
         stroke: #000;
         text-align: center;
         user-select: none;
-        width: 16px;
+        width: 18px;
       }
       ${STRING_HTML.search} #brightnessContainer > #brightnessBtn {
         height: 32px;
       }
-      ${STRING_HTML.search} #brightnessPlus {
-        margin: 0px 4px 0px 8px;
+      ${STRING_HTML.search} #brightnessContainer > svg#brightnessPlus {
+        margin-left: 6px;
       }
-      ${STRING_HTML.search} #brightnessMinus {
-        margin: 0px 8px 0px 4px;
+      ${STRING_HTML.search} #brightnessContainer > svg#brightnessMinus {
+        margin-right: 6px;
       }
       ${STRING_HTML.search} #brightnessBtn {
         font-size: 16px;
@@ -352,7 +353,7 @@
         letter-spacing: -2px;
         line-height: 1;
         opacity: .6;
-        padding: 6px 2px 6px 12px;
+        padding: 0px 2px 2px 12px;
         user-select: none;
       }
       ${STRING_HTML.search} #brightnessGrip:hover {
@@ -462,6 +463,9 @@
       }
       ${STRING_HTML.search} div.aajZCb {
         border: none !important;
+      }
+      ${STRING_HTML.search} .A8SBwf {
+        margin-left: 0px !important;
       }
       ${STRING_HTML.search} div.RNNXgb:hover,
       ${STRING_HTML.search} div.RNNXgb:focus-within,
