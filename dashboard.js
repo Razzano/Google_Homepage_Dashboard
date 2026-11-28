@@ -232,7 +232,7 @@
     const build = (form) => {
       if ($id('brightnessContainer')) { apply(); return; }
       const container = $el('div', { id: 'brightnessContainer' },
-        $el('span', {
+        /*$el('span', {
           id: 'brightnessGrip', title: '• Drag to move\n• Double-click to reset position', textContent: '⋮⋮',
           ondblclick: () => {
             ['position', 'left', 'top', 'transform'].forEach(p => container.style[p] = '');
@@ -240,7 +240,7 @@
             Settings.set('brightnessContainer_top', null);
             Settings.set('brightnessContainer_left', null);
           },
-        }),
+        }),*/
         $el('svg', {
           id: 'brightnessPlus', class: 'button', title: 'Background Brighter by 5%', viewBox: '0 0 16 16',
           onclick: () => setOpacity(opacity - STEP),
@@ -256,7 +256,8 @@
         }, $el('path', { d: 'M 2 7 H 14 V 9 H 2 Z' }))
       );
       document.body.prepend(container);
-      makeDraggable(container, 'brightnessContainer', '#brightnessGrip');
+      //makeDraggable(container, 'brightnessContainer', '#brightnessGrip');
+      makeDraggable(container, 'brightnessContainer', '#brightnessContainer');
       restorePosition(container, 'brightnessContainer');
       apply();
     };
@@ -304,7 +305,7 @@
         height: 50px;
         left: 0px;
         top: 0px;
-        width: 256px;
+        width: auto;
         z-index: 99999;
       }
       ${STRING_HTML.search} #brightnessContainer > .button {
@@ -314,12 +315,13 @@
         color: #fff;
         cursor: pointer;
         fill: #fff;
-        height: 20px;
-        padding: 2px;
+        height: 16px;
+        margin: 0px;
+        padding: 8px;
         stroke: #000;
         text-align: center;
         user-select: none;
-        width: 20px;
+        width: 16px;
       }
       ${STRING_HTML.search} #brightnessContainer > #brightnessBtn {
         height: 32px;
